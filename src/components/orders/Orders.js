@@ -1,114 +1,130 @@
-import React, {useState, useEffect} from 'react';
-import Header from '../Header';
-import Filters from './Filters';
-import TableOrders from './TableOrdrers';
-import Loader from '../Loader/Loader';
-import _ from 'lodash';
-import ReactPaginate from 'react-paginate';
+import React, { useState, useEffect, useRef } from 'react'
+import _ from 'lodash'
+import ReactPaginate from 'react-paginate'
+import { connect } from 'react-firebase'
 
+import Header from './Header'
+import Filters from './Filters'
+import TableOrders from './TableOrdrers'
+import Loader from '../Loader/Loader'
 
+function Orders({ dataOrders, dataEmployees }) {
 
+  // Подгружаем заказы из Firebase
+  const orders = useRef([])
+  // Массив отсортированных заказов
+  const orderSortered = useRef(null)
+  // Запоминаем напровление сортировки
+  const sort = useRef('asc')
+  // Запоминаем поле по которому была произведена сортировка
+  const sortField = useRef('id')
+  // Запоминаем количество заказов для отрисовки на странице
+  const pageSize = useRef(50)
+  // Запоминаем текущую страницу
+  const currentPage = useRef(0)
+  // Считаем количество страниц
+  const pageCount = useRef(null)
+  // Делаем выборку заказов для отрисовки
+  const [orderShow, setOrderShow] = useState(null)
 
+  const changeOrdersShow = () => {
+    setOrderShow(
+      _.chunk(orderSortered.current, pageSize.current)[currentPage.current]
+    )
+  }
 
+  // Функция сортировки
+  const onSort = (field) => {
+    // Сохраняем последнее поле сортировки
+    sortField.current = field
+    // Меняем направление сортировки при каждом клике
+    sort.current = sort.current === 'asc' ? 'desc' : 'asc'
+    // Заносим сортированный массив в State по определенным признакам (sortField - поле сортировки и  sort - направление)
+    orderSortered.current = _.orderBy(orderSortered.current, sortField.current, sort.current)
+    // Обновляем текущую страниуц
+    currentPage.current = 0
+    // Меняем массив для отрисовки
+    changeOrdersShow()
+  }
 
+  const update = () => {
+    orders.current = dataOrders ? Object.values(dataOrders) : null
+    pageCount.current = orders.current ? Math.ceil(orders.current.length / 50) : null
+    orderSortered.current = orders.current
+    changeOrdersShow()
+  }
 
+  useEffect(update, [dataOrders])
 
+  const pageChangeHandler = (page) => {
+    currentPage.current = page.selected
+    changeOrdersShow()
+  }
 
+  const oderSearch = (search) => {
+    orderSortered.current = orders.current.filter(order => 
+        (order.brand ? order.brand.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.client.name ? order.client.name.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.client.phone ? order.client.phone.toString().toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.custom_fields.f718506 ? order.custom_fields.f718506.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.custom_fields.f718512 ? order.custom_fields.f718512.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.custom_fields.f718514 ? order.custom_fields.f718514.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.id_label ? order.id_label.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.kindof_good ? order.kindof_good.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.malfunction ? order.malfunction.toLowerCase().includes(search.toLowerCase()) : false)
+        || (order.model ? order.model.toLowerCase().includes(search.toLowerCase()) : false)
+        )
+        orderSortered.current = _.orderBy(orderSortered.current, sortField.current, sort.current)
+        pageCount.current =  Math.ceil(orderSortered.current.length / 50) 
+        currentPage.current = 0
+        changeOrdersShow()
+  }
 
-
-
-
-
-
-
-
-function Orders(props) {
-
-    // Test speed filters ============================================
-    // console.log(`Найдено ${props.orders.lenght} заказов`)
-    // let time = performance.now();
-    // console.log(props.orders.filter(key => key['client']['id'] === 7953012))
-    // time = performance.now() - time;
-    // console.log('Время выполнения фильтра = ', time);
-    // ================================================================
-
-    
-    // Данные для отрисовки в таблице
-    const [orderSortered, setOrderSortered] = useState(props.orders.slice())
-    const [sort, setSort] = useState('asc')
-    const [sortField, setSortField] = useState('id_label')
-    const [pageSize, setPageSize] = useState(50)
-    const [currentPage, setCurrentPage] = useState(0)
-    const [pageCount, setPageCount] = useState(1)
-    const [orderShow, setOrderShow] = useState(_.chunk(orderSortered, pageSize)[currentPage])
-
-    // Функция сортировки
-    const onSort = sortField => {
-        // Сохраняем последнее поле сортировки
-        setSortField(sortField)
-        // Меняем направление сортировки при каждом клике
-        setSort(sort === 'asc' ? 'desc' : 'asc');
-        // Заносим сортированный массив в State по определенным признакам (sortField - поле сортировки и  sort - направление)
-        setOrderSortered(_.orderBy(orderSortered, sortField, sort));
-        
-    }
-
-    useEffect(() => {
-        // Посчитаем кочичество страниц
-        setPageCount(Math.ceil(orderSortered.length / pageSize))
-    }, [orderSortered])
-
-    useEffect(() => {
-        setOrderShow(_.chunk(orderSortered, pageSize)[currentPage])
-    }, [currentPage, orderSortered])
-    
-
-
-    const pageChangeHandler = page => {
-        setCurrentPage(page.selected)
-    }
-
-
-
-
-
-
-    return (
-        <div className = 'ordersMain'>
-            <Header/>
-            <Filters/>
-            {orderSortered ? 
-            <TableOrders 
-            ordersShow = {orderShow}
-            employees = {props.employees}
-            status = {props.status}
-            changeOderStatus = {props.changeOderStatus}
-            onSort = {onSort}
-            sort = {sort}
-            sortField = {sortField}
-            /> : <Loader/> }
-            <div className = 'tableAllPage'>
-                <ReactPaginate
-                pageCount = {pageCount}
-                marginPagesDisplayed = {2}
-                pageRangeDisplayed = {5}
-                onPageChange = {pageChangeHandler}
-                forcePage = {currentPage}
-
-                previousLabel = {'<'}
-                nextLabel = {'>'}
-                breakLabel = {'...'}
-                breakClassName = {'pages-pagination'}
-                containerClassName = {'pagination'}
-                pageClassName = {'pages-pagination'}
-                activeClassName = {'active'}
-                nextClassName = {'pages-pagination'}
-                previousClassName = {'pages-pagination'}
-                />
-                <div className = 'tablePageCount'>Всего - {orderSortered.length}</div>
+  return (
+    <div className="ordersMain">
+      <Header 
+      oderSearch = {oderSearch}
+      />
+      <Filters />
+      {orderShow ? (
+        <>
+          <TableOrders
+            ordersShow={orderShow}
+            onSort={onSort}
+            sort={sort}
+            sortField={sortField}
+          />
+          <div className="tableAllPage">
+            <ReactPaginate
+              pageCount={pageCount.current}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={pageChangeHandler}
+              forcePage={currentPage.current}
+              previousLabel={'<'}
+              nextLabel={'>'}
+              breakLabel={'...'}
+              breakClassName={'pages-pagination'}
+              containerClassName={'pagination'}
+              pageClassName={'pages-pagination'}
+              activeClassName={'active'}
+              nextClassName={'pages-pagination'}
+              previousClassName={'pages-pagination'}
+            />
+            <div className="tablePageCount">
+              Всего - {orderSortered.current.length}
             </div>
-        </div>
-    )  
+          </div>
+        </>
+      ) : (
+        <Loader />
+      )}
+    </div>
+  )
 }
 
-export default Orders;
+const mapFirebaseToProps = (props, ref) => ({
+  dataOrders: 'orders',
+})
+
+export default connect(mapFirebaseToProps)(Orders)

@@ -63,7 +63,6 @@ code {
 .menuRow {
   
   padding: 16px 0 16px 12px;
-  
   border-left-color: transparent;
   border-left-width: 4px;
   border-left-style: solid;
@@ -75,13 +74,11 @@ code {
   cursor: pointer;
   position: relative;
   text-decoration: none;
-}
-.menuRow-norm {
   color: #c9cbcc;
   fill: #c9cbcc;
 }
 
-.menuRow-light {
+.menuRow:hover {
   color:#fff;
   fill: #fff;
 }
@@ -263,6 +260,11 @@ body::-webkit-scrollbar-thumb {
 .tableOrders {
   overflow: auto;
   color: #373737;
+  max-height: 80vh;
+}
+
+table {
+  border-collapse: collapse;
 }
 
 .tableTh {
@@ -273,7 +275,13 @@ body::-webkit-scrollbar-thumb {
 .tableThead {
   background-color: #eeeeef;
   block-size: block;
+  height: 35px;
 }
+
+.tableColumnHeader:hover {
+  background-color: #c8cbcc;
+}
+
 
 
 .clockEstimated {
@@ -311,7 +319,7 @@ body::-webkit-scrollbar-thumb {
   line-height: 12px;
   padding: 4px 4px 4px 12px;
   text-align: center;
-  border: 1px solid;
+  border: 0px solid;
   outline: none;
   transition: all .1s linear;
   border-radius: 4px;
@@ -320,6 +328,9 @@ body::-webkit-scrollbar-thumb {
 .orderStatus{
   text-align: center;
   justify-content: center;
+  overflow: visible;
+  max-height: 2.9em;
+  
 }
 
 .statusButtomOptions {
@@ -349,10 +360,11 @@ body::-webkit-scrollbar-thumb {
   border-radius: 3px;
   text-align: left;
   list-style: none;
+  border-width: 0;
 }
 
 .statusList {
-  position: absolute;
+  position:relative;
   width: max-content;
   height: 200px;
   overflow:scroll;
@@ -445,5 +457,109 @@ div.tableOrders td {
   font-size: 13px;
  }
 
+ .mainLoginContaner {
+   width: 100%;
+   height: 500px;
+   display:flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .loginContanier {
+   display: flex;
+   width: 300px;
+   flex-direction: column;
+ }
+
+ .loginFormLable {
+  font-size: 12px;
+  font-weight: 400;
+  color: #53585c;
+  line-height: 16px;
+  display: inline-block;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+ }
+
+ .loginFormInput {
+  margin-bottom: 15px;
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+  border: 1px solid #c9c8c8;
+  color: #555;
+  display: block;
+  font-size: 13px;
+  line-height: 13px;
+  padding: 6px 10px;
+  height: 20px;
+  border-radius: 3px;
+  width: 300px;
+ }
+
+ .loginButtom {
+  cursor: pointer;
+  background: #52b351;
+  border: none;
+  padding: 20px 30px;
+  color: #fff;
+  font-size: 18px;
+  width: 320px;
+  border-radius: 4px;
+  height: 64px;
+ }
+
+.errorMessageLogin {
+  font-size: 12px;
+  color: red;
+  margin-bottom: 5px;
+}
+
+.tempPage {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tempContainer {
+  /* background: #000; */
+  /* width: 50%; */
+  /* color: #fff; */
+}
+.tempTitle {
+  font-size: 40px;
+}
+.tempDescription {
+  text-align: center;
+  color: #4791d1;
+}
 
 
+.dataDownload {
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+  color: #fff;
+  display:block;
+  width:200px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  padding: 8px 16px;
+  margin: 20px auto;
+  text-decoration: none;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: background-color 0.1s linear;    
+  background-color: rgb( 43, 153, 91 );
+  border: 1px solid rgb( 33, 126, 74 );    
+  }
+  .dataDownload:hover {
+  background-color: rgb(68, 149, 118);
+  }
+
+  .orderTableRows {
+    max-height: 40px;
+    min-height: 35px;
+  }
+
+  .orderTableRows:hover {
+    background-color: #cae1f5;
+  }

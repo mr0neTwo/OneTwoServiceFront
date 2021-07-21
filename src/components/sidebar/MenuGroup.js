@@ -1,21 +1,20 @@
 import React from 'react'
+
 import MenuRow from './MenuRow';
 
 
-function MenuGroup(props) {
-    
+function MenuGroup({group}) {
+
     return (
         <div>
-            
-            {Object.keys(props.data).map(key => {
+            {Object.values(group).map(row => {
                 return (
-                    <MenuRow data = {props.data[key]} key = {key}/>
+                    <MenuRow row = {row} key = {row.title}/>
                     )
                 }
             )
             }
         </div>
-    )
-}
-
-export default MenuGroup;
+    )}
+   
+export default MenuGroup

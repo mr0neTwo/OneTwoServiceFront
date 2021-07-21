@@ -1,25 +1,35 @@
 import React from 'react'
+import {connect} from 'react-firebase'
+import Loader from '../Loader/Loader'
 
 
-function StatusListGroup(props) {
-    return (
-        <div>
-                <span>{props.groupName}</span>
-                {props.statusGroup.map(status => {
+function StatusListGroup({groupName, orderId, groupIdx, openStatusMenu, status, changeStatus}) {
+    
+    if (status) {
+        return (
+            <>
+                <span>{groupName}</span>
+                {Object.values(status).filter(status => status.group === (groupIdx + 1)).map(status => {
                     return <li 
                             key = {status.id} 
                             className = 'statusListRow'
                             style = {{backgroundColor: status.color}}
                             onClick = {() => {
-                                props.changeOderStatus(props.orderId, status.id); 
-                                props.openStatusMenu(props.orderId)}}
+                                changeStatus(status, orderId); 
+                                openStatusMenu(orderId)}}
                             >
                                 {status.name}
                             </li>
                 })}
-        </div>
-    )
+            </>
+        )}
+    return (<Loader/>)    
     
 }
 
-export default StatusListGroup;
+const mapFireBaseToProps = (props, ref) => ({
+    status : 'status',
+    changeStatus: (status, orderId) => ref(`orders/${orderId}/status`).set(status)
+})
+
+export default connect(mapFireBaseToProps) (StatusListGroup)

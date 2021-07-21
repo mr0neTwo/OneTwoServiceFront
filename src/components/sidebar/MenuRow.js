@@ -1,26 +1,21 @@
-import React, {useState} from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-
-
-function MenuRow(props) {
-
-    const [classesSidebarRow, setClassesSidebarRow] = useState(['menuRow', 'menuRow-norm']) 
-
-    return (
-        <div className = {classesSidebarRow.join(' ')} 
-        onMouseOver = {() =>  setClassesSidebarRow(['menuRow', 'menuRow-light'])}
-        onMouseOut = {() => setClassesSidebarRow(['menuRow', 'menuRow-norm'])}
-        >
-            {props.data.image === 'task' ? (<div className = 'taskNumber'><span className = 'taskNumber1'>8</span></div>) :
-            (
-            <svg className="sidebarIcon">
-                <path fillRule="evenodd" clipRule="evenodd" d = {props.data.image}></path>
-            </svg>
-            )}
-            <span  className = "didebarItemsText">{props.data.title}</span>
-            
+function MenuRow({ row }) {
+  return (
+    <Link className="menuRow" to={row.url}>
+      {row.image === 'task' ? (
+        <div className="taskNumber">
+          <span className="taskNumber1">8</span>
         </div>
-    )  
+      ) : (
+        <svg className="sidebarIcon">
+          <path fillRule="evenodd" clipRule="evenodd" d={row.image}></path>
+        </svg>
+      )}
+      <span className="didebarItemsText">{row.title}</span>
+    </Link>
+  )
 }
 
-export default MenuRow;
+export default MenuRow

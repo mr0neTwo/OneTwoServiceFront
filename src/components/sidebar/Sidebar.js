@@ -1,27 +1,34 @@
-import React, {useState} from 'react';
+import React from 'react';
 import MenuGroup from './MenuGroup';
-import dataMenuRowsExp from '../../data/dataSidebarRows';
 import LogoUser from './LogoUser';
+import { connect } from 'react-firebase'
+import  Loader  from '../Loader/Loader';
 
-function Sidebar() {
+function Sidebar({dataSidebarRows}) {
 
-    const [dataMenuRows, setMenuRows] = useState(dataMenuRowsExp);
-
-
-
-    
-
-
-    return (
-        <div className = 'sidebarMain'> 
-            <LogoUser/>
-            <MenuGroup data = {dataMenuRows.generallyMenu} key = 'generallyMenu'/>
-            <hr className = 'hrMenu' />
-            <MenuGroup data = {dataMenuRows.reportMenu} key = 'reportMenu'/>
-            <hr className = 'hrMenu' />
-            <MenuGroup data = {dataMenuRows.settingMenu} key = 'settingMenu'/>
-        </div>
-    )
+    if (dataSidebarRows) {
+        const sidebarRows = Object.values(dataSidebarRows)
+        return (
+            <div className = 'sidebarMain'> 
+                <LogoUser/>
+                {sidebarRows.map((group, idx) => {
+                    return (
+                        <>
+                        <hr className = 'hrMenu' />
+                        <MenuGroup group = {group} key = {idx}/>
+                        </>
+                    )
+                })}
+            </div>
+        )
+    }
+    else {
+     return (<Loader/>)
+    }
 }
 
-export default Sidebar;
+const mapFirebaseToProps = (props, ref) => ({
+    dataSidebarRows: 'dataSidebarRows'
+  })
+   
+export default connect(mapFirebaseToProps)(Sidebar)

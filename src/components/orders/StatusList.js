@@ -1,57 +1,46 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import StatusListGroup from './StatusListGroup'
 
+function StatusList({ orderId, openStatusMenu }) {
+  const groupName = [
+    'Новые',
+    'На исполнении',
+    'Отложенные',
+    'Готовые',
+    '',
+    'Закрытые успешно',
+    'Закрытые не успешно',
+  ]
 
+  const clichHandel = (event) => {
+    if (
+      event.target.parentElement.id !== 'statusList' &&
+      event.target.id !== 'statusList'
+    ) {
+      openStatusMenu(orderId)
+    }
+  }
 
-function StatusList(props) {
-    
-    return (
-            <div className = 'statusList'>
-                <StatusListGroup
-                statusGroup = {props.status.filter(status => status.group === 1)}
-                groupName = 'Новые'
-                orderId = {props.orderId}
-                changeOderStatus = {props.changeOderStatus}
-                openStatusMenu = {props.openStatusMenu}
-                />
-                <StatusListGroup
-                statusGroup = {props.status.filter(status => status.group === 2)}
-                groupName = 'На исполнении'
-                orderId = {props.orderId}
-                changeOderStatus = {props.changeOderStatus}
-                openStatusMenu = {props.openStatusMenu}
-                />
-                <StatusListGroup
-                statusGroup = {props.status.filter(status => status.group === 3)}
-                groupName = 'Отложенные'
-                orderId = {props.orderId}
-                changeOderStatus = {props.changeOderStatus}
-                openStatusMenu = {props.openStatusMenu}
-                />
-                <StatusListGroup
-                statusGroup = {props.status.filter(status => status.group === 4)}
-                groupName = 'Готовые'
-                orderId = {props.orderId}
-                changeOderStatus = {props.changeOderStatus}
-                openStatusMenu = {props.openStatusMenu}
-                />
-                <StatusListGroup
-                statusGroup = {props.status.filter(status => status.group === 6)}
-                groupName = 'Закрытые успешно'
-                orderId = {props.orderId}
-                changeOderStatus = {props.changeOderStatus}
-                openStatusMenu = {props.openStatusMenu}
-                />
-                <StatusListGroup
-                statusGroup = {props.status.filter(status => status.group === 7)}
-                groupName = 'Закрытые не успешно'
-                orderId = {props.orderId}
-                changeOderStatus = {props.changeOderStatus}
-                openStatusMenu = {props.openStatusMenu}
-                />
+  useEffect(() => {
+    window.addEventListener('click', clichHandel)
+    return () => {
+      window.removeEventListener('click', clichHandel)
+    }
+  })
 
-            </div>
-        ) 
+  return (
+    <div className="statusList" id="statusList">
+      {groupName.map((groupName, idx) => (
+        <StatusListGroup
+          key={idx + groupName}
+          groupName={groupName}
+          orderId={orderId}
+          groupIdx={idx}
+          openStatusMenu={openStatusMenu}
+        />
+      ))}
+    </div>
+  )
 }
 
 export default StatusList
