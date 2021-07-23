@@ -6,7 +6,6 @@ function Header({oderSearch}) {
    
 
     const handleChange = (event) => {
-        console.log(event.target.value)
         oderSearch(event.target.value)
     }
 

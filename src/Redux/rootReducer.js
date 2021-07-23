@@ -1,3 +1,4 @@
+import { firebaseReducer, firestoreReducer } from 'react-redux-firebase'
 import { combineReducers } from 'redux'
 import { dataReducer } from './dataReducer'
 import { visualReducer } from './visualReducer'
@@ -6,5 +7,7 @@ import { visualReducer } from './visualReducer'
 
 export const rootReducer = combineReducers({
    data: dataReducer,
-   style: visualReducer
+   firebase: firebaseReducer,
+   firestore: firestoreReducer,
+   view: visualReducer
 })
