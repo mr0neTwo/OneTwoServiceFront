@@ -7,9 +7,9 @@ function MenuGroup({group}) {
 
     return (
         <div>
-            {Object.values(group).map(row => {
+            {group.map(row => {
                 return (
-                    <MenuRow row = {row} key = {row.title}/>
+                    <MenuRow row = {row} key = {row.id}/>
                     )
                 }
             )

@@ -1,13 +1,17 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { changeFilterAction } from '../../Redux/actions'
 
-
-function Header({oderSearch}) {
+function Header({changeFilter, search_word}) {
 
    
 
     const handleChange = (event) => {
-        oderSearch(event.target.value)
+        event.preventDefault()
+        changeFilter(event.target.value) 
     }
+
+    
 
     return (
         <div className = 'Header'>
@@ -18,6 +22,7 @@ function Header({oderSearch}) {
                         className = 'imputSearchForm' 
                         placeholder = 'Минимум 3 символа'
                         onChange = {handleChange}
+                        value = {search_word}
                         />
                 </form>
             </div>
@@ -25,4 +30,12 @@ function Header({oderSearch}) {
     )
 }
 
-export default Header;
+const mapStateToProps = state => ({
+    search_word: state.data.search_word
+})
+
+const mapDispatchToProps = {
+    changeFilter: changeFilterAction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Header)

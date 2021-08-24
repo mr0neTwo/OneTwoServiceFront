@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-firebase'
+import { connect } from 'react-redux'
 
 const Reports = (props) => {
   return (
@@ -12,9 +12,6 @@ const Reports = (props) => {
   )
 }
 
-const mapFirebaseToProps = (props, ref) => ({
-  // todos: 'todos',
-  // addTodo: todo => ref('todos').push(todo)
-})
 
-export default connect(mapFirebaseToProps)(Reports)
+
+export default connect()(Reports)

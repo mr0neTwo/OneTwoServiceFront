@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React  from "react";
 import Main from './components/Main'
+import { connect } from "react-redux";
 
 
 import Login from './components/Login'
 
 
-function App() {
+function App({login_status}) {
 
 
-  const [currentUser, setCurrentUser] = useState(JSON.parse(window.sessionStorage.getItem('user')))
-
-  if (true && !currentUser) {
-    return (<Login setCurrentUser = {setCurrentUser}/>)
+  if (login_status) {
+    return (<Main/>)
   }
-  return (<Main/>)
+  return (<Login/>)
   
 }
 
-export default App;
+const mapStateToProps = state => ({
+  login_status: state.data.login_status,
+})
+
+export default connect(mapStateToProps) (App);

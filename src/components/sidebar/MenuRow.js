@@ -1,21 +1,39 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-function MenuRow({ row }) {
+import { changeStatusMenuRow } from '../../Redux/actions'
+
+
+function MenuRow(props) {
   return (
-    <Link className="menuRow" to={row.url}>
-      {row.image === 'task' ? (
+    <Link 
+    className="menuRow" 
+    to={props.row.url}
+    style={{backgroundColor: props.menuRows.find(row => row.id === props.row.id).active ? '#53585c' : '#282e33'}}
+    onClick={() => props.changeStatusMenuRow(props.row.id)}
+    >
+      {props.row.img === 'task' ? (
         <div className="taskNumber">
           <span className="taskNumber1">8</span>
         </div>
       ) : (
         <svg className="sidebarIcon">
-          <path fillRule="evenodd" clipRule="evenodd" d={row.image}></path>
+          <path fillRule="evenodd" clipRule="evenodd" d={props.row.img}></path>
         </svg>
       )}
-      <span className="didebarItemsText">{row.title}</span>
+      <span className="didebarItemsText">{props.row.title}</span>
     </Link>
   )
 }
 
-export default MenuRow
+const mapStateToProps = state => ({
+  menuRows: state.data.menuRows
+})
+
+const mapDispatchToProps = {
+  changeStatusMenuRow
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps) (MenuRow)

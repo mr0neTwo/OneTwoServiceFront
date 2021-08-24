@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
+import { connect } from 'react-redux';
 
 
-
+import { addMenuRows } from '../Redux/actions';
 
 import Sidebar from './sidebar/Sidebar';
 import Orders from './orders/Orders';
@@ -21,35 +22,20 @@ import Settings from './Settings/Settings';
 
 
 
-function Main() {
+function Main({addMenuRow}) {
 
-    // Наполняем мастер данными
-    //  const [employees, setEmployees] = useState(dataEmpoyees)
-    //  const [orders, setOrders] = useState(loadOrder(orders1, orders2, orders3, orders4, orders5, orders6))
-    //  const [status, setStatus] = useState(dataStatus)
+    // Загружаем строки меню в State
+    useEffect(() => addMenuRow(), [])
 
-    // function changeOderStatus(orderId, statusId) {
-    //     // Нахожу объект который нужно поменять
-    //     let targetOrder = orders.find(order => order.id === orderId)
-    //     // Меняю статус у этого объекта
-    //     targetOrder.status = status.find(status => status.id === statusId)
-    //     // Клонирую массив с заказами
-    //     let clone = orders.slice(0)
-    //     // Удаляю старый объект из массива
-    //     clone.filter(order => order.id !== orderId)
-    //     // Добавляю низмененный объект
-    //     clone.push(targetOrder)
-    //     // Меняю массив в state
-    //     setOrders(clone)
-    // }
 
+    
     return (
         <div>
             <Sidebar/>
             <div className = 'contentMain'>
                 <Switch>
                     <Route path = '/tasks' component = {TaskManager}/>
-                    <Route path='/leans' component={Leads} />
+                    <Route path='/leans' component={Leads}/>
                     <Route path = '/orders' component = {Orders}/>
                     <Route path = '/shops' component = {Shops}/>
                     <Route path = '/payments' component = {Payments}/>
@@ -67,4 +53,12 @@ function Main() {
     )
 }
 
-export default withRouter(Main);
+const mapStateToProps = state => ({
+
+  })
+
+  const mapDispatchToProps = {
+    addMenuRow: addMenuRows
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main))

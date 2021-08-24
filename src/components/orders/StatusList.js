@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+
+import { changeStatusMenuVisibleAction } from '../../Redux/actions'
 import StatusListGroup from './StatusListGroup'
 
-function StatusList({ orderId, openStatusMenu }) {
+function StatusList({ orderId, changeStatusMenuVisible }) {
   const groupName = [
     'Новые',
     'На исполнении',
@@ -17,7 +20,7 @@ function StatusList({ orderId, openStatusMenu }) {
       event.target.parentElement.id !== 'statusList' &&
       event.target.id !== 'statusList'
     ) {
-      openStatusMenu(orderId)
+      changeStatusMenuVisible(orderId)
     }
   }
 
@@ -36,11 +39,14 @@ function StatusList({ orderId, openStatusMenu }) {
           groupName={groupName}
           orderId={orderId}
           groupIdx={idx}
-          openStatusMenu={openStatusMenu}
         />
       ))}
     </div>
   )
 }
 
-export default StatusList
+const mapDispatchToProps = {
+  changeStatusMenuVisible: changeStatusMenuVisibleAction
+}
+
+export default connect(null, mapDispatchToProps) (StatusList)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-firebase'
+import { connect } from 'react-redux'
 
 const Analytics = (props) => {
    return (
@@ -12,9 +12,9 @@ const Analytics = (props) => {
    )
 }
 
-const mapFirebaseToProps = (props, ref) => ({
-   // todos: 'todos',
-   // addTodo: todo => ref('todos').push(todo)
- })
+const mapStateToProps = state => ({
+   //   dataSidebarRows: 'dataSidebarRows',
+     // addTodo: todo => ref('todos').push(todo)
+   })
   
- export default connect(mapFirebaseToProps)(Analytics)
+ export default connect(mapStateToProps)(Analytics)

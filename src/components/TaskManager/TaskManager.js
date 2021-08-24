@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-firebase'
+import { connect } from 'react-redux'
 
 const TaskManager = (props) => {
   return (
@@ -12,9 +12,9 @@ const TaskManager = (props) => {
   )
 }
 
-const mapFirebaseToProps = (props, ref) => ({
+const mapStateToProps = state => ({
   // todos: 'todos',
   // addTodo: todo => ref('todos').push(todo)
 })
 
-export default connect(mapFirebaseToProps)(TaskManager)
+export default connect(mapStateToProps)(TaskManager)

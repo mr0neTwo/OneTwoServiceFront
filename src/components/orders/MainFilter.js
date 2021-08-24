@@ -1,15 +1,22 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { activeBadgeAction } from '../../Redux/actions'
 
 
 
 
-function MainFilter(props) { 
-    const {color, title, count, image} = props.data
+function MainFilter({data: {color, title, count, img, filters}, activeBadge}) { 
+
     return (
-        <div className = 'mainFilter' style = {{backgroundColor: color}}>
+        <div 
+        className = 'mainFilter' 
+        style = {{backgroundColor: color}}
+        onClick = {() => activeBadge(filters)}
+        >
             <div className = 'filterIcon'>
                 <svg className = "svgFilterIcon">
-                    <path  d = {image}></path>
+                    <path  d = {img}></path>
                 </svg>
             </div>
             <div className = 'filterName'>
@@ -20,4 +27,8 @@ function MainFilter(props) {
     )
 }
 
-export default MainFilter;
+const mapDispatchToProps = {
+    activeBadge: activeBadgeAction
+}
+
+export default connect(null, mapDispatchToProps) (MainFilter);

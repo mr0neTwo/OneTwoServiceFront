@@ -1,48 +1,47 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { firestoreConnect } from 'react-redux-firebase'
 
 
+const Leads = () => {
+  
 
-const Leads = (props) => {
 
+  const handleOnCkick = () => {
  
-  console.log(props.order)
+    fetchOrders()
+  }
+
+  async function fetchOrders() {
+    try {
+      const request_config = {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+          // 'Accept': '*/*'
+        },
+        body: JSON.stringify({"page": 0})
+      }
+      const response = await fetch("http://192.168.1.48:5005/get_orders", request_config)
+      const data = await response.json()
+      console.log(`fetchOrder - success: ${data['success']}`,)
+      console.log(data)
+    } catch(error){
+        console.log(error)
+    }
+  }
+
+
 
   return (
     <div className="tempPage">
       <div className="tempContainer">
         <h1 className="tempTitle">Здесь будут обращения</h1>
         <p className="tempDescription">Страница на стадии разработки</p>
-        <p></p>
-        {/* {props.order ? props.order.map(order => (<p key = {order.id}>{JSON.stringify(order)}</p>)): null} */}
-        
+        <button onClick={handleOnCkick} className="dataDownload">
+          Загрузить заказ
+        </button>
       </div>
     </div>
   )
 }
 
-const docData = {
-  stringExample: "Hello world!",
-  booleanExample: true,
-  numberExample: 3.14159265,
-  // dateExample: firestore.Timestamp.fromDate(new Date("December 10, 1815")),
-  arrayExample: [5, true, "hello"],
-  nullExample: null,
-  objectExample: {
-      a: 5,
-      b: {
-          nested: "foo"
-      }
-  }
-};
-
-
-
-export default compose(
-  firestoreConnect(() => [{ collection: 'Orders'}]),
-  connect((state, props) => ({
-    order: state.firestore.ordered
-  })))
-(Leads)
+export default Leads

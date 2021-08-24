@@ -1,7 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { changeSortAction, addOrdersAction } from '../../Redux/actions'
 
 
-function TableHeader({data, onSort, sortField, sort}) {
+function TableHeader({data: {title, field, width, visible, employee_id}, changeSort,  addOrders, token, mainFilter}) {
 
   //  let startDrag = 0
   //  let endDrag = 0
@@ -24,18 +27,20 @@ function TableHeader({data, onSort, sortField, sort}) {
 
   //  }
 
-
+function handleClick() {
+  changeSort(field)
+}
 
 
   return (
      <>
     <th className = 'tableColumnHeader'
-      style = {{ minWidth: data.width }}
-      onClick = {() => {onSort(data.field)}}
+      style = {{ minWidth: `${width}px` }}
+      onClick = {handleClick}
     >
-      {data.title}
+      {title}
       <span>
-        {sortField.current === data.field ? (sort.current === 'asc' ? '↓' : '↑') : null}
+        {mainFilter.field_sort === field ? (mainFilter.sort === 'asc' ? '↓' : '↑') : null}
       </span>
     </th>
     {/* <th 
@@ -47,7 +52,14 @@ function TableHeader({data, onSort, sortField, sort}) {
   )
 }
 
+const mapStateToProps = state => ({
+  token: state.data.token,
+  mainFilter: state.filter.mainFilter
+})
 
+const mapDispatchToProps = {
+  changeSort: changeSortAction,
+  addOrders: addOrdersAction,
+}
 
-
-export default TableHeader
+export default connect(mapStateToProps, mapDispatchToProps) (TableHeader)

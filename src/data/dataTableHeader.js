@@ -1,56 +1,56 @@
  const dataTableHeader = [
    {
-      id: 150754,
+      id: 1,
       title: 'Заказ № ',
       field: 'id',
       width: '90px'
    },{
-      id: 150755,
+      id: 2,
       title: 'Создан ',
       field: 'created_at',
       width: '150px'
    },{
-      id: 150756,
+      id: 3,
       title: 'Срок заказа ',
       field: 'estimated_done_at',
       width: '150px'
    },{
-      id: 150757,
+      id: 4,
       title: 'Статус ',
       field: 'istatus.name',
       width: '150px'
    },{
-      id: 150758,
+      id: 5,
       title: 'Тип устройства ',
       field: 'custom_fields.f718506',
       width: '150px'
    },{
-      id: 150759,
+      id: 6,
       title: 'Бренд ',
       field: 'custom_fields.f718512',
       width: '130px'
    },{
-      id: 150760,
+      id: 7,
       title: 'Неисправность ',
       field: 'malfunction',
       width: '130px'
    },{
-      id: 150761,
+      id: 8,
       title: 'Исполнитель ',
       field: 'engineer_id',
       width: '150px'
    },{
-      id: 150762,
+      id: 9,
       title: 'Клиент ',
       field: 'client.name',
       width: '180px'
    },{
-      id: 150763,
+      id: 10,
       title: 'Цена ',
       field: 'price',
       width: '130px'
    },{
-      id: 150764,
+      id: 11,
       title: 'Заметки исполнителя ',
       field: 'engineer_notes',
       width: '150px'

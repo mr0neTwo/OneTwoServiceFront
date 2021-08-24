@@ -1,35 +1,43 @@
 import React from 'react'
-import {connect} from 'react-firebase'
-import Loader from '../Loader/Loader'
+import { connect } from 'react-redux'
 
 
-function StatusListGroup({groupName, orderId, groupIdx, openStatusMenu, status, changeStatus}) {
-    
-    if (status) {
-        return (
-            <>
-                <span>{groupName}</span>
-                {Object.values(status).filter(status => status.group === (groupIdx + 1)).map(status => {
-                    return <li 
-                            key = {status.id} 
-                            className = 'statusListRow'
-                            style = {{backgroundColor: status.color}}
-                            onClick = {() => {
-                                changeStatus(status, orderId); 
-                                openStatusMenu(orderId)}}
-                            >
-                                {status.name}
-                            </li>
-                })}
-            </>
-        )}
-    return (<Loader/>)    
-    
+import { changeStatusMenuVisibleAction, changeStatusAction, addOrdersAction } from '../../Redux/actions'
+
+
+function StatusListGroup({ groupName, orderId, groupIdx, status, changeStatusMenuVisible, changeStatus }) {
+
+    return (
+      <>
+        <span>{groupName}</span>
+        {status.filter((status) => status.group === groupIdx + 1)
+          .map((status) => {
+            return (
+              <li
+                key={status.id}
+                className="statusListRow"
+                style={{ backgroundColor: status.color }}
+                onClick={() => {
+                  changeStatus(status.id, orderId)
+                  changeStatusMenuVisible(orderId)
+                }}
+              >
+                {status.name}
+              </li>
+            )
+          })}
+      </>
+    )
 }
 
-const mapFireBaseToProps = (props, ref) => ({
-    status : 'status',
-    changeStatus: (status, orderId) => ref(`orders/${orderId}/status`).set(status)
+const mapStateToProps = state => ({
+  status: state.data.status
 })
 
-export default connect(mapFireBaseToProps) (StatusListGroup)
+const mapDispatchToProps = {
+  changeStatusMenuVisible: changeStatusMenuVisibleAction,
+  changeStatus: changeStatusAction ,
+  addOrders: addOrdersAction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusListGroup)
