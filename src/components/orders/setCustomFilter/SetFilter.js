@@ -11,7 +11,7 @@ import SetGroup from './SetGroup'
 import SetManager from './SetManager'
 import SetSubtype from './SetSubtype'
 import SetStatus from './SetStatus'
-import SetTypeOrder from './SetTypeOrder'
+import SetTypeOrders from './SetTypeOrders'
 import CreateNewFilter from '../CreateNewFilter'
 
 const SetFilter = (props) => {
@@ -33,17 +33,27 @@ const SetFilter = (props) => {
                <div className='setCustomFilterCell'> <SetClient/></div>
             </div>
             <div className='setCustomFilterRow'>
-               <div className='setCustomFilterCell'> <SetTypeOrder/> </div>
+               <div className='setCustomFilterCell'> <SetTypeOrders/> </div>
                <div className='setCustomFilterCell'> <SetBrand/> </div>
                <div className='setCustomFilterCell'> <SetManager/>  </div>
             </div>
             <div className='setCustomFilterRow'>
                <div className='setCustomFilterCell'> <SetDataCreate/> </div>
                <div className='setCustomFilterCell'> <SetSubtype/> </div>
-               <div className='setCustomFilterCell'> <SetEngeneer/> </div>
+               <div className='setCustomFilterCell'> 
+
+                  {props.user.role.orders_visibility ? <SetEngeneer/> :
+                  <>
+                  <div className='optionsFilterTitle'>Инженер</div>
+                  <div className='optionsFilterButton curNone'> 
+                     <span>{`${props.user.last_name} ${props.user.first_name}`}</span>  
+                  </div>
+                  </>}
+
+               </div>
             </div>
          </div>
-         <div className='buttons fs14'>
+         <div className='buttons fs14 mr-top-15'>
             <div 
             className='blueButton'
             onClick={() => props.appFilter()}
@@ -91,7 +101,8 @@ const SetFilter = (props) => {
 const mapStateToProps = state => ({
    clientFilter: state.filter.clientFilter,
    statusCreateNewFilter: state.view.statusCreateNewFilter,
-   customFilters: state.filter.customFilters
+   customFilters: state.filter.customFilters,
+   user: state.data.user
    })
 
 const mapDispatchToProps = {

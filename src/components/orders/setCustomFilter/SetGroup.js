@@ -43,7 +43,8 @@ const SetGroupe = (props) => {
         // console.log()
        return (
         equipment.title.toLowerCase().includes(props.tempFilter.kindof_good.toLowerCase()) ? 
-        <div 
+        <div
+        key={equipment.id} 
         className='rowGropList'
         onClick={() => {
           props.changeGroupMainFilter(equipment.title)

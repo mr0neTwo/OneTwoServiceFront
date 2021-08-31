@@ -78,7 +78,7 @@ export function activeBadgeAction(filters) {
 }
 
 
-export function changeSetStatusFilterAction() {
+export function changeSetStatusFilter() {
   return {
     type: 'CHANGE_STATUS_SET_STATUS_FILTER'
   }
@@ -293,72 +293,173 @@ export function appCustomFilter(filter, id) {
     id
   }}
 
-  export function changeStatusMenuRow(id) {
-    return {
-      type: 'CHANGE_STATUS_MENU_ROW',
-      id
-    }}
+export function changeStatusMenuRow(id) {
+  return {
+    type: 'CHANGE_STATUS_MENU_ROW',
+    id
+  }}
+
+    
+export function changeStatusSettingRow(id) {
+  return {
+    type: 'CHANGE_STATUS_SETTING_ROW',
+    id
+  }}
+  
+export function changeStatusCteateNewRole() {
+  return {
+    type: 'CHANGE_STATUS_CREATE_NEW_ROLE'
+  }}
+
+
+export function changeTitleCreateRole(title) {
+  return {
+    type: 'CHANGE_TITLE_CREATE_ROLE',
+    title
+  }}
+
+export function changePermissions(value) {
+  return {
+    type: 'CHANGE_PERMISSION',
+    value
+  }}
+  
+export function cahngeEarningsVisibility(bool) {
+  return {
+    type: 'CHANGE_EARNINGS_VISIBILITY',
+    bool
+  }}
+
+export function cahngeLeadsVisibility(bool) {
+  return {
+    type: 'CHANGE_LEADS_VISIBILITY',
+    bool
+  }}
+
+export function cahngeOrdersVisibility(bool) {
+  return {
+    type: 'CHANGE_ORDERS_VISIBILITY',
+    bool
+  }}
+
+export function changeVisibleStatuses(id) {
+  return {
+    type: 'CHANGE_VISIBLE_STATUSES',
+    id
+  }}
+
+export function changeSettableStatuses(id) {
+  return {
+    type: 'CHANGE_SETTABLE_STATUSES',
+    id
+  }}
+
+  
+export function changeSettableMargin(id) {
+  return {
+    type: 'CHANGE_SETTABLE_MARGIN',
+    id
+  }}
+
+  
+export function editRole(role) {
+  return {
+    type: 'EDIT_ROLE',
+    role
+  }}
+
+  
+export function changeStatusEmployeeEditor() {
+  return {
+    type: 'CHANGE_STATUS_EMPLOYEE_EDITOR'
+  }}
+
+export function changeEmployeeTabs(tab) {
+  return {
+    type: 'CHANGE_EMPLOYEE_TAB',
+    tab
+  }}
+
+  
+export function changeEmployeEditorForm(field, value) {
+  return {
+    type: 'CHANGE_EMPLOYEE_EDITOR_FORM',
+    field,
+    value
+  }}
+
+  
+export function changeEmployeeEditorRoleOptions() {
+  return {
+    type: 'CHANGE_EMPLOYEE_EDITOR_ROLE_OPTIONS'
+  }}
+
+
+export function setRoleEmployeeEdetor(role) {
+  return {
+    type: 'SET_ROLE_EMPLOYEE_EDITOR',
+    role
+  }}
+
+export function changeShowDeleted() {
+  return {
+    type: 'CHANGE_SHOW_DELETED'
+  }}
+
+  
+export function editEmoloyee(employee) {
+  return {
+    type: 'EDIT_EMPLOYEE',
+    employee
+  }}
+
+  
+export function changeStatusNewOrder() {
+  return {
+    type: 'CHANGE_STATUS_NEW_ORDER'
+  }}
+
+export function changeTypeListOrder() {
+  return {
+    type: 'CHANGE_TYPE_LIST_ORDER'
+  }}
+
+export function setOrderType(id) {
+  return {
+    type: 'SET_ORDER_TYPE',
+    id
+  }}
 
 
 
-
-
-
-
-
-
-
-export function addMenuRows() {
+export function addOrders() {
 
   const state = store.getState()
 
   return async dispatch => {
-      const response = await fetch(state.data.url_server + '/get_menu_rows', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_MENU_ROWS',
-          rows: data.data,
+      
+    let filters = state.filter.mainFilter
+    filters.engineer_id = !state.data.user.role.orders_visibility ? [state.data.user.id] : state.filter.mainFilter.engineer_id
+    
+    const response = await fetch(state.data.url_server + '/get_orders', getRequestConfig(filters))
+    const data = await response.json()
+    
+    if (data.success) {
+      dispatch({
+        type: 'ADD_ORDERS_SHOW',
+        ordersShow: data.data,
+        count: data.count
       })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401) {
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
-      }
-  }
-}
-
-
-
-export function addOrdersAction() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      
-      const response = await fetch(state.data.url_server + '/get_orders', getRequestConfig(state.filter.mainFilter))
-      const data = await response.json()
-      
-      if (data.success) {
+    } else {
+      console.log(data.massage, response.status)
+      if (response.status === 401) {
         dispatch({
-          type: 'ADD_ORDERS_SHOW',
-          ordersShow: data.data,
-          count: data.count
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401) {
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
+          type: 'LOGUOT'
+        })}}}}
 
 export function addClients() {
 
   const state = store.getState()
-  console.log(state.clientFilter)
 
   return async dispatch => {
       
@@ -378,7 +479,7 @@ export function addClients() {
             type: 'LOGUOT'
           })}}}}
 
-export function addEmplooysAction( filters ) {
+export function addEmplooys( filters ) {
   
   const state = store.getState()
 
@@ -403,7 +504,130 @@ export function addEmplooysAction( filters ) {
 }
 
 
-export function addStatusAction() {
+export function createEmployee() {
+  
+  const state = store.getState()
+
+  return async dispatch => {
+
+    let request_config = getRequestConfig({
+      first_name: state.employee.first_name,
+      last_name: state.employee.last_name,
+      email: state.employee.email,
+      notes: state.employee.notes,
+      phone: state.employee.phone.replace(/[^0-9]/g, ''),
+      password: state.employee.password,
+      role_id: state.employee.role_id,
+      login: state.employee.login,
+      inn: state.employee.inn,
+      doc_name: state.employee.doc_name,
+    })
+
+    let response = await fetch(state.data.url_server + '/emplooys', request_config)
+    let data = await response.json()
+    if (!data.success) {
+      console.log(data.message, response.status)
+    }
+     
+    response = await fetch(state.data.url_server + '/get_emplooys', getRequestConfig())
+    data = await response.json()
+    if (data.success) {
+      dispatch({
+        type: 'ADD_EMPLOOYS',
+        employees: data.data,
+      })
+    } else {
+      console.log(data.massage, response.status)
+      if (response.status === 401) {
+        dispatch({
+          type: 'LOGUOT'
+        })
+      }
+    }
+  }
+}
+
+export function seveEditEmployee() {
+  
+  const state = store.getState()
+
+  return async dispatch => {
+
+    let request_config = getRequestConfig({
+      id: state.employee.edit,
+      first_name: state.employee.first_name,
+      last_name: state.employee.last_name,
+      email: state.employee.email,
+      notes: state.employee.notes,
+      phone: state.employee.phone.replace(/[^0-9]/g, ''),
+      password: state.employee.password,
+      role_id: state.employee.role_id,
+      login: state.employee.login,
+      inn: state.employee.inn,
+      doc_name: state.employee.doc_name,
+    })
+
+    request_config.method = 'PUT'
+    let response = await fetch(state.data.url_server + '/emplooys', request_config)
+    let data = await response.json()
+    if (!data.success) {
+      console.log(data.message, response.status)
+    }
+
+    request_config.method = 'POST'
+    response = await fetch(state.data.url_server + '/get_emplooys', getRequestConfig())
+    data = await response.json()
+    if (data.success) {
+      dispatch({
+        type: 'ADD_EMPLOOYS',
+        employees: data.data,
+      })
+    } else {
+      console.log(data.massage, response.status)
+      if (response.status === 401) {
+        dispatch({
+          type: 'LOGUOT'
+        })
+      }
+    }
+  }
+}
+
+export function deleteEmployee() {
+  
+  const state = store.getState()
+
+  return async dispatch => {
+
+    let request_config = getRequestConfig({id: state.employee.edit})
+
+    request_config.method = 'DELETE'
+    let response = await fetch(state.data.url_server + '/emplooys', request_config)
+    let data = await response.json()
+    if (!data.success) {
+      console.log(data.message, response.status)
+    }
+
+    request_config.method = 'POST'
+    response = await fetch(state.data.url_server + '/get_emplooys', getRequestConfig())
+    data = await response.json()
+    if (data.success) {
+      dispatch({
+        type: 'ADD_EMPLOOYS',
+        employees: data.data,
+      })
+    } else {
+      console.log(data.massage, response.status)
+      if (response.status === 401) {
+        dispatch({
+          type: 'LOGUOT'
+        })
+      }
+    }
+  }
+}
+
+export function addStatus() {
 
   const state = store.getState()
 
@@ -698,3 +922,145 @@ export function removeFilter() {
             type: 'LOGUOT'
           })}}
         }}
+
+
+
+
+          
+export function addDiscountMargin() {
+
+  const state = store.getState()
+
+  return async dispatch => {
+      const response = await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig())
+      const data = await response.json()
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DISCOUNT_MARGIN',
+          margin: data.data,
+      })
+      } else {
+        console.log(data.massage, response.status)
+        if (response.status === 401) {
+          dispatch({
+            type: 'LOGUOT'
+          })}}}}
+
+          
+export function createRole() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    title: state.role.title_create,                                       
+    earnings_visibility: state.role.earnings_visibility,           
+    leads_visibility: state.role.leads_visibility,                  
+    orders_visibility: state.role.orders_visibility,               
+    permissions: state.role.list_permissions,                           
+    settable_statuses: state.role.settable_statuses,                
+    visible_statuses: state.role.visible_statuses,                 
+    settable_discount_margin: state.role.settable_discount_margin   
+  })
+
+  return async dispatch => {
+      let response = await fetch(state.data.url_server + '/roles', request_config)
+      let data = await response.json()
+
+      response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
+      data = await response.json()
+      if (data.success) {
+        dispatch({
+          type: 'ADD_ROLES',
+          roles: data.data,
+      })
+      } else {
+        console.log(data.massage, response.status)
+        if (response.status === 401) {
+          dispatch({
+            type: 'LOGUOT'
+          })}}}}
+
+          
+export function addRoles() {
+
+  const state = store.getState()
+
+  return async dispatch => {
+      const response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
+      const data = await response.json()
+      if (data.success) {
+        dispatch({
+          type: 'ADD_ROLES',
+          roles: data.data,
+      })
+      } else {
+        console.log(data.massage, response.status)
+        if (response.status === 401) {
+          dispatch({
+            type: 'LOGUOT'
+          })}}}}
+
+
+export function seveEditRole() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.role.edit,
+    title: state.role.title_create,                                       
+    earnings_visibility: state.role.earnings_visibility,           
+    leads_visibility: state.role.leads_visibility,                  
+    orders_visibility: state.role.orders_visibility,               
+    permissions: state.role.list_permissions,                           
+    settable_statuses: state.role.settable_statuses,                
+    visible_statuses: state.role.visible_statuses,                 
+    settable_discount_margin: state.role.settable_discount_margin   
+  })
+
+  return async dispatch => {
+    request_config.method = 'PUT'
+    let response = await fetch(state.data.url_server + '/roles', request_config)
+    let data = await response.json()
+
+    response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
+    data = await response.json()
+    if (data.success) {
+      dispatch({
+        type: 'ADD_ROLES',
+        roles: data.data,
+    })
+    } else {
+      console.log(data.massage, response.status)
+      if (response.status === 401) {
+        dispatch({
+          type: 'LOGUOT'
+        })}}}}
+
+        
+export function deleteRole() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({id: state.role.edit})
+
+  return async dispatch => {
+    request_config.method = 'DELETE'
+    let response = await fetch(state.data.url_server + '/roles', request_config)
+    let data = await response.json()
+
+    response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
+    data = await response.json()
+    if (data.success) {
+      dispatch({
+        type: 'ADD_ROLES',
+        roles: data.data,
+    })
+    } else {
+      console.log(data.massage, response.status)
+      if (response.status === 401) {
+        dispatch({
+          type: 'LOGUOT'
+        })}}}}
+
+
+        

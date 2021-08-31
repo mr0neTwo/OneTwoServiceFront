@@ -23,6 +23,7 @@ const SetBrand = (props) => {
   })
 
   const listOfBrand = (tempFilter, equipment) => {
+
     if (equipment.map(equipment => equipment.title).includes(tempFilter.kindof_good)) {
       
       return (
@@ -30,7 +31,7 @@ const SetBrand = (props) => {
 
        return (
         brand.title.toLowerCase().includes(props.tempFilter.brand.toLowerCase()) ? 
-        <div 
+        <div key={brand.id}
         className='rowGropList'
         onClick={() => {
           props.changeBrandMainFilter(brand.title)
@@ -51,10 +52,11 @@ const SetBrand = (props) => {
     list_brand = [...new Set(list_brand)]  
 
     return (
-      list_brand.map(brand => {
+      list_brand.map((brand, idx) => {
           return (
             brand.toLowerCase().includes(props.tempFilter.brand.toLowerCase()) ? 
         <div 
+        key={idx}
         className='rowGropList'
         onClick={() => {
           props.changeBrandMainFilter(brand)

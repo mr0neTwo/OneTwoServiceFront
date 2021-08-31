@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { changeTypeListFilter, changeCheckType, setAllTypeTrue, setAllTypeFalse } from '../../../Redux/actions'
 
-const SetTypeOrder = (props) => {
+const SetTypeOrders = (props) => {
 
    const clickHandel = (event) => {
 
@@ -63,7 +63,7 @@ const SetTypeOrder = (props) => {
 
         {props.order_type.map(type => {
           return (
-            <div className='statusListTitle2'>
+            <div className='statusListTitle2' key={type.id}>
                 <input 
                 className = 'chackboxListStatus' 
                 type = 'checkbox'
@@ -109,4 +109,4 @@ const mapDispatchToProps = {
   setAllTypeFalse
 }
   
-export default connect(mapStateToProps, mapDispatchToProps)(SetTypeOrder)
+export default connect(mapStateToProps, mapDispatchToProps)(SetTypeOrders)

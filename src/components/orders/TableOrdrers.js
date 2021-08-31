@@ -5,7 +5,7 @@ import Create from './cell/Create'
 import Lable from './cell/Lable'
 import EstimatedDone from './cell/EstimatedDone'
 import TableHeader from './TableHeader'
-import { addOrdersAction, initStatusMenuVisibleAction } from '../../Redux/actions'
+import { addOrders, initStatusMenuVisibleAction } from '../../Redux/actions'
 import Status from './cell/Status'
 import KindOfGood from './cell/KindOfGood'
 import Brand from './cell/Brand'
@@ -25,33 +25,33 @@ const optionsShowDate = {
 }
 
 
-function TableOrders({ employees, ordersShow, user, initStatusMenuVisible, mainFilter, addOrders}) {
+function TableOrders(props) {
 
   
 
   useEffect(() => {
     let statusVis = {}
-    ordersShow.forEach((order) => {
+    props.ordersShow.forEach((order) => {
     statusVis[order.id] = false
     })
-    initStatusMenuVisible(statusVis)
-  }, [ordersShow])
+    props.initStatusMenuVisible(statusVis)
+  }, [props.ordersShow])
   
    
 
-  if (user.table_headers && employees) {
+  if (props.user.table_headers && props.employees) {
     return (
       <div className="tableOrders">
         <table className="tableOrders">
           <thead className="tableThead">
             <tr>
-              {Object.values(user.table_headers).map((header) => (
+              {Object.values(props.user.table_headers).map((header) => (
                 <TableHeader data={header} key={header.id}/>
               ))}
             </tr>
           </thead>
           <tbody>
-            {ordersShow.map((order) => (
+            {props.ordersShow.map((order) => (
               <tr key={order.id} className="orderTableRows">
                 <Lable data = {order}/>
                 <Create data = {order}/>
@@ -83,7 +83,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  addOrders: addOrdersAction,
+  addOrders,
   initStatusMenuVisible: initStatusMenuVisibleAction
 }
 

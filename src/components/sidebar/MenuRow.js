@@ -13,13 +13,13 @@ function MenuRow(props) {
     style={{backgroundColor: props.menuRows.find(row => row.id === props.row.id).active ? '#53585c' : '#282e33'}}
     onClick={() => props.changeStatusMenuRow(props.row.id)}
     >
-      {props.row.img === 'task' ? (
+      {props.row.image === 'task' ? (
         <div className="taskNumber">
           <span className="taskNumber1">8</span>
         </div>
       ) : (
         <svg className="sidebarIcon">
-          <path fillRule="evenodd" clipRule="evenodd" d={props.row.img}></path>
+          <path fillRule="evenodd" clipRule="evenodd" d={props.row.image}></path>
         </svg>
       )}
       <span className="didebarItemsText">{props.row.title}</span>

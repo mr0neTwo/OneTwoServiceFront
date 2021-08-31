@@ -1,12 +1,11 @@
-
 @import 'react-datepicker/dist/react-datepicker';
 
 @font-face {
-  font-family: "OpenSans";
+  font-family: 'OpenSans';
   src: url('./OpenSans-Light.ttf') format('truetype');
   font-style: normal;
   font-weight: normal;
-  }
+}
 /* @font-face {
   font-family: "OpenSans-Bold";
   src: url("../Open_Sans/OpenSans-Bold.ttf") format('truetype');
@@ -14,12 +13,12 @@
   font-weight: Bold;
   } */
 
-
 body {
   margin: 0;
-  font-family: Open Sans,sans-serif;
+  font-family: Open Sans, sans-serif;
   font-size: 12px;
   line-height: 20px;
+  color: #282e33;
 }
 
 code {
@@ -27,30 +26,81 @@ code {
     monospace;
 }
 
+h3 {
+  font-size: 18px;
+  line-height: 18px;
+  color: #282e33;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+p {
+  color: #939699;
+  margin-bottom: 8px;
+}
+
+table {
+  overflow: auto;
+  color: #373737;
+  min-width: 100%;
+  border-spacing: 1px;
+  border-collapse: collapse;
+}
+
+thead {
+  block-size: block;
+  height: 35px;
+}
+
+tr {
+  min-width: 100%;
+}
+
+th {
+  text-align: left;
+  align-items: center;
+  padding: 4px;
+  margin: 5px;
+  background-color: #eeeeef;
+}
+
+td {
+  text-align: left;
+  align-items: center;
+  padding: 4px;
+}
+
+th:hover {
+  background-color: #c8cbcc;
+}
+
+tbody > tr:hover {
+  background-color: #cae1f5;
+}
+
 .sidebarMain {
-  display:flex;
-  animation-duration:.5s;
-  animation-fill-mode:both;
-  animation-name:AnSidebar;
-  height:100%;
-  position:fixed;
-  z-index:2001;
-  top:0;
-  left:0;
+  display: flex;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: AnSidebar;
+  height: 100%;
+  position: fixed;
+  z-index: 2001;
+  top: 0;
+  left: 0;
   width: 145px;
   background: #282e33;
   flex-direction: column;
-  
 }
 
 .contentMain {
-  margin-left: 150px;
-  overflow:auto;
-  position:relative;
-  z-index:2;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+  margin-left: 145px;
+  overflow: auto;
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: black;
   flex: 1 1 0%;
   background-color: rgb(255, 255, 255);
@@ -62,7 +112,6 @@ code {
 }
 
 .menuRow {
-  
   padding: 16px 0 16px 12px;
   border-left-color: transparent;
   border-left-width: 4px;
@@ -80,10 +129,9 @@ code {
 }
 
 .menuRow:hover {
-  color:#fff;
+  color: #fff;
   fill: #fff;
 }
-
 
 .sidebarIcon {
   /* fill: #c9cbcc; */
@@ -101,15 +149,14 @@ code {
   cursor: pointer;
 }
 
-
 .hrMenu {
   /* width: calc(100% - 30px); */
   margin: 5px 15px;
-	padding: 0;
-	height: 2px;
-	border: none;
-	border-top: 1px solid #8c8b8b;
-	/* box-shadow: 0px 10px 10px -10px #8c8b8b inset; */
+  padding: 0;
+  height: 2px;
+  border: none;
+  border-top: 1px solid #8c8b8b;
+  /* box-shadow: 0px 10px 10px -10px #8c8b8b inset; */
 }
 
 .taskNumber {
@@ -119,7 +166,7 @@ code {
   font-size: 14px;
   line-height: 10px;
   border-radius: 5px;
-  background: hsla(0,0%,100%,.8);
+  background: hsla(0, 0%, 100%, 0.8);
   box-shadow: inset 0 0 25px rgb(0 0 0 / 40%);
 }
 
@@ -139,7 +186,7 @@ code {
   line-height: 16px;
 }
 
-.imgAvatar{
+.imgAvatar {
   display: flex;
   margin: 20px;
   height: 60px;
@@ -187,7 +234,6 @@ code {
   margin: 10px;
   outline: 0;
   background: 0 0;
-
 }
 
 input {
@@ -203,11 +249,104 @@ input {
   align-items: center;
 }
 
+
+div.checkbox input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  width: 16px;
+  height: 16px;
+}
+
+div.checkbox input[type='checkbox']+label {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+div.checkbox input[type='checkbox']+label::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border: 1px solid #adb5bd;
+  border-radius: 0.25em;
+  margin-right: 0.5em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+}
+
+div.checkbox input[type='checkbox']:checked+label::before {
+  background-color: #ffffff;
+  background-image: url(checkmark.svg);
+  background-size: 10px;
+}
+
+div.subCheckbox input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  width: 16px;
+  height: 16px;
+}
+
+div.subCheckbox input[type='checkbox']+label {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+div.subCheckbox input[type='checkbox']+label::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border: 1px solid #adb5bd;
+  border-radius: 0.25em;
+  margin-right: 0.5em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+}
+
+div.subCheckbox input[type='checkbox']:checked+label::before {
+  background-color: #ffffff;
+  background-image: url(checkmark.svg);
+  background-size: 10px;
+}
+
+div.checkbox input[type='checkbox']:indeterminate+label::before {
+  background-color: #ffffff;
+  background-image: url(svg/minus.svg);
+  background-size: 10px;
+}
+
+
 input:focus {
   border: 1px solid #c9cbcc;
   border-radius: 3px;
   outline: none;
   box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+}
+
+label {
+  margin-left: 4px;
+  font-weight: 200;
+}
+
+textarea {
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  padding: 5px;
+  height: 4em;
+  font-family: Open Sans, sans-serif;
+  font-size: 12px;
+  line-height: 20px;
 }
 
 .mainFilters {
@@ -256,26 +395,22 @@ input:focus {
 }
 
 body::-webkit-scrollbar {
-  width: 10px;                               /* ширина scrollbar */
-  height: 10px;                            
+  width: 10px; /* ширина scrollbar */
+  height: 10px;
 }
 body::-webkit-scrollbar-track {
-  background: rgb(163, 162, 162);           /* цвет дорожки */
+  background: rgb(163, 162, 162); /* цвет дорожки */
 }
 body::-webkit-scrollbar-thumb {
-  background-color: hsla(0,0%,100%,.8);    /* цвет плашки */
-  border-radius: 5px;                        /* закругления плашки */
-  border: 3px solid hsla(0,0%,100%,.8);     /* padding вокруг плашки */
+  background-color: hsla(0, 0%, 100%, 0.8); /* цвет плашки */
+  border-radius: 5px; /* закругления плашки */
+  border: 3px solid hsla(0, 0%, 100%, 0.8); /* padding вокруг плашки */
 }
 
 .tableOrders {
   overflow: auto;
   color: #373737;
   max-height: 80vh;
-}
-
-table {
-  border-collapse: collapse;
 }
 
 .tableTh {
@@ -293,8 +428,6 @@ table {
   background-color: #c8cbcc;
 }
 
-
-
 .clockEstimated {
   display: inline-block;
   margin-right: 5px;
@@ -310,17 +443,17 @@ table {
 }
 
 .orderLabel {
-  color:#4791d1;
+  color: #4791d1;
   text-align: center;
 }
 
 .orderDate {
-  color:#acacac;
+  color: #acacac;
   font-size: 12px;
 }
 
 .statusButtom {
-  color:#fff;
+  color: #fff;
   max-width: 100%;
   display: inline-flex;
   position: relative;
@@ -332,16 +465,15 @@ table {
   text-align: center;
   border: 0px solid;
   outline: none;
-  transition: all .1s linear;
+  transition: all 0.1s linear;
   border-radius: 4px;
 }
 
-.orderStatus{
+.orderStatus {
   text-align: center;
   justify-content: center;
   overflow: visible;
   max-height: 2.9em;
-  
 }
 
 .statusButtomOptions {
@@ -350,8 +482,8 @@ table {
 
 .statusButtomIcon {
   display: inline-block;
-  width: .8em;
-  height: .8em;
+  width: 0.8em;
+  height: 0.8em;
   stroke-width: 0;
   stroke: currentColor;
   fill: currentColor;
@@ -367,20 +499,20 @@ table {
   color: #fff;
   margin: 2px 0;
   padding: 0px 4px;
-  /* padding-left: 4px; */
   border-radius: 3px;
   text-align: left;
   list-style: none;
   border-width: 0;
   cursor: pointer;
   min-width: max-content;
+  max-width: max-content;
 }
 
 .statusList {
-  position:relative;
+  position: relative;
   width: max-content;
   height: 200px;
-  overflow:scroll;
+  overflow: scroll;
   padding: 10px;
   border-width: 1px;
   border-color: rgb(216, 214, 214);
@@ -394,7 +526,6 @@ table {
   line-height: 1.45em;
   text-align: left;
   padding-left: 6px;
-  
 }
 
 .tableOne {
@@ -409,26 +540,26 @@ div.tableOrders td {
   border-bottom: 1px solid #eeeeef;
   /* position: relative; */
   /* background: #fff; */
- }
+}
 
- .tableClientName {
+.tableClientName {
   display: block;
   overflow: hidden;
   height: 15px;
- }
+}
 
- .tablePrice {
-   text-align: center;
- }
+.tablePrice {
+  text-align: center;
+}
 
- .pagination {
+.pagination {
   display: flex;
   list-style-type: none;
   padding: 0;
   margin: 0;
- }
+}
 
- .pages-pagination {
+.pages-pagination {
   color: #1e79c7;
   align-items: center;
   display: flex;
@@ -441,9 +572,9 @@ div.tableOrders td {
   cursor: pointer;
   width: max-content;
   padding: 0 5px;
- }
+}
 
- .active {
+.active {
   border: 1px solid #c9cbcc;
   border-radius: 3px;
   color: #282e33;
@@ -454,14 +585,14 @@ div.tableOrders td {
   outline: none;
   height: 32px;
   width: 32px;
- }
+}
 
- .tableAllPage {
-   display: flex;
-   flex-direction: row;
- }
+.tableAllPage {
+  display: flex;
+  flex-direction: row;
+}
 
- .tablePageCount {
+.tablePageCount {
   margin-left: 5px;
   height: 32px;
   color: #282e33;
@@ -469,23 +600,23 @@ div.tableOrders td {
   justify-content: center;
   display: flex;
   font-size: 13px;
- }
+}
 
- .mainLoginContaner {
-   width: 100%;
-   height: 500px;
-   display:flex;
-   justify-content: center;
-   align-items: center;
- }
+.mainLoginContaner {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
- .loginContanier {
-   display: flex;
-   width: 300px;
-   flex-direction: column;
- }
+.loginContanier {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+}
 
- .loginFormLable {
+.loginFormLable {
   font-size: 12px;
   font-weight: 400;
   color: #53585c;
@@ -493,9 +624,9 @@ div.tableOrders td {
   display: inline-block;
   margin-bottom: 5px;
   box-sizing: border-box;
- }
+}
 
- .loginFormInput {
+.loginFormInput {
   margin-bottom: 15px;
   box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
   border: 1px solid #c9c8c8;
@@ -507,9 +638,9 @@ div.tableOrders td {
   height: 20px;
   border-radius: 3px;
   width: 300px;
- }
+}
 
- .loginButtom {
+.loginButtom {
   cursor: pointer;
   background: #52b351;
   border: none;
@@ -519,7 +650,7 @@ div.tableOrders td {
   width: 320px;
   border-radius: 4px;
   height: 64px;
- }
+}
 
 .errorMessageLogin {
   font-size: 12px;
@@ -529,6 +660,7 @@ div.tableOrders td {
 
 .tempPage {
   height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -547,13 +679,13 @@ div.tableOrders td {
   color: #4791d1;
 }
 
-
 .dataDownload {
   border-radius: 4px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.08);
   color: #fff;
-  display:block;
-  width:200px;
+  display: block;
+  width: 200px;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
@@ -561,31 +693,29 @@ div.tableOrders td {
   margin: 20px auto;
   text-decoration: none;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
-  transition: background-color 0.1s linear;    
-  background-color: rgb( 43, 153, 91 );
-  border: 1px solid rgb( 33, 126, 74 );    
-  }
-  .dataDownload:hover {
+  transition: background-color 0.1s linear;
+  background-color: rgb(43, 153, 91);
+  border: 1px solid rgb(33, 126, 74);
+}
+.dataDownload:hover {
   background-color: rgb(68, 149, 118);
-  }
+}
 
-  .orderTableRows {
-    max-height: 40px;
-    min-height: 35px;
-  }
+.orderTableRows {
+  max-height: 40px;
+  min-height: 35px;
+}
 
-  .orderTableRows:hover {
-    background-color: #cae1f5;
-  }
+.orderTableRows:hover {
+  background-color: #cae1f5;
+}
 
-  .customPanel {
-    margin: 5px;
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  
+.customPanel {
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 .customFilters {
   width: 84%;
@@ -593,86 +723,81 @@ div.tableOrders td {
   flex-direction: row;
 }
 
-  
+.icon-table {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  padding: 0 5px;
+}
 
-  .icon-table {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    width: 1.6em;
-    height: 1.6em;
-    padding: 0 5px;
+.fieldSeparate {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  color: #aaaaaa;
+  width: 30px;
+  align-items: center;
+}
 
-  }
+.cl11 {
+  margin: 4px 0 0px 0;
+  padding-right: 6px;
+  align-items: center;
+}
 
-  .fieldSeparate {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    color: #aaaaaa;
-    width: 30px;
-    align-items: center;
-  }
+.cl12 {
+  margin: 2px 0;
+  align-items: center;
+  border-left: 1px solid #aaaaaa;
+}
 
-  .cl11 {
-    margin: 4px 0 0px 0;
-    padding-right: 6px;
-    align-items: center;
+.greenButton {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 5px 12px;
+  margin: 5px 0px;
+  background: #5cb85c;
+  border-color: #5cb85c;
+  color: #fff;
+  font-size: 14px;
+  border: 1px solid;
+  cursor: pointer;
+  border-radius: 4px;
+  min-width: max-content;
+  max-width: max-content;
+}
 
-  }
+.chooseFieldButton {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  text-align: center;
+  height: 29px;
+  width: 60px;
+  background: #ffffff;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  cursor: pointer;
 
-  .cl12 {
-    margin: 2px 0;
-    align-items: center;
-    border-left: 1px solid #aaaaaa
-  }
+  padding: 3px 10px;
+  fill: rgb(67, 67, 67);
+}
 
-  .addNewOrderButton {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    padding: 3px 12px;
-    margin: 4px;
-    height: 30px;
-    background: #5cb85c;
-    border-color: #5cb85c;
-    color: #fff;
-    font-size: 14px;
-    border: 1px solid;
-    cursor: pointer;
-    border-radius: 4px;
-    min-width: max-content;
-  }
-
-  .chooseFieldButton {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    text-align: center;
-    height: 29px;
-    width: 60px;
-    background: #ffffff;
-    border: 1px solid #aaaaaa;
-    border-radius: 4px;
-    cursor: pointer;
-    
-    padding: 3px 10px;
-    fill: rgb(67, 67, 67);
-  }
-
-  .customFilter {
-    display: flex;
-    align-items: center;
-    padding: 3px 8px;
-    margin: 4px;
-    height: 29px;
-    border: 1px solid #aaaaaa;
-    border-radius: 4px;
-    min-width: max-content;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
+.customFilter {
+  display: flex;
+  align-items: center;
+  padding: 3px 8px;
+  margin: 4px;
+  height: 29px;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  min-width: max-content;
+  font-size: 14px;
+  cursor: pointer;
+}
 
 .mainCustomPanel {
   width: 100%;
@@ -695,19 +820,19 @@ div.tableOrders td {
 .filterOptions {
   display: flex;
   flex-direction: row;
-  
+
   justify-content: center;
 }
 
 .setCustomFilterRow {
-  display:flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   justify-content: space-around;
 }
 
 .setCustomFilterCell {
-  display:block;
+  display: block;
   flex-direction: column;
   width: auto;
   flex-grow: 3;
@@ -726,10 +851,9 @@ div.tableOrders td {
   border-radius: 4px;
   padding: 4px 10px;
   color: #666666;
-  background: linear-gradient(180deg,#fff,#f7f8f8 50%,#f0f1f2);
+  background: linear-gradient(180deg, #fff, #f7f8f8 50%, #f0f1f2);
   cursor: pointer;
 }
-
 
 .stausListFilter {
   display: block;
@@ -759,7 +883,6 @@ div.tableOrders td {
 .chackboxListStatus:focus {
   width: auto;
 }
-
 
 .statusListTitle2 {
   display: flex;
@@ -805,13 +928,8 @@ div.tableOrders td {
 
 .fire-text {
   color: rgb(252, 0, 0);
-  text-shadow:
-           0 0 2px #eee,
-           0 0 4px #fff,
-           0 -2px 4px #ff3,
-           2px -4px 6px #fd3,
-           -2px -6px 11px #f80,
-           2px -8px 18px #f20;
+  text-shadow: 0 0 2px #eee, 0 0 4px #fff, 0 -2px 4px #ff3, 2px -4px 6px #fd3,
+    -2px -6px 11px #f80, 2px -8px 18px #f20;
   font-size: 12px;
 }
 
@@ -835,7 +953,7 @@ div.tableOrders td {
 .optionFilterInput:focus {
   border: none;
   box-shadow: none;
-  outline: none
+  outline: none;
 }
 
 .rowGropList {
@@ -850,7 +968,7 @@ div.tableOrders td {
 .buttons {
   display: flex;
   flex-direction: row;
-  margin-top: 15px;
+  align-items: center;
 }
 
 .blueButton {
@@ -893,14 +1011,14 @@ div.tableOrders td {
   background-color: none;
   border: none;
   box-shadow: none;
-  outline: none
+  outline: none;
 }
 
 .react-datepicker-ignore-onclickoutside:focus {
   background-color: none;
   border: none;
   box-shadow: none;
-  outline: none
+  outline: none;
 }
 
 .react-datepicker__input-container {
@@ -925,7 +1043,7 @@ div.tableOrders td {
   display: flex;
 }
 
-.createNewFilterBlock {
+.rightBlock {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -940,25 +1058,27 @@ div.tableOrders td {
   animation-duration: 300ms;
 }
 
-.createNewFilterWiondow {
-  width: 100%;
-  max-width: 450px;
-  padding: 10px;
+.rightBlockWiondow {
+  min-width: 30%;
+  max-width: max-content;
+  padding: 5px 10px 15px 15px;
   background: white;
   position: relative;
-  height: 100vh;
+  height: 100%;
   text-align: left;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
   font-size: 14px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: slide-in;
   animation-duration: 0.5s;
+  box-sizing: border-box;
 }
-.createNewFilterTitle {
+
+.createNewTitle {
   font-size: 30px;
   padding: 5px 0px;
   font-weight: 100;
@@ -976,8 +1096,8 @@ div.tableOrders td {
 }
 
 .textInput {
-margin-bottom: 10px;
-width: 90%;
+  margin-bottom: 10px;
+  width: 90%;
 }
 
 .checkboxRow {
@@ -993,7 +1113,6 @@ width: 90%;
   font-size: 14px;
   font-weight: 200;
 }
-
 
 .icon-table-red-basket {
   margin: 0;
@@ -1012,4 +1131,262 @@ width: 90%;
   text-align: center;
   background-color: red;
   border: none;
+}
+
+.settingPage {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.settingMenuMain {
+  display: flex;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: AnSidebar;
+  height: 100vh;
+  z-index: 2002;
+  top: 0;
+  left: 145px;
+  min-width: max-content;
+  background: #53585c;
+  flex-direction: column;
+  padding: 0px;
+}
+
+.settingRow {
+  padding: 10px 18px 10px 5px;
+  font-size: 13px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  color: #c9cbcc;
+}
+
+.settingRow:hover {
+  color: #fff;
+}
+
+.settingContent {
+  width: 100%;
+}
+
+.settingPageBody {
+  padding: 15px;
+}
+.checkbox {
+  display: flex;
+  flex-direction: row;
+}
+
+.subCheckbox {
+  display: flex;
+  flex-direction: row;
+  padding-left: 20px;
+  margin-bottom: 4px;
+}
+
+.checkButton {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #c9c8c8;
+  border-radius: 4px;
+  max-width: max-content;
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.checkButtonOne {
+  padding: 4px 12px;
+  text-align: center;
+  align-items: center;
+}
+
+.checkButtonTwo {
+  padding: 4px 12px;
+  background-color:  #eee;
+  box-shadow: inset 0 1px 2px 0 #ccc;
+  text-align: center;
+  align-items: center;
+  }
+
+.chackboxes {
+  margin-bottom: 10px;
+}
+
+.al-cntr {
+  text-align: center;
+  justify-content: center;
+}
+
+.mr-top-15 { margin-top: 15px }
+
+.mr-rg-20 { margin-right: 20px }
+
+.mr-lf-0 { margin-left: 0 }
+
+.h27 { height: 27px } 
+
+.h20 { height: 20px }
+
+.w250 { width: 250px }
+
+.w150 { width: 150px }
+
+.pd5 { padding: 5px }
+
+.curNone {cursor: auto}
+
+.headerCheckbox {
+width: 18px;
+}
+
+.buttons_ {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #acacac;
+  z-index: 1;
+}
+
+.tabOn {
+  position: relative;
+  top: 1px;
+  background-color: white;
+  padding: 5px 12px;
+  border: 1px solid #acacac;
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+  z-index: 2;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+} 
+
+.tab {
+padding: 5px 12px;
+color: #4791d1;
+text-align: center;
+align-items: center;
+border-radius: 4px 4px 0 0;
+cursor: pointer;
+}
+
+.tab:hover {
+  background-color: #e6e4e4;
+  }
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.employeeGenterally {
+  padding: 15px 0;
+  overflow: auto;
+}
+
+.optionsButton {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  padding: 5px;
+  color: #666666;
+  background: linear-gradient(180deg, #fff, #f7f8f8 50%, #f0f1f2);
+  cursor: pointer;
+}
+
+.listOptions {
+  display: block;
+  flex-direction: column;
+  position: relative;
+  background-color: white;
+  border: 1px solid #aaaaaa;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 4px 0px;
+  overflow: scroll;
+  max-height: 200px;
+  z-index: 10;
+}
+
+.options {
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.options:hover {
+  background-color: #cae1f5;
+}
+
+.roleEditorContent {
+  overflow: auto;
+}
+
+.orderHistory {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f5fafc;
+  width: 300px;
+}
+
+.cteateNewOrderContent {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: center;
+}
+
+.createOrderForm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 400px;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.formLable {
+  font-weight: 700;
+  margin-right: 15px;
+}
+
+.boxLabel {
+  display: flex;
+  text-align: right;
+  align-items: center;
+}
+
+.rowList {
+  padding: 3px 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.rowList:hover {
+  background-color: #cae1f5;
+}
+
+.listTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.optionsTitle {
+  padding: 5px 15px;
+  font-weight: 700;
 }

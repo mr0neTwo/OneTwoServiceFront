@@ -3,29 +3,32 @@ import { connect } from 'react-redux'
 
 import CustomFilter from './CustomFilter'
 import SetFilter from './setCustomFilter/SetFilter'
-import { changeSetStatusFilterAction } from '../../Redux/actions'
+import { changeSetStatusFilter, changeStatusNewOrder } from '../../Redux/actions'
+import NewOrder from './newOrder/NewOrder'
 
-const CustomPanel = ({customFilters, statusSetCustomFilter, changeSetStatusFilter}) => {
+const CustomPanel = (props) => {
 
    return (
       <div className='mainCustomPanel'>
          <div className='customPanel'>
             <div 
-            className='addNewOrderButton'
-            onClick = {()=> console.log('ckick on "+ Заказ"')}>
+            className='greenButton h27'
+            style={props.permissions.includes('create_orders') ?  null : {display: 'none'}}
+            onClick = {()=> props.changeStatusNewOrder()}>
                   + Заказ 
             </div>
+            {props.statusNewOrder ? <NewOrder/> : null}
             <div className='customFilters'>
                <div 
                className='customFilter'
-               onClick = { ()=> changeSetStatusFilter() }>
+               onClick = { ()=> props.changeSetStatusFilter() }>
                   <div className='cl11'>
                   <svg className="icon-table" viewBox="0 0 32 32">
                      <path d="M16 0c-8.837 0-16 2.239-16 5v3l12 12v10c0 1.105 1.791 2 4 2s4-0.895 4-2v-10l12-12v-3c0-2.761-7.163-5-16-5zM2.95 4.338c0.748-0.427 1.799-0.832 3.040-1.171 2.748-0.752 6.303-1.167 10.011-1.167s7.262 0.414 10.011 1.167c1.241 0.34 2.292 0.745 3.040 1.171 0.494 0.281 0.76 0.519 0.884 0.662-0.124 0.142-0.391 0.38-0.884 0.662-0.748 0.427-1.8 0.832-3.040 1.171-2.748 0.752-6.303 1.167-10.011 1.167s-7.262-0.414-10.011-1.167c-1.24-0.34-2.292-0.745-3.040-1.171-0.494-0.282-0.76-0.519-0.884-0.662 0.124-0.142 0.391-0.38 0.884-0.662z"></path>
                   </svg>
                </div> Фильтр
                </div>
-               {customFilters.map(filter => {
+               {props.customFilters.map(filter => {
                   return (
                   <CustomFilter data = {filter} key = {filter.id}/>
                   )
@@ -46,7 +49,7 @@ const CustomPanel = ({customFilters, statusSetCustomFilter, changeSetStatusFilte
             </div>
          </div>
          
-            {statusSetCustomFilter ? <SetFilter/> : null}
+            {props.statusSetCustomFilter ? <SetFilter/> : null}
          
       </div>
    )
@@ -54,11 +57,14 @@ const CustomPanel = ({customFilters, statusSetCustomFilter, changeSetStatusFilte
 
 const mapStateToProps = state => ({
    customFilters: state.filter.customFilters,
-   statusSetCustomFilter: state.view.statusSetCustomFilter
+   statusSetCustomFilter: state.view.statusSetCustomFilter,
+   permissions: state.data.user.role.permissions,
+   statusNewOrder: state.view.statusNewOrder
    })
 
 const mapDispatchToProps = {
-   changeSetStatusFilter: changeSetStatusFilterAction
+   changeSetStatusFilter,
+   changeStatusNewOrder
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(CustomPanel)

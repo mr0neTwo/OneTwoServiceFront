@@ -1,5 +1,3 @@
-import { filter } from "lodash"
-import store from "./store"
 
 const initialState = {
 

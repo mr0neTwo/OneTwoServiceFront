@@ -67,23 +67,16 @@ const SetStatus = (props) => {
     {props.stausListFilter ? <div className='stausListFilter' id='stausListFilter'>
        {props.status_group.map(group => {
           return (
-             <>
+             <div key={group.id}>
 
-             {group.status.length ? <div className='statusListTitle'>
-                {/* <input 
-                className = 'chackboxListStatusGroup' 
-                name={ group.id + 100 }
-                ref = {checkbox1} 
-                type = 'checkbox'
-                indeterminate = {true}
-                /> */}
-
+             {group.status.length ? <div className='statusListTitle' >
+             
                 {group.name}
                 </div> : null}
 
              {group.status.map(status => {
                 return (
-                  <div className='statusListTitle2'>
+                  <div className='statusListTitle2' key={status.id + group.id * 100}>
                      <input 
                      className = 'chackboxListStatus' 
                      type = 'checkbox'
@@ -95,7 +88,7 @@ const SetStatus = (props) => {
                   </div>
                 )
              })}
-          </>
+          </div>
           )
        })}
       <div className='btmsts'>

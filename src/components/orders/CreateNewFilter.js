@@ -20,12 +20,12 @@ const CreateNewFilter = (props) => {
     })
 
    return (
-     <div className='createNewFilterBlock'>
+     <div className='rightBlock'>
         <div 
-        className='createNewFilterWiondow'
+        className='rightBlockWiondow'
         id='createNewFilterWiondow'
         >
-         <div className='createNewFilterTitle'>Новый фильтр</div>
+         <div className='createNewTitle'>Новый фильтр</div>
          <div className='lableImput'>Название филтьтра <span className='redStar'>*</span></div>
          <input 
          className='textInput'
@@ -41,7 +41,7 @@ const CreateNewFilter = (props) => {
             />
             <div className='lableImput'>Общий фильтр</div>
          </div>
-         <div className='buttons'>
+         <div className='buttons mr-top-15'>
             <div 
             className='blueButton'
             onClick={() => {

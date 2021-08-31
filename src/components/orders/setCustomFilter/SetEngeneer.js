@@ -64,7 +64,7 @@ const SetEngineer = (props) => {
           
           if (!employee.deleted) {
             return (
-              <div className='statusListTitle2'>
+              <div className='statusListTitle2' key={employee.id}>
                   <input 
                   className = 'chackboxListStatus' 
                   type = 'checkbox'

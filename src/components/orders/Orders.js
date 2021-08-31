@@ -7,7 +7,7 @@ import Header from './Header'
 import Filters from './Filters'
 import TableOrders from './TableOrdrers'
 import Loader from '../Loader/Loader'
-import { addOrdersAction, addEmplooysAction, changePageAction, addStatusAction, addBaggesAction, addStatusGroupAction, addOrdersTypeAction, addCustomFilters } from '../../Redux/actions'
+import { addOrders, changePageAction, addBaggesAction, addStatusGroupAction, addOrdersTypeAction, addCustomFilters } from '../../Redux/actions'
 import CustomPanel from './CustomPanel'
 
 function Orders(props) {
@@ -16,8 +16,6 @@ function Orders(props) {
 
 // Загружаем заказы
 useEffect(() => {
-  props.addEmplooys()
-  props.addStatus()
   props.addStatusGroup()
   props.addOrdersType()
   props.addCustomFilters()
@@ -37,7 +35,7 @@ const pageChangeHandler = (page) => {
         <Header oderSearch={''} />
         <Filters />
         <CustomPanel/>
-        <TableOrders/>
+        {props.ordersShow ? <TableOrders/> : <Loader/>}
         <div className="tableAllPage">
           <ReactPaginate
             pageCount={ props.count % 50 > 0 ? ( props.count / 50 ) :  props.count / 50 - 1} 
@@ -66,12 +64,11 @@ const pageChangeHandler = (page) => {
 const mapStateToProps = state => ({
    mainFilter: state.filter.mainFilter,
    count: state.filter.count,
+   ordersShow: state.data.ordersShow
 })
 
 const mapDispatchToProps = {
-  addOrders: addOrdersAction,
-  addEmplooys: addEmplooysAction,
-  addStatus: addStatusAction,
+  addOrders,
   changePage: changePageAction,
   addBagges: addBaggesAction,
   addStatusGroup: addStatusGroupAction,

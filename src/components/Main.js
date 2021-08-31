@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 
 
-import { addMenuRows } from '../Redux/actions';
+import { addMenuRows, addEmplooys, addStatus } from '../Redux/actions';
 
 import Sidebar from './sidebar/Sidebar';
 import Orders from './orders/Orders';
@@ -22,10 +22,13 @@ import Settings from './Settings/Settings';
 
 
 
-function Main({addMenuRow}) {
+function Main(props) {
 
     // Загружаем строки меню в State
-    useEffect(() => addMenuRow(), [])
+    useEffect(() => {
+        props.addEmplooys()
+        props.addStatus()
+    }, [])
 
 
     
@@ -53,12 +56,10 @@ function Main({addMenuRow}) {
     )
 }
 
-const mapStateToProps = state => ({
-
-  })
 
   const mapDispatchToProps = {
-    addMenuRow: addMenuRows
+    addEmplooys,
+    addStatus
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main))
+export default connect(null, mapDispatchToProps)(withRouter(Main))

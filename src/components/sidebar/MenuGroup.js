@@ -1,20 +1,21 @@
 import React from 'react'
 
-import MenuRow from './MenuRow';
+import MenuRow from './MenuRow'
 
 
 function MenuGroup({group}) {
 
     return (
-        <div>
-            {group.map(row => {
-                return (
-                    <MenuRow row = {row} key = {row.id}/>
-                    )
+
+            <div>
+                {group.map(row => {
+                    return (
+                        <MenuRow row = {row} key = {row.id}/>
+                        )
+                    }
+                )
                 }
-            )
-            }
-        </div>
+            </div>
     )}
    
 export default MenuGroup

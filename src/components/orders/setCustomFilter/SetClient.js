@@ -47,6 +47,7 @@ const SetClient = (props) => {
        return (
         client.name.toLowerCase().includes(props.tempFilter.client_name.toLowerCase()) ? 
         <div 
+        key={client.id}
         className='rowGropList'
         onClick={() => {
           props.changeClientMainFilter(client.name)

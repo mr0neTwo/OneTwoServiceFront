@@ -1,10 +1,13 @@
+import { data_setting_menu } from '../data/dataSettingRows'
+import { data_menu_rows } from '../data/dataSidebarRows'
 
 const initialState = {
   ordersShow: [],
   count: 0,
   clientShow: [],
   count_clients: 0,
-  menuRows: [],
+  menuRows: data_menu_rows,
+  settingMenu: data_setting_menu,
 
   employees: [],
   user: {},
@@ -13,6 +16,8 @@ const initialState = {
   badges: [],
   order_type: [],
   equipment: [],
+  discount_margin: [],
+  roles: [],
 
   token: '',
   login_status: false,
@@ -102,15 +107,42 @@ export const dataReducer = (state = initialState, action) => {
         equipment: action.equipment
       }}
 
-     case 'CHANGE_STATUS_MENU_ROW': {
-       return {
-       ...state,
-       menuRows: state.menuRows.map(row => {
-         return {
-           ...row,
-           active: row.id === action.id ? true : false
-         }})}} 
+    case 'CHANGE_STATUS_MENU_ROW': {
+      return {
+      ...state,
+      menuRows: state.menuRows.map(row => {
+        return {
+          ...row,
+          active: row.id === action.id ? true : false
+        }})}} 
+
     
+    case 'ADD_SETTING_MENU': {
+    return {
+        ...state, 
+        settingMenu: action.rows.sort((a, b) => a.id - b.id),
+      }}
+      
+    case 'CHANGE_STATUS_SETTING_ROW': {
+      return {
+        ...state,
+        settingMenu: state.settingMenu.map(row => {
+          return {
+            ...row,
+            active: row.id === action.id ? true : false
+          }})}} 
+
+    case 'ADD_DISCOUNT_MARGIN': {
+      return {
+          ...state, 
+          discount_margin: action.margin,
+        }}
+
+    case 'ADD_ROLES': {
+      return {
+          ...state, 
+          roles: action.roles,
+        }}
 
     default:
       return state

@@ -36,6 +36,7 @@ const SetSubtype = (props) => {
        return (
         subtype.title.toLowerCase().includes(props.tempFilter.subtype.toLowerCase()) ? 
         <div 
+        key={subtype.id}
         className='rowGropList'
         onClick={() => {
           props.changeSubtypeMainFilter(subtype.title)
@@ -58,10 +59,11 @@ const SetSubtype = (props) => {
     list_subtype = [...new Set(list_subtype)]  
 
     return (
-      list_subtype.map(subtype => {
+      list_subtype.map((subtype, idx) => {
           return (
             subtype.toLowerCase().includes(props.tempFilter.subtype.toLowerCase()) ? 
-        <div 
+        <div
+        key={idx} 
         className='rowGropList'
         onClick={() => {
           props.changeSubtypeMainFilter(subtype)

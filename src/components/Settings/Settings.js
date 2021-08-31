@@ -1,15 +1,48 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Route, Switch, Redirect, withRouter} from 'react-router-dom'
 
-import DataLoader from '../../data/DataLoader'
+import SettingMenu from './SettingMenu'
+import {  } from '../../Redux/actions'
+
+import Generally from './SettingPages/Generally'
+import SettingEmployees from './SettingPages/Employees/SettingEmployees'
+import SettingBranches from './SettingPages/SettingBranches'
+import SettingWherehouse from './SettingPages/SettingWherehouse'
+import SettingStatus from './SettingPages/SettingStatus'
+import SettingTags from './SettingPages/SettingTags'
+import SettingAlerts from './SettingPages/SettingAlerts'
+import SettingServicePrices from './SettingPages/SettingServicePrices'
+import SettingBooks from './SettingPages/SettingBooks'
+import SettingTemplates from './SettingPages/SettingTemplates'
+import SettingPrices from './SettingPages/SettingPrices'
+import SettingMarkening from './SettingPages/SettingMarkening'
+
 
 const Settings = (props) => {
+
+
   return (
-    <div className="tempPage">
-      <div className="tempContainer">
-        <h1 className="tempTitle">Здесь будут настройки</h1>
-        <p className="tempDescription">Страница на стадии разработки</p>
-      </div>
+    <div className='settingPage'>
+      <SettingMenu/>
+      {/* <div className='settingContent'> */}
+          <Switch>
+              <Route path = '/settings/generally' component = {Generally}/>
+              <Route path = '/settings/employees' component={SettingEmployees}/>
+              <Route path = '/settings/branches' component = {SettingBranches}/>
+              <Route path = '/settings/wherehouse' component = {SettingWherehouse}/>
+              <Route path = '/settings/status' component = {SettingStatus}/>
+              <Route path = '/settings/tags' component = {SettingTags}/>
+              <Route path = '/settings/alerts' component = {SettingAlerts}/>
+              <Route path = '/settings/services_pricelist' component = {SettingServicePrices}/>
+              <Route path = '/settings/books' component = {SettingBooks}/>
+              <Route path = '/settings/document-templates' component = {SettingTemplates}/>
+              <Route path = '/settings/prices' component = {SettingPrices}/>
+              <Route path = '/settings/marketing' component = {SettingMarkening}/>
+
+              <Redirect from='/settings' to='/settings/generally'/>
+            </Switch>
+          {/* </div> */}
     </div>
   )
 }
@@ -19,4 +52,8 @@ const mapStateToProps = state => ({
   // addTodo: todo => ref('todos').push(todo)
 })
 
-export default connect(mapStateToProps)(Settings)
+const mapDispatchToProps = {
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Settings))

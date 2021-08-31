@@ -9,7 +9,12 @@ const initialState = {
    brandListFilter: false,
    subtypeListFilter: false,
    clientListFilter: false,
-   statusCreateNewFilter: false
+   statusCreateNewFilter: false,
+   statusCreateNewRole: false,
+   statusEmployeeEditor: false,
+   employeeEditorRoleOptions: false,
+   statusNewOrder: false,
+   statusTypeListOrder: false
 }
 
 export const visualReducer = (state = initialState, action) => {
@@ -99,6 +104,68 @@ export const visualReducer = (state = initialState, action) => {
          }
       }
 
+      case 'CHANGE_STATUS_CREATE_NEW_ROLE': {
+         return {
+            ...state, 
+            statusCreateNewRole: !state.statusCreateNewRole,
+         }
+      }
+      
+      case 'EDIT_ROLE': {
+         return {
+            ...state, 
+            statusCreateNewRole: !state.statusCreateNewRole,
+         }
+      }
+
+      case 'CHANGE_STATUS_EMPLOYEE_EDITOR': {
+         return {
+            ...state, 
+            statusEmployeeEditor: !state.statusEmployeeEditor,
+         }
+      }
+
+      case 'CHANGE_EMPLOYEE_EDITOR_ROLE_OPTIONS': {
+         return {
+            ...state, 
+            employeeEditorRoleOptions: !state.employeeEditorRoleOptions,
+         }
+      }
+      
+      case 'SET_ROLE_EMPLOYEE_EDITOR': {
+         return {
+            ...state, 
+            employeeEditorRoleOptions: !state.employeeEditorRoleOptions,
+         }
+      }
+
+      case 'EDIT_EMPLOYEE': {
+         return {
+            ...state, 
+            statusEmployeeEditor: !state.statusEmployeeEditor,
+         }
+      }
+      
+      case 'CHANGE_STATUS_NEW_ORDER': {
+         return {
+            ...state, 
+            statusNewOrder: !state.statusNewOrder,
+         }
+      }
+      
+      case 'CHANGE_TYPE_LIST_ORDER': {
+         return {
+            ...state, 
+            statusTypeListOrder: !state.statusTypeListOrder,
+         }
+      }
+      
+      case 'SET_ORDER_TYPE': {
+         return {
+            ...state, 
+            statusTypeListOrder: false,
+         }
+      }
       
       default: return state
    }
