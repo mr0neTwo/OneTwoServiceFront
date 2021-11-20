@@ -7,7 +7,7 @@ import Header from './Header'
 import Filters from './Filters'
 import TableOrders from './TableOrdrers'
 import Loader from '../Loader/Loader'
-import { addOrders, changePageAction, addBaggesAction, addStatusGroupAction, addOrdersTypeAction, addCustomFilters } from '../../Redux/actions'
+import { addOrders, changePageAction, addBaggesAction, addStatusGroupAction, addCustomFilters, addAdCampaign, addEquipment } from '../../Redux/actions'
 import CustomPanel from './CustomPanel'
 
 function Orders(props) {
@@ -17,9 +17,12 @@ function Orders(props) {
 // Загружаем заказы
 useEffect(() => {
   props.addStatusGroup()
-  props.addOrdersType()
   props.addCustomFilters()
+  props.addAdCampaign()
+  props.addEquipment()
 }, [])
+
+
   
 const pageChangeHandler = (page) => {
   const curent_page = page.selected ? page.selected : 0
@@ -31,7 +34,7 @@ const pageChangeHandler = (page) => {
   }, [props.mainFilter])
 
   return (
-    <div className="ordersMain">
+    <div className="pageContent">
         <Header oderSearch={''} />
         <Filters />
         <CustomPanel/>
@@ -72,8 +75,9 @@ const mapDispatchToProps = {
   changePage: changePageAction,
   addBagges: addBaggesAction,
   addStatusGroup: addStatusGroupAction,
-  addOrdersType: addOrdersTypeAction,
-  addCustomFilters
+  addCustomFilters,
+  addAdCampaign,
+  addEquipment
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders)

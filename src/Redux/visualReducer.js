@@ -14,7 +14,51 @@ const initialState = {
    statusEmployeeEditor: false,
    employeeEditorRoleOptions: false,
    statusNewOrder: false,
-   statusTypeListOrder: false
+   statusTypeListOrder: false,
+   statusClientListOrder: false,
+   statusClientListOrderPhone: false,
+   statusCreateNewClient: false,
+   statusAdCampaignClient: false,
+   checkedOrderClient: false,
+   statusBranchEditor: false,
+   statusChooseIcon: false,
+   statusEquipmentEditor: false,
+   statusElementEditor: false,
+   statusCashboxEditor: false,
+   statusCashboxEmployeeEditor: false,
+   statusPaymentsEditor: false,
+   statusPaymentsCard: false,
+   
+
+   inputClientNameChecked: true,
+   inputClientPhoneChecked: [true],
+   inputClientDiscServChecked: true,
+   inputClientDiscMatChecked: true,
+   inputClientDiscGoodChecked: true,
+   inputRoleTitleChecked: true,
+   inputEmployeeNameChecked: true,
+   inputEmployeeEmailChecked: true,
+   inputEmployeeLoginChecked: true,
+   inputEmployeePasswordChecked: true,
+   inputEmployeeRoleChecked: true,
+   inputMalfunctionChecked: [true],
+   checkedOrderKindofGood: [true],
+   checkedOrderBrand: [true],
+   checkedOrderSubtype: [true],
+   inputMaindataNameChecked: true,
+   inputBranchNameChecked: true,
+   inputBranchPrefixChecked: true,
+   inputBranchPrefixDocChecked: true,
+   inputBookTitleChecked: true,
+   inputCashboxTitleChecked: true,
+   inputPaymentDescChecked: true,
+   inputPaymentCashflowChecked: true,
+   inputPaymentCashboxChecked: true,
+   inputPaymentEmployeeChecked: true,
+   inputPaymentSumChecked: true,
+
+   errorSameMail: false,
+   errorSameLogin: false
 }
 
 export const visualReducer = (state = initialState, action) => {
@@ -103,13 +147,6 @@ export const visualReducer = (state = initialState, action) => {
             statusCreateNewFilter: !state.statusCreateNewFilter,
          }
       }
-
-      case 'CHANGE_STATUS_CREATE_NEW_ROLE': {
-         return {
-            ...state, 
-            statusCreateNewRole: !state.statusCreateNewRole,
-         }
-      }
       
       case 'EDIT_ROLE': {
          return {
@@ -118,12 +155,6 @@ export const visualReducer = (state = initialState, action) => {
          }
       }
 
-      case 'CHANGE_STATUS_EMPLOYEE_EDITOR': {
-         return {
-            ...state, 
-            statusEmployeeEditor: !state.statusEmployeeEditor,
-         }
-      }
 
       case 'CHANGE_EMPLOYEE_EDITOR_ROLE_OPTIONS': {
          return {
@@ -136,22 +167,10 @@ export const visualReducer = (state = initialState, action) => {
          return {
             ...state, 
             employeeEditorRoleOptions: !state.employeeEditorRoleOptions,
-         }
-      }
-
-      case 'EDIT_EMPLOYEE': {
-         return {
-            ...state, 
-            statusEmployeeEditor: !state.statusEmployeeEditor,
+            inputEmployeeRoleChecked: true
          }
       }
       
-      case 'CHANGE_STATUS_NEW_ORDER': {
-         return {
-            ...state, 
-            statusNewOrder: !state.statusNewOrder,
-         }
-      }
       
       case 'CHANGE_TYPE_LIST_ORDER': {
          return {
@@ -166,7 +185,162 @@ export const visualReducer = (state = initialState, action) => {
             statusTypeListOrder: false,
          }
       }
+
+      case 'CHANGE_CLIENT_LIST_ORDER': {
+         return {
+            ...state, 
+            statusClientListOrder: !state.statusClientListOrder,
+         }
+      }
       
+      case 'SET_CLIENT_ID': {
+         return {
+            ...state, 
+            statusClientListOrder: false,
+         }
+      }
+
+      case 'CHANGE_CLIENT_LIST_ORDER_PHONE': {
+         return {
+            ...state, 
+            statusClientListOrderPhone: !state.statusClientListOrderPhone,
+         }
+      }
+
+
+      case 'CHANGE_STATUS_AD_CAMPAIGN_CLIENT': {
+         return {
+            ...state, 
+            statusAdCampaignClient: !state.statusAdCampaignClient,
+         }
+      }
+      
+      case 'SET_AD_CANMPAIGN_CLIENT': {
+         return {
+            ...state, 
+            statusAdCampaignClient: !state.statusAdCampaignClient,
+         }
+      }
+
+      case 'SET_VISIBLE_FLAG': {
+
+         if (action.value === 'change') {
+            return {
+               ...state, 
+               [action.field]: !state[action.field]
+            }
+         } else {
+            return {
+               ...state,
+            [action.field]: action.value
+            }
+         }
+      }
+
+      case 'SET_VISIBLE_LIST_FLAG': {
+
+         const list = state[action.field]
+
+         if (action.value === 'change') {
+            list[action.idx] = !list[action.idx] 
+            return {
+               ...state, 
+               [action.field]: list
+            }
+         } else {
+            list[action.idx] = action.value
+            return {
+               ...state,
+            [action.field]: list
+            }
+         }
+      }
+
+      case 'DELETE_FLAG': {
+         const list = state[action.field]
+         list.splice(action.idx, 1)
+         return {
+            ...state,
+            [action.field]: list
+         }
+      }
+
+      case 'ADD_FLAG': {
+         return {
+            ...state,
+            [action.field]: state[action.field].concat([true])
+         }
+      }
+
+      
+      case 'EDIT_CLIENT': {
+         return {
+            ...state, 
+            statusCreateNewClient: true
+         }
+      }
+
+      case 'CHANGE_EMPLOYEE_EDITOR_FORM': {
+         if (action.field === 'email')
+         return {
+            ...state, 
+            errorSameMail: false
+         }
+         if (action.field === 'login')
+         return {
+            ...state, 
+            errorSameLogin: false
+         }
+      }
+      
+      case 'ADD_ANOTHER_EQUIPMENT': {
+         return {
+            ...state, 
+            inputMalfunctionChecked: state.inputMalfunctionChecked.concat([true]),
+            checkedOrderKindofGood: state.checkedOrderKindofGood.concat([true]),
+            checkedOrderBrand: state.checkedOrderBrand.concat([true]),
+            checkedOrderSubtype: state.checkedOrderSubtype.concat([true])
+         }
+      }
+
+      case 'DELETE_DEVICE': {
+
+         let checked_list_malfunction = state.inputMalfunctionChecked
+         checked_list_malfunction.splice(action.idx, 1)
+
+         let checked_list_kindof_good = state.checkedOrderKindofGood
+         checked_list_kindof_good.splice(action.idx, 1)
+
+         let checked_list_brand = state.checkedOrderBrand
+         checked_list_brand.splice(action.idx, 1)
+
+         let checked_list_subtype = state.checkedOrderSubtype
+         checked_list_subtype.splice(action.idx, 1)
+
+         return {
+            ...state, 
+            inputMalfunctionChecked: checked_list_malfunction,
+            checkedOrderKindofGood: checked_list_kindof_good,
+            checkedOrderBrand: checked_list_brand,
+            checkedOrderSubtype: checked_list_subtype
+         }
+      }
+
+      
+      // case 'SET_ORDER_EQUIPMENT': {
+         
+      //    let checked_list = state[action.field]
+      //    checked_list[action.idx] = true
+
+      //    return {
+      //       ...state, 
+      //       [action.field]: checked_list
+      //    }
+      // }
+
+      
+
+
       default: return state
    }
    

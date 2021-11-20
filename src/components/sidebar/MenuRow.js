@@ -8,10 +8,13 @@ import { changeStatusMenuRow } from '../../Redux/actions'
 function MenuRow(props) {
   return (
     <Link 
-    className="menuRow" 
-    to={props.row.url}
-    style={{backgroundColor: props.menuRows.find(row => row.id === props.row.id).active ? '#53585c' : '#282e33'}}
-    onClick={() => props.changeStatusMenuRow(props.row.id)}
+      className="menuRow" 
+      to={props.row.url}
+      style={props.menuRows.find(row => row.id === props.row.id).active ? {
+        backgroundColor: '#53585c',
+        borderLeftColor: props.current_branch.color 
+      } : null}
+      onClick={() => props.changeStatusMenuRow(props.row.id)}
     >
       {props.row.image === 'task' ? (
         <div className="taskNumber">
@@ -28,7 +31,8 @@ function MenuRow(props) {
 }
 
 const mapStateToProps = state => ({
-  menuRows: state.data.menuRows
+  menuRows: state.data.menuRows,
+  current_branch: state.data.current_branch
 })
 
 const mapDispatchToProps = {

@@ -28,31 +28,31 @@ const SetTypeOrder = (props) => {
     <div className='formRow'>
 
       <div className='optionsTitle'>Тип заказа</div>
-        <div>
-          <div 
-          className='optionsFilterButton w150'
-          id='optionsOrderButtonOfType'
-          onClick={() => props.changeTypeListOrder()}
-          > 
-            <span>{props.order_type.find(type => type.id === props.order_type_id).name}</span>  
-            <span>&#6662;</span> 
-          </div>
-          {props.statusTypeListOrder ? <div className='listFilter' id='listOrderOfType'>
+      <div className='blockImput'>
+        <div 
+        className='optionsFilterButton w150'
+        id='optionsOrderButtonOfType'
+        onClick={() => props.changeTypeListOrder()}
+        > 
+          <span>{props.order_type.find(type => type.id === props.order_type_id).name}</span>  
+          <span>&#6662;</span> 
+        </div>
+        {props.statusTypeListOrder ? <div className='listFilter' id='listOrderOfType'>
 
-              {props.order_type.map(type => {
-                return (
+            {props.order_type.map(type => {
+              return (
 
-                  <div className='listTitle' key={type.id}>
-                      <div 
-                      className='rowList'
-                      onClick={() => props.setOrderType(type.id)}
-                      >
-                        {type.name}
-                      </div>
-                  </div>
-                )
-              })}
-              
+                <div className='listTitle' key={type.id}>
+                    <div 
+                    className='rowList'
+                    onClick={() => props.setOrderType(type.id)}
+                    >
+                      {type.name}
+                    </div>
+                </div>
+              )
+            })}
+            
         </div> : null}
       </div>
     </div>

@@ -40,7 +40,7 @@ const SetGroupe = (props) => {
     </div>
     {props.groupListFilter ? <div className='listFilter' id='listFilterOfGroup'>
       {props.equipment.map(equipment => {
-        // console.log()
+     
        return (
         equipment.title.toLowerCase().includes(props.tempFilter.kindof_good.toLowerCase()) ? 
         <div

@@ -43,7 +43,6 @@ const SetClient = (props) => {
     </div>
     {props.clientListFilter ? <div className='listFilter' id='listFilterOfClient'>
       {props.clientShow.map(client => {
-        // console.log()
        return (
         client.name.toLowerCase().includes(props.tempFilter.client_name.toLowerCase()) ? 
         <div 

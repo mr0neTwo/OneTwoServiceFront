@@ -1,36 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { loginAction, loguotAction, addUserAction } from '../Redux/actions'
+import { loginAction, loguotAction, addUserAction, log_in } from '../Redux/actions'
 
 function Login(props) {
 
   const [errorMessage, setErrorMessage] = useState('')
 
-  async function log_in(login, password) {
-      const request_config = {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({'email': login, 'password': password})
-      }
-      const response = await fetch(props.serverUrl + '/login', request_config)
-      const data = await response.json()
-      if (data.success) {
-        props.login(data.access_token)
-        props.addUser(data.user)
-      } else {
-        console.log(data.message)
-        setErrorMessage(data.message)
-        props.loguot()
-      }
-    }
+  // useEffect(() => {
+
+  // }, [])
 
   const handleClick = ({target: {form}}) => {
-     log_in(form.login.value, form.password.value)
+     props.log_in(form.login.value, form.password.value)
   }
 
 
@@ -71,7 +54,8 @@ const mapDispatchToProps = {
     // explicitly forwarding arguments
     login: loginAction,
     loguot: loguotAction,
-    addUser: addUserAction
+    addUser: addUserAction,
+    log_in
   }
 
 export default connect(mapStateToProps, mapDispatchToProps) (Login)

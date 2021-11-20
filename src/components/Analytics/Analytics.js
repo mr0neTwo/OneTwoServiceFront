@@ -13,8 +13,11 @@ const Analytics = (props) => {
 }
 
 const mapStateToProps = state => ({
-   //   dataSidebarRows: 'dataSidebarRows',
-     // addTodo: todo => ref('todos').push(todo)
+
    })
+
+const mapDispatchToProps = {
+
+}
   
- export default connect(mapStateToProps)(Analytics)
+ export default connect(mapStateToProps, mapDispatchToProps)(Analytics)

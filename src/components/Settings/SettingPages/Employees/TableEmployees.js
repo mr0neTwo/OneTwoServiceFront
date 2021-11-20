@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { editEmoloyee } from '../../../../Redux/actions'
+import { editEmoloyee, setVisibleFlag } from '../../../../Redux/actions'
+import { showPhone } from '../../../general/utils'
 
 function TableEmployees (props) {
    return (
@@ -18,11 +19,18 @@ function TableEmployees (props) {
       <tbody>
         {props.employees.filter(employee => props.showDeleted || !employee.deleted).map(employee =>{
           return (
-            <tr onDoubleClick={() => props.editEmoloyee(employee)} key={employee.id}>
+            <tr 
+              key={employee.id}
+              className={employee.deleted ? 'rowDeleted' : null}
+              onDoubleClick={() => {
+                props.editEmoloyee(employee)
+                props.setVisibleFlag('statusEmployeeEditor', true)
+              }} 
+            >
               <td>{`${employee.last_name} ${employee.first_name}`}</td>
               <td>{employee.login}</td>
               <td>{employee.email}</td>
-              <td>{employee.phone ? `+${employee.phone.slice(0, 1)}(${employee.phone.slice(1, 4)}) ${employee.phone.slice(4, 7)}-${employee.phone.slice(7, 10)}-${employee.phone.slice(9, 12)}`: null}</td>
+              <td>{employee.phone ? showPhone(employee.phone) : null}</td>
               <td>{employee.role.title}</td>
             </tr>
           )
@@ -38,7 +46,8 @@ const mapStateToProps = state => ({
  })
 
 const mapDispatchToProps = {
-   editEmoloyee
+   editEmoloyee,
+   setVisibleFlag
 }
 
 

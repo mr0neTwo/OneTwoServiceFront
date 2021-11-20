@@ -143,40 +143,43 @@ export const sales = [
 
 export const finance = [
    {
-      value: 'make_income', // не реализовано
+      value: 'make_income', 
       description: 'Может вносить деньги'
    },{
-      value: 'move_money', // не реализовано
+      value: 'move_money',
       description: 'Может перемещать деньги'
    },{
-      value: 'make_expenditure', // не реализовано
+      value: 'make_expenditure',
       description: 'Может расходовать деньги'
    },{
-      value: 'backdating', // не реализовано
+      value: 'backdating',
       description: 'Может вносить, перемещать и расходовать деньги задним числом'
    },{
-      value: 'see_moving_money', // не реализовано
+      value: 'see_moving_money',
       description: 'Может видеть движение денег'
    },{
-      value: 'see_moving_money_all_time', // не реализовано
+      value: 'see_moving_money_all_time',
       description: 'Может видеть движение денег за произвольный период дат'
    },{
-      value: 'delete_payments', // не реализовано
+      value: 'delete_payments', 
       description: 'Может удалять операции в кассе'
    },{
-      value: 'print_moving_money', // не реализовано
-      description: 'Может печатать движение денег'
+      value: 'see_delete_payments', 
+      description: 'Может видеть удаленные операции в кассе'
+   },{
+      value: 'recover_payments', 
+      description: 'Может восстанавливать операции в кассе'
    },{
       value: 'print_moving_money', // не реализовано
       description: 'Может печатать движение денег'
    },{
-      value: 'see_remains', // не реализовано
+      value: 'see_remains',
       description: 'Может видеть остаток денег в кассе'
    },{
-      value: 'edit_cash', // не реализовано
+      value: 'edit_cash',
       description: 'Может создавать, редактировать и удалять кассы'
    },{
-      value: 'choose_emploees', // не реализовано
+      value: 'choose_emploees', 
       description: 'Может выбирать любого сотрудника из списка'
    },{
       value: 'invoices', // не реализовано
@@ -400,8 +403,20 @@ export const setting = [
       value: 'setting_employees',
       description: 'Сотрудники'
    },{
+      value: 'setting_see_employees',
+      description: 'Может видеть удаленных сотрудников'
+   },{
+      value: 'setting_recover_employees',
+      description: 'Может восстанавливать удаленнвх сотрдуников'
+   },{
       value: 'setting_branch',
       description: 'Локации'
+   },{
+      value: 'setting_see_branch',
+      description: 'Может видеть удаленные локации'
+   },{
+      value: 'setting_recover_branch',
+      description: 'Может восстанавливать удаленные локации'
    },{
       value: 'setting_warehouse',
       description: 'Склады'
@@ -429,6 +444,12 @@ export const setting = [
    },{
       value: 'setting_book',
       description: 'Справочники'
+   },{
+      value: 'setting_see_equipment',
+      description: 'Может видеть удаленные изделия'
+   },{
+      value: 'setting_recover_equipment',
+      description: 'Может восстанавливать удаленные изделия'
    },{
       value: 'setting_template',
       description: 'Шаблоны документов'

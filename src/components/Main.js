@@ -3,7 +3,7 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 
 
-import { addMenuRows, addEmplooys, addStatus } from '../Redux/actions';
+import { addMainData, addEmployees, addStatus, addData } from '../Redux/actions';
 
 import Sidebar from './sidebar/Sidebar';
 import Orders from './orders/Orders';
@@ -21,14 +21,17 @@ import Settings from './Settings/Settings';
 
 
 
-
 function Main(props) {
 
     // Загружаем строки меню в State
     useEffect(() => {
-        props.addEmplooys()
+        props.addMainData()
+        props.addEmployees()
         props.addStatus()
     }, [])
+    useEffect(() => {
+        props.addData(props.branches.filter(branch => branch.employees.includes(props.user_id))[0], 'current_branch')
+    }, [props.branches])
 
 
     
@@ -56,10 +59,17 @@ function Main(props) {
     )
 }
 
+const mapStateToProps = state => ({
+    statusCreateNewClient: state.view.statusCreateNewClient,
+    user_id: state.data.user.id,
+    branches: state.data.branches
+})
 
   const mapDispatchToProps = {
-    addEmplooys,
-    addStatus
+    addEmployees,
+    addStatus,
+    addMainData,
+    addData
   }
 
-export default connect(null, mapDispatchToProps)(withRouter(Main))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main))

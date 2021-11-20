@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import CustomFilter from './CustomFilter'
 import SetFilter from './setCustomFilter/SetFilter'
-import { changeSetStatusFilter, changeStatusNewOrder } from '../../Redux/actions'
+import { changeSetStatusFilter, setVisibleFlag } from '../../Redux/actions'
 import NewOrder from './newOrder/NewOrder'
 
 const CustomPanel = (props) => {
@@ -14,7 +14,7 @@ const CustomPanel = (props) => {
             <div 
             className='greenButton h27'
             style={props.permissions.includes('create_orders') ?  null : {display: 'none'}}
-            onClick = {()=> props.changeStatusNewOrder()}>
+            onClick = {()=> props.setVisibleFlag('statusNewOrder', true)}>
                   + Заказ 
             </div>
             {props.statusNewOrder ? <NewOrder/> : null}
@@ -64,7 +64,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
    changeSetStatusFilter,
-   changeStatusNewOrder
+   setVisibleFlag
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(CustomPanel)

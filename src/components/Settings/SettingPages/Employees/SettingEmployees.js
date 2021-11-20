@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { changeStatusCteateNewRole, addDiscountMargin, addRoles, changeStatusEmployeeEditor, changeShowDeleted } from '../../../../Redux/actions'
+import { setVisibleFlag, addDiscountMargin, addRoles, changeShowDeleted, resetEmoloyee } from '../../../../Redux/actions'
+import Checkbox from '../../../general/Checkbox'
 import EmploeeyEditor from './EmploeeyEditor'
 import RoleEditor from './RoleEditor'
 import TableEmployees from './TableEmployees'
@@ -28,7 +29,7 @@ const SettingEmployees = (props) => {
 
         <div 
         className='greenButton'
-        onClick={() => props.changeStatusCteateNewRole()}
+        onClick={() => props.setVisibleFlag('statusCreateNewRole', true)}
         > 
           + Роль
         </div>
@@ -43,18 +44,19 @@ const SettingEmployees = (props) => {
         <div className='buttons'>
             <div 
             className='greenButton'
-            onClick={() => props.changeStatusEmployeeEditor()}
+            onClick={() => {
+              props.resetEmoloyee()
+              props.setVisibleFlag('statusEmployeeEditor', true)
+            }}
             >
               + Сотрудник
             </div>
-            <div className='checkbox'>
-              <input
-                type='checkbox'
-                onChange={() => props.changeShowDeleted()}
-                checked={props.showDeleted}
-              />
-              <label>Показать удаленных</label>
-            </div>
+            {props.permission.includes('setting_see_employees') ?
+              <Checkbox
+              label='Показать удаленных'
+              onChange={() => props.changeShowDeleted()}
+              checked={props.showDeleted}
+            /> : null}
         </div>
 
         {props.statusEmployeeEditor ? <EmploeeyEditor/> : null}
@@ -77,11 +79,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  changeStatusCteateNewRole,
+  setVisibleFlag,
   addDiscountMargin,
   addRoles,
-  changeStatusEmployeeEditor,
-  changeShowDeleted
+  changeShowDeleted,
+  resetEmoloyee
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingEmployees)

@@ -3,6 +3,7 @@ import MenuGroup from './MenuGroup';
 import LogoUser from './LogoUser';
 import { connect } from 'react-redux'
 import  Loader  from '../Loader/Loader';
+import ChooseBranch from './ChooseBranch';
 
 function Sidebar(props) {
 
@@ -15,9 +16,11 @@ function Sidebar(props) {
     const setting_menu = props.menuRows.filter(row => 
         row.group_name === 'setting_menu' && row.permission_keys.some(key => props.permission.includes(key)))
    
+
     return (
         <div className = 'sidebarMain'> 
             <LogoUser/>
+           {props.current_branch ? <ChooseBranch/> : <Loader/>}
             <hr className = 'hrMenu' />
 
         {generally_menu.length ? 
@@ -41,7 +44,8 @@ function Sidebar(props) {
 
 const mapStateToProps = state => ({
     menuRows: state.data.menuRows,
-    permission: state.data.user.role.permissions
+    permission: state.data.user.role.permissions,
+    current_branch: state.data.current_branch
   })
    
 export default connect(mapStateToProps)(Sidebar)

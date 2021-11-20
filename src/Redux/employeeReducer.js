@@ -2,6 +2,7 @@ const initialState = {
   tabs: 1,
   edit: 0,
   showDeleted: false,
+  role_title: '',
 
   first_name: '',
   last_name: '',
@@ -11,8 +12,10 @@ const initialState = {
   login: '',
   password: '',
   role_id: 0,
+  permissions: [],
   inn: '',
-  doc_name: ''
+  doc_name: '',
+  deleted: false
 }
 
 export const employeeReduscer = (state = initialState, action) => {
@@ -25,7 +28,6 @@ export const employeeReduscer = (state = initialState, action) => {
          }
       }
 
-      
       case 'CHANGE_EMPLOYEE_EDITOR_FORM': {
          return {
             ...state, 
@@ -33,6 +35,20 @@ export const employeeReduscer = (state = initialState, action) => {
          }
       }
       
+      case 'CHOOSE_EMPLOYEE_SELECTED': {
+         if (action.value.every(val => state[action.field].includes(val))) {
+            return {
+               ...state, 
+               [action.field]: state[action.field].filter(val => !action.value.includes(val)),
+            }
+         } else {
+            return {
+               ...state, 
+               [action.field]: state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
+            }
+         }
+      }
+
       case 'SET_ROLE_EMPLOYEE_EDITOR': {
          return {
             ...state, 
@@ -44,22 +60,6 @@ export const employeeReduscer = (state = initialState, action) => {
          return {
             ...state, 
             showDeleted: !state.showDeleted
-         }
-      }
-      
-      case 'CHANGE_STATUS_EMPLOYEE_EDITOR': {
-         return {
-            ...state, 
-            edit: 0,
-            first_name: '',
-            last_name: '',
-            email: '',
-            notes: '',
-            phone: '',
-            login: '',
-            role_id: 0,
-            inn: '',
-            doc_name: ''
          }
       }
 
@@ -75,8 +75,31 @@ export const employeeReduscer = (state = initialState, action) => {
             phone: action.employee.phone,
             login: action.employee.login,
             role_id: action.employee.role.id,
+            role_title: action.employee.role.title,
+            permissions: action.employee.permissions,
             inn: action.employee.inn,
-            doc_name: action.employee.doc_name
+            doc_name: action.employee.doc_name,
+            deleted: action.employee.deleted
+         }
+      }
+
+      case 'RESET_EMPLOYEE': {
+         return {
+            ...state, 
+            edit: 0,
+            first_name: '',
+            last_name: '',
+            email: '',
+            notes: '',
+            phone: '',
+            login: '',
+            password: '',
+            role_title: '',
+            role_id: 0,
+            permissions: [],
+            inn: '',
+            doc_name: '',
+            deleted: false
          }
       }
 

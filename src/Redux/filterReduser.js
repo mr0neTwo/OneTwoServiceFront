@@ -46,13 +46,18 @@ export const filterReducer = (state = initialState, action) => {
             status: action.status.map(status => status.id),
            }}
 
-      case 'ADD_ORDER_TYPE': {
-      return {
-            ...state, 
-            order_type_id: action.order_type.map(type => type.id)
-      }}
+      case 'ADD_DATA': {
+         if (action.field === 'order_type') {
+            return {
+                  ...state, 
+                  order_type_id: action.data.map(type => type.id)
+            }
+         } else {
+            return state
+         }
+      }
 
-      case 'ADD_EMPLOOYS': {
+      case 'ADD_EMPLOYEES': {
          return {
             ...state, 
             employees: action.employees.map(employee => employee.id),
@@ -296,8 +301,19 @@ export const filterReducer = (state = initialState, action) => {
          ...state,
          clientFilter: {
             ...state.clientFilter,
-            name: action.word
+            name: action.word,
+            phone: ''
          }}}
+
+         
+      case 'CHANGE_PHONE_CLIENTFILTER': {
+         return {
+            ...state,
+            clientFilter: {
+               ...state.clientFilter,
+               phone: action.word.replace(/[^0-9]/g, ''),
+               name: ''
+            }}}
 
       case 'CHANGE_CREATE_AT_MAINFILTER': {
          return {

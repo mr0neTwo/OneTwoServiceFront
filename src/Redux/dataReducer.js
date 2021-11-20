@@ -8,9 +8,10 @@ const initialState = {
   count_clients: 0,
   menuRows: data_menu_rows,
   settingMenu: data_setting_menu,
+  payments: [],
 
   employees: [],
-  user: {},
+  user: JSON.parse(sessionStorage.getItem('user')) || {},
   status: [],
   status_group: [],
   badges: [],
@@ -18,11 +19,26 @@ const initialState = {
   equipment: [],
   discount_margin: [],
   roles: [],
+  ad_campaign: [],
+  generally_info: {},
+  branches: [],
+  cashboxes: [],
 
-  token: '',
+  counters: [],
+  dictMalfunction: [],
+  count_malfunction: 0,
+  dictPackagelist: [],
+  count_packagelist: 0,
+  item_payments: [],
+  count_item_payments: 0,
+
+  current_branch: {},
+
+  token: sessionStorage.getItem('1xsndt') || '',
   login_status: false,
   url_server: 'http://192.168.1.48:5005'
   // url_server: 'http://192.168.43.224:5005'
+  // url_server: 'http://172.16.6.217:5005/' 
   
 }
 
@@ -76,7 +92,7 @@ export const dataReducer = (state = initialState, action) => {
           count_clients: action.count
         }}
     
-    case 'ADD_EMPLOOYS': {
+    case 'ADD_EMPLOYEES': {
       return {
          ...state, 
          employees: action.employees,
@@ -95,11 +111,6 @@ export const dataReducer = (state = initialState, action) => {
           badges: action.badges
       }}
 
-    case 'ADD_ORDER_TYPE': {
-      return {
-          ...state, 
-          order_type: action.order_type
-      }}
 
     case 'ADD_EQUIPMENT': {
       return {
@@ -143,6 +154,31 @@ export const dataReducer = (state = initialState, action) => {
           ...state, 
           roles: action.roles,
         }}
+
+    case 'ADD_AD_CAMPAIGN': {
+      return {
+          ...state, 
+          ad_campaign: action.ad_campaign,
+        }
+      }
+
+        
+    case 'ADD_DATA': {
+      return {
+          ...state, 
+          [action.field]: action.data,
+        }
+      }
+
+        case 'ACTIVE_CASHBOX': {
+          return {
+              ...state, 
+              cashboxes: state.cashboxes.map(cashbox => {
+                cashbox.active = cashbox.id === action.id ? true : false
+                return cashbox
+              }),
+            }
+          }
 
     default:
       return state

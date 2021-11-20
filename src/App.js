@@ -6,10 +6,9 @@ import { connect } from "react-redux";
 import Login from './components/Login'
 
 
-function App({login_status}) {
+function App(props) {
 
-
-  if (login_status) {
+  if (props.token) {
     return (<Main/>)
   }
   return (<Login/>)
@@ -17,7 +16,7 @@ function App({login_status}) {
 }
 
 const mapStateToProps = state => ({
-  login_status: state.data.login_status,
+  token: state.data.token,
 })
 
 export default connect(mapStateToProps) (App);
