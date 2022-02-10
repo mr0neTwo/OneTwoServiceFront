@@ -7,11 +7,12 @@ import Header from './Header'
 import Filters from './Filters'
 import TableOrders from './TableOrdrers'
 import Loader from '../Loader/Loader'
-import { addOrders, changePageAction, addBaggesAction, addStatusGroupAction, addCustomFilters, addAdCampaign, addEquipment } from '../../Redux/actions'
+import OrderEditor from './newOrder/OrderEditor'
+import { addOrders } from '../../Redux/actions/orderActions'
+import { changePageAction, addBaggesAction, addStatusGroupAction, addCustomFilters, addAdCampaign, addEquipment } from '../../Redux/actions'
 import CustomPanel from './CustomPanel'
 
 function Orders(props) {
-
 
 
 // Загружаем заказы
@@ -19,7 +20,7 @@ useEffect(() => {
   props.addStatusGroup()
   props.addCustomFilters()
   props.addAdCampaign()
-  props.addEquipment()
+  // props.addEquipment()
 }, [])
 
 
@@ -60,6 +61,7 @@ const pageChangeHandler = (page) => {
               Всего - { props.count }
             </div>
         </div>
+        {props.statusOrderEditor ? <OrderEditor/> : null}
     </div>
   )
 }

@@ -109,3 +109,13 @@ const ChooseOfListMany = (props) => {
   
  export default ChooseOfListMany
 
+// id='id'
+// className='className'
+// width='250px'
+// title='title'
+// mainLable='mainLable'
+// list={props.list}
+// checked_list={props.checked_list}
+// func={() => console.log('choose element')}
+// employee={false}
+// disabled={props.disabled}

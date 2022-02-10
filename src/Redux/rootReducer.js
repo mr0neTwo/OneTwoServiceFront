@@ -1,16 +1,22 @@
 import { combineReducers } from 'redux'
-import { dataReducer } from './dataReducer'
-import { visualReducer } from './visualReducer'
-import { filterReducer } from './filterReduser'
-import { roleReducer } from './roleReducer'
-import { employeeReduscer } from './employeeReducer'
-import { orderReducer } from './orderReducer'
-import { clientReducer } from './clientReducer'
-import { maindataReducer } from './maindataReducer'
-import { branchReducer } from './branchReducer'
-import { bookReducer } from './bookReducer'
-import { cashboxReducer } from './cashboxReducer'
-import { paymentReducer } from './paymentReducer'
+
+import { dataReducer } from './reducers/dataReducer'
+import { visualReducer } from './reducers/visualReducer'
+import { filterReducer } from './reducers/filterReduser'
+import { roleReducer } from './reducers/roleReducer'
+import { employeeReduscer } from './reducers/employeeReducer'
+import { orderReducer } from './reducers/orderReducer'
+import { clientReducer } from './reducers/clientReducer'
+import { maindataReducer } from './reducers/maindataReducer'
+import { branchReducer } from './reducers/branchReducer'
+import { bookReducer } from './reducers/bookReducer'
+import { cashboxReducer } from './reducers/cashboxReducer'
+import { paymentReducer } from './reducers/paymentReducer'
+import { salaryRuleReducer } from './reducers/salaryRuleReducer'
+import { priceReducer } from './reducers/priceReducer'
+import { dictServiceReducer } from './reducers/dictServiceReducer'
+import { operationReducer } from './reducers/operationReducer'
+import { payrollReducer } from './reducers/payrollReducer'
 
 
 
@@ -26,5 +32,10 @@ export const rootReducer = combineReducers({
    branch: branchReducer,
    book: bookReducer,
    cashbox: cashboxReducer,
-   payment: paymentReducer
+   payment: paymentReducer,
+   salaryRule: salaryRuleReducer,
+   price: priceReducer,
+   dictService: dictServiceReducer,
+   operation: operationReducer,
+   payroll: payrollReducer
 })

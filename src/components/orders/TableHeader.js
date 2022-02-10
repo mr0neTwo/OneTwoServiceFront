@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { changeSortAction, addOrders } from '../../Redux/actions'
+
+import { changeSortAction } from '../../Redux/actions'
 
 
 function TableHeader(props) {
@@ -56,7 +57,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   changeSort: changeSortAction,
-  addOrders
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (TableHeader)

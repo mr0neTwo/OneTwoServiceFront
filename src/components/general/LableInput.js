@@ -51,4 +51,5 @@ const mapDispatchToProps = {
 //  checkedFlag=''
 //  checked={}
 //  disabled={}
+//  redStar={false}
 //  errorMassage=''

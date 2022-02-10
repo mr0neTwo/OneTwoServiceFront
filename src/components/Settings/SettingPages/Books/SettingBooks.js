@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { changeBookForm, addEquipment, addDictMalfunction, addDictPackagelist, addItemPayments } from '../../../../Redux/actions'
+import { addEquipment, addDictMalfunction, addDictPackagelist, addItemPayments } from '../../../../Redux/actions'
+import { changeBookForm } from '../../../../Redux/actions/bookActions'
 import BookEquipment from './BookEquipment'
 import MalfunctionBooks from './MalfunctionBooks'
 import PackagelistBook from './PackagelistBook'

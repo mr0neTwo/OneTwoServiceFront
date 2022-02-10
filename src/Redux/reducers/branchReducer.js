@@ -1,4 +1,4 @@
-import { icon_location } from "../data/icons"
+import { icon_location } from "../../data/icons"
 
 const initialState = {
    name: '',

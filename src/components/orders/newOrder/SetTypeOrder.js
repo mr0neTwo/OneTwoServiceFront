@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { changeTypeListOrder, setOrderType } from '../../../Redux/actions'
+import { changeOrderFormS } from '../../../Redux/actions'
 
 const SetTypeOrder = (props) => {
+
+  const [listVisible, setlistVisible] = useState(false)
 
    const clickHandel = (event) => {
 
@@ -11,8 +13,8 @@ const SetTypeOrder = (props) => {
           !event.path.map(el => el.id).includes('listOrderOfType') && 
           !event.path.map(el => el.id).includes('optionsOrderButtonOfType')
       ) {
-         if (props.statusTypeListOrder) {
-          props.changeTypeListOrder()
+         if (listVisible) {
+          setlistVisible(false)
       }}
     }
    
@@ -25,19 +27,19 @@ const SetTypeOrder = (props) => {
 
 
    return (
-    <div className='formRow'>
+    <div className='formRow mt15'>
 
       <div className='optionsTitle'>Тип заказа</div>
       <div className='blockImput'>
         <div 
-        className='optionsFilterButton w150'
-        id='optionsOrderButtonOfType'
-        onClick={() => props.changeTypeListOrder()}
+          className='optionsFilterButton w150'
+          id='optionsOrderButtonOfType'
+          onClick={() => setlistVisible(true)}
         > 
           <span>{props.order_type.find(type => type.id === props.order_type_id).name}</span>  
           <span>&#6662;</span> 
         </div>
-        {props.statusTypeListOrder ? <div className='listFilter' id='listOrderOfType'>
+        {listVisible ? <div className='listFilter' id='listOrderOfType'>
 
             {props.order_type.map(type => {
               return (
@@ -45,7 +47,10 @@ const SetTypeOrder = (props) => {
                 <div className='listTitle' key={type.id}>
                     <div 
                     className='rowList'
-                    onClick={() => props.setOrderType(type.id)}
+                    onClick={() => {
+                      props.changeOrderFormS(type.id, 'order_type_id')
+                      setlistVisible(false)
+                    }}
                     >
                       {type.name}
                     </div>
@@ -60,15 +65,13 @@ const SetTypeOrder = (props) => {
 }
 
 const mapStateToProps = state => ({
-  statusTypeListOrder: state.view.statusTypeListOrder,
   order_type: state.data.order_type,
   order_type_id: state.order.order_type_id
 })
 
 
 const mapDispatchToProps = {
-  changeTypeListOrder,
-  setOrderType
+  changeOrderFormS
 }
   
 export default connect(mapStateToProps, mapDispatchToProps)(SetTypeOrder)

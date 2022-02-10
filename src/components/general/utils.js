@@ -26,3 +26,11 @@ export function showName (employee) {
 export function showDate (date) {
    return new Date(date * 1000).toLocaleString('ru', optionsShowDate).replace('г.,', '')
 }
+
+export function currentMonth() {
+   let today = new Date
+   let start_date = new Date
+   start_date.setDate(1)
+   start_date.setHours(0, 0, 0, 0)
+   return [parseInt(start_date / 1000), parseInt(today / 1000)]
+}

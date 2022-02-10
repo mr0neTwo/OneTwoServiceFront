@@ -2,10 +2,10 @@
 const initialState = {
    tabs: 0,
 
-   equipment_type: 0,
-   equipment_brand: 0,
-   equipment_subtype: 0,
-   equipment_model: 0,
+   equipment_type: {},
+   equipment_brand: {},
+   equipment_subtype: {},
+   equipment_model: {},
 
    title: '',
    icon: '',
@@ -27,6 +27,16 @@ const initialState = {
    selected_packagelist: [],
    page_item_payments: 0,
    selected_item_payments: [],
+
+   filter_type: '',
+   filter_brand: '',
+   filter_subtype: '',
+   filter_model: '',
+
+   page_type: 1,
+   page_brand: 1,
+   page_subtype: 1,
+   page_model: 1
 }
 
 export const bookReducer = (state = initialState, action) => {

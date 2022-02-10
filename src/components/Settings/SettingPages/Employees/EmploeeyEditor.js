@@ -6,8 +6,9 @@ import {
   setVisibleFlag,
   createEmployee,
   seveEditEmployee,
-  deleteEmployee,
+  deleteEmployee
 } from '../../../../Redux/actions'
+import { addPayrules } from '../../../../Redux/actions/payrulleAction'
 import EditEmployeeGenerally from './EditEmployeeGenerally'
 import EditEmployeePermission from './EditEmployeePermission'
 import BottomButtons from '../../../general/BottomButtons'
@@ -25,6 +26,10 @@ const EmploeeyEditor = (props) => {
       window.removeEventListener('click', clickHandel)
     }
   })
+
+  useEffect(() => {
+    props.addPayrules()
+  }, [])
 
   const hangleCreate = () => {
     if (
@@ -106,11 +111,7 @@ const EmploeeyEditor = (props) => {
           create={hangleCreate}
           save={hangleSave}
           delete={() => props.deleteEmployee(true)}
-          recover={
-            props.permissions.includes('setting_recover_employees')
-              ? () => props.deleteEmployee(false)
-              : null
-          }
+          recover={ props.permissions.includes('setting_recover_employees') ? () => props.deleteEmployee(false) : null}
           close={() => props.setVisibleFlag('statusEmployeeEditor', false)}
           deleted={props.employee.deleted}
         />
@@ -132,6 +133,7 @@ const mapDispatchToProps = {
   createEmployee,
   seveEditEmployee,
   deleteEmployee,
+  addPayrules
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmploeeyEditor)

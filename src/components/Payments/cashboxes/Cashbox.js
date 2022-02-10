@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { icone_sphere, icone_setting } from '../../../data/icons'
 import { activeCashbox, editCashbox, setVisibleFlag, changePaymentForm, changeCashboxForm } from '../../../Redux/actions'
+import Button from '../../general/Button'
 import Icon from '../../general/Icon'
 
 
@@ -61,31 +62,29 @@ const Cashbox = (props) => {
          {showBalance ? 
          <div className='cacsboxBalance'>{`${parseFloat(props.cashbox.balance).toFixed(2)} руб.`}</div> : null}
          <div className='row jc-c'>
-            {income ? 
-            <button 
+            <Button
+               title='+ Приход'
                className={props.cashbox.deleted ? 'whiteButton m10' : 'greenButton m10'}
                onClick={() => {
                   props.changePaymentForm(2, 'direction')
                   props.setVisibleFlag('statusPaymentsEditor', true)
                }}
                disabled={props.cashbox.deleted}
-            >
-               + Приход
-            </button> : null}
-            {outcome ? 
-            <button 
+               unvisible={!income}
+            />
+            <Button
+               title='- Расход'
                className={props.cashbox.deleted ? 'whiteButton m10' : 'greenButton bcr m10'}
                onClick={() => {
                   props.changePaymentForm(1, 'direction')
                   props.setVisibleFlag('statusPaymentsEditor', true)
                }}
                disabled={props.cashbox.deleted}
-            >
-               - Расход
-            </button> : null}
+               unvisible={!outcome}
+            /> 
          </div>
-         {move ? 
-         <button 
+         <Button
+            title='Перемещение'
             className='whiteButton'
             onClick={() => {
                props.changePaymentForm(0, 'direction')
@@ -93,9 +92,8 @@ const Cashbox = (props) => {
                props.setVisibleFlag('statusPaymentsEditor', true)
             }}
             disabled={props.cashbox.deleted}
-         >
-            Перемещение
-         </button> : null}
+            unvisible={!move}
+         /> 
       </div>
    )
 }

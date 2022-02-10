@@ -13,10 +13,7 @@ const initialState = {
    statusCreateNewRole: false,
    statusEmployeeEditor: false,
    employeeEditorRoleOptions: false,
-   statusNewOrder: false,
-   statusTypeListOrder: false,
-   statusClientListOrder: false,
-   statusClientListOrderPhone: false,
+   statusOrderEditor: false,
    statusCreateNewClient: false,
    statusAdCampaignClient: false,
    checkedOrderClient: false,
@@ -28,7 +25,14 @@ const initialState = {
    statusCashboxEmployeeEditor: false,
    statusPaymentsEditor: false,
    statusPaymentsCard: false,
-   
+   statusStatusList: false,
+   statusSalaryEditor: false,
+   statusPriceEditor: false,
+   statusGroupServiceEditor: false,
+   statusServiceEditor: false,
+   statusOperationEditor: false,
+   statusPayrollEditor: false,
+   statusCellEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -56,6 +60,17 @@ const initialState = {
    inputPaymentCashboxChecked: true,
    inputPaymentEmployeeChecked: true,
    inputPaymentSumChecked: true,
+   inputPriceTitleChecked: true,
+   inputDictServiceChecked: true,
+   inputServiceTitleChecked: true,
+   inputServiceCategoryIdChacked:true,
+   inputServicePriceChacked:true,
+   inputOperationEngineerChacked: true,
+   inputOperationTitleChacked: true,
+   inputPayrollDescChecked: true,
+   inputPayrollEmployeeChecked: true,
+   inputPayrollSumChecked: true,
+   inputSingleMalfunctionChecked: true,
 
    errorSameMail: false,
    errorSameLogin: false
@@ -170,42 +185,7 @@ export const visualReducer = (state = initialState, action) => {
             inputEmployeeRoleChecked: true
          }
       }
-      
-      
-      case 'CHANGE_TYPE_LIST_ORDER': {
-         return {
-            ...state, 
-            statusTypeListOrder: !state.statusTypeListOrder,
-         }
-      }
-      
-      case 'SET_ORDER_TYPE': {
-         return {
-            ...state, 
-            statusTypeListOrder: false,
-         }
-      }
 
-      case 'CHANGE_CLIENT_LIST_ORDER': {
-         return {
-            ...state, 
-            statusClientListOrder: !state.statusClientListOrder,
-         }
-      }
-      
-      case 'SET_CLIENT_ID': {
-         return {
-            ...state, 
-            statusClientListOrder: false,
-         }
-      }
-
-      case 'CHANGE_CLIENT_LIST_ORDER_PHONE': {
-         return {
-            ...state, 
-            statusClientListOrderPhone: !state.statusClientListOrderPhone,
-         }
-      }
 
 
       case 'CHANGE_STATUS_AD_CAMPAIGN_CLIENT': {

@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 
 import {
   setVisibleFlag,
-  changeBookForm,
   chooseEquipmentBranches,
   createBookEquipment,
   seveEditEquipment,
   deleteEquipment,
 } from '../../../../Redux/actions'
+import { changeBookForm } from '../../../../Redux/actions/bookActions'
 
 import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'

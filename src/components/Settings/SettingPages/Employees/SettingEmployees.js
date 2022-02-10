@@ -28,8 +28,8 @@ const SettingEmployees = (props) => {
         <p>Роль — это список прав и возможностей сотрудника.</p>
 
         <div 
-        className='greenButton'
-        onClick={() => props.setVisibleFlag('statusCreateNewRole', true)}
+          className='greenButton'
+          onClick={() => props.setVisibleFlag('statusCreateNewRole', true)}
         > 
           + Роль
         </div>
@@ -53,9 +53,9 @@ const SettingEmployees = (props) => {
             </div>
             {props.permission.includes('setting_see_employees') ?
               <Checkbox
-              label='Показать удаленных'
-              onChange={() => props.changeShowDeleted()}
-              checked={props.showDeleted}
+                label='Показать удаленных'
+                onChange={() => props.changeShowDeleted()}
+                checked={props.showDeleted}
             /> : null}
         </div>
 

@@ -1,30 +1,35 @@
-
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { changeGroupListFilter, changeGroupMainFilter, addEquipmentSubtype, setOrderEquipment, resetEquipment, setVisibleListFlag} from '../../../Redux/actions'
+import { setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS } from '../../../Redux/actions'
+import { cteateEquipmentSubtype, changeBookForm, addEquipmentSubtype } from '../../../Redux/actions/bookActions'
 import { icon_close } from '../../../data/icons'
 
 const SetOrderSubtype = (props) => {
-
   const [visibleList, setVisibleList] = useState(false)
   const [visibleBotton, setVisisbleBotton] = useState(false)
-  const [title, setTitle] = useState('')
 
-  const disabled = !Object.values(props.order.equipments[props.idx].brand).length
-  const seted = !!Object.values(props.order.equipments[props.idx].subtype).length
+  useEffect(() => {
+    if (Object.values(props.book.equipment_brand).length) props.addEquipmentSubtype()
+  }, [props.book.equipment_brand, props.book.filter_subtype])
+
+  const edit = props.order.edit
+  const subtype = edit ? props.order.subtype : props.order.equipments[props.idx].subtype
+  const disabled = !Object.values(props.book.equipment_brand).length
+  const seted = !!Object.values(subtype).length
 
   const clickHandel = (event) => {
     if (
-       !event.path.map(el => el.id).includes('listOrderOfSubtype') &&
-       !event.path.map(el => el.id).includes('optionsOrderTextOfSubtype')
-       ) {
-       if (visibleList) {
+      !event.path.map((el) => el.id).includes('listOrderOfSubtype') &&
+      !event.path.map((el) => el.id).includes('optionsOrderTextOfSubtype')
+    ) {
+      if (visibleList) {
         setVisibleList(false)
         setVisisbleBotton(false)
-    }}
+      }
+    }
   }
- 
+
   useEffect(() => {
     window.addEventListener('click', clickHandel)
     return () => {
@@ -32,97 +37,108 @@ const SetOrderSubtype = (props) => {
     }
   })
 
+  const reset = () => {
+    if (edit) {
+      props.changeOrderFormS({}, 'subtype')
+      props.changeOrderFormS({}, 'model')
+    } else {
+      props.resetEquipment(props.idx, 'subtype')
+      props.resetEquipment(props.idx, 'model')
+    }
+    props.changeBookForm({}, 'equipment_subtype')
 
-   return (
+  }
+
+  const setSubtype = (idx, subtype) => {
+    edit ? props.changeOrderFormS(subtype, 'subtype') :props.setOrderEquipment(idx, 'subtype', subtype)
+    props.changeBookForm(subtype, 'equipment_subtype')
+    setVisibleList(false)
+    setVisisbleBotton(false)
+    props.setVisibleListFlag('checkedOrderSubtype', props.idx, true)
+    props.changeBookForm('', 'filter_subtype')
+  }
+
+  return (
     <>
-    
-      <button 
+      <button
         className={disabled ? 'optionsUnavaliable' : 'optionsFilterText'}
-        id='optionsOrderTextOfSubtype'
+        id="optionsOrderTextOfSubtype"
         onClick={() => setVisibleList(true)}
         disabled={disabled || seted}
-        style={!props.view.checkedOrderSubtype[props.idx] ? {borderColor: 'red'} : null}
-      > 
-        <input 
-        className={disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
-        onChange={event => setTitle(event.target.value)}
-        placeholder='Выбирете модуль / серию'
-        value={seted ? props.order.equipments[props.idx].subtype.title : title}
-        disabled={disabled || seted}
+        style={ !props.view.checkedOrderSubtype[props.idx] ? { borderColor: 'red' } : null}
+      >
+        <input
+          className={disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
+          onChange={event => props.changeBookForm(event.target.value, 'filter_subtype')}
+          placeholder="Выбирете модуль / серию"
+          value={seted ? subtype.title : props.book.filter_subtype}
+          disabled={disabled || seted}
         />
-        {seted ?
-        <svg 
-          className="icon-close"  
-          viewBox="0 0 22 22"
-          onClick={() => {
-             props.resetEquipment(props.idx, 'subtype')
-             props.resetEquipment(props.idx, 'model')
-            }}
-        >
-          <path d={icon_close}/>
-        </svg> :
-        <span>&#6662;</span> }
+        {seted ? 
+          <svg className="icon-close" viewBox="0 0 22 22" onClick={reset}>
+            <path d={icon_close} />
+          </svg> : <span>&#6662;</span>
+        }
       </button>
-      {!props.view.checkedOrderSubtype[props.idx] ? <div className='errorMassageInput'>{'Необоходимо выбрать из списка'}</div> : null}
-      {visibleList && !disabled  ? <div className='listFilter' id='listOrderOfSubtype'>
-        {props.equipment.find(group => group.id === props.order.equipments[props.idx].kindof_good.id).equipment_brand
-        .find(brand => brand.id === props.order.equipments[props.idx].brand.id).equipment_subtype
-        .map(subtype => {
-      
-        return (
-          subtype.title.toLowerCase().includes(title.toLowerCase()) ? 
-          <div
-          key={subtype.id} 
-          className='rowGropList'
-          onClick={() => {
-            props.setOrderEquipment(props.idx, 'subtype', subtype)
-            setVisibleList(false)
-            setVisisbleBotton(false)
-            props.setVisibleListFlag('checkedOrderSubtype', props.idx, true)
-          }}
-          >
-            {subtype.title}
-          </div> : null
-        )})}
-        <div className='btmsts'>
-        {visibleBotton ? 
-        <input 
-          className='optionFilterInput'
-          autoFocus
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') { 
-              props.addEquipmentSubtype(props.idx, event.target.value)
-              setVisisbleBotton(false)
-            } 
-          }}
-          placeholder = 'Введите и нажмиете Enter' 
-        /> :
-        <div 
-          className='btnstsTitle'
-          onClick={() => setVisisbleBotton(true)}
-        >
-          Добавить модуль / серию
-        </div>}
+      {!props.view.checkedOrderSubtype[props.idx] ?  <div className="errorMassageInput">{'Необоходимо выбрать из списка'}</div> : null}
+      {visibleList && !disabled ? (
+        <div className="listFilter" id="listOrderOfSubtype">
+          {props.equipment_subtypes.map((subtype) => {
+              return (
+                <div
+                  key={subtype.id}
+                  className="rowGropList"
+                  onClick={() => setSubtype(props.idx, subtype)}
+                >
+                  {subtype.title}
+                </div>
+              )
+            })}
+          <div className="btmsts">
+            {visibleBotton ? (
+              <input
+                className="optionFilterInput"
+                autoFocus
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    props.cteateEquipmentSubtype(props.idx, event.target.value)
+                    props.changeBookForm(event.target.value, 'filter_subtype')
+                    // props.addEquipmentSubtype()
+                    setVisisbleBotton(false)
+                  }
+                }}
+                placeholder="Введите и нажмиете Enter"
+              />
+            ) : (
+              <div
+                className="btnstsTitle"
+                onClick={() => setVisisbleBotton(true)}
+              >
+                Добавить модуль / серию
+              </div>
+            )}
+          </div>
         </div>
-
-      </div> : null}
-      </>
-   )
+      ) : null}
+    </>
+  )
 }
 
-const mapStateToProps = state => ({
-  equipment: state.data.equipment,
+const mapStateToProps = (state) => ({
+  equipment_subtypes: state.data.equipment_subtypes,
   order: state.order,
-  view: state.view
+  view: state.view,
+  book: state.book
 })
 
 const mapDispatchToProps = {
-  changeGroupListFilter,
-  changeGroupMainFilter,
-  addEquipmentSubtype,
+  cteateEquipmentSubtype,
   setOrderEquipment,
   resetEquipment,
-  setVisibleListFlag
+  setVisibleListFlag,
+  changeOrderFormS,
+  changeBookForm,
+  addEquipmentSubtype
 }
-  
- export default connect(mapStateToProps, mapDispatchToProps)(SetOrderSubtype)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SetOrderSubtype)

@@ -5,6 +5,7 @@ import { changeCashboxForm  } from '../../Redux/actions'
 
 import Tabs from '../general/Tabs'
 import Cashboxes from './cashboxes/Cashboxes'
+import Salaries from './salaries/Salaries'
 
 const Payments = (props) => {
 
@@ -23,13 +24,14 @@ const Payments = (props) => {
       </div>
 
       <Tabs
-        list={ ['Платежи', 'Взаиморасчеты', 'Счета'] }
+        list={ ['Платежи', 'Взаиморасчеты', 'Счета', 'Зарплаты'] }
         func={props.changeCashboxForm}
         tab={props.tabs}
       />
          {props.tabs === 0 ? <Cashboxes/>: null}
          {props.tabs === 1 ? null : null}
          {props.tabs === 2 ? null : null}
+         {props.tabs === 3 ? <Salaries/> : null}
 
 
     </div>

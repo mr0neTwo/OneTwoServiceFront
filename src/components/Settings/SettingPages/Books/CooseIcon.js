@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import { changeBookForm } from '../../../../Redux/actions'
+import { changeBookForm } from '../../../../Redux/actions/bookActions'
 
 const ChooseIcon = (props) => {
   const [icons, setIcons] = useState(false)

@@ -1,20 +1,24 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import InputMask from 'react-input-mask'
 
-import { changeClienListOrder, setClientId, changeNameClientFilter, changeClienListOrderPhone, changePhoneClientFilter, setVisibleFlag } from '../../../Redux/actions'
+import { changeNameClientFilter, changePhoneClientFilter, setVisibleFlag, changeOrderFormS } from '../../../Redux/actions'
 import { showPhone } from '../../general/utils'
 import ClientEditor from '../../Clients/ClientEditor/ClientEditor'
+import InputPhone from '../../general/InputPhone'
 
 const SetClient = (props) => {
+
+   const [listClientsVisible, setListClientsVisible] = useState(false)
+   const [listClientsPhoneVisible, setListClientsPhoneVisible] = useState(false)
 
    const clickHandel1 = (event) => {
       if (
          !event.path.map(el => el.id).includes('listFilterOfOrOrder') &&
          !event.path.map(el => el.id).includes('orderInputBoxOfOrder')
          ) {
-         if (props.view.statusClientListOrder) {
-          props.changeClienListOrder()
+         if (listClientsVisible) {
+            setListClientsVisible(false)
       }}
     }
 
@@ -23,8 +27,8 @@ const SetClient = (props) => {
          !event.path.map(el => el.id).includes('orderInputBoxOfOrderPhone') &&
          !event.path.map(el => el.id).includes('listFilterOfOrOrderPhone')
          ) {
-         if (props.view.statusClientListOrderPhone) {
-          props.changeClienListOrderPhone()
+         if (listClientsPhoneVisible) {
+            setListClientsPhoneVisible(false)
       }}
     }
    
@@ -49,7 +53,7 @@ const SetClient = (props) => {
                <div 
                   id='orderInputBoxOfOrder'
                   className='orderInputBox'
-                  onClick={() => props.changeClienListOrder()}
+                  onClick={() => setListClientsVisible(true)}
                   style={props.view.checkedOrderClient ? {borderColor: 'red'} : null}
                >
                   <input
@@ -58,8 +62,8 @@ const SetClient = (props) => {
                      // onBlur={() => props.setVisibleFlag('checkedOrderClient', !Object.values(props.client).length)}
                   />
                   <div 
-                  className='simbolButton'
-                  onClick={() => props.setVisibleFlag('statusCreateNewClient', true)}
+                     className='simbolButton'
+                     onClick={() => props.setVisibleFlag('statusCreateNewClient', true)}
                   >
                      +
                   </div>
@@ -67,13 +71,16 @@ const SetClient = (props) => {
                </div>
                {props.view.checkedOrderClient ? <div className='errorMassageInput'>{'Необоходимо выбрать клиента'}</div> : null}
 
-               {props.view.statusClientListOrder ? 
+               {listClientsVisible ? 
                <div className='listFilter' id='listFilterOfOrOrder'>
                {props.clientShow.map(client => (
                   <div 
                      className='rowGropList' 
                      key={client.id}
-                     onClick={() => props.setClientId(client)}
+                     onClick={() => {
+                        props.changeOrderFormS(client, 'client')
+                        setListClientsVisible(false)
+                     }}
                   >
                      <div>{client.name}</div>
                      <div className='orderDate'>
@@ -94,7 +101,7 @@ const SetClient = (props) => {
                   <div 
                      id='orderInputBoxOfOrderPhone'
                      className='orderInputBox'
-                     onClick={() => props.changeClienListOrderPhone()}
+                     onClick={() => setListClientsPhoneVisible(true)}
                   >
                      <InputMask 
                         mask="+7(999) 999-99-99"
@@ -103,8 +110,8 @@ const SetClient = (props) => {
                         value={props.phone}
                      />
                      <div 
-                     className='simbolButton'
-                     onClick={() => props.setVisibleFlag('statusCreateNewClient', true)}
+                        className='simbolButton'
+                        onClick={() => props.setVisibleFlag('statusCreateNewClient', true)}
                      >
                         +
                      </div>
@@ -113,13 +120,16 @@ const SetClient = (props) => {
 
                  
 
-                  {props.view.statusClientListOrderPhone ? 
+                  {listClientsPhoneVisible ? 
                   <div className='listFilter' id='listFilterOfOrOrderPhone'>
                   {props.clientShow.map(client => (
                      <div 
                         className='rowGropList' 
                         key={client.id}
-                        onClick={() => props.setClientId(client)}
+                        onClick={() => {
+                           props.changeOrderFormS(client, 'client')
+                           setListClientsPhoneVisible(false)
+                        }}
                      >
                         <div>{client.name}</div>
                         <div className='orderDate'>
@@ -146,12 +156,10 @@ const mapStateToProps = state => ({
    })
 
 const mapDispatchToProps = {
-   changeClienListOrder,
-   setClientId,
    changeNameClientFilter,
-   changeClienListOrderPhone,
    changePhoneClientFilter,
-   setVisibleFlag
+   setVisibleFlag,
+   changeOrderFormS
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(SetClient)

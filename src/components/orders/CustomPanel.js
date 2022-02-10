@@ -3,21 +3,30 @@ import { connect } from 'react-redux'
 
 import CustomFilter from './CustomFilter'
 import SetFilter from './setCustomFilter/SetFilter'
-import { changeSetStatusFilter, setVisibleFlag } from '../../Redux/actions'
-import NewOrder from './newOrder/NewOrder'
+import { changeSetStatusFilter, setVisibleFlag, changeOrderFormS } from '../../Redux/actions'
+import OrderEditor from './newOrder/OrderEditor'
+import { icon_table } from '../../data/icons'
 
 const CustomPanel = (props) => {
+
+   const newOrder = () => {
+      // if (!props.edit) {
+      //    props.changeOrderFormS(parseInt(Date.now() / 1000) + 4 * 24 * 3600, 'estimated_done_at')
+      //  }
+      props.changeOrderFormS(props.user.id, 'manager_id')
+      props.setVisibleFlag('statusOrderEditor', true)
+   }
 
    return (
       <div className='mainCustomPanel'>
          <div className='customPanel'>
             <div 
-            className='greenButton h27'
-            style={props.permissions.includes('create_orders') ?  null : {display: 'none'}}
-            onClick = {()=> props.setVisibleFlag('statusNewOrder', true)}>
+               className='greenButton h27'
+               style={props.permissions.includes('create_orders') ?  null : {display: 'none'}}
+               onClick = { newOrder }>
                   + Заказ 
             </div>
-            {props.statusNewOrder ? <NewOrder/> : null}
+            
             <div className='customFilters'>
                <div 
                className='customFilter'
@@ -35,12 +44,12 @@ const CustomPanel = (props) => {
                })}
             </div>
             <div 
-            className='chooseFieldButton'
-            onClick = {()=> console.log('ckick on "set table"')}
+               className='chooseFieldButton'
+               onClick = {()=> console.log('ckick on "set table"')}
             >
                <div className='cl11'>
                   <svg className="icon-table" viewBox="0 0 32 32">
-                     <path d="M0 2v28h32v-28h-32zM12 20v-6h8v6h-8zM20 22v6h-8v-6h8zM20 6v6h-8v-6h8zM10 6v6h-8v-6h8zM2 14h8v6h-8v-6zM22 14h8v6h-8v-6zM22 12v-6h8v6h-8zM2 22h8v6h-8v-6zM22 28v-6h8v6h-8z"></path>
+                     <path d={icon_table}></path>
                   </svg>
                </div>
                <div className='cl12'>
@@ -59,12 +68,15 @@ const mapStateToProps = state => ({
    customFilters: state.filter.customFilters,
    statusSetCustomFilter: state.view.statusSetCustomFilter,
    permissions: state.data.user.role.permissions,
-   statusNewOrder: state.view.statusNewOrder
+   statusOrderEditor: state.view.statusOrderEditor,
+   user: state.data.user,
+   edit: state.order.edit
    })
 
 const mapDispatchToProps = {
    changeSetStatusFilter,
-   setVisibleFlag
+   setVisibleFlag,
+   changeOrderFormS
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(CustomPanel)

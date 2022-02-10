@@ -5,6 +5,7 @@ const initialState = {
    supplier: false,
    conflicted: false,
    should_send_email: false,
+   deleted: false,
 
    name: '',
    name_doc: '',
@@ -22,6 +23,7 @@ const initialState = {
    discount_materials: 0,
    discount_materials_margin_id: 1,
    discount_services: 0,
+   discount_service_margin_id: 0,
    notes: '',
    tags: [],
    
@@ -37,6 +39,7 @@ const initialState = {
 
    discount_good_type: false,
    discount_materials_type: false,
+   discount_service_type: false,
 
    tabs: 1,
    phone_titles: ['Мобильный', 'Рабочий', 'Домашний'],
@@ -169,22 +172,6 @@ export const clientReducer = (state = initialState, action) => {
          }
       }
       
-      case 'SET_TYPE_DISCOUNT_GOOD': {
-
-         return {
-            ...state, 
-            discount_goods_margin_id: action.id
-         }
-      }
-
-      case 'SET_TYPE_DISCOUNT_MATERIALS': {
-
-         return {
-            ...state, 
-            discount_materials_margin_id: action.id
-         }
-      }
-      
       case 'ADD_CLIENT_TAG': {
 
          return {
@@ -211,6 +198,7 @@ export const clientReducer = (state = initialState, action) => {
             supplier: false,
             conflicted: false,
             should_send_email: false,
+            deleted: false,
 
             name: '',
             name_doc: '',
@@ -228,6 +216,7 @@ export const clientReducer = (state = initialState, action) => {
             discount_materials: 0,
             discount_materials_margin_id: 1,
             discount_services: 0,
+            discount_service_margin_id: 0,
             notes: '',
             tags: [],
             
@@ -243,6 +232,7 @@ export const clientReducer = (state = initialState, action) => {
 
             discount_good_type: false,
             discount_materials_type: false,
+            discount_service_type: false,
 
             edit: 0,
             tabs: 1,
@@ -268,6 +258,7 @@ export const clientReducer = (state = initialState, action) => {
             supplier: action.client.supplier,
             conflicted: action.client.conflicted,
             should_send_email: action.client.should_send_email,
+            deleted: action.client.deleted,
 
             name: action.client.name,
             name_doc: action.client.name_doc,
@@ -281,6 +272,7 @@ export const clientReducer = (state = initialState, action) => {
             discount_materials: action.client.discount_materials,
             discount_materials_margin_id: action.client.discount_materials_margin_id,
             discount_services: action.client.discount_services,
+            discount_service_margin_id: action.client.discount_service_margin_id,
             notes: action.client.notes,
             tags: action.client.tags,
             
@@ -296,6 +288,7 @@ export const clientReducer = (state = initialState, action) => {
 
             discount_good_type: action.client.discount_good_type,
             discount_materials_type: action.client.discount_materials_type,
+            discount_service_type: action.client.discount_service_type,
 
             edit: action.client.id,
             tabs: 1
@@ -310,6 +303,7 @@ export const clientReducer = (state = initialState, action) => {
             supplier: action.client.supplier,
             conflicted: action.client.conflicted,
             should_send_email: action.client.should_send_email,
+            deleted: action.client.deleted,
 
             name: action.client.name,
             name_doc: action.client.name_doc,
@@ -323,6 +317,7 @@ export const clientReducer = (state = initialState, action) => {
             discount_materials: action.client.discount_materials,
             discount_materials_margin_id: action.client.discount_materials_margin_id,
             discount_services: action.client.discount_services,
+            discount_service_margin_id: action.client.discount_service_margin_id,
             notes: action.client.notes,
             tags: action.client.tags,
             
@@ -338,6 +333,7 @@ export const clientReducer = (state = initialState, action) => {
 
             discount_good_type: action.client.discount_good_type,
             discount_materials_type: action.client.discount_materials_type,
+            discount_service_type: action.client.discount_service_type,
 
             edit: action.client.id,
             tabs: 1

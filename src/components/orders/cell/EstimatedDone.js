@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { icon_clock } from '../../../data/icons'
+import Icon from '../../general/Icon'
 
 const EstimatedDone = ({data : {estimated_done_at, overdue, status, remaining }}) => {
    
@@ -26,13 +28,11 @@ const EstimatedDone = ({data : {estimated_done_at, overdue, status, remaining }}
       <td>
       {/* Вывожу иконку времени с цветовой зависимостью от статуса и времени просрочки */}
       <div className="estimated-top">
-        <svg
-          className="clockEstimated"
-          viewBox="0 0 32 32"
-          style={{fill: (!overdue && status.group < 4) ? '#f0ad4e' : '#ebebeb'}}
-        >
-          <path d="M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM20.586 23.414l-6.586-6.586v-8.828h4v7.172l5.414 5.414-2.829 2.829z"></path>
-        </svg>
+        <Icon 
+          icon={icon_clock} 
+          className='clockEstimated'
+          color={(!overdue && status.group < 4) ? '#f0ad4e' : '#ebebeb'}
+        />
         {/* Вывожу разницу времени от создания до плановой даты готовности в днях или часах */}
         <span>{getDateEstimated(remaining, status.group)}</span>
       </div>

@@ -3,7 +3,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { changeBookForm, setVisibleFlag, resetBookEquipment, deleteBookElements, addDictPackagelist } from '../../../../Redux/actions'
+import { setVisibleFlag, resetBookEquipment, deleteBookElements, addDictPackagelist } from '../../../../Redux/actions'
+import { changeBookForm } from '../../../../Redux/actions/bookActions'
 
 import DictTable from './DictTable'
 import ElementEditor from './ElementEditor'

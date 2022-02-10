@@ -15,6 +15,7 @@ const initialState = {
   permissions: [],
   inn: '',
   doc_name: '',
+  post: '',
   deleted: false
 }
 
@@ -79,6 +80,7 @@ export const employeeReduscer = (state = initialState, action) => {
             permissions: action.employee.permissions,
             inn: action.employee.inn,
             doc_name: action.employee.doc_name,
+            post: action.employee.post,
             deleted: action.employee.deleted
          }
       }
@@ -99,6 +101,7 @@ export const employeeReduscer = (state = initialState, action) => {
             permissions: [],
             inn: '',
             doc_name: '',
+            post: '',
             deleted: false
          }
       }

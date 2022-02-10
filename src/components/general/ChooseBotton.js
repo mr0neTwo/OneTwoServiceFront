@@ -5,7 +5,7 @@ const ChooseBotton = (props) => {
 
    const [stateButton, setStateButton] = useState(props.checked ? props.checked : false)
 
-   return (
+   return props.unvisible ? (<div/>) : (
       <div className={props.className}>
          <div className='lableImput'>{props.title}</div>
          <div className='checkButton'>
@@ -37,10 +37,11 @@ const ChooseBotton = (props) => {
 
 
 
-//  className= Класс
-//  title= Подпись
-//  name={['Имя1', 'Имя2']}
-//  func1 = {() => function()}
-//  func2 = {() => function()}
-//  checked = { true }
-//  disabled= заблокировать
+// className='className'
+// title= Подпись'
+// name={['Имя1', 'Имя2']}
+// func1 = {() => function()}
+// func2 = {() => function()}
+// checked = { true }
+// disabled={false}
+// unvisible={false}

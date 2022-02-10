@@ -56,10 +56,7 @@ const RoleEditor = (props) => {
             }
             value={props.title_create}
             onBlur={(event) =>
-              props.setVisibleFlag(
-                'inputRoleTitleChecked',
-                !!event.target.value
-              )
+              props.setVisibleFlag('inputRoleTitleChecked', !!event.target.value)
             }
             style={!props.inputRoleTitleChecked ? { borderColor: 'red' } : null}
           />

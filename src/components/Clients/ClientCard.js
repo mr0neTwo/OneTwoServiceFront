@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { showPhone } from '../general/utils'
-import { resetClient, editClient } from '../../Redux/actions'
+import { editClient } from '../../Redux/actions'
 import ClientEditor from './ClientEditor/ClientEditor'
 
 const ClientCard = (props) => {
@@ -50,7 +50,6 @@ const mapStateToProps = state => ({
    })
 
 const mapDispatchToProps = {
-   resetClient,
    editClient
 }
   

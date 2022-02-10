@@ -5,7 +5,8 @@ import Create from './cell/Create'
 import Lable from './cell/Lable'
 import EstimatedDone from './cell/EstimatedDone'
 import TableHeader from './TableHeader'
-import { addOrders, initStatusMenuVisibleAction } from '../../Redux/actions'
+import { addOrders,editOrder } from '../../Redux/actions/orderActions'
+import { initStatusMenuVisibleAction, setVisibleFlag } from '../../Redux/actions'
 import Status from './cell/Status'
 import KindOfGood from './cell/KindOfGood'
 import Brand from './cell/Brand'
@@ -14,15 +15,17 @@ import Engineer from './cell/Engineer'
 import Client from './cell/Client'
 import Price from './cell/Price'
 import EngineerNotes from './cell/EngineerNotes'
+import Equipment from './cell/Equipment'
+import OrderEditor from './newOrder/OrderEditor'
 
-const optionsShowDate = {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  // second: 'numeric'
-}
+// const optionsShowDate = {
+//   year: 'numeric',
+//   month: 'long',
+//   day: 'numeric',
+//   hour: 'numeric',
+//   minute: 'numeric',
+//   // second: 'numeric'
+// }
 
 
 function TableOrders(props) {
@@ -52,22 +55,31 @@ function TableOrders(props) {
           </thead>
           <tbody>
             {props.ordersShow.map((order) => (
-              <tr key={order.id} className="orderTableRows">
+              <tr 
+                key={order.id} 
+                className="orderTableRows"
+                onDoubleClick={ () => {
+                  props.setVisibleFlag('statusOrderEditor', true)
+                  props.editOrder(order)
+                }}
+              >
                 <Lable data = {order}/>
                 <Create data = {order}/>
                 <EstimatedDone data = {order}/>
                 <Status data = {order}/>
-                <KindOfGood data = {order}/>
+                <Equipment data = {order}/>
+                {/* <KindOfGood data = {order}/> */}
                 <Brand data = {order}/>
                 <Malfunction data = {order}/>
                 <Engineer data = {order}/>
-                <Client data = {order}/>
+                {props.permissions.includes('see_client') ? <Client data = {order}/> : <div/>}
                 <Price data = {order}/>
                 <EngineerNotes data = {order}/>
               </tr>
             ))}
           </tbody>
         </table>
+        {props.statusOrderEditor ? <OrderEditor/> : null}
       </div>
     )
   } else {
@@ -79,12 +91,16 @@ const mapStateToProps = state => ({
   ordersShow: state.data.ordersShow,
   employees: state.data.employees, 
   user: state.data.user,
-  mainFilter: state.filter.mainFilter
+  mainFilter: state.filter.mainFilter,
+  statusOrderEditor: state.view.statusOrderEditor,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {
   addOrders,
-  initStatusMenuVisible: initStatusMenuVisibleAction
+  initStatusMenuVisible: initStatusMenuVisibleAction,
+  setVisibleFlag,
+  editOrder
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrders)

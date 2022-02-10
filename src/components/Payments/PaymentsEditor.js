@@ -212,8 +212,8 @@ const PaymentsEditor = (props) => {
           edit={props.payment.edit}
           create={ hangleCreate }
           save={ hangleSave }
-          delete={() => props.deleteCashbox(true)}
-          recover={ props.permissions.includes('setting_recover_employees') ? () => props.deleteCashbox(false) : null }
+          delete={ props.permissions.includes('edit_cash') ? () => props.deleteCashbox(true) : null }
+          recover={ props.permissions.includes('edit_cash') ? () => props.deleteCashbox(false) : null }
           close={() => {
             props.setVisibleFlag('statusPaymentsEditor', false)
             props.resetPayments()

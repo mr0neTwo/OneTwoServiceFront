@@ -15,6 +15,12 @@ function getRequestConfig(body = {}) {
   }
 }
 
+function bad_request(massage='') {
+    sessionStorage.clear()
+    console.warn(massage)
+    return { type: 'LOGUOT' }
+}
+
 export function loginAction(token) {
   return {
     type: 'LOGIN',
@@ -428,45 +434,6 @@ export function resetEmoloyee() {
   }
 }
 
-export function changeTypeListOrder() {
-  return {
-    type: 'CHANGE_TYPE_LIST_ORDER'
-  }
-}
-
-export function setOrderType(id) {
-  return {
-    type: 'SET_ORDER_TYPE',
-    id
-  }
-}
-
-export function changeClienListOrder() {
-  return {
-    type: 'CHANGE_CLIENT_LIST_ORDER'
-  }
-}
-
-export function setClientId(id) {
-  return {
-    type: 'SET_CLIENT_ID',
-    id
-  }
-}
-
-  
-export function resetClient() {
-  return {
-    type: 'RESET_CLIENT'
-  }}
-
-  
-export function changeClienListOrderPhone() {
-  return {
-    type: 'CHANGE_CLIENT_LIST_ORDER_PHONE'
-  }}
-
-
   
 export function setClietnCheckbox(field, value) {
   return {
@@ -476,7 +443,7 @@ export function setClietnCheckbox(field, value) {
   }}
 
   
-export function changeClientEditorForm(field, value) {
+export function changeClientEditorForm(value, field) {
   return {
     type: 'CHANGE_CLIENT_EDITOR_FORM',
     field,
@@ -546,19 +513,6 @@ export function setAdCampaignClient(id) {
   }
 }
 
-export function setTypeDiscountGood(id) {
-  return {
-    type: 'SET_TYPE_DISCOUNT_GOOD',
-    id
-  }
-}
-
-export function setTypeDiscountMaterials(id) {
-  return {
-    type: 'SET_TYPE_DISCOUNT_MATERIALS',
-    id
-  }
-}
 
 export function addClientTag(tag) {
   return {
@@ -632,13 +586,6 @@ export function changeClientTabs(tab) {
   return {
     type: 'CHANGE_CLIENT_TABS',
     tab
-  }
-}
-
-export function setOrderAdCampaing(id) {
-  return {
-    type: 'SET_ORDER_AD_CAMPAING',
-    id
   }
 }
 
@@ -745,13 +692,7 @@ export function editBranch(branch) {
 }
 
 
-export function changeBookForm( value, field ) {
-  return {
-    type: 'CHANGE_BOOK_FORM',
-    field,
-    value
-  }
-}
+
 
 
 export function chooseEquipmentBranches( id ) {
@@ -860,6 +801,77 @@ export function setPayment( payment ) {
   }
 }
 
+
+
+
+
+
+export function changePriceForm( value, field ) {
+  return {
+    type: 'CHANGE_PRICE_FORM',
+    field,
+    value
+  }
+}
+
+export function editPrice(price) {
+  return {
+    type: 'EDIT_PRICE',
+    price
+  }
+}
+
+export function resetPrice() {
+  return {
+    type: 'RESET_PRICE'
+  }
+}
+
+
+export function changeDictServiceForm( value, field ) {
+  return {
+    type: 'CHANGE_DICT_SERVICE_FORM',
+    field,
+    value
+  }
+}
+
+export function resetGruopDictService() {
+  return {
+    type: 'RESET_GROPE_DICT_SERVICE'
+  }
+}
+
+export function editGroupDictService(group) {
+  return {
+    type: 'EDIT_GRUOP_DICT_SERVICE',
+    group
+  }
+}
+
+export function resetService() {
+  return {
+    type: 'RESET_SERVICE'
+  }
+}
+
+
+export function selectedService( value, field ) {
+  return {
+    type: 'SELECTED_OPERATION',
+    field,
+    value
+  }
+}
+
+
+export function editDictService(service) {
+  return {
+    type: 'EDIT_SERVICE',
+    service
+  }
+}
+
 export function log_in(login, password) {
 
   const state = store.getState()
@@ -869,754 +881,67 @@ export function log_in(login, password) {
     password
   })
 
-  return async dispatch => {
-    const response = await fetch(state.data.url_server + '/login', request_config)
-    const data = await response.json()
-    if (data.success) {
-      sessionStorage.setItem('1xsndt', data.access_token);
-      sessionStorage.setItem('user', JSON.stringify(data.user))
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'user',
-        data: data.user,
-      })
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'login_status',
-        data: true,
-      })
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'token',
-        data: data.access_token,
-      })
-    } else {
-      console.log(data.message)
-      // setErrorMessage(data.message)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+  return dispatch => {
+
+    fetch(state.data.url_server + '/login', request_config)
+    .then(response => {
+      let data = response.json()
+      return data
+    })
+    .then(data => {
+      if (data.success) {
+        sessionStorage.setItem('1xsndt', data.access_token);
+        sessionStorage.setItem('user', JSON.stringify(data.user))
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'user',
+          data: data.user,
         })
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'login_status',
+          data: true,
+        })
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'token',
+          data: data.access_token,
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос авторизации не выполнен'))
   }
 }
 
 
-export function addOrders() {
 
-  const state = store.getState()
 
-  return async dispatch => {
-      
-    let filters = state.filter.mainFilter
-    filters.engineer_id = !state.data.user.role.orders_visibility ? [state.data.user.id] : state.filter.mainFilter.engineer_id
-    
-    const response = await fetch(state.data.url_server + '/get_orders', getRequestConfig(filters))
-    const data = await response.json()
-    
-    if (data.success) {
-      dispatch({
-        type: 'ADD_ORDERS_SHOW',
-        ordersShow: data.data,
-        count: data.count
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })}}}}
-
+// Client ================================================================================================================
 export function addClients() {
 
   const state = store.getState()
 
-  return async dispatch => {
+  return dispatch => {
       
-      const response = await fetch(state.data.url_server + '/get_clients', getRequestConfig(state.filter.clientFilter))
-      const data = await response.json()
-      
-      if (data.success) {
-        dispatch({
-          type: 'ADD_CLIENTS_SHOW',
-          clientShow: data.data,
-          count: data.count
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
+      fetch(state.data.url_server + '/get_clients', getRequestConfig(state.filter.clientFilter))
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
           dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-export function addEmployees( filters ) {
-  
-  const state = store.getState()
-
-  return async dispatch => {
-     
-      const response = await fetch(state.data.url_server + '/get_employee', getRequestConfig(filters))
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_EMPLOYEES',
-          employees: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
+            type: 'ADD_CLIENTS_SHOW',
+            clientShow: data.data,
+            count: data.count
           })
+        } else {
+          console.warn(data.massage)
         }
-      }
+      })
+      .catch(() => bad_request('Запрос клиентов не выполнен'))
   }
 }
 
-export function addAdCampaign() {
-  
-  const state = store.getState()
-
-  return async dispatch => {
-     
-      const response = await fetch(state.data.url_server + '/get_ad_campaign', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_AD_CAMPAIGN',
-          ad_campaign: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
-      }
-  }
-}
-
-
-export function createEmployee() {
-  
-  const state = store.getState()
-
-  return async dispatch => {
-
-    let request_config = getRequestConfig({
-      first_name: state.employee.first_name,
-      last_name: state.employee.last_name,
-      email: state.employee.email,
-      notes: state.employee.notes,
-      phone: state.employee.phone.replace(/[^0-9]/g, ''),
-      password: state.employee.password,
-      role_id: state.employee.role_id,
-      login: state.employee.login,
-      inn: state.employee.inn,
-      doc_name: state.employee.doc_name,
-    })
-
-    let response = await fetch(state.data.url_server + '/employee', request_config)
-    let data = await response.json()
-    if (!data.success) {
-      console.log(data.message, response.status)
-    }
-     
-    response = await fetch(state.data.url_server + '/get_employee', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_EMPLOYEES',
-        employees: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusEmployeeEditor',
-        value: false
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })
-      }
-    }
-  }
-}
-
-export function seveEditEmployee() {
-  
-  const state = store.getState()
-
-  return async dispatch => {
-
-    let request_config = getRequestConfig({
-      id: state.employee.edit,
-      first_name: state.employee.first_name,
-      last_name: state.employee.last_name,
-      email: state.employee.email,
-      notes: state.employee.notes,
-      phone: state.employee.phone.replace(/[^0-9]/g, ''),
-      password: state.employee.password,
-      role_id: state.employee.role_id,
-      login: state.employee.login,
-      inn: state.employee.inn,
-      doc_name: state.employee.doc_name,
-    })
-
-    request_config.method = 'PUT'
-    let response = await fetch(state.data.url_server + '/employee', request_config)
-    let data = await response.json()
-    if (data.success) {
-      request_config.method = 'POST'
-      response = await fetch(state.data.url_server + '/get_employee', getRequestConfig())
-      data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_EMPLOYEES',
-          employees: data.data,
-        })
-        dispatch({
-          type: 'SET_VISIBLE_FLAG',
-          field: 'statusEmployeeEditor',
-          value: false
-        })
-    } 
-    } else {
-      console.log(data.message, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })
-      }
-      if (data.message === 'there is the same email') {
-        dispatch({
-          type: 'SET_VISIBLE_FLAG',
-          field: 'errorSameMail',
-          value: true
-        })
-      }
-      if (data.message === 'there is the same login') {
-        dispatch({
-          type: 'SET_VISIBLE_FLAG',
-          field: 'errorSameLogin',
-          value: true
-        })
-      }
-    }
-    
-  }
-}
-
-export function deleteEmployee(flag) {
-  
-  const state = store.getState()
-
-  return async dispatch => {
-
-    let request_config = getRequestConfig({
-      id: state.employee.edit,
-      deleted: flag
-    })
-
-    request_config.method = 'PUT'
-    let response = await fetch(state.data.url_server + '/employee', request_config)
-    let data = await response.json()
-    if (!data.success) {
-      console.log(data.message, response.status)
-    }
-
-    request_config.method = 'POST'
-    response = await fetch(state.data.url_server + '/get_employee', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_EMPLOYEES',
-        employees: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusEmployeeEditor',
-        value: false
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })
-      }
-    }
-  }
-}
-
-export function addStatus() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      
-      const response = await fetch(state.data.url_server + '/get_status', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_STATUS',
-          status: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
-      }
-  }
-}
-
-
-export function changeStatusAction( status_id, order_id) {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      let request_config = getRequestConfig({
-        id: order_id,
-        status_id: status_id
-      })
-       request_config.method = 'PUT'
-      
-      let response = await fetch(state.data.url_server + '/orders', request_config)
-      let data = await response.json()
-      if (!data.success) {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
-      }
-      request_config.method = "POST"
-      request_config.body = JSON.stringify(state.filter.mainFilter)
-      response = await fetch(state.data.url_server + '/get_orders', request_config)
-      data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_ORDERS_SHOW',
-          ordersShow: data.data,
-          count: data.count
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-export function addBaggesAction() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      
-      const response = await fetch(state.data.url_server + '/bagges', getRequestConfig({employee_id: state.data.user.id}))
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_BADGES',
-          badges: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-          
-export function  addStatusGroupAction() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      
-      const response = await fetch(state.data.url_server + '/get_status_group', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_STATUS_GROUP',
-          status_group: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-
-export function  addEquipment() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_EQUIPMENT',
-          equipment: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
-      }
-    }
-  }
-
-
-export function addCustomFilter() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      let request_config = getRequestConfig({
-        employee_id: state.data.user.id,
-        title: state.filter.title_create,
-        filters: state.filter.tempFilter,
-        general: state.filter.addCustomFilter
-      })
-      
-      let response = await fetch(state.data.url_server + '/custom_filters', request_config)
-      let data = await response.json()
-      if (!data.success) {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
-      }
-      
-      response = await fetch(state.data.url_server + '/get_custom_filters', getRequestConfig({
-        employee_id: state.data.user.id
-      }))
-      data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_CUSTOM_FILTERS',
-          filters: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}
-        }}
-
-        
-export function  addCustomFilters() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      
-      const response = await fetch(state.data.url_server + '/get_custom_filters', getRequestConfig({
-        employee_id: state.data.user.id
-      }))
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_CUSTOM_FILTERS',
-          filters: data.data,
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-          
-export function saveCustomFilter() {
-
-  const state = store.getState()
-  const idActiveFilter = state.filter.customFilters.find(filter => filter.active === true).id
-
-  return async dispatch => {
-      let request_config = getRequestConfig({
-        id: idActiveFilter,
-        filters: state.filter.tempFilter
-      })
-
-      request_config.method = 'PUT'
-      let response = await fetch(state.data.url_server + '/custom_filters', request_config)
-      let data = await response.json()
-      if (!data.success) {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}
-      
-      request_config.method = 'POST'
-      response = await fetch(state.data.url_server + '/get_custom_filters', getRequestConfig({
-        employee_id: state.data.user.id
-      }))
-      data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_CUSTOM_FILTERS',
-          filters: data.data,
-        })
-        dispatch({
-          type: 'APPLY_CUSTOM_FILTER',
-          id: idActiveFilter,
-          filter: data.data.find(filter => filter.id === idActiveFilter).filters
-        })
-
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}
-        }}
-
-        
-export function removeFilter() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      let request_config = getRequestConfig({
-        id: state.filter.customFilters.find(filter => filter.active === true).id
-      })
-      request_config.method = 'DELETE'
-      let response = await fetch(state.data.url_server + '/custom_filters', request_config)
-      let data = await response.json()
-      if (!data.success) {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}
-      
-      request_config.method = 'POST'
-      response = await fetch(state.data.url_server + '/get_custom_filters', getRequestConfig({
-        employee_id: state.data.user.id
-      }))
-      data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_CUSTOM_FILTERS',
-          filters: data.data,
-        })
-        dispatch({
-          type: 'RESET_CLIENT',
-        })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}
-        }}
-
-
-
-
-          
-export function addDiscountMargin() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      const response = await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_DISCOUNT_MARGIN',
-          margin: data.data,
-      })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-          
-export function createRole() {
-
-  const state = store.getState()
-
-  let request_config = getRequestConfig({
-    title: state.role.title_create,                                       
-    earnings_visibility: state.role.earnings_visibility,           
-    leads_visibility: state.role.leads_visibility,                  
-    orders_visibility: state.role.orders_visibility,               
-    permissions: state.role.list_permissions,                           
-    settable_statuses: state.role.settable_statuses,                
-    visible_statuses: state.role.visible_statuses,                 
-    settable_discount_margin: state.role.settable_discount_margin   
-  })
-
-  return async dispatch => {
-      let response = await fetch(state.data.url_server + '/roles', request_config)
-      let data = await response.json()
-
-      response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
-      data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_ROLES',
-          roles: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusCreateNewRole',
-        value: false
-      })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-          
-export function addRoles() {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      const response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
-        dispatch({
-          type: 'ADD_ROLES',
-          roles: data.data,
-      })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })}}}}
-
-
-export function seveEditRole() {
-
-  const state = store.getState()
-
-  let request_config = getRequestConfig({
-    id: state.role.edit,
-    title: state.role.title_create,                                       
-    earnings_visibility: state.role.earnings_visibility,           
-    leads_visibility: state.role.leads_visibility,                  
-    orders_visibility: state.role.orders_visibility,               
-    permissions: state.role.list_permissions,                           
-    settable_statuses: state.role.settable_statuses,                
-    visible_statuses: state.role.visible_statuses,                 
-    settable_discount_margin: state.role.settable_discount_margin   
-  })
-  console.log('save')
-  return async dispatch => {
-    request_config.method = 'PUT'
-    let response = await fetch(state.data.url_server + '/roles', request_config)
-    let data = await response.json()
-
-    response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_ROLES',
-        roles: data.data,
-    })
-    dispatch({
-      type: 'SET_VISIBLE_FLAG',
-      field: 'statusCreateNewRole',
-      value: false
-    })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })
-      }
-    }
-  }
-}
-
-        
-export function deleteRole() {
-
-  const state = store.getState()
-
-  let request_config = getRequestConfig({id: state.role.edit})
-
-  return async dispatch => {
-    request_config.method = 'DELETE'
-    let response = await fetch(state.data.url_server + '/roles', request_config)
-    let data = await response.json()
-
-    response = await fetch(state.data.url_server + '/get_roles', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_ROLES',
-        roles: data.data,
-    })
-    dispatch({
-      type: 'SET_VISIBLE_FLAG',
-      field: 'statusCreateNewRole',
-      value: false
-    })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })}}}}
-
-        
 export function createNewClient() {
 
   const state = store.getState()
@@ -1652,40 +977,39 @@ export function createNewClient() {
     ad_campaign_id: state.client.ad_campaign_id,
     discount_goods_margin_id: state.client.discount_goods_margin_id,
     discount_materials_margin_id: state.client.discount_materials_margin_id,
+    discount_service_margin_id: state.client.discount_service_margin_id,
+    discount_service_type: state.client.discount_service_type,
 
     tags: state.client.tags,
     phone: state.client.phone,
   })
 
-  return async dispatch => {
+  return dispatch => {
    
-    const response = await fetch(state.data.url_server + '/clients', request_config)
-    const data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'SET_CLIENT_ID',
-        id: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusCreateNewClient',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_DATA_CLIENT'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    fetch(state.data.url_server + '/clients', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'CHANGE_ORDER_FORM_S',
+          field: 'client',
+          value: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCreateNewClient',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_DATA_CLIENT'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос на создание клиента не выполнен'))  
   }
 }
-
 
 export function saveChangeClient() {
 
@@ -1699,6 +1023,7 @@ export function saveChangeClient() {
     should_send_email: state.client.should_send_email,
     discount_good_type: state.client.discount_good_type,
     discount_materials_type: state.client.discount_materials_type,
+    discount_service_type: state.client.discount_service_type,
  
     name: state.client.name,
     name_doc: state.client.name_doc,
@@ -1723,347 +1048,711 @@ export function saveChangeClient() {
     ad_campaign_id: state.client.ad_campaign_id,
     discount_goods_margin_id: state.client.discount_goods_margin_id,
     discount_materials_margin_id: state.client.discount_materials_margin_id,
+    discount_service_margin_id: state.client.discount_service_margin_id,
 
     tags: state.client.tags,
     phone: state.client.phone,
   })
+  request_config.method = 'PUT'
 
-  return async dispatch => {
-   
-    request_config.method = 'PUT'
-    const response = await fetch(state.data.url_server + '/clients', request_config)
-    const data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'SET_CLIENT_ID',
-        id: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusCreateNewClient',
-        value: false
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })
-      }
-    }
-  }
-}
-
-
-export function editClient(id) {
-
-  const state = store.getState()
-
-  return async dispatch => {
-      
-    const response = await fetch(state.data.url_server + '/get_clients', getRequestConfig({id}))
-    const data = await response.json()
+  return dispatch => {
     
-    if (data.success) {
-      dispatch({
-        type: 'EDIT_CLIENT',
-        client: data.data[0]
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })
-      }
-    }
-  }
-}
-
-
-export function deleteClient(id) {
-
-  const state = store.getState()
-
-  let request_config = getRequestConfig({id})
-
-  return async dispatch => {
-   
-    request_config.method = 'DELETE'
-    const response = await fetch(state.data.url_server + '/clients', request_config)
-    const data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'RESET_CLIENT',
-      })
-      dispatch({
-        type: 'RESET_DATA_CLIENT'
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusCreateNewClient',
-        value: false
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
-        dispatch({
-          type: 'LOGUOT'
-        })
-      }
-    }
-  }
-}
-
-
-export function addEquipmentType( title ) {
-
-  const state = store.getState() 
-
-  let request_config = title ? getRequestConfig({ title }) : 
-  getRequestConfig({
-    title: state.book.title,
-    icon: state.book.icon,
-    url: state.book.url,
-    branches: state.book.branches,
-  })
-
-  return async dispatch => {
-   
-    const response = await fetch(state.data.url_server + '/equipment_type', request_config)
-    const data = await response.json()
-    if (data.success) {
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
+    fetch(state.data.url_server + '/clients', request_config)
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
         dispatch({
-          type: 'ADD_EQUIPMENT',
-          equipment: data.data,
+          type: 'CHANGE_ORDER_FORM_S',
+          field: 'client',
+          value: data.data,
         })
         dispatch({
           type: 'SET_VISIBLE_FLAG',
-          field: 'statusEquipmentEditor',
+          field: 'statusCreateNewClient',
           value: false
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос на изменение данных клиента не выполнен'))  
   }
 }
 
 
-export function addEquipmentBrand( idx, title ) {
+export function editClient( id ) {
 
   const state = store.getState()
 
-  const request_config = getRequestConfig({
-    title,
-    equipment_type_id: state.order.equipments[idx].kindof_good.id
-  })
-
-  return async dispatch => {
-   
-    const response = await fetch(state.data.url_server + '/equipment_brand', request_config)
-    const data = await response.json()
-    if (data.success) {
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
+  return dispatch => {
+      
+    fetch(state.data.url_server + '/get_clients', getRequestConfig({id}))
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
         dispatch({
-          type: 'ADD_EQUIPMENT',
-          equipment: data.data,
+          type: 'EDIT_CLIENT',
+          client: data.data[0]
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос данных клиента не выполнен'))  
   }
 }
 
 
-export function addEquipmentSubtype( idx, title ) {
+export function deleteClient(flag) {
 
   const state = store.getState()
 
-  const request_config = getRequestConfig({
-    title,
-    equipment_brand_id: state.order.equipments[idx].brand.id
+  let request_config = getRequestConfig({
+    id: state.client.edit,
+    deleted: flag
   })
+  request_config.method = 'PUT'
 
-  return async dispatch => {
+  return dispatch => {
    
-    const response = await fetch(state.data.url_server + '/equipment_subtype', request_config)
-    const data = await response.json()
-    if (data.success) {
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
+    
+    fetch(state.data.url_server + '/clients', request_config)
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
         dispatch({
-          type: 'ADD_EQUIPMENT',
-          equipment: data.data,
+          type: 'CHANGE_ORDER_FORM_S',
+          field: 'client',
+          value: {}
         })
-      } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
-      }
-    }
-  }
-}
-
-
-export function addEquipmentModel( idx, title ) {
-
-  const state = store.getState()
-
-  const request_config = getRequestConfig({
-    title,
-    equipment_subtype_id: state.order.equipments[idx].subtype.id
-  })
-
-  return async dispatch => {
-   
-    const response = await fetch(state.data.url_server + '/equipment_model', request_config)
-    const data = await response.json()
-    if (data.success) {
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
-      if (data.success) {
         dispatch({
-          type: 'ADD_EQUIPMENT',
-          equipment: data.data,
+          type: 'RESET_DATA_CLIENT'
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCreateNewClient',
+          value: false
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос на изменение клиента не выполнен'))  
   }
 }
+//===========================================================================================================================
 
 
 
-export function createOrder() {
-
-  const state = store.getState()
-
-  // function CreateOneOrder(request_config) {
-
-    const request_config = getRequestConfig({
-          estimated_done_at: state.order.estimated_done_at,
-    
-          order_type_id: state.order.order_type_id,
-          client_id: state.order.client.id,
-          ad_campaign_id: state.order.ad_campaign_id,
-          manager_id: state.order.manager_id,
-          engineer_id: state.order.engineer_id,
-    
-          kindof_good: state.order.equipments[0].kindof_good.id,
-          brand: state.order.equipments[0].brand.id,
-          subtype: state.order.equipments[0].subtype.id,
-          model: state.order.equipments[0].model.id,
-          malfunction: state.order.equipments[0].malfunction,
-          packagelist: state.order.equipments[0].packagelist,
-          appearance: state.order.equipments[0].appearance,
-          urgent: state.order.equipments[0].urgent,
-    
-          manager_notes: state.order.manager_notes,
-          estimated_cost: state.order.estimated_cost
-        })
-    
-    return async dispatch => {
+export function addEmployees( filters ) {
   
-      const response = await fetch(state.data.url_server + '/orders', request_config)
-      const data = await response.json()
+  const state = store.getState()
+
+  return dispatch => {
+     
+    fetch(state.data.url_server + '/get_employee', getRequestConfig(filters))
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
-        const response = await fetch(state.data.url_server + '/get_orders', getRequestConfig())
-        const data = await response.json()
-        if (data.success) {
-          // dispatch({
-          //   type: 'ADD_EQUIPMENT',
-          //   equipment: data.data,
-          // })
-        } else {
-          console.log(data.massage, response.status)
-          if (response.status === 401 || response.status === 422) {
-            sessionStorage.clear()
-            dispatch({
-              type: 'LOGUOT'
-            })
-          }
-        }
+        dispatch({
+          type: 'ADD_EMPLOYEES',
+          employees: data.data,
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
-// }
+    })
+    .catch(() => bad_request('Запрос сотрудников не выполнен'))
+  }
+}
 
-  // state.order.equipments.forEach(equipment => {
+export function addAdCampaign() {
+  
+  const state = store.getState()
 
-  //   const request_config = getRequestConfig({
-  //     estimated_done_at: state.order.estimated_done_at,
+  return dispatch => {
+     
+      fetch(state.data.url_server + '/get_ad_campaign', getRequestConfig())
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_AD_CAMPAIGN',
+            ad_campaign: data.data,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос рекламных компаний не выполнен'))
+  }
+}
 
-  //     order_type_id: state.order.order_type_id,
-  //     client_id: state.order.client.id,
-  //     ad_campaign_id: state.order.ad_campaign_id,
-  //     manager_id: state.order.manager_id,
-  //     engineer_id: state.order.engineer_id,
 
-  //     kindof_good: equipment.kindof_good.id,
-  //     brand: equipment.kindof_good.id,
-  //     subtype: equipment.kindof_good.id,
-  //     model: equipment.kindof_good.id,
-  //     malfunction: equipment.malfunction,
-  //     packagelist: equipment.packagelist,
-  //     appearance: equipment.appearance,
-  //     urgent: equipment.urgent,
+export function createEmployee() {
+  
+  const state = store.getState()
 
-  //     manager_notes: state.order.manager_notes,
-  //     estimated_cost: state.order.estimated_cost
-  //   })
+  const request_config = getRequestConfig({
+    first_name: state.employee.first_name,
+    last_name: state.employee.last_name,
+    email: state.employee.email,
+    notes: state.employee.notes,
+    phone: state.employee.phone.replace(/[^0-9]/g, ''),
+    password: state.employee.password,
+    role_id: state.employee.role_id,
+    login: state.employee.login,
+    inn: state.employee.inn,
+    doc_name: state.employee.doc_name,
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/employee', request_config)
+    .catch(() => bad_request('Запрос на создание сотрудника не выполнен'))
+     
+    await fetch(state.data.url_server + '/get_employee', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_EMPLOYEES',
+          employees: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusEmployeeEditor',
+          value: false
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос сотрудников не выполнен'))
+  }
+}
+
+export function seveEditEmployee() {
+  
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.employee.edit,
+    first_name: state.employee.first_name,
+    last_name: state.employee.last_name,
+    email: state.employee.email,
+    notes: state.employee.notes,
+    phone: state.employee.phone.replace(/[^0-9]/g, ''),
+    password: state.employee.password,
+    role_id: state.employee.role_id,
+    login: state.employee.login,
+    inn: state.employee.inn,
+    doc_name: state.employee.doc_name,
+  })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/employee', request_config)
+    .catch(() => bad_request('Запрос на изменение сотрудника не выполнен'))
     
-  //   CreateOneOrder(request_config)
-  // })
+    await fetch(state.data.url_server + '/get_employee', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_EMPLOYEES',
+          employees: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusEmployeeEditor',
+          value: false
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос сотрудников не выполнен'))
+  }
+}
 
+
+
+export function deleteEmployee(flag) {
+  
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.employee.edit,
+    deleted: flag
+  })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/employee', request_config)
+    .catch(() => bad_request('Запрос удаление/восстановление сотрудника не выполнен'))
+    
+    await fetch(state.data.url_server + '/get_employee', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_EMPLOYEES',
+          employees: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusEmployeeEditor',
+          value: false
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос сотрудников не выполнен'))
+  }
+}
+
+export function addStatus() {
+
+  const state = store.getState()
+
+  return dispatch => {
+      
+    fetch(state.data.url_server + '/get_status', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_STATUS',
+          status: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос статусов не выполнен'))
+  }
+}
+
+
+
+
+export function refreshDataOrder( order_id ) {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: order_id
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/get_orders', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'EDIT_ORDER',
+          order: data.data[0],
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос на обновление заказа не выполнен'))
+  }
+}
+
+
+export function addBaggesAction() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({employee_id: state.data.user.id})
+
+  return dispatch => {
+      
+      fetch(state.data.url_server + '/bagges', request_config)
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_BADGES',
+            badges: data.data,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос беджей не выполнен'))
+  }
+}
+
+       
+export function  addStatusGroupAction() {
+
+  const state = store.getState()
+
+  return dispatch => {
+
+    fetch(state.data.url_server + '/get_status_group', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_STATUS_GROUP',
+          status_group: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос групп статусов не выполнен'))
+  }
+}
+
+
+export function  addEquipment() {
+
+  const state = store.getState()
+
+  return dispatch => {
+      
+      fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_EQUIPMENT',
+            equipment: data.data,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов изделий не выполнен'))  
+    }
+  }
+
+
+export function addCustomFilter() {
+
+  const state = store.getState()
+
+  const request_config1 = getRequestConfig({
+    employee_id: state.data.user.id,
+    title: state.filter.title_create,
+    filters: state.filter.tempFilter,
+    general: state.filter.addCustomFilter
+  })
+
+  const request_config2 = getRequestConfig({ employee_id: state.data.user.id })
+
+  return async dispatch => {
+  
+    await fetch(state.data.url_server + '/custom_filters', request_config1)
+    .catch(() => bad_request('Запрос на создание фильтра не выполнен')) 
+     
+    await fetch(state.data.url_server + '/get_custom_filters', request_config2)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_CUSTOM_FILTERS',
+          filters: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))  
+  }
+}
+
+        
+export function  addCustomFilters() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({ employee_id: state.data.user.id })
+
+  return dispatch => {
+      
+    fetch(state.data.url_server + '/get_custom_filters', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_CUSTOM_FILTERS',
+          filters: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))  
+  }
+}
+
+          
+export function saveCustomFilter() {
+
+  const state = store.getState()
+  const idActiveFilter = state.filter.customFilters.find(filter => filter.active === true).id
+
+  let request_config = getRequestConfig({
+    id: idActiveFilter,
+    filters: state.filter.tempFilter
+  })
+  request_config.method = 'PUT'
+
+  const request_config2 = getRequestConfig({ employee_id: state.data.user.id })
+
+  return async dispatch => {
+     
+    await fetch(state.data.url_server + '/custom_filters', request_config)
+    .catch(() => bad_request('Запрос на изменеие фильтра не выполнен'))  
+      
+    await fetch(state.data.url_server + '/get_custom_filters', request_config2)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_CUSTOM_FILTERS',
+          filters: data.data,
+        })
+        dispatch({
+          type: 'APPLY_CUSTOM_FILTER',
+          id: idActiveFilter,
+          filter: data.data.find(filter => filter.id === idActiveFilter).filters
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос пользовательских фильров не выполнен'))  
+  }
+}
+
+        
+export function removeFilter() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.filter.customFilters.find(filter => filter.active === true).id
+  })
+  request_config.method = 'DELETE'
+
+  const request_config2 =getRequestConfig({ employee_id: state.data.user.id })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/custom_filters', request_config)
+    .catch(() => bad_request('Запрос на удаление фильтра не выполнен'))  
+      
+    await fetch(state.data.url_server + '/get_custom_filters', request_config2)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_CUSTOM_FILTERS',
+          filters: data.data,
+        })
+        dispatch({
+          type: 'CHANGE_ORDER_FORM_S',
+          field: 'client',
+          value: {}
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))  
+  }
+}
+
+export function addDiscountMargin() {
+
+  const state = store.getState()
+
+  return  dispatch => {
+
+    fetch(state.data.url_server + '/get_discount_margin', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'discount_margin',
+          data: data.data,
+      })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос наценок не выполнен'))  
+  }
+}
+
+          
+export function createRole() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    title: state.role.title_create,                                       
+    earnings_visibility: state.role.earnings_visibility,           
+    leads_visibility: state.role.leads_visibility,                  
+    orders_visibility: state.role.orders_visibility,               
+    permissions: state.role.list_permissions,                           
+    settable_statuses: state.role.settable_statuses,                
+    visible_statuses: state.role.visible_statuses,                 
+    settable_discount_margin: state.role.settable_discount_margin   
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/roles', request_config)
+    .catch(() => bad_request('Запрос на создание роли не выполнен')) 
+
+    await fetch(state.data.url_server + '/get_roles', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_ROLES',
+          roles: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCreateNewRole',
+          value: false
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос ролей не выполнен'))  
+  }
+}
+
+          
+export function addRoles() {
+
+  const state = store.getState()
+
+  return dispatch => {
+     fetch(state.data.url_server + '/get_roles', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_ROLES',
+          roles: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос ролей не выполнен'))  
+  }
+}
+
+
+export function seveEditRole() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.role.edit,
+    title: state.role.title_create,                                       
+    earnings_visibility: state.role.earnings_visibility,           
+    leads_visibility: state.role.leads_visibility,                  
+    orders_visibility: state.role.orders_visibility,               
+    permissions: state.role.list_permissions,                           
+    settable_statuses: state.role.settable_statuses,                
+    visible_statuses: state.role.visible_statuses,                 
+    settable_discount_margin: state.role.settable_discount_margin   
+  })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+    
+    await fetch(state.data.url_server + '/roles', request_config)
+    .catch(() => bad_request('Запрос на изменение роли не выполнен')) 
+
+    await fetch(state.data.url_server + '/get_roles', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_ROLES',
+          roles: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCreateNewRole',
+          value: false
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос ролей не выполнен'))
+  }
+}
+
+        
+export function deleteRole() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({id: state.role.edit})
+  request_config.method = 'DELETE'
+
+  return async dispatch => {
+    
+    await fetch(state.data.url_server + '/roles', request_config)
+    .catch(() => bad_request('Запрос на удаление роли не выполнен')) 
+
+    await fetch(state.data.url_server + '/get_roles', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_ROLES',
+          roles: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCreateNewRole',
+          value: false
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос ролей не выполнен'))  
+  }
 }
 
 
 export function addMainData() {
-
+ 
   const state = store.getState()
 
   const request_config = getRequestConfig({})
   
-  
-
-  return async dispatch => {
+  return dispatch => {
    
-    const response = await fetch(state.data.url_server + '/get_main_data', request_config)
-    const data = await response.json()
-    if (data.success) {
+    fetch(state.data.url_server + '/get_main_data', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
           type: 'ADD_DATA',
           field: 'generally_info',
@@ -2094,93 +1783,84 @@ export function addMainData() {
           data: data.ad_campaign,
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
+    })
+    .catch(() => bad_request('Запрос основных данных не выполнен'))  
     }
   }
+
 
   
   export function saveGenerallyInfo() {
 
     const state = store.getState()
   
-      let request_config = getRequestConfig({
-        id: 1,
-        name: state.maindata.name,
-        address: state.maindata.address,
-        email: state.maindata.email,
-     
-        ogrn: state.maindata.ogrn,
-        inn: state.maindata.inn,
-        kpp: state.maindata.kpp,
-        juridical_address: state.maindata.juridical_address,
-        director: state.maindata.director,
-        bank_name: state.maindata.bank_name,
-        settlement_account: state.maindata.settlement_account,
-        corr_account: state.maindata.corr_account,
-        bic: state.maindata.bic,
-     
-        description: state.maindata.description,
-        phone: state.maindata.phone,
-        logo: state.maindata.logo
-      })
+    let request_config = getRequestConfig({
+      id: 1,
+      name: state.maindata.name,
+      address: state.maindata.address,
+      email: state.maindata.email,
+    
+      ogrn: state.maindata.ogrn,
+      inn: state.maindata.inn,
+      kpp: state.maindata.kpp,
+      juridical_address: state.maindata.juridical_address,
+      director: state.maindata.director,
+      bank_name: state.maindata.bank_name,
+      settlement_account: state.maindata.settlement_account,
+      corr_account: state.maindata.corr_account,
+      bic: state.maindata.bic,
+    
+      description: state.maindata.description,
+      phone: state.maindata.phone,
+      logo: state.maindata.logo
+    })
+    request_config.method = 'PUT'
       
-      return async dispatch => {
+    return async dispatch => {
         
-        request_config.method = 'PUT'
-        const response = await fetch(state.data.url_server + '/generally_info', request_config)
-        const data = await response.json()
+        
+      await fetch(state.data.url_server + '/generally_info', request_config)
+      .catch(() => bad_request('Запрос изменение основных данных компании не выполнен'))
+      
+      await fetch(state.data.url_server + '/get_generally_info', getRequestConfig())
+      .then(response => response.json())
+      .then(data => {
         if (data.success) {
-          const response = await fetch(state.data.url_server + '/get_generally_info', getRequestConfig())
-          const data = await response.json()
-          if (data.success) {
-            dispatch({
-              type: 'ADD_GENERALLY_INFO',
-              data: data.data,
-            })
-          } else {
-            console.log(data.massage, response.status)
-            if (response.status === 401 || response.status === 422) {
-              sessionStorage.clear()
-              dispatch({
-                type: 'LOGUOT'
-              })
-            }
-          }
+          dispatch({
+            type: 'ADD_GENERALLY_INFO',
+            data: data.data,
+          })
+        } else {
+          console.warn(data.massage)
         }
-      }
+      })
+      .catch(() => bad_request('Запрос основных данных компании не выполнен'))  
   }
+}
 
 
 export function addCounters() {
 
   const state = store.getState()
 
-  return async dispatch => {
+  return dispatch => {
    
-    const response = await fetch(state.data.url_server + '/get_counts', getRequestConfig({}))
-    const data = await response.json()
-    if (data.success) {
+    fetch(state.data.url_server + '/get_counts', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
           type: 'ADD_DATA',
           field: 'counters',
           data: data.data
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
+    })
+    .catch(() => bad_request('Запрос счетчиков не выполнен'))  
     }
   }
 
@@ -2189,7 +1869,7 @@ export function createBranch() {
 
   const state = store.getState()
 
-  let request_config = getRequestConfig({
+  const request_config = getRequestConfig({
     name: state.branch.name,
     address: state.branch.address,
     phone: state.branch.phone,
@@ -2205,34 +1885,32 @@ export function createBranch() {
   })
 
   return async dispatch => {
-    let response = await fetch(state.data.url_server + '/branch', request_config)
-    let data = await response.json()
 
-    response = await fetch(state.data.url_server + '/get_branch', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'branches',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusBranchEditor',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_BRANCH'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    await fetch(state.data.url_server + '/branch', request_config)
+    .catch(() => bad_request('Запрос на создание филиалов не выполнен'))
+
+    await fetch(state.data.url_server + '/get_branch', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'branches',
+          data: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusBranchEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_BRANCH'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос филиалов не выполнен'))  
   }
 }
 
@@ -2256,39 +1934,35 @@ export function saveBranch() {
     deleted: state.branch.deleted,
     schedule: state.branch.schedule
   })
+  request_config.method = 'PUT'
 
   return async dispatch => {
 
-    request_config.method = 'PUT'
+    await fetch(state.data.url_server + '/branch', request_config)
+    .catch(() => bad_request('Запрос на изменение филиала не выполнен'))
 
-    let response = await fetch(state.data.url_server + '/branch', request_config)
-    let data = await response.json()
-
-    response = await fetch(state.data.url_server + '/get_branch', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'branches',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusBranchEditor',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_BRANCH'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    await fetch(state.data.url_server + '/get_branch', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'branches',
+          data: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusBranchEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_BRANCH'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос флиалов не выполнен'))  
   }
 }
 
@@ -2301,39 +1975,35 @@ export function deleteBranch(flag) {
     id: state.branch.edit,
     deleted: flag
   })
+  request_config.method = 'PUT'
 
   return async dispatch => {
 
-    request_config.method = 'PUT'
+    await fetch(state.data.url_server + '/branch', request_config)
+    .catch(() => bad_request('Запрос на удаление/восстановление филиала не выполнен'))
 
-    let response = await fetch(state.data.url_server + '/branch', request_config)
-    let data = await response.json()
-
-    response = await fetch(state.data.url_server + '/get_branch', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'branches',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusBranchEditor',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_BRANCH'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    await fetch(state.data.url_server + '/get_branch', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'branches',
+          data: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusBranchEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_BRANCH'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос филиалов не выполнен'))  
   }
 }
 
@@ -2353,16 +2023,16 @@ export function seveEditEquipment( ) {
     [field_lidt[state.book.type]]: state.book.parent_id,
     branches: state.book.branches
   })
+  request_config.method = 'PUT'
 
   return async dispatch => {
-   
-    request_config.method = 'PUT'
 
-    const response = await fetch(state.data.url_server + url_list[state.book.type], request_config)
-    const data = await response.json()
-    if (data.success) {
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
+    await fetch(state.data.url_server + url_list[state.book.type], request_config)
+    .catch(() => bad_request('Запрос на изменение данных изделия не выполнен')) 
+    
+    await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
         dispatch({
           type: 'ADD_EQUIPMENT',
@@ -2374,15 +2044,10 @@ export function seveEditEquipment( ) {
           value: false
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос данных изделий не выполнен'))  
   }
 }
 
@@ -2397,16 +2062,16 @@ export function deleteEquipment( flag ) {
     id: state.book.edit,
     deleted: flag
   })
+  request_config.method = 'PUT'
 
   return async dispatch => {
    
-    request_config.method = 'PUT'
-
-    const response = await fetch(state.data.url_server + url_list[state.book.type], request_config)
-    const data = await response.json()
-    if (data.success) {
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
+    await fetch(state.data.url_server + url_list[state.book.type], request_config)
+    .catch(() => bad_request('Запрос на удаление/восстановление изделия не выполнен'))
+    
+    await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
         dispatch({
           type: 'ADD_EQUIPMENT',
@@ -2418,15 +2083,10 @@ export function deleteEquipment( flag ) {
           value: false
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос изделий не выполнен'))  
   }
 }
 
@@ -2447,11 +2107,12 @@ export function createBookEquipment() {
 
   return async dispatch => {
 
-    const response = await fetch(state.data.url_server + url_list[state.book.type], request_config)
-    const data = await response.json()
-    if (data.success) {
-      const response = await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-      const data = await response.json()
+    await fetch(state.data.url_server + url_list[state.book.type], request_config)
+    .catch(() => bad_request('Запрос на создание изделия не выполнен'))
+    
+    await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
         dispatch({
           type: 'ADD_EQUIPMENT',
@@ -2463,15 +2124,10 @@ export function createBookEquipment() {
           value: false
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос изделий не выполнен'))  
   }
 }
 
@@ -2484,11 +2140,12 @@ export function addDictMalfunction() {
     page: state.book.page_malfunction
   })
 
-  return async dispatch => {
+  return dispatch => {
    
-    const response = await fetch(state.data.url_server + '/get_malfunction', request_config)
-    const data = await response.json()
-    if (data.success) {
+    fetch(state.data.url_server + '/get_malfunction', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
           type: 'ADD_DATA',
           field: 'dictMalfunction',
@@ -2500,14 +2157,10 @@ export function addDictMalfunction() {
           data: data.count
         })
       } else {
-        console.log(data.massage, response.status)
-        if (response.status === 401 || response.status === 422) {
-          sessionStorage.clear()
-          dispatch({
-            type: 'LOGUOT'
-          })
-        }
+        console.warn(data.massage)
       }
+    })
+    .catch(() => bad_request('Запрос словарая неисправностей не выполнен'))  
     }
   }
 
@@ -2528,11 +2181,12 @@ export function addDictMalfunction() {
   
     return async dispatch => {
   
-      const response = await fetch(state.data.url_server + `/${url_list[state.book.type]}`, request_config)
-      const data = await response.json()
-      if (data.success) {
-        const response = await fetch(state.data.url_server + `/get_${url_list[state.book.type]}`, getRequestConfig())
-        const data = await response.json()
+      await fetch(state.data.url_server + `/${url_list[state.book.type]}`, request_config)
+      .catch(() => bad_request('Запрос на создание записи в словарь не выполнен'))  
+      
+      await fetch(state.data.url_server + `/get_${url_list[state.book.type]}`, getRequestConfig())
+      .then(response => response.json())
+      .then(data => {
         if (data.success) {
           dispatch({
             type: 'ADD_DATA',
@@ -2545,15 +2199,10 @@ export function addDictMalfunction() {
             data: data.count
           })
         } else {
-          console.log(data.massage, response.status)
-          if (response.status === 401 || response.status === 422) {
-            sessionStorage.clear()
-            dispatch({
-              type: 'LOGUOT'
-            })
-          }
+          console.warn(data.massage)
         }
-      }
+      })
+      .catch(() => bad_request('Запрос данных словаря не выполнен'))  
     }
   }
   
@@ -2569,15 +2218,16 @@ export function addDictMalfunction() {
     let request_config = getRequestConfig({
       del_ids: state.book[`selected_${url_list[state.book.type]}`]
     })
+    request_config.method = 'DELETE'
   
     return async dispatch => {
   
-      request_config.method = 'DELETE'
-      const response = await fetch(state.data.url_server + `/${url_list[state.book.type]}`, request_config)
-      const data = await response.json()
-      if (data.success) {
-        const response = await fetch(state.data.url_server + `/get_${url_list[state.book.type]}`, getRequestConfig())
-        const data = await response.json()
+      await fetch(state.data.url_server + `/${url_list[state.book.type]}`, request_config)
+      .catch(() => bad_request('Запрос на удаление записи соваря не выполнен'))
+
+      await fetch(state.data.url_server + `/get_${url_list[state.book.type]}`, getRequestConfig())
+      .then(response => response.json())
+      .then(data => {
         if (data.success) {
           dispatch({
             type: 'ADD_DATA',
@@ -2590,15 +2240,10 @@ export function addDictMalfunction() {
             data: data.count
           })
         } else {
-          console.log(data.massage, response.status)
-          if (response.status === 401 || response.status === 422) {
-            sessionStorage.clear()
-            dispatch({
-              type: 'LOGUOT'
-            })
-          }
+          console.warn(data.massage)
         }
-      }
+      })
+      .catch(() => bad_request('Запрос данных словаря не выполнен'))  
     }
   }
 
@@ -2611,30 +2256,27 @@ export function addDictPackagelist() {
     page: state.book.page_packagelist
   })
   
-  return async dispatch => {
+  return dispatch => {
     
-    const response = await fetch(state.data.url_server + '/get_packagelist', request_config)
-    const data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'dictPackagelist',
-        data: data.data
-      })
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'count_packagelist',
-        data: data.count
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    fetch(state.data.url_server + '/get_packagelist', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'dictPackagelist',
+          data: data.data
         })
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'count_packagelist',
+          data: data.count
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос списка комплектаций не выполнен'))  
   }
 }
 
@@ -2646,30 +2288,27 @@ export function addItemPayments() {
     page: state.book.page_item_payments
   })
   
-  return async dispatch => {
+  return dispatch => {
     
-    const response = await fetch(state.data.url_server + '/get_item_payments', request_config)
-    const data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'item_payments',
-        data: data.data
-      })
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'count_item_payments',
-        data: data.count
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    fetch(state.data.url_server + '/get_item_payments', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'item_payments',
+          data: data.data
         })
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'count_item_payments',
+          data: data.count
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос статей плтатежей не выполнен'))  
   }
 }
 
@@ -2692,34 +2331,32 @@ export function createCashbox() {
   })
 
   return async dispatch => {
-    let response = await fetch(state.data.url_server + '/cashbox', request_config)
-    let data = await response.json()
 
-    response = await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'cashboxes',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusCashboxEditor',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_CASHBOX'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    await fetch(state.data.url_server + '/cashbox', request_config)
+    .catch(() => bad_request('Запрос на создание кассы не выполнен'))
+
+    await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'cashboxes',
+          data: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCashboxEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_CASHBOX'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос касс не выполнен'))  
   }
 }
 
@@ -2728,33 +2365,31 @@ export function addCashboxes() {
 
   const state = store.getState()
 
-  return async dispatch => {
-    const response = await fetch(state.data.url_server + '/get_cashbox', getRequestConfig({}))
-    const data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'cashboxes',
-        data: data.data,
-      })
-      dispatch({
-        type: 'CHANGE_CASHBOX_FORM',
-        field: 'current_cashbox',
-        value: data.data.filter(cashbox => 
-          !cashbox.deleted && 
-          cashbox.employees[state.data.user.id].available &&
-          (cashbox.branch_id === (state.data.current_branch ? state.data.current_branch.id : false ) || cashbox.isGlobal)
-        )[0]
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+  return dispatch => {
+
+    fetch(state.data.url_server + '/get_cashbox', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'cashboxes',
+          data: data.data,
         })
+        dispatch({
+          type: 'CHANGE_CASHBOX_FORM',
+          field: 'current_cashbox',
+          value: data.data.filter(cashbox => 
+            !cashbox.deleted && 
+            cashbox.employees[state.data.user.id].available &&
+            (cashbox.branch_id === (state.data.current_branch ? state.data.current_branch.id : false ) || cashbox.isGlobal)
+          )[0]
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос касс не выполнен'))
   }
 }
 
@@ -2774,37 +2409,35 @@ export function seveEditCashbox() {
     employees: state.cashbox.employees,
     branch_id: state.data.current_branch.id
   })
+  request_config.method = 'PUT'
 
   return async dispatch => {
-    request_config.method = 'PUT'
-    let response = await fetch(state.data.url_server + '/cashbox', request_config)
-    let data = await response.json()
-
-    response = await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'cashboxes',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusCashboxEditor',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_CASHBOX'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    
+    await fetch(state.data.url_server + '/cashbox', request_config)
+    .catch(() => bad_request('Запрос на изменение кассы не выполнен'))
+    
+    await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'cashboxes',
+          data: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCashboxEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_CASHBOX'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос касс не выполнен'))
   }
 }
 
@@ -2817,37 +2450,35 @@ export function deleteCashbox(flag) {
     id: state.cashbox.edit,
     deleted: flag
   })
+  request_config.method = 'PUT'
 
   return async dispatch => {
-    request_config.method = 'PUT'
-    let response = await fetch(state.data.url_server + '/cashbox', request_config)
-    let data = await response.json()
+    
+    await fetch(state.data.url_server + '/cashbox', request_config)
+    .catch(() => bad_request('Запрос на удаление/восстановление кассы не выполнен'))
 
-    response = await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'cashboxes',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusCashboxEditor',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_CASHBOX'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'cashboxes',
+          data: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusCashboxEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_CASHBOX'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос касс не выполнен'))   
   }
 }
 
@@ -2889,51 +2520,62 @@ export function createPayment() {
   })
 
   return async dispatch => {
-    let response = await fetch(state.data.url_server + '/payments', request_config)
-    let data = await response.json()
 
-    response = await fetch(state.data.url_server + '/get_payments', request_config_2)
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'payments',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusPaymentsEditor',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_PAYMENTS'
-      })
-    } else {
-      console.log(data.massage, response.status)
-      sessionStorage.clear()
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    await fetch(state.data.url_server + '/payments', request_config)
+    .catch(() => bad_request('Запрос на создание платежа не выполнен'))
+
+    await fetch(state.data.url_server + '/get_payments', request_config_2)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'payments',
+          data: data.data,
         })
-      }
-    }
-    response = await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'cashboxes',
-        data: data.data,
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
         dispatch({
-          type: 'LOGUOT'
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusPaymentsEditor',
+          value: false
         })
+        dispatch({
+          type: 'RESET_PAYMENTS'
+        })
+      } else {
+        console.warn(data.massage)
       }
+    })
+    .catch(() => bad_request('Запрос платежей не выполнен'))  
+   
+    await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'cashboxes',
+          data: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос касс не выполнен'))  
+
+    if(state.order.edit) {
+      fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
+      .then(response =>  response.json())
+      .then(data => {
+        if (data.success) {
+          dispatch({
+            type: 'EDIT_ORDER',
+            order: data.data[0]
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос заказов не выполнен'))
     }
   }
 }
@@ -2948,24 +2590,22 @@ export function addPayments() {
     tags: state.payment.filter_tags.length ? state.payment.filter_tags : null
   })
 
-  return async dispatch => {
-    const response = await fetch(state.data.url_server + '/get_payments', request_config)
-    const data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'payments',
-        data: data.data,
-      })
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+  return dispatch => {
+    
+    fetch(state.data.url_server + '/get_payments', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'payments',
+          data: data.data,
         })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос платежей не выполнен'))  
   }
 }
 
@@ -2979,6 +2619,7 @@ export function deletePayment(flag) {
     relation_id: state.payment.relation_id ? state.payment.relation_id : null,
     deleted: flag
   })
+  request_config.method = 'PUT'
 
   const request_config2 = getRequestConfig({
     custom_created_at: [state.payment.filter_created_at[0], state.payment.filter_created_at[1] + 86399],
@@ -2987,44 +2628,549 @@ export function deletePayment(flag) {
   })
 
   return async dispatch => {
-    request_config.method = 'PUT'
-    let response = await fetch(state.data.url_server + '/payments', request_config)
-    let data = await response.json()
+    
+    await fetch(state.data.url_server + '/payments', request_config)
+    .catch(() => bad_request('Запрос на удаление/восстановление платежа не выполнен'))
 
-    response = await fetch(state.data.url_server + '/get_payments', request_config2)
-    data = await response.json()
-    if (data.success) {
-      dispatch({
-        type: 'ADD_DATA',
-        field: 'payments',
-        data: data.data,
-      })
-      dispatch({
-        type: 'SET_VISIBLE_FLAG',
-        field: 'statusPaymentsCard',
-        value: false
-      })
-      dispatch({
-        type: 'RESET_PAYMENTS'
-      })
-
-      response = await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-      data = await response.json()
+    await fetch(state.data.url_server + '/get_payments', request_config2)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'payments',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusPaymentsCard',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_PAYMENTS'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос платежей не выполнен'))  
+    
+    await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
         dispatch({
           type: 'ADD_DATA',
           field: 'cashboxes',
           data: data.data,
         })
+      } else {
+        console.warn(data.massage)
       }
-    } else {
-      console.log(data.massage, response.status)
-      if (response.status === 401 || response.status === 422) {
-        sessionStorage.clear()
+    })
+    .catch(() => bad_request('Запрос касс не выполнен'))  
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+export function createPrice() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    title: state.price.title,
+    margin: state.price.margin,
+    margin_type: state.price.margin_type,
+    deleted: state.price.deleted
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/discount_margin', request_config)
+    .catch(() => bad_request('Запрос на создание наценки не выполнен'))
+
+    await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
         dispatch({
-          type: 'LOGUOT'
+          type: 'ADD_DATA',
+          field: 'discount_margin',
+          data: data.data,
         })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusPriceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_PRICE'
+        })
+      } else {
+        console.warn(data.massage)
       }
-    }
+    })
+    .catch(() => bad_request('Запрос наценок не выполнен'))  
+  }
+}
+
+
+export function savePrice() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    id: state.price.edit,
+    title: state.price.title,
+    margin: state.price.margin,
+    margin_type: state.price.margin_type,
+    deleted: state.price.deleted
+  })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/discount_margin', request_config)
+    .catch(() => bad_request('Запрос на изменение ыены не выполнен'))
+
+    await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'discount_margin',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusPriceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_PRICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос наценок не выполнен'))  
+  }
+}
+
+export function deletePrice( flag ) {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    id: state.price.edit,
+    deleted: flag
+  })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/discount_margin', request_config)
+    .catch(() => bad_request('Запрос на удаление ыены не выполнен'))
+
+    await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'discount_margin',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusPriceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_PRICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос наценок не выполнен'))  
+  }
+}
+
+
+export function addGroupeService() {
+
+  const state = store.getState()
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/get_group_dict_service', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'group_dict_service',
+          data: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос категорий не выполнен'))  
+  }
+}
+
+
+export function createGroupDictService() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    title: state.dictService.group_title,
+    deleted: false
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/group_dict_service', request_config)
+    .catch(() => bad_request('Запрос на создание категории не выполнен'))
+
+    await fetch(state.data.url_server + '/get_group_dict_service', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'group_dict_service',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusGroupServiceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_GROPE_DICT_SERVICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос категорий не выполнен'))  
+  }
+}
+
+
+export function saveGroupDictService() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.dictService.group_edit,
+    title: state.dictService.group_title
+    })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/group_dict_service', request_config)
+    .catch(() => bad_request('Запрос на создание категории не выполнен'))
+
+    await fetch(state.data.url_server + '/get_group_dict_service', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'group_dict_service',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusGroupServiceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_GROPE_DICT_SERVICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос категорий не выполнен'))  
+  }
+}
+
+export function deleteGroupDictService( flag ) {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.dictService.group_edit,
+    deleted: flag
+    })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/group_dict_service', request_config)
+    .catch(() => bad_request('Запрос на создание категории не выполнен'))
+
+    await fetch(state.data.url_server + '/get_group_dict_service', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'group_dict_service',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusGroupServiceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_GROPE_DICT_SERVICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос категорий не выполнен'))  
+  }
+}
+
+
+
+export function addDictService() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    category_id: state.dictService.seted_categiry
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/get_dict_service', request_config)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'dict_service',
+          data: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос услуг не выполнен'))  
+  }
+}
+
+
+export function createDictService() {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    title: state.dictService.title,
+    price: state.dictService.price,
+    cost: state.dictService.cost,
+    warranty: state.dictService.warranty,
+    code: state.dictService.code,
+    earnings_percent: state.dictService.earnings_percent,
+    earnings_summ: state.dictService.earnings_summ,
+    deleted: false,
+    category_id: state.dictService.category_id
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/dict_service', request_config)
+    .catch(() => bad_request('Запрос на создание услуги не выполнен'))
+
+    await fetch(state.data.url_server + '/get_dict_service', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'dict_service',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusServiceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_SERVICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос услуг не выполнен'))  
+  }
+}
+
+export function saveDictService() {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.dictService.edit,
+    title: state.dictService.title,
+    price: state.dictService.price,
+    cost: state.dictService.cost,
+    warranty: state.dictService.warranty,
+    code: state.dictService.code,
+    earnings_percent: state.dictService.earnings_percent,
+    earnings_summ: state.dictService.earnings_summ,
+    deleted: state.dictService.deleted,
+    category_id: state.dictService.category_id
+  })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/dict_service', request_config)
+    .catch(() => bad_request('Запрос на изменение услуги не выполнен'))
+
+    await fetch(state.data.url_server + '/get_dict_service', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'dict_service',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusServiceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_SERVICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос услуг не выполнен'))  
+  }
+}
+
+
+export function deleteDictService(flag) {
+
+  const state = store.getState()
+
+  let request_config = getRequestConfig({
+    id: state.dictService.edit,
+    deleted: flag
+  })
+  request_config.method = 'PUT'
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/dict_service', request_config)
+    .catch(() => bad_request('Запрос на удалене/восстановление услуги не выполнен'))
+
+    await fetch(state.data.url_server + '/get_dict_service', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'dict_service',
+          data: data.data,
+        })
+        dispatch({
+          type: 'SET_VISIBLE_FLAG',
+          field: 'statusServiceEditor',
+          value: false
+        })
+        dispatch({
+          type: 'RESET_SERVICE'
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос услуг не выполнен'))  
+  }
+}
+
+export function addServicePrices() {
+
+  const state = store.getState()
+
+  return  dispatch => {
+
+    fetch(state.data.url_server + '/get_service_prices', getRequestConfig())
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'service_prices',
+          data: data.data,
+      })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос цен на услуги не выполнен'))  
+  }
+}
+
+
+export function createSaveServicePrice(id, cost, discount_margin_id, service_id) {
+
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    id,
+    cost,
+    discount_margin_id,
+    service_id
+  })
+
+  return async dispatch => {
+
+    await fetch(state.data.url_server + '/service_prices', request_config)
+    .catch(() => bad_request('Запрос на создание услуги не выполнен'))
+
+    await fetch(state.data.url_server + '/get_service_prices', getRequestConfig({}))
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'service_prices',
+          data: data.data,
+        })
+      } else {
+        console.warn(data.massage)
+      }
+    })
+    .catch(() => bad_request('Запрос услуг не выполнен'))  
   }
 }

@@ -14,7 +14,7 @@ const Analytics = (props) => {
 
 const mapStateToProps = state => ({
 
-   })
+})
 
 const mapDispatchToProps = {
 

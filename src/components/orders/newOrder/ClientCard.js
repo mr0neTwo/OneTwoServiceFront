@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { showPhone } from '../../general/utils'
-import { resetClient, editClient } from '../../../Redux/actions'
+import { editClient, changeOrderFormS } from '../../../Redux/actions'
 import ClientEditor from '../../Clients/ClientEditor/ClientEditor'
 
 const ClientCard = (props) => {
@@ -35,7 +35,7 @@ const ClientCard = (props) => {
          </div>
          <div 
             className='crossButtom'
-            onClick={() => props.resetClient()}
+            onClick={() => props.changeOrderFormS({}, 'client')}
          >
             &#9587;
          </div>
@@ -51,8 +51,8 @@ const mapStateToProps = state => ({
    })
 
 const mapDispatchToProps = {
-   resetClient,
-   editClient
+   editClient,
+   changeOrderFormS
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(ClientCard)

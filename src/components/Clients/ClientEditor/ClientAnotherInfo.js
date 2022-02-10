@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import {
   changeClientEditorForm,
   setClietnCheckbox,
-  setTypeDiscountGood,
-  setTypeDiscountMaterials,
   addClientTag,
   deleteClientTag,
   setVisibleFlag,
@@ -18,6 +16,7 @@ import ChooseBotton from '../../general/ChooseBotton'
 import LableArea from '../../general/LableArea'
 
 const ClientAnotherInfo = (props) => {
+
   return (
     <div className="clientGenerally">
 
@@ -25,21 +24,43 @@ const ClientAnotherInfo = (props) => {
       <LableInput
         className='mt15 w250'
         title='Скидочная карта'
-        onChange={(event) => props.changeClientEditorForm('discount_code', event.target.value)}
+        onChange={event => props.changeClientEditorForm(event.target.value, 'discount_code')}
         value={props.client.discount_code}
         disabled={props.client.deleted}
       />
-      <LableInput
+      <div className='row al-itm-fs'>
+      <ChooseBotton
         className='mt15'
-        title='Скидка на работы услуги'
-        onChange={(event) => props.changeClientEditorForm('discount_services', event.target.value.replace(/[^0-9]/g, ''))}
-        value={props.client.discount_services}
-        unit='%'
+        title='Скидка на услуги в Заказе и Счете'
+        name={['Фиксированная', 'От типа цены']}
+        func1 = {() => props.setClietnCheckbox('discount_service_type', false) }
+        func2 = {() =>  props.setClietnCheckbox('discount_service_type', true) }
+        checked = { true }
         disabled={props.client.deleted}
-        checkedFlag='inputClientDiscServChecked'
-        checked={check0_100(props.client.discount_services)}
-        errorMassage='Введите значение от 0 до 100'
       />
+        {props.client.discount_service_type ? (
+          <ChooseOfList
+            id={111}
+            className='ml30 mt35 h27'
+            list={props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 1)}
+            field='discount_service_margin_id'
+            setElement={props.changeClientEditorForm}
+            current_id={props.client.discount_service_margin_id}
+            width={'150px'}
+          />
+        ) : (
+          <LableInput
+            className='ml30 mt35'
+            onChange={event => props.changeClientEditorForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_services')}
+            value={props.client.discount_services}
+            unit='%'
+            disabled={props.client.deleted}
+            checkedFlag='inputClientDiscServChecked'
+            checked={check0_100(props.client.discount_services)}
+            errorMassage='Введите значение от 0 до 100'
+          />
+        )}
+      </div>
       <div className='row al-itm-fs'>
       <ChooseBotton
         className='mt15'
@@ -54,15 +75,16 @@ const ClientAnotherInfo = (props) => {
           <ChooseOfList
             id={11}
             className='mt35 h27'
-            list={props.discount_margin}
-            setElement={props.setTypeDiscountMaterials}
+            list={props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 2)}
+            field='discount_materials_margin_id'
+            setElement={props.changeClientEditorForm}
             current_id={props.client.discount_materials_margin_id}
             width={'150px'}
           />
         ) : (
           <LableInput
-            className='mt15'
-            onChange={(event) => props.changeClientEditorForm('discount_materials', event.target.value.replace(/[^0-9]/g, ''))}
+            className='ml15 mt35'
+            onChange={event => props.changeClientEditorForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_materials')}
             value={props.client.discount_materials}
             unit='%'
             disabled={props.client.deleted}
@@ -86,15 +108,16 @@ const ClientAnotherInfo = (props) => {
           <ChooseOfList
             id={12}
             className='ml30 mt35 h27'
-            list={props.discount_margin}
-            setElement={props.setTypeDiscountGood}
+            list={props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 2)}
+            field='discount_goods_margin_id'
+            setElement={props.changeClientEditorForm}
             current_id={props.client.discount_goods_margin_id}
             width={'150px'}
           />
         ) : (
           <LableInput
             className='ml30 mt35'
-            onChange={(event) => props.changeClientEditorForm('discount_goods', event.target.value.replace(/[^0-9]/g, ''))}
+            onChange={event => props.changeClientEditorForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_goods')}
             value={props.client.discount_goods}
             unit='%'
             disabled={props.client.deleted}
@@ -107,7 +130,7 @@ const ClientAnotherInfo = (props) => {
       <LableArea
         className='mt15'
         title='Примечание'
-        onChange={event => props.changeClientEditorForm('notes', event.target.value)}
+        onChange={event => props.changeClientEditorForm(event.target.value, 'notes')}
         value={props.client.notes}
         disabled={props.client.deleted}
       />
@@ -131,8 +154,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   changeClientEditorForm,
   setClietnCheckbox,
-  setTypeDiscountGood,
-  setTypeDiscountMaterials,
   addClientTag,
   deleteClientTag,
   setVisibleFlag,

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { changeStatusMenuVisibleAction } from '../../Redux/actions'
+import { changeStatusMenuVisibleAction, setVisibleFlag } from '../../Redux/actions'
 import StatusListGroup from './StatusListGroup'
 
-function StatusList({ orderId, changeStatusMenuVisible }) {
+function StatusList(props) {
   const groupName = [
     'Новые',
     'На исполнении',
@@ -17,10 +17,12 @@ function StatusList({ orderId, changeStatusMenuVisible }) {
 
   const clichHandel = (event) => {
     if (
-      event.target.parentElement.id !== 'statusList' &&
-      event.target.id !== 'statusList'
+      // event.target.parentElement.id !== 'statusList' &&
+      // event.target.id !== 'statusList'
+      !event.path.map(el => el.id).includes('statusListOrderForm') 
     ) {
-      changeStatusMenuVisible(orderId)
+      props.changeStatusMenuVisible(props.orderId)
+      props.setVisibleFlag('statusStatusList', false)
     }
   }
 
@@ -37,7 +39,7 @@ function StatusList({ orderId, changeStatusMenuVisible }) {
         <StatusListGroup
           key={idx + groupName}
           groupName={groupName}
-          orderId={orderId}
+          orderId={props.orderId}
           groupIdx={idx}
         />
       ))}
@@ -46,7 +48,8 @@ function StatusList({ orderId, changeStatusMenuVisible }) {
 }
 
 const mapDispatchToProps = {
-  changeStatusMenuVisible: changeStatusMenuVisibleAction
+  changeStatusMenuVisible: changeStatusMenuVisibleAction,
+  setVisibleFlag
 }
 
 export default connect(null, mapDispatchToProps) (StatusList)

@@ -12,10 +12,10 @@ import SettingWherehouse from './SettingPages/SettingWherehouse'
 import SettingStatus from './SettingPages/SettingStatus'
 import SettingTags from './SettingPages/SettingTags'
 import SettingAlerts from './SettingPages/SettingAlerts'
-import SettingServicePrices from './SettingPages/SettingServicePrices'
+import SettingServicePrices from './SettingPages/ServicePrices/SettingServicePrices'
 import SettingBooks from './SettingPages/Books/SettingBooks'
 import SettingTemplates from './SettingPages/SettingTemplates'
-import SettingPrices from './SettingPages/SettingPrices'
+import SettingMargin from './SettingPages/Margin/SettingMargin'
 import SettingMarkening from './SettingPages/SettingMarkening'
 
 
@@ -37,7 +37,7 @@ const Settings = (props) => {
               <Route path = '/settings/services_pricelist' component = {SettingServicePrices}/>
               <Route path = '/settings/books' component = {SettingBooks}/>
               <Route path = '/settings/document-templates' component = {SettingTemplates}/>
-              <Route path = '/settings/prices' component = {SettingPrices}/>
+              <Route path = '/settings/prices' component = {SettingMargin}/>
               <Route path = '/settings/marketing' component = {SettingMarkening}/>
 
               <Redirect from='/settings' to='/settings/generally'/>

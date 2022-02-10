@@ -18,10 +18,10 @@
       value: 'see_profit', // не реализовано
       description: 'Может видеть расчётную прибыль'
    },{
-      value: 'in_list_managers', // не реализовано
+      value: 'in_list_managers', 
       description: 'Отображать сотрудника в списке менеджеров'
    },{
-      value: 'in_list_engineers', // не реализовано
+      value: 'in_list_engineers', 
       description: 'Отображать сотрудника в списке исполнителей'
    },{
       value: 'send_sms', // не реализовано
@@ -75,10 +75,10 @@ export const orders = [
       value: 'delete_orders', // не реализовано
       description: 'Может удалять заказы'
    },{
-      value: 'assing_emploees', // не реализовано
+      value: 'assing_emploees', 
       description: 'Может назначать менеджера и исполнителя в заказ'
    },{
-      value: 'see_client', // не реализовано
+      value: 'see_client', 
       description: 'Может видеть информацию о клиенте'
    },{
       value: 'see_equipment', // не реализовано
@@ -90,7 +90,7 @@ export const orders = [
       value: 'edit_info_orders', // не реализовано
       description: 'Может редактировать поля «Информация о заказе»'
    },{
-      value: 'edit_operations_materials', // не реализовано
+      value: 'edit_operations_materials', 
       description: 'Может редактировать поля «Работы и материалы»'
    },{
       value: 'add_service_list', // не реализовано
@@ -196,6 +196,21 @@ export const finance = [
    },{
       value: 'edit_refund', // не реализовано
       description: 'Может редактировать цену возврата'
+   },{
+      value: 'see_all_payrolls',
+      description: 'Может видеть начисления ЗП других сотрудников'
+   },{
+      value: 'create_payrolls', 
+      description: 'Может добавлять перемию/взыскание'
+   },{
+      value: 'see_seleted_payrolls', 
+      description: 'Может видеть удаленные начисления ЗП'
+   },{
+      value: 'delete_payrolls', 
+      description: 'Может удалять начисления ЗП'
+   },{
+      value: 'recover_payrolls', 
+      description: 'Может восстанавливать начисления ЗП'
    }
 ]
 
@@ -295,8 +310,11 @@ export const clients = [
       value: 'edit_client', // не реализовано
       description: 'Может редактировать клиента'
    },{
-      value: 'delete_client', // не реализовано
+      value: 'delete_client',
       description: 'Может удалять клиента'
+   },{
+      value: 'recover_client',
+      description: 'Может восстанаваливать клиента'
    },{
       value: 'see_client_call', // не реализовано
       description: 'Может видеть звонки'
@@ -442,6 +460,21 @@ export const setting = [
       value: 'setting_service',
       description: 'Перечень работ и услуг'
    },{
+      value: 'setting_create_service',
+      description: 'Может создавать работы и услуги'
+   },{
+      value: 'setting_see_deleted_service',
+      description: 'Может видеть удаленные работы и услуги'
+   },{
+      value: 'setting_edit_service',
+      description: 'Может редактировать услуги'
+   },{
+      value: 'setting_delete_service',
+      description: 'Может удалять работы и услги'
+   },{
+      value: 'setting_recover_service',
+      description: 'Может восстанавливать работы и услги'
+   },{
       value: 'setting_book',
       description: 'Справочники'
    },{
@@ -456,6 +489,21 @@ export const setting = [
    },{
       value: 'setting_price',
       description: 'Цены и скидки'
+   },{
+      value: 'setting_create_price',
+      description: 'Может добавлять цены и скидки'
+   },{
+      value: 'setting_edit_price',
+      description: 'Может редактировать цены и скидки'
+   },{
+      value: 'setting_price_show_deleted',
+      description: 'Может видеть удаленные наценки'
+   },{
+      value: 'setting_price_delete',
+      description: 'Может удалять наценки'
+   },{
+      value: 'setting_price_recover_deleted',
+      description: 'Может восстанавливать удаленные наценки'
    },{
       value: 'setting_marketing',
       description: 'Маркетинг'

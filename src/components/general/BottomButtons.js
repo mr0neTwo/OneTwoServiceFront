@@ -53,3 +53,11 @@ const BottomButtons = (props) => {
 }
 
 export default BottomButtons
+
+// edit={props.edit}
+// deleted={props.deleted}
+// create={() => console.log('create')}
+// save={() => console.log('save')}
+// delete={() => console.log('delete')}
+// recover={() => console.log('recover')}
+// close={() => console.log('close')}

@@ -12,20 +12,29 @@ const ChooseOfList = (props) => {
          if (listVisible) {
             setListVisible(false)
       }}
-    }
+   }
    
-    useEffect(() => {
-      window.addEventListener('click', clickHandel)
-      return () => {
-        window.removeEventListener('click', clickHandel)
-      }
-    })
+   useEffect(() => {
+   window.addEventListener('click', clickHandel)
+   return () => {
+      window.removeEventListener('click', clickHandel)
+   }
+   })
 
-    const current = props.list.find(element => element.id === props.current_id)
+   const current = props.list.find(element => element.id === props.current_id)
 
- 
+   const handleClickChecked = (element) => {
+      props.setElement(element.id, props.field ? props.field : null)
+      setListVisible(false)
+      props.setVisibleFlag(props.checkedFlag, true)
+   }
 
-   return (
+   const handleClick = (element) => {
+      props.setElement(element.id, props.field ? props.field : null)
+      setListVisible(false)
+   }
+
+   return props.unvisible ? (<div/>) : (
       <div 
          className={props.className}
          style={{width: props.width ? props.width : '250px'}} 
@@ -55,11 +64,7 @@ const ChooseOfList = (props) => {
                <div
                   key={element.id}
                   className='options'
-                  onClick={() => {
-                  props.setElement(element.id, props.field ? props.field : null)
-                  setListVisible(false)
-                  props.setVisibleFlag(props.checkedFlag, true)
-                  }}
+                  onClick={props.checkedFlag ? () => handleClickChecked(element) : () => handleClick(element)}
                >
                   {props.employee ? `${element.last_name} ${element.first_name}` : (element.title ? element.title : element.name)}
                </div>
@@ -80,3 +85,17 @@ const mapDispatchToProps = {
   
  export default connect(mapStateToProps, mapDispatchToProps)(ChooseOfList)
 
+
+   // id={}
+   // title='Наменование'
+   // className='className'
+   // list={props.list}
+   // field='field'
+   // setElement={props.setElement}
+   // current_id={props.current_id}
+   // width={'250px'}
+   // employee={false}
+   // checkedFlag='checkedFlag'
+   // checked={flag}
+   // disabled={false}
+   // unvisible={false}

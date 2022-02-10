@@ -178,8 +178,10 @@ const ClientEditor = (props) => {
           edit={props.client.edit}
           create={handelCreateClient}
           save={handelSaveClient}
-          delete={() => props.deleteClient(props.client.edit)}
+          delete={ props.permissions.includes('delete_client') ? () => props.deleteClient(true) : null}
+          recover={ props.permissions.includes('recover_client') ? () => props.deleteClient(false) : null}
           close={() => props.setVisibleFlag('statusCreateNewClient', false)}
+          deleted={props.client.deleted}
         />
       </div>
     </div>
@@ -189,6 +191,7 @@ const ClientEditor = (props) => {
 const mapStateToProps = (state) => ({
   view: state.view,
   client: state.client,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

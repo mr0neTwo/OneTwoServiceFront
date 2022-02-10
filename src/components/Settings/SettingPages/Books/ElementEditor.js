@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import {
-  setVisibleFlag,
-  changeBookForm,
-  createBookElement,
-} from '../../../../Redux/actions'
+import { setVisibleFlag, createBookElement } from '../../../../Redux/actions'
+import { changeBookForm } from '../../../../Redux/actions/bookActions'
 
 import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'

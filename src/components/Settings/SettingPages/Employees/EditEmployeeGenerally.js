@@ -5,12 +5,10 @@ import InputMask from 'react-input-mask'
 import LableInput from '../../../general/LableInput'
 import LableArea from '../../../general/LableInput'
 import ChooseOfList from '../../../general/ChooseOfList'
+import SalaryRule from './SalaryRule'
 
-import {
-  changeEmployeEditorForm,
-  changeEmployeeEditorRoleOptions,
-  setRoleEmployeeEdetor,
-} from '../../../../Redux/actions'
+import { changeEmployeEditorForm, changeEmployeeEditorRoleOptions, setRoleEmployeeEdetor } from '../../../../Redux/actions'
+
 
 function EditEmployeeGenerally(props) {
   return (
@@ -108,6 +106,13 @@ function EditEmployeeGenerally(props) {
         value={props.employee.notes}
         disabled={props.employee.deleted}
       />
+      <LableInput
+        className="w250 mt15"
+        title="Должность"
+        onChange={(event) => props.changeEmployeEditorForm(event.target.value, 'post')}
+        value={props.employee.post}
+        disabled={props.employee.deleted}
+      />
       <div className="lableImput mt15">Роль</div>
       <ChooseOfList
         id={19}
@@ -119,9 +124,8 @@ function EditEmployeeGenerally(props) {
         width={'250px'}
         disabled={props.employee.deleted}
       />
-      {!props.view.inputEmployeeRoleChecked ? (
-        <div className="errorMassageInput">Выберете роль</div>
-      ) : null}
+      {!props.view.inputEmployeeRoleChecked ? <div className="errorMassageInput">Выберете роль</div> : null}
+      {props.employee.edit ? <SalaryRule/> : null}
     </div>
   )
 }
@@ -139,7 +143,4 @@ const mapDispatchToProps = {
   setRoleEmployeeEdetor,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditEmployeeGenerally)
+export default connect( mapStateToProps, mapDispatchToProps )(EditEmployeeGenerally)

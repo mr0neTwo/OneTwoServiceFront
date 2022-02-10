@@ -6,62 +6,62 @@ import LableInput from '../../general/LableInput'
 
 const ClientJuridicalInfo = (props) => {
   return (
-    <div className="clientGenerally">
-      <div className="orderFormTitle">Реквизиты компании</div>
+    <div className='clientGenerally'>
+      <div className='orderFormTitle'>Реквизиты компании</div>
       <LableInput
-        className="w250 mt15"
-        title="ОГРН"
-        onChange={(event) => props.changeClientEditorForm('ogrn', event.target.value) }
+        className='w250 mt15'
+        title='ОГРН'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'ogrn') }
         value={props.client.ogrn}
       />
       <LableInput
-        className="w250 mt15"
-        title="ИНН"
-        onChange={(event) => props.changeClientEditorForm('inn', event.target.value)}
+        className='w250 mt15'
+        title='ИНН'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'inn')}
         value={props.client.inn}
       />
       <LableInput
-        className="w250 mt15"
-        title="КПП"
-        onChange={(event) => props.changeClientEditorForm('kpp', event.target.value)}
+        className='w250 mt15'
+        title='КПП'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'kpp')}
         value={props.client.kpp}
       />
       <LableInput
-        className="w250 mt15"
-        title="Юридический адрес"
-        onChange={(event) => props.changeClientEditorForm('juridical_address', event.target.value)}
+        className='w250 mt15'
+        title='Юридический адрес'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'juridical_address')}
         value={props.client.juridical_address}
       />
       <LableInput
-        className="w250 mt15"
-        title="Директор"
-        onChange={(event) => props.changeClientEditorForm('director', event.target.value)}
+        className='w250 mt15'
+        title='Директор'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'director')}
         value={props.client.director}
       />
 
-      <div className="orderFormTitle">Банковские реквизиты</div>
+      <div className='orderFormTitle'>Банковские реквизиты</div>
       <LableInput
-        className="w250 mt15"
-        title="Название банка"
-        onChange={(event) => props.changeClientEditorForm('bank_name', event.target.value) }
+        className='w250 mt15'
+        title='Название банка'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'bank_name') }
         value={props.client.bank_name}
       />
       <LableInput
-        className="w250 mt15"
-        title="Р/С"
-        onChange={(event) => props.changeClientEditorForm('settlement_account', event.target.value)}
+        className='w250 mt15'
+        title='Р/С'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'settlement_account')}
         value={props.client.settlement_account}
       />
       <LableInput
-        className="w250 mt15"
-        title="К/С"
-        onChange={(event) => props.changeClientEditorForm('corr_account', event.target.value)}
+        className='w250 mt15'
+        title='К/С'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'corr_account')}
         value={props.client.corr_account}
       />
       <LableInput
-        className="w250 mt15"
-        title="БИК"
-        onChange={(event) => props.changeClientEditorForm('bic', event.target.value)}
+        className='w250 mt15'
+        title='БИК'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'bic')}
         value={props.client.bic}
       />
     </div>

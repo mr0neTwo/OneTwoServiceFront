@@ -15,42 +15,34 @@ import LableInput from '../../general/LableInput'
 
 const ClientGenerallyInfo = (props) => {
   return (
-    <div className="clientGenerally">
-      <div className="orderFormTitle">Общая информация</div>
+    <div className='clientGenerally'>
+      <div className='orderFormTitle'>Общая информация</div>
       <LableInput
-        className="w250 mt15"
+        className='w250 mt15'
         title={props.client.juridical ? 'Название компании' : 'Имя клиета'}
         redStar={true}
-        onChange={(event) =>
-          props.changeClientEditorForm('name', event.target.value)
-        }
+        onChange={event => props.changeClientEditorForm(event.target.value, 'name')}
         value={props.client.name}
-        checkedFlag="inputClientNameChecked"
+        checkedFlag='inputClientNameChecked'
         checked={props.inputClientNameChecked}
       />
       <LableInput
-        className="w250 mt15"
-        title="Обращение"
-        name="name_doc"
-        onChange={(event) =>
-          props.changeClientEditorForm(event.target.name, event.target.value)
-        }
+        className='w250 mt15'
+        title='Обращение'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'name_doc')}
         value={props.client.name_doc}
       />
       <AddPhones />
       <LableInput
-        className="w250 mt15"
-        title="Email"
-        name="email"
-        onChange={(event) =>
-          props.changeClientEditorForm(event.target.name, event.target.value)
-        }
+        className='w250 mt15'
+        title='Email'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'email')}
         value={props.client.email}
       />
-      <div className="checkbox mt5">
+      <div className='checkbox mt5'>
         <input
-          type="checkbox"
-          name="should_send_email"
+          type='checkbox'
+          name='should_send_email'
           onChange={(event) =>
             props.setClietnCheckbox(event.target.name, 'change')
           }
@@ -59,23 +51,20 @@ const ClientGenerallyInfo = (props) => {
         <label>Согласен получать Email</label>
       </div>
       <LableInput
-        className="w250 mt15"
-        title="Адрес"
-        name="address"
-        onChange={(event) =>
-          props.changeClientEditorForm(event.target.name, event.target.value)
-        }
+        className='w250 mt15'
+        title='Адрес'
+        onChange={event => props.changeClientEditorForm(event.target.value, 'address')}
         value={props.client.address}
       />
 
       <ChooseOfList
         id={13}
-        className="mt15 h52"
-        title="Откуда клиент о нас узнал"
+        className='mt15 h52'
+        title='Откуда клиент о нас узнал'
         list={props.ad_campaign}
         setElement={props.setAdCampaignClient}
         current_id={props.client.ad_campaign_id}
-        width="250px"
+        width='250px'
       />
 
       {props.client.juridical ? <ClientJuridicalInfo /> : null}

@@ -1,5 +1,5 @@
-import { data_setting_menu } from '../data/dataSettingRows'
-import { data_menu_rows } from '../data/dataSidebarRows'
+import { data_setting_menu } from '../../data/dataSettingRows'
+import { data_menu_rows } from '../../data/dataSidebarRows'
 
 const initialState = {
   ordersShow: [],
@@ -23,6 +23,11 @@ const initialState = {
   generally_info: {},
   branches: [],
   cashboxes: [],
+  payrules: [],
+  payrolls: [],
+  group_dict_service: [],
+  dict_service: [],
+  service_prices: [],
 
   counters: [],
   dictMalfunction: [],
@@ -31,14 +36,25 @@ const initialState = {
   count_packagelist: 0,
   item_payments: [],
   count_item_payments: 0,
+  equipment_types: [],
+  equipment_type_count: 0,
+  equipment_brands: [],
+  equipment_brand_count: 0,
+  equipment_subtypes: [],
+  equipment_subtype_count: 0,
+  equipment_models: [],
+  equipment_models_count: 0,
+ 
 
   current_branch: {},
 
   token: sessionStorage.getItem('1xsndt') || '',
   login_status: false,
-  url_server: 'http://192.168.1.48:5005'
-  // url_server: 'http://192.168.43.224:5005'
-  // url_server: 'http://172.16.6.217:5005/' 
+  // url_server: 'http://192.168.1.48:5005' // Домашний
+  // url_server: 'http://192.168.43.224:5005' // Мобильный
+  // url_server: 'http://172.16.6.218:5005/' // КЕХУ
+  // url_server: 'http://192.168.1.49:5005/' // рабочий WiFI
+  url_server: 'http://5.53.124.252:5005/'
   
 }
 
@@ -143,11 +159,7 @@ export const dataReducer = (state = initialState, action) => {
             active: row.id === action.id ? true : false
           }})}} 
 
-    case 'ADD_DISCOUNT_MARGIN': {
-      return {
-          ...state, 
-          discount_margin: action.margin,
-        }}
+
 
     case 'ADD_ROLES': {
       return {

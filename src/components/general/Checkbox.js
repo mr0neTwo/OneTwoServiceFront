@@ -5,6 +5,7 @@ import React from 'react'
 const Checkbox = (props) => {
 
    return (
+      props.unvisible ? <div/> :
       <div className={`checkbox ${props.className}`}>
          <input 
             type='checkbox'
@@ -18,8 +19,9 @@ const Checkbox = (props) => {
 
  export default Checkbox
 
-//  className =
-//  label =
-//  onChange = 
-//  checked = 
-//  disabled =
+// className='className'
+// label='label'
+// onChange={() => console.log('change')}
+// checked={props.checked}
+// disabled={false}
+// unvisible={false}

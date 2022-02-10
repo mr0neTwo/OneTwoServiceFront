@@ -5,7 +5,7 @@ const Brand = ({data: {brand}}) => {
    return (
      <td>
      <span className="tableText">
-       {brand}
+       {brand.title}
      </span>
    </td>
    )

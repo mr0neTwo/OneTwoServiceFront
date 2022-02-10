@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-
-import { changeStatusMenuVisibleAction, changeStatusAction, addOrders } from '../../Redux/actions'
+import { addOrders } from '../../Redux/actions/orderActions'
+import { changeStatusMenuVisibleAction, refreshDataOrder } from '../../Redux/actions'
+import { changeStatus } from '../../Redux/actions/orderActions'
 
 
 function StatusListGroup(props) {
@@ -17,7 +18,10 @@ function StatusListGroup(props) {
                 key={status.id}
                 className="statusListRow"
                 style={{ backgroundColor: status.color }}
-                onClick={() => {
+                onClick={props.order.edit ? () => {
+                  props.changeStatus(status.id, props.orderId)
+                  props.refreshDataOrder(props.order.edit)
+                } : () => {
                   props.changeStatus(status.id, props.orderId)
                   props.changeStatusMenuVisible(props.orderId)
                 }}
@@ -31,13 +35,15 @@ function StatusListGroup(props) {
 }
 
 const mapStateToProps = state => ({
-  status: state.data.status
+  status: state.data.status,
+  order: state.order
 })
 
 const mapDispatchToProps = {
   changeStatusMenuVisible: changeStatusMenuVisibleAction,
-  changeStatus: changeStatusAction ,
-  addOrders
+  changeStatus,
+  addOrders,
+  refreshDataOrder
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StatusListGroup)
