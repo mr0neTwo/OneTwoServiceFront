@@ -50,11 +50,11 @@ const initialState = {
 
   token: sessionStorage.getItem('1xsndt') || '',
   login_status: false,
-  // url_server: 'http://192.168.1.48:5005' // Домашний
+  // url_server: 'https://192.168.1.48:5005' // Домашний
   // url_server: 'http://192.168.43.224:5005' // Мобильный
-  // url_server: 'http://172.16.6.218:5005/' // КЕХУ
-  // url_server: 'http://192.168.1.49:5005/' // рабочий WiFI
-  url_server: 'http://5.53.124.252:5005/'
+  // url_server: 'http://172.16.6.218:5005' // КЕХУ
+  // url_server: 'http://192.168.1.49:5005' // рабочий WiFI
+  url_server: 'https://5.53.124.252:5005'
   
 }
 
