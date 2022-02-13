@@ -22,7 +22,7 @@ const EmployeeSalary = (props) => {
    useEffect(() => {
       props.addMonthBalance()
       props.addEmployees()
-   }, [props.payroll.setted_employee, props])
+   }, [props.payroll.setted_employee])
 
    const current_employee = useMemo(() => props.employees.find(employee => employee.id === props.payroll.setted_employee), [props.payroll.setted_employee])
 
