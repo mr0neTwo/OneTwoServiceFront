@@ -1,30 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import { loginAction, loguotAction, addUserAction, log_in } from '../Redux/actions'
 
 function Login(props) {
 
-  const [errorMessage, setErrorMessage] = useState('')
-
-  // useEffect(() => {
-
-  // }, [])
 
   const handleClick = ({target: {form}}) => {
      props.log_in(form.login.value, form.password.value)
   }
 
 
-  const history = useHistory()
 
   return (
     <div className="mainLoginContaner">
       <div className="loginContanier">
         <h2>Войдите в аккаунт</h2>
-        {errorMessage ? (
-          <span className="errorMessageLogin">{errorMessage}</span>
+        {props.error_message ? (
+          <span className="errorMessageLogin">{props.error_message}</span>
         ) : null}
         <form id="loginForm">
           <div>
@@ -47,7 +40,8 @@ function Login(props) {
 }
 
 const mapStateToProps = state => ({
-  serverUrl: state.data.url_server
+  serverUrl: state.data.url_server,
+  error_message: state.data.error_message
 })
 
 const mapDispatchToProps = {

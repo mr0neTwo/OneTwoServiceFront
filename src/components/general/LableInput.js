@@ -3,22 +3,28 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { setVisibleFlag } from '../../Redux/actions'
+import { valueOfPhoneInput } from './utils'
 
 const LableInput = (props) => {
+
+   const handleChange = (event) => {
+      const out = event.target.value.replace(/[^0-9]/g, '')
+      if (out.length < 12) props.onChange(out)
+   }
 
    return (
       <div className={props.className}>
             <div className='lableImput'>{props.title}{props.redStar ? <span className='redStar'>*</span> : null}</div>
             <div className='row'>
                <input 
-                  className={`${props.unit ? 'numberInput' : 'textInput'} ${props.disabled ? 'ds' : null}`}
+                  className={`${props.unit ? 'numberInput' : 'textInput'} ${props.disabled ? 'ds' : null} ${props.inputClassName}`}
                   style={{
                      width: props.width ? props.width : null,
                      borderColor: props.checkedFlag && !props.checked  ? 'red' : null
                   }}
                   name={props.name}
-                  onChange={props.onChange}
-                  value={props.value}
+                  onChange={props.isPhone ? handleChange : props.onChange}
+                  value={props.isPhone ? valueOfPhoneInput(props.value) : props.value}
                   onBlur={props.checkedFlag ? event => props.setVisibleFlag(props.checkedFlag, !!event.target.value) : null}
                   // style={props.checkedFlag && !props.checked  ? {borderColor: 'red'} : null}
                   disabled={props.disabled}
@@ -42,6 +48,7 @@ const mapDispatchToProps = {
 
 
 //  className=''
+//  inputClassName=''
 //  width=''
 //  title=''
 //  name=''
@@ -53,3 +60,4 @@ const mapDispatchToProps = {
 //  disabled={}
 //  redStar={false}
 //  errorMassage=''
+//  isPhone={true}

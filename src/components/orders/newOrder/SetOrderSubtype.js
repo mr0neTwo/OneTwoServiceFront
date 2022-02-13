@@ -74,7 +74,7 @@ const SetOrderSubtype = (props) => {
           value={seted ? subtype.title : props.book.filter_subtype}
           disabled={disabled || seted}
         />
-        {seted ? 
+        {seted && props.permissions.includes('edit_info_orders') ? 
           <svg className="icon-close" viewBox="0 0 22 22" onClick={reset}>
             <path d={icon_close} />
           </svg> : <span>&#6662;</span>
@@ -128,7 +128,8 @@ const mapStateToProps = (state) => ({
   equipment_subtypes: state.data.equipment_subtypes,
   order: state.order,
   view: state.view,
-  book: state.book
+  book: state.book,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

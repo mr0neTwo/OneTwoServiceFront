@@ -34,3 +34,36 @@ export function currentMonth() {
    start_date.setHours(0, 0, 0, 0)
    return [parseInt(start_date / 1000), parseInt(today / 1000)]
 }
+
+export function valueOfPhoneInput(number) {
+   if (number) {
+      switch (number.length) {
+         case 0: 
+            return ''
+         case 1:
+            return `+${number[0]}`
+         case 2:
+            return `+${number[0]} (${number[1]}`
+         case 3:
+            return `+${number[0]} (${number[1]}${number[2]}`
+         case 4:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}`
+         case 5:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}) ${number[4]}`
+         case 6:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}) ${number[4]}${number[5]}`
+         case 7:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}) ${number[4]}${number[5]}${number[6]}`
+         case 8:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}) ${number[4]}${number[5]}${number[6]}-${number[7]}`
+         case 9:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}) ${number[4]}${number[5]}${number[6]}-${number[7]}${number[8]}`
+         case 10:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}) ${number[4]}${number[5]}${number[6]}-${number[7]}${number[8]}-${number[9]}`
+         case 11:
+            return `+${number[0]} (${number[1]}${number[2]}${number[3]}) ${number[4]}${number[5]}${number[6]}-${number[7]}${number[8]}-${number[9]}${number[10]}`
+      } 
+   } else {
+      return ''
+   }
+}

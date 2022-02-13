@@ -81,13 +81,10 @@ export const orders = [
       value: 'see_client', 
       description: 'Может видеть информацию о клиенте'
    },{
-      value: 'see_equipment', // не реализовано
-      description: 'Может видеть информацию об изделии'
-   },{
       value: 'see_calls', // не реализовано
       description: 'Может видеть звонки'
    },{
-      value: 'edit_info_orders', // не реализовано
+      value: 'edit_info_orders', 
       description: 'Может редактировать поля «Информация о заказе»'
    },{
       value: 'edit_operations_materials', 

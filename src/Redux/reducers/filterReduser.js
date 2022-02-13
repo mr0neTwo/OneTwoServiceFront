@@ -28,7 +28,7 @@ const initialState = {
   clientFilter: {
     page: 0,
     name: '',
-    phone: ''
+    phone: '7'
   },
 
   search_word: '',

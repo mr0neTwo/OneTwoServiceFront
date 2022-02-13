@@ -92,12 +92,7 @@ const SetWorkMatireals = (props) => {
                      className='orderInputBox'
                      onClick={() => props.changeClienListOrderPhone()}
                   >
-                     <InputMask 
-                        mask="+7(999) 999-99-99"
-                        className='optionFilterInput'
-                        onChange={event => props.changePhoneClientFilter(event.target.value)}
-                        value={props.phone}
-                     />
+                     
                      <div 
                      className='simbolButton'
                      onClick={() => props.setVisibleFlag('statusCreateNewClient', true)}

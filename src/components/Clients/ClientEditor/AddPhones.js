@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import InputMask from 'react-input-mask'
 
 import {
   changeClientEditorPhone,
@@ -13,8 +12,15 @@ import {
 } from '../../../Redux/actions'
 import PhoneTitle from './PhoneTitle'
 import { icon_trush } from '../../../data/icons'
+import { valueOfPhoneInput } from '../../general/utils'
 
 const AddPhones = (props) => {
+
+  const handleChange = (idx, event) => {
+    const out = event.target.value.replace(/[^0-9]/g, '')
+    if (out.length < 12) props.changeClientEditorPhone(idx, out)
+ }
+
   return (
     <div>
       {props.client.phone.map((phone, idx) => (
@@ -22,28 +28,12 @@ const AddPhones = (props) => {
           <PhoneTitle idx={idx} title={phone.title} />
 
           <div className="inputPhoneBox">
-            <InputMask
-              mask="+7(999) 999-99-99"
-              className="textInput w250"
-              onChange={(event) =>
-                props.changeClientEditorPhone(
-                  idx,
-                  event.target.value.replace(/[^0-9]/g, '')
-                )
-              }
-              value={phone.number}
-              onBlur={(event) =>
-                props.setVisibleListFlag(
-                  'inputClientPhoneChecked',
-                  idx,
-                  event.target.value.replace(/[^0-9]/g, '').length === 11
-                )
-              }
-              style={
-                !props.view.inputClientPhoneChecked[idx]
-                  ? { borderColor: 'red' }
-                  : null
-              }
+            <input
+              className='textInput w250'
+              onChange={event => handleChange(idx, event)}
+              value={valueOfPhoneInput(phone.number)}
+              onBlur={event => props.setVisibleListFlag('inputClientPhoneChecked', idx, event.target.value.replace(/[^0-9]/g, '').length === 11)}
+              style={ !props.view.inputClientPhoneChecked[idx] ? { borderColor: 'red' } : null}
             />
             {idx !== 0 ? (
               <div

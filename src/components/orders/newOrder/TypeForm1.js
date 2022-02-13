@@ -5,19 +5,11 @@ import { changeOrderFormS } from '../../../Redux/actions'
 import ChooseOfList from '../../general/ChooseOfList'
 import ChooseEquipment from './ChooseEquipment'
 import LabelInputOrder from './LabelInputOrder'
-import ru from 'date-fns/locale/ru'
-import DatePicker, { registerLocale } from 'react-datepicker'
 import ChooseSingleEquipment from './ChooseSingleEquipment'
 import ChooseDate from '../../general/ChooseDate'
 
-registerLocale('ru', ru)
 
 const TypeForm1 = (props) => {
-  // useEffect(() => {
-  //   if (!props.order.edit) {
-  //     props.changeOrderFormS(parseInt(Date.now() / 1000) + 4 * 24 * 3600, 'estimated_done_at')
-  //   }
-  // }, [])
 
   return (
     <div>
@@ -31,6 +23,7 @@ const TypeForm1 = (props) => {
             field='ad_campaign_id'
             current_id={props.order.ad_campaign_id}
             width={'250px'}
+            disabled={!props.permissions.includes('edit_info_orders')}
           />
         </div>
       </div>
@@ -52,6 +45,7 @@ const TypeForm1 = (props) => {
               props.changeOrderFormS(event.target.value, 'manager_notes')
             }
             value={props.order.manager_notes}
+            disabled={!props.permissions.includes('edit_info_orders')}
           />
         </div>
       </div>
@@ -62,6 +56,7 @@ const TypeForm1 = (props) => {
         name="estimated_cost"
         onChange={(event) => props.changeOrderFormS(event.target.value.replace(/[^0-9]/g, ''), 'estimated_cost')}
         value={props.order.estimated_cost}
+        disabled={!props.permissions.includes('edit_info_orders')}
       />
 
       <div className="formRow">
@@ -70,20 +65,8 @@ const TypeForm1 = (props) => {
           <ChooseDate
               func={date => props.changeOrderFormS(parseInt(date / 1000), 'estimated_done_at')}
               current_date={props.order.estimated_done_at * 1000}
-              disabled={props.order.status.group > 3}
+              disabled={props.order.status.group > 3 || !props.permissions.includes('edit_info_orders')}
           />
-          {/* {props.order.estimated_done_at ?
-            <DatePicker
-              selected={props.order.estimated_done_at * 1000}
-              onChange={(date) =>
-                props.changeOrderFormS(parseInt(date / 1000), 'estimated_done_at')
-              }
-              // startDate={Date.now() + new Date(4 * 24 * 60 * 60 * 1000)}
-              className="optionFilterInputDate"
-              dateFormat="dd.MM.yyyy HH:mm"
-              locale={'ru'}
-              showTimeSelect
-          /> : null} */}
         </div>
       </div>
     </div>
@@ -93,6 +76,7 @@ const TypeForm1 = (props) => {
 const mapStateToProps = (state) => ({
   ad_campaign: state.data.ad_campaign,
   order: state.order,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

@@ -50,7 +50,7 @@ export function createOperation(service) {
      amount: 1,
      cost: service.cost,
      discount_value: discount_value, 
-     engineer_id: state.order.engineer_id,
+     engineer_id: state.operation.engineer_id,
      price: price,
      total: price - discount_value,
      title: service.title,

@@ -271,6 +271,7 @@ export const visualReducer = (state = initialState, action) => {
             ...state, 
             errorSameLogin: false
          }
+         return state
       }
       
       case 'ADD_ANOTHER_EQUIPMENT': {

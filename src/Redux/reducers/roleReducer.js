@@ -131,10 +131,13 @@ export const roleReducer = (state = initialState, action) => {
                settable_statuses: [],
                settable_discount_margin: []
             }
+         } else {
+            return state
          }
       }
       
-      default: return state
+      default: 
+         return state
    }
    
 }

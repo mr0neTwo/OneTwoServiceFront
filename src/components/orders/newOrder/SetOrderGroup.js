@@ -78,7 +78,7 @@ const SetOrderGroupe = (props) => {
           value={seted ? types.title : props.book.filter_type}
           disabled={seted}
         />
-        {seted ?
+        {seted && props.permissions.includes('edit_info_orders') ?
         <svg 
           className="icon-close"  
           viewBox="0 0 22 22"
@@ -134,7 +134,8 @@ const mapStateToProps = state => ({
   equipment_types: state.data.equipment_types,
   order: state.order,
   view: state.view,
-  book: state.book
+  book: state.book,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

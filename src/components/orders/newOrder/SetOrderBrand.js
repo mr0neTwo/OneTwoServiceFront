@@ -76,7 +76,7 @@ const SetOrderBrand = (props) => {
           value={seted ? brand.title : props.book.filter_brand}
           disabled={disabled || seted}
         />
-        {seted ? 
+        {seted && props.permissions.includes('edit_info_orders') ? 
           <svg
             className="icon-close"
             viewBox="0 0 22 22"
@@ -137,7 +137,8 @@ const mapStateToProps = (state) => ({
   equipment_brands: state.data.equipment_brands,
   order: state.order,
   view: state.view,
-  book: state.book
+  book: state.book,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

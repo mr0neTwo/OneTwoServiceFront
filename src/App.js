@@ -8,15 +8,14 @@ import Login from './components/Login'
 
 function App(props) {
 
-  if (props.token) {
-    return (<Main/>)
-  }
-  return (<Login/>)
+
+  return props.token ? <Main/> : <Login/>
+
   
 }
 
 const mapStateToProps = state => ({
-  token: state.data.token,
+  token: state.data.token
 })
 
 export default connect(mapStateToProps) (App);

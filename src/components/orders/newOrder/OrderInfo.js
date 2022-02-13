@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import ChooseOfList from '../../general/ChooseOfList'
 
 import AssingEmployee from './AssingEmployee'
 import ClientCard from './ClientCard'
@@ -10,7 +11,8 @@ import TypeForm1 from './TypeForm1'
 const OrderInfo = (props) => {
    return (
       <div className = 'contentTab'>
-         <SetTypeOrder />
+
+         <SetTypeOrder/>
          <div className="formRow">
             <div className="optionsTitle"></div>
             <div className="orderFormTitle">Клиент</div>

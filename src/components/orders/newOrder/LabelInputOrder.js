@@ -18,6 +18,7 @@ const LabelInputOrder = (props) => {
                value={props.value}
                onBlur={props.checkedFlag ? event => props.setVisibleListFlag(props.checkedFlag, props.idx, !!event.target.value) : null}
                style={props.checkedFlag && !props.checked  ? { borderColor: 'red' } : null}
+               disabled={props.disabled}
             />
             {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необоходимо заполнить'}</div> : null}
          </div>

@@ -28,10 +28,10 @@ function Main(props) {
         props.addMainData()
         props.addEmployees()
         props.addStatus()
-    }, [])
+    }, [props])
     useEffect(() => {
         props.addData(props.branches.filter(branch => branch.employees.includes(props.user_id))[0], 'current_branch')
-    }, [props.branches])
+    }, [props.branches, props])
 
 
     

@@ -16,7 +16,7 @@ const ManeyMovement = (props) => {
 
    useEffect(() => {
       if (props.current_cashbox) { props.addPayments() }
-   }, [props.current_cashbox])
+   }, [props.current_cashbox, props])
 
    const [showDeleted, setShowDeleted] = useState(false)
    

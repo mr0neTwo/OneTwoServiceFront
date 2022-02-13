@@ -21,7 +21,7 @@ useEffect(() => {
   props.addCustomFilters()
   props.addAdCampaign()
   // props.addEquipment()
-}, [])
+}, [props])
 
 
   

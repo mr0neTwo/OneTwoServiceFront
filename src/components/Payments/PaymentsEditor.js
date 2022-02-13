@@ -34,13 +34,13 @@ const PaymentsEditor = (props) => {
 
   useEffect(() => {
       props.addClients()
-   }, [props.clientFilter])
+   }, [props.clientFilter, props])
 
   useEffect(() => {
     props.addItemPayments()
     props.changePaymentForm(props.user_id, 'employee_id')
     props.changePaymentForm(props.current_cashbox.id, 'cashbox_id')
-  }, [])
+  }, [props])
 
   const hangleCreate = () => {
     if (

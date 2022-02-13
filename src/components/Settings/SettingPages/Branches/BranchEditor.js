@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import InputMask from 'react-input-mask'
 
 import {
   setVisibleFlag,
@@ -74,18 +73,13 @@ const BranchEditor = (props) => {
           value={props.branch.address}
           disabled={props.branch.deleted}
         />
-        <div className="lableImput mt15">Телефон</div>
-        <InputMask
-          mask="+7(999) 999-99-99"
-          className="textInput w250 "
-          onChange={(event) =>
-            props.changeBranchForm(
-              'phone',
-              event.target.value.replace(/[^0-9]/g, '')
-            )
-          }
+        <LableInput
+          className='textInput w250'
+          title='Телефон'
+          onChange={value => props.changeBranchForm('phone', value)}
           value={props.branch.phone}
           disabled={props.branch.deleted}
+          isPhone={true}
         />
         <Schedule />
         <ChooseIcon />

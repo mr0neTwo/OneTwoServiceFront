@@ -61,6 +61,7 @@ const ChooseSingleEquipment = (props) => {
               name='malfunction'
               onChange={(event) => props.changeOrderFormS( event.target.value, 'malfunction') }
               value={props.order.malfunction}
+              disabled={!props.permissions.includes('edit_info_orders')}
             />
             <LabelInputOrder
               className='formRow'
@@ -68,6 +69,7 @@ const ChooseSingleEquipment = (props) => {
               name='packagelist'
               onChange={(event) => props.changeOrderFormS( event.target.value, 'packagelist')}
               value={props.order.packagelist}
+              disabled={!props.permissions.includes('edit_info_orders')}
             />
             <LabelInputOrder
               className='formRow'
@@ -75,6 +77,7 @@ const ChooseSingleEquipment = (props) => {
               name='appearance'
               onChange={(event) => props.changeOrderFormS(event.target.value, 'appearance')}
               value={props.order.appearance}
+              disabled={!props.permissions.includes('edit_info_orders')}
             />
             <div className='formRow'>
               <div className='optionsTitle'>Срочно</div>
@@ -82,10 +85,9 @@ const ChooseSingleEquipment = (props) => {
                 <div className='checkbox pd-tb-5 al-itm-fs'>
                   <input
                     type='checkbox'
-                    onChange={(event) =>
-                      props.changeOrderFormS('urgent', event.target.checked)
-                    }
+                    onChange={event => props.changeOrderFormS(event.target.checked, 'urgent')}
                     checked={props.order.urgent}
+                    disabled={!props.permissions.includes('edit_info_orders')}
                   />
                   <label></label>
                   
@@ -100,6 +102,7 @@ const ChooseSingleEquipment = (props) => {
 const mapStateToProps = (state) => ({
   order: state.order,
   view: state.view,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

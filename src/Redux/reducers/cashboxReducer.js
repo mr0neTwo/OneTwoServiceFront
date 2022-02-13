@@ -65,7 +65,7 @@ export const cashboxReducer = (state = initialState, action) => {
          let employees = state.employees
          if (action.field === 'permissions') {
             if (employees[state.permissions_employee].permissions.includes(action.value)) {
-               employees[state.permissions_employee].permissions = employees[state.permissions_employee].permissions.filter(val => val != action.value)
+               employees[state.permissions_employee].permissions = employees[state.permissions_employee].permissions.filter(val => val !== action.value)
             } else {
                employees[state.permissions_employee].permissions = employees[state.permissions_employee].permissions.concat([action.value])
             }
@@ -96,8 +96,6 @@ export const cashboxReducer = (state = initialState, action) => {
          }
       }
 
-      
-      
       default: return state
    }
    

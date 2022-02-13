@@ -908,7 +908,12 @@ export function log_in(login, password) {
           data: data.access_token,
         })
       } else {
-        console.warn(data.massage)
+        dispatch({
+          type: 'ADD_DATA',
+          field: 'error_message',
+          data: data.message,
+        })
+        console.warn(data.message)
       }
     })
     .catch(() => bad_request('Запрос авторизации не выполнен'))

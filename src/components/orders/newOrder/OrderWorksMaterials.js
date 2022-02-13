@@ -16,8 +16,10 @@ const OrderWorksMaterials = (props) => {
 
    const list_ingineers = props.employees.filter(employee => !employee.deleted && employee.role.permissions.includes('in_list_engineers'))
 
+   const isExist = list_ingineers.some(employee => employee.id === props.current_engineer_id)
+
    useEffect(() => {
-      const engineer_id = props.order.engineer_id && list_ingineers.some(employee => employee.id === props.current_engineer_id) ? props.order.engineer_id : props.current_user_id
+      const engineer_id = props.order.engineer_id && isExist ? props.order.engineer_id : props.current_user_id
       props.changeOperationForm(engineer_id, 'engineer_id')
    }, [])
 
@@ -29,7 +31,7 @@ const OrderWorksMaterials = (props) => {
               title='Исполнитель'
               list={ list_ingineers }
               setElement={props.changeOperationForm}
-              current_id={props.current_engineer_id}
+              current_id={isExist ? props.current_engineer_id : 0}
               width={'200px'}
               field='engineer_id'
               employee={true}

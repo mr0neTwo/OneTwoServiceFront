@@ -66,6 +66,7 @@ const ChooseEquipment = (props) => {
               value={props.order.equipments[idx].malfunction}
               checkedFlag="inputMalfunctionChecked"
               checked={props.view.inputMalfunctionChecked[idx]}
+              disabled={!props.permissions.includes('edit_info_orders')}
             />
             <LabelInputOrder
               className="formRow"
@@ -75,6 +76,7 @@ const ChooseEquipment = (props) => {
                 props.changeOrderForm(idx, 'packagelist', event.target.value)
               }
               value={props.order.equipments[idx].packagelist}
+              disabled={!props.permissions.includes('edit_info_orders')}
             />
             <LabelInputOrder
               className="formRow"
@@ -84,6 +86,7 @@ const ChooseEquipment = (props) => {
                 props.changeOrderForm(idx, 'appearance', event.target.value)
               }
               value={props.order.equipments[idx].appearance}
+              disabled={!props.permissions.includes('edit_info_orders')}
             />
             <div className="formRow">
               <div className="optionsTitle">Срочно</div>
@@ -127,12 +130,13 @@ const ChooseEquipment = (props) => {
 const mapStateToProps = (state) => ({
   order: state.order,
   view: state.view,
+  permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {
   changeOrderForm,
   addAnotherEquipment,
-  deleteDevice,
+  deleteDevice
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChooseEquipment)

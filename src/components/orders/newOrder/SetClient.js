@@ -1,11 +1,10 @@
 import React, { useEffect, useState} from 'react'
 import { connect } from 'react-redux'
-import InputMask from 'react-input-mask'
 
 import { changeNameClientFilter, changePhoneClientFilter, setVisibleFlag, changeOrderFormS } from '../../../Redux/actions'
 import { showPhone } from '../../general/utils'
 import ClientEditor from '../../Clients/ClientEditor/ClientEditor'
-import InputPhone from '../../general/InputPhone'
+import LableInput from '../../general/LableInput'
 
 const SetClient = (props) => {
 
@@ -103,12 +102,13 @@ const SetClient = (props) => {
                      className='orderInputBox'
                      onClick={() => setListClientsPhoneVisible(true)}
                   >
-                     <InputMask 
-                        mask="+7(999) 999-99-99"
-                        className='optionFilterInput'
-                        onChange={event => props.changePhoneClientFilter(event.target.value)}
+                    <LableInput
+                        className='w100'
+                        inputClassName='optionFilterInput'
+                        onChange={value => props.changePhoneClientFilter(value)}
                         value={props.phone}
-                     />
+                        isPhone={true}
+                    />
                      <div 
                         className='simbolButton'
                         onClick={() => props.setVisibleFlag('statusCreateNewClient', true)}

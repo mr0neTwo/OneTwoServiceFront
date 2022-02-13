@@ -38,7 +38,7 @@ const TablePayrolls = (props) => {
       <table>
          <thead>
             <tr>
-               <th className='w130'>Дата</th>
+               <th className='w135'>Дата</th>
                <th>Описание</th>
                <th className='w91'>Приход, руб.</th>
                <th className='w91'>Расход, руб.</th>

@@ -1078,6 +1078,7 @@ div.tableOrders td {
   box-shadow: none;
 }
 
+
 .optionEquipmentInputChoosed {
   margin-right: 10px;
   border: none;
@@ -2377,7 +2378,7 @@ thead:hover {
 .tableFields {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
   max-height: 24px;
 }
 
@@ -2617,6 +2618,7 @@ div.ssm > div:hover {
 .w250 { width: 250px }
 .w160 { width: 160px }
 .w150 { width: 150px }
+.w135 { width: 135px }
 .w130 { width: 130px }
 .w91 { width: 91px }
 .w80 { width: 80px }
