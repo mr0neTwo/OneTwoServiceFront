@@ -1,22 +1,25 @@
 
-import React from 'react'
+import React, {useState} from 'react'
 
 const AddPicture = (props) => {
+
+   // const url = props.value ? props.value : (props.url ? props.url : null)
+
    return (
+
       <div className={props.className}>
             <div className='lableImput'>{props.title}</div>
             
-            <div class={props.img ? 'showPicture' : 'addPicture'}>
-               <label class="label">
-                 {props.img ? <img src={ props.img } className='showPicture'/> :
-                 <i class="material-icons">attach_file</i>
+            <div className={props.value ? 'showPicture' : 'addPicture'}>
+               <label className="label">
+                 {props.value || props.url ? <img src={ props.value || props.url} className='showPicture'/> :
+                 <i className="material-icons">attach_file</i>
                   }
                   <input 
                      className=''
                      type='file'
-                     name={props.name}
+                     accept="image/*"
                      onChange={props.onChange}
-                     value={props.value}
                      disabled={props.disabled}
                   />
                </label>

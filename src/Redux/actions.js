@@ -710,11 +710,7 @@ export function editEquipment( equipment ) {
   }
 }
 
-export function resetBookEquipment() {
-  return {
-    type: 'RESET_BOOK_EQUIPMENT'
-  }
-}
+
 
 export function chooseBookSelected( id, field ) {
   return {
@@ -2013,87 +2009,7 @@ export function deleteBranch(flag) {
 }
 
 
-export function seveEditEquipment( ) {
 
-  const state = store.getState()
-  
-  const field_lidt = ['equipment', 'equipment_type_id', 'equipment_brand_id', 'equipment_subtype_id']
-  const url_list = ['/equipment_type', '/equipment_brand', '/equipment_subtype', '/equipment_model']
-
-  let request_config = getRequestConfig({
-    id: state.book.edit,
-    title: state.book.title,
-    icon: state.book.icon,
-    url: state.book.url,
-    [field_lidt[state.book.type]]: state.book.parent_id,
-    branches: state.book.branches
-  })
-  request_config.method = 'PUT'
-
-  return async dispatch => {
-
-    await fetch(state.data.url_server + url_list[state.book.type], request_config)
-    .catch(() => bad_request('Запрос на изменение данных изделия не выполнен')) 
-    
-    await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        dispatch({
-          type: 'ADD_EQUIPMENT',
-          equipment: data.data,
-        })
-        dispatch({
-          type: 'SET_VISIBLE_FLAG',
-          field: 'statusEquipmentEditor',
-          value: false
-        })
-      } else {
-        console.warn(data.massage)
-      }
-    })
-    .catch(() => bad_request('Запрос данных изделий не выполнен'))  
-  }
-}
-
-
-export function deleteEquipment( flag ) {
-
-  const state = store.getState()
-  
-  const url_list = ['/equipment_type', '/equipment_brand', '/equipment_subtype', '/equipment_model']
-
-  let request_config = getRequestConfig({
-    id: state.book.edit,
-    deleted: flag
-  })
-  request_config.method = 'PUT'
-
-  return async dispatch => {
-   
-    await fetch(state.data.url_server + url_list[state.book.type], request_config)
-    .catch(() => bad_request('Запрос на удаление/восстановление изделия не выполнен'))
-    
-    await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        dispatch({
-          type: 'ADD_EQUIPMENT',
-          equipment: data.data,
-        })
-        dispatch({
-          type: 'SET_VISIBLE_FLAG',
-          field: 'statusEquipmentEditor',
-          value: false
-        })
-      } else {
-        console.warn(data.massage)
-      }
-    })
-    .catch(() => bad_request('Запрос изделий не выполнен'))  
-  }
-}
 
 export function createBookEquipment() {
 

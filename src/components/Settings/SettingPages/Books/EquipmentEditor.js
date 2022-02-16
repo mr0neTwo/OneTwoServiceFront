@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 
-import {
-  setVisibleFlag,
-  chooseEquipmentBranches,
-  createBookEquipment,
-  seveEditEquipment,
-  deleteEquipment,
-} from '../../../../Redux/actions'
-import { changeBookForm } from '../../../../Redux/actions/bookActions'
+import { setVisibleFlag, chooseEquipmentBranches, createBookEquipment } from '../../../../Redux/actions'
+import { changeBookForm, deleteEquipment, resetBookEquipment } from '../../../../Redux/actions/bookActions'
+import { seveEquipmentType, seveEquipmentBrand, seveEquipmentSubtype, seveEquipmentModel } from '../../../../Redux/actions/bookActions'
+
 
 import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'
@@ -19,9 +15,16 @@ import ChooseOfListMany from '../../../general/ChooseOfListMany'
 import ChooseIcon from './CooseIcon'
 
 const EquipmentEditor = (props) => {
+
+  const handleClose = () => {
+    props.setVisibleFlag('statusEquipmentEditor', false)
+    props.resetBookEquipment()
+    props.setVisibleFlag('inputBookTitleChecked', true)
+  }
+
   const clickHandel = (event) => {
     if (!event.path.map((el) => el.id).includes('equipmentEditorWiondow')) {
-      props.setVisibleFlag('statusEquipmentEditor', false)
+      handleClose()
     }
   }
 
@@ -32,8 +35,7 @@ const EquipmentEditor = (props) => {
     }
   })
 
-  const [all, setAll] = useState(
-    props.branches
+  const [all, setAll] = useState(props.branches
       .filter((branch) => !branch.deleted)
       .every((branch) => props.book.branches.includes(branch.id))
   )
@@ -48,11 +50,24 @@ const EquipmentEditor = (props) => {
 
   const handleSaveEquipment = () => {
     if (props.book.title) {
-      props.seveEditEquipment()
+
+      if (props.book.type === 0) props.seveEquipmentType()
+      if (props.book.type === 1) props.seveEquipmentBrand()
+      if (props.book.type === 2) props.seveEquipmentSubtype()
+      if (props.book.type === 3) props.seveEquipmentModel()
+
     } else {
       props.setVisibleFlag('inputBookTitleChecked', false)
     }
   }
+
+  const fileHandler = event => {
+    let reader = new FileReader()
+    reader.onload = function(e) { props.changeBookForm(e.target.result, 'img')}
+    reader.readAsDataURL(event.target.files[0])
+    // reader.onload = function(e) { props.changeBookForm(new Uint8Array(e.target.result), 'img')}
+    // reader.readAsArrayBuffer(event.target.files[0])
+ }
 
   const tilte_list = [
     'Новая группа',
@@ -84,6 +99,8 @@ const EquipmentEditor = (props) => {
               className="mt15"
               title="Добавить изображение"
               img={props.book.url}
+              onChange={fileHandler}
+              value={props.book.img}
               disabled={props.book.deleted}
             />
           ) : null}
@@ -132,14 +149,10 @@ const EquipmentEditor = (props) => {
         <BottomButtons
           edit={props.book.edit}
           create={handleCreateEquipment}
-          save={handleSaveEquipment}
+          save={ handleSaveEquipment }
           delete={() => props.deleteEquipment(true)}
-          recover={
-            props.permissions.includes('setting_recover_equipment')
-              ? () => props.deleteEquipment(false)
-              : null
-          }
-          close={() => props.setVisibleFlag('statusEquipmentEditor', false)}
+          recover={props.permissions.includes('setting_recover_equipment') ? () => props.deleteEquipment(false) : null }
+          close={ handleClose }
           deleted={props.book.deleted}
         />
       </div>
@@ -159,8 +172,12 @@ const mapDispatchToProps = {
   changeBookForm,
   chooseEquipmentBranches,
   createBookEquipment,
-  seveEditEquipment,
+  seveEquipmentType,
+  seveEquipmentBrand,
+  seveEquipmentSubtype,
+  seveEquipmentModel,
   deleteEquipment,
+  resetBookEquipment
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EquipmentEditor)

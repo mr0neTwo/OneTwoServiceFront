@@ -8,7 +8,7 @@ function LogoUser() {
         <div className = 'avatar'> 
         
             <img 
-            src = 'ava.jpeg'  
+            src = 'data/ava.jpeg'  
             className = 'imgAvatar' 
             alt = 'User avatar' />
         </div>

@@ -41,12 +41,13 @@ const ChooseIcon = (props) => {
       <div className="lableImput">Выберете иконку</div>
       {icons ? (
         <div className="w250">
-          {list_icons.map((icon) => (
+          {list_icons.map((icon, idx) => (
             <img
+              key={idx}
               className="icon_equipment"
               src={`/icon_equipments/${icon}`}
               onClick={() => {
-                props.changeBookForm(icon === 'nothing.svg' ? '' : `/icon_equipments/${icon}`, 'icon')
+                props.changeBookForm(icon === 'nothing.svg' ? null : `/icon_equipments/${icon}`, 'icon')
                 setIcons(false)
               }}
             />

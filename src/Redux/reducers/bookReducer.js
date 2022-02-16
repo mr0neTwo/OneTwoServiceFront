@@ -13,6 +13,7 @@ const initialState = {
    parent_id: 0,
    branches: [],
    deleted: false,
+   img: '',
 
    direction: 0,
 
@@ -87,6 +88,7 @@ export const bookReducer = (state = initialState, action) => {
             parent_id: 0,
             branches: [],
             deleted: false,
+            img: '',
             edit: 0,
             page_malfunction: 0,
             selected_malfunction: [],

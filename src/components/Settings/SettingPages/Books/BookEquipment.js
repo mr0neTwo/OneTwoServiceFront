@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, editEquipment, resetBookEquipment,} from '../../../../Redux/actions'
+import { setVisibleFlag, editEquipment} from '../../../../Redux/actions'
 import { changeBookForm, addEquipmentType, addEquipmentBrand } from '../../../../Redux/actions/bookActions'
-import { addEquipmentSubtype, addEquipmentModel } from '../../../../Redux/actions/bookActions'
+import { addEquipmentSubtype, addEquipmentModel, resetBookEquipment } from '../../../../Redux/actions/bookActions'
 import EquipmentEditor from './EquipmentEditor'
 import Checkbox from '../../../general/Checkbox'
 import Button from '../../../general/Button'
