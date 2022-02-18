@@ -37,7 +37,9 @@ const initialState = {
    page_type: 1,
    page_brand: 1,
    page_subtype: 1,
-   page_model: 1
+   page_model: 1,
+
+   list_for_join: []
 }
 
 export const bookReducer = (state = initialState, action) => {
@@ -96,19 +98,20 @@ export const bookReducer = (state = initialState, action) => {
             selected_packagelist: [],
             page_item_payments: 0,
             selected_item_payments: [],
+            list_for_join: []
          }
       }
 
       case 'CHOOSE_BOOK_SELECTED': {
-         if (action.id.every(id => state[action.field].includes(id))) {
+         if (action.value.every(value => state[action.field].includes(value))) {
             return {
                ...state, 
-               [action.field]: state[action.field].filter(id => !action.id.includes(id)),
+               [action.field]: state[action.field].filter(value => !action.value.includes(value)),
             }
          } else {
             return {
                ...state, 
-               [action.field]: state[action.field].concat(action.id.filter(id => !state[action.field].includes(id))),
+               [action.field]: state[action.field].concat(action.value.filter(value => !state[action.field].includes(value))),
             }
          }
       }

@@ -712,14 +712,6 @@ export function editEquipment( equipment ) {
 
 
 
-export function chooseBookSelected( id, field ) {
-  return {
-    type: 'CHOOSE_BOOK_SELECTED',
-    id,
-    field
-  }
-}
-
 
 export function changeCashboxForm( value, field ) {
   return {

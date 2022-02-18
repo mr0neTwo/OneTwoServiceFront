@@ -2,7 +2,7 @@
   "name": "onetwoservice-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "",
+  "homepage": "http://5.53.124.252/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",

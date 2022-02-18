@@ -187,7 +187,10 @@ const BookEquipment = (props) => {
                   onClick={() => chooseType(equipment)}
                   onDoubleClick={() => editType(equipment)}
                 >
-                  <img src={equipment.icon} className="icon_equipment" />
+                  <img 
+                    className="icon_equipment"
+                    src={equipment.icon ? `${process.env.PUBLIC_URL}/${equipment.icon}` : null}  
+                  />
                   <div className="td">{equipment.title}</div>
                 </div>
               ))}
@@ -269,7 +272,7 @@ const BookEquipment = (props) => {
                   onClick={() => chooseSubtype(subtype)}
                   onDoubleClick={() => editSubtype(subtype)}
                 >
-                   <img src={subtype.url} className='miniImg'/>
+                   <img src={subtype.url ? `${process.env.PUBLIC_URL}/${subtype.url}` : null} className='miniImg'/>
                   <div className="td">{subtype.title}</div>
                   {/* <span>></span> */}
                 </div>

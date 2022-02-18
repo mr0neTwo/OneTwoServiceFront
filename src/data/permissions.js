@@ -481,6 +481,9 @@ export const setting = [
       value: 'setting_recover_equipment',
       description: 'Может восстанавливать удаленные изделия'
    },{
+      value: 'setting_join_equipment',
+      description: 'Может объединять изделия'
+   },{
       value: 'setting_template',
       description: 'Шаблоны документов'
    },{

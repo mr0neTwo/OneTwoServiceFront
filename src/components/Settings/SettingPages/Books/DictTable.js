@@ -3,7 +3,7 @@ import React, { useEffect, useRef} from 'react'
 import ReactPaginate from 'react-paginate'
 import { connect } from 'react-redux'
 
-import { chooseBookSelected } from '../../../../Redux/actions'
+import { chooseBookSelected } from '../../../../Redux/actions/bookActions'
 import Checkbox from '../../../general/Checkbox'
 import { icon_trush } from '../../../../data/icons'
 

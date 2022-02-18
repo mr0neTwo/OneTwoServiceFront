@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 
 import { setVisibleFlag, chooseEquipmentBranches, createBookEquipment } from '../../../../Redux/actions'
-import { changeBookForm, deleteEquipment, resetBookEquipment } from '../../../../Redux/actions/bookActions'
-import { seveEquipmentType, seveEquipmentBrand, seveEquipmentSubtype, seveEquipmentModel } from '../../../../Redux/actions/bookActions'
-
+import { changeBookForm, resetBookEquipment, seveEquipmentModel } from '../../../../Redux/actions/bookActions'
+import { seveEquipmentType, seveEquipmentBrand, seveEquipmentSubtype  } from '../../../../Redux/actions/bookActions'
+import { deleteEquipmentType, deleteEquipmentBrand, deleteEquipmentSubtype, deleteEquipmentModel } from '../../../../Redux/actions/bookActions'
 
 import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'
@@ -13,6 +13,7 @@ import ChooseOfList from '../../../general/ChooseOfList'
 import ChooseBotton from '../../../general/ChooseBotton'
 import ChooseOfListMany from '../../../general/ChooseOfListMany'
 import ChooseIcon from './CooseIcon'
+import JoinEquipmets from './JoinEquipmets'
 
 const EquipmentEditor = (props) => {
 
@@ -61,6 +62,22 @@ const EquipmentEditor = (props) => {
     }
   }
 
+  const handleDelete = () => {
+    if (props.book.type === 0) props.deleteEquipmentType(true)
+    if (props.book.type === 1) props.deleteEquipmentBrand(true)
+    if (props.book.type === 2) props.deleteEquipmentSubtype(true)
+    if (props.book.type === 3) props.deleteEquipmentModel(true)
+  }
+
+  const handleRecover = () => {
+    if (props.permissions.includes('setting_recover_equipment')) {
+      if (props.book.type === 0) props.deleteEquipmentType(false)
+      if (props.book.type === 1) props.deleteEquipmentBrand(false)
+      if (props.book.type === 2) props.deleteEquipmentSubtype(false)
+      if (props.book.type === 3) props.deleteEquipmentModel(false)
+    }
+  }
+
   const fileHandler = event => {
     let reader = new FileReader()
     reader.onload = function(e) { props.changeBookForm(e.target.result, 'img')}
@@ -79,6 +96,7 @@ const EquipmentEditor = (props) => {
   return (
     <div className="rightBlock">
       <div className="rightBlockWindow" id="equipmentEditorWiondow">
+
         <div className="createNewTitle">
           {props.book.edit ? props.book.title : tilte_list[props.book.type]}
         </div>
@@ -98,7 +116,7 @@ const EquipmentEditor = (props) => {
             <AddPicture
               className="mt15"
               title="Добавить изображение"
-              img={props.book.url}
+              url={props.book.url}
               onChange={fileHandler}
               value={props.book.img}
               disabled={props.book.deleted}
@@ -144,16 +162,19 @@ const EquipmentEditor = (props) => {
               disabled={props.book.deleted}
             />
           )}
+          <JoinEquipmets 
+            unvisible={!props.book.edit || props.book.type === 3 || !props.permissions.includes('setting_join_equipment')}
+          />
         </div>
 
         <BottomButtons
           edit={props.book.edit}
-          create={handleCreateEquipment}
+          create={ handleCreateEquipment }
           save={ handleSaveEquipment }
-          delete={() => props.deleteEquipment(true)}
-          recover={props.permissions.includes('setting_recover_equipment') ? () => props.deleteEquipment(false) : null }
+          delete={ handleDelete }
+          recover={ handleRecover }
           close={ handleClose }
-          deleted={props.book.deleted}
+          deleted={ props.book.deleted }
         />
       </div>
     </div>
@@ -172,11 +193,8 @@ const mapDispatchToProps = {
   changeBookForm,
   chooseEquipmentBranches,
   createBookEquipment,
-  seveEquipmentType,
-  seveEquipmentBrand,
-  seveEquipmentSubtype,
-  seveEquipmentModel,
-  deleteEquipment,
+  seveEquipmentType, seveEquipmentBrand, seveEquipmentSubtype, seveEquipmentModel,
+  deleteEquipmentType, deleteEquipmentBrand, deleteEquipmentSubtype, deleteEquipmentModel,
   resetBookEquipment
 }
 

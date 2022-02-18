@@ -11,190 +11,212 @@ export function changeBookForm(value, field) {
 
 export function resetBookEquipment() {
   return {
-    type: 'RESET_BOOK_EQUIPMENT'
+    type: 'RESET_BOOK_EQUIPMENT',
+  }
+}
+
+export function chooseBookSelected(value, field) {
+  return {
+    type: 'CHOOSE_BOOK_SELECTED',
+    field,
+    value,
   }
 }
 
 export function createEquipmentType(title) {
   const state = store.getState()
 
-  const request_config = title ? getRequestConfig({ title }) :
-   getRequestConfig({
+  const request_config = title
+    ? getRequestConfig({ title })
+    : getRequestConfig({
         title: state.book.title,
         icon: state.book.icon,
         url: state.book.url,
         branches: state.book.branches,
       })
 
-      const request_config2 = getRequestConfig({
-         title
-       })
+  const request_config2 = getRequestConfig({
+    title,
+  })
 
-   return async (dispatch) => {
-      await fetch(state.data.url_server + '/equipment_type', request_config)
-         .catch(() => bad_request('Запрос на создание типа не выполнен'));
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_type',
+      request_config
+    ).catch(() => bad_request('Запрос на создание типа не выполнен'))
 
-      await fetch(state.data.url_server + '/get_equipment_type', request_config2)
-         .then((response) => response.json())
-         .then((data) => {
-            if (data.success) {
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_types',
-               data: data.data
-            })
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_type_count',
-               data: data.count
-            })
-            } else {
-               console.warn(data.massage)
-            }
-         })
-         .catch(() => bad_request('Запрос типов тихеники не выполнен'))
-   }
+    await fetch(state.data.url_server + '/get_equipment_type', request_config2)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_types',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_type_count',
+            data: data.count,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+  }
 }
 
 export function addEquipmentType() {
-   const state = store.getState()
- 
-   const request_config = getRequestConfig({
-     title: state.book.filter_type,
-     page: state.book.page_type-1
-   })
- 
-   return async (dispatch) => {
-     await fetch(state.data.url_server + '/get_equipment_type', request_config)
-       .then((response) => response.json())
-       .then((data) => {
-         if (data.success) {
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_types',
-             data: data.data
-           })
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_type_count',
-             data: data.count
-           })
-         } else {
-           console.warn(data.massage)
-         }
-       })
-       .catch(() => bad_request('Запрос типов тихеники не выполнен'))
-   }
- }
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    title: state.book.filter_type,
+    page: state.book.page_type - 1,
+  })
+
+  return async (dispatch) => {
+    await fetch(state.data.url_server + '/get_equipment_type', request_config)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_types',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_type_count',
+            data: data.count,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+  }
+}
 
 export function createEquipmentBrand(idx, title) {
-   const state = store.getState()
+  const state = store.getState()
 
-   const request_config = getRequestConfig({
-      title,
-      equipment_type_id: state.order.edit ? state.order.kindof_good.id : state.order.equipments[idx].kindof_good.id
-   })
+  const request_config = getRequestConfig({
+    title,
+    equipment_type_id: state.order.edit
+      ? state.order.kindof_good.id
+      : state.order.equipments[idx].kindof_good.id,
+  })
 
-   const request_config2 = getRequestConfig({
-      title,
-      equipment_type_id: state.book.equipment_type.id,
-   })
+  const request_config2 = getRequestConfig({
+    title,
+    equipment_type_id: state.book.equipment_type.id,
+  })
 
-   return async (dispatch) => {
-      await fetch(state.data.url_server + '/equipment_brand', request_config)
-         .catch(() => bad_request('Запрос на создание бренда не выполнен'))
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_brand',
+      request_config
+    ).catch(() => bad_request('Запрос на создание бренда не выполнен'))
 
-      await fetch(state.data.url_server + '/get_equipment_brand', request_config2)
-         .then((response) => response.json())
-         .then((data) => {
-            if (data.success) {
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_brands',
-               data: data.data
-            })
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_brand_count',
-               data: data.count
-            })
-            } else {
-            console.warn(data.massage)
-            }
-         })
-         .catch(() => bad_request('Запрос брендов не выполнен'))
-   }
+    await fetch(state.data.url_server + '/get_equipment_brand', request_config2)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brands',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brand_count',
+            data: data.count,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос брендов не выполнен'))
+  }
 }
 
 export function addEquipmentBrand() {
-   const state = store.getState()
- 
-   const request_config = getRequestConfig({
-     title: state.book.filter_brand,
-     equipment_type_id: state.book.equipment_type.id,
-     page: state.book.page_brand-1
-   })
- 
-   return async (dispatch) => {
-     await fetch(state.data.url_server + '/get_equipment_brand', request_config)
-       .then((response) => response.json())
-       .then((data) => {
-         if (data.success) {
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_brands',
-             data: data.data
-           })
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_brand_count',
-             data: data.count
-           })
-         } else {
-           console.warn(data.massage)
-         }
-       })
-       .catch(() => bad_request('Запрос брендов не выполнен'))
-   }
- }
+  const state = store.getState()
+
+  const request_config = getRequestConfig({
+    title: state.book.filter_brand,
+    equipment_type_id: state.book.equipment_type.id,
+    page: state.book.page_brand - 1,
+  })
+
+  return async (dispatch) => {
+    await fetch(state.data.url_server + '/get_equipment_brand', request_config)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brands',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brand_count',
+            data: data.count,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос брендов не выполнен'))
+  }
+}
 
 export function cteateEquipmentSubtype(idx, title) {
-   const state = store.getState()
+  const state = store.getState()
 
-   const request_config = getRequestConfig({
-      title,
-      equipment_brand_id: state.order.edit ? state.order.brand.id : state.order.equipments[idx].brand.id 
-   })
-   
-   const request_config2 = getRequestConfig({
-      title,
-      equipment_brand_id: state.book.equipment_brand.id,
-   })
+  const request_config = getRequestConfig({
+    title,
+    equipment_brand_id: state.order.edit
+      ? state.order.brand.id
+      : state.order.equipments[idx].brand.id,
+  })
 
-   return async (dispatch) => {
-      await fetch(state.data.url_server + '/equipment_subtype',request_config)
-      .catch(() => bad_request('Запрос на создание подтипа не выполнен'))
+  const request_config2 = getRequestConfig({
+    title,
+    equipment_brand_id: state.book.equipment_brand.id,
+  })
 
-      await fetch(state.data.url_server + '/get_equipment_subtype', request_config2)
-         .then((response) => response.json())
-         .then((data) => {
-         if (data.success) {
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_subtypes',
-               data: data.data,
-            })
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_subtype_count',
-               data: data.count,
-            })
-         } else {
-            console.warn(data.massage)
-         }
-         })
-         .catch(() => bad_request('Запрос модулей не выполнен'))
-   }
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_subtype',
+      request_config
+    ).catch(() => bad_request('Запрос на создание подтипа не выполнен'))
+
+    await fetch(
+      state.data.url_server + '/get_equipment_subtype',
+      request_config2
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_subtypes',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_subtype_count',
+            data: data.count,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос модулей не выполнен'))
+  }
 }
 
 export function addEquipmentSubtype() {
@@ -203,11 +225,14 @@ export function addEquipmentSubtype() {
   const request_config = getRequestConfig({
     title: state.book.filter_subtype,
     equipment_brand_id: state.book.equipment_brand.id,
-    page: state.book.page_subtype-1
+    page: state.book.page_subtype - 1,
   })
 
   return async (dispatch) => {
-    await fetch(state.data.url_server + '/get_equipment_subtype', request_config)
+    await fetch(
+      state.data.url_server + '/get_equipment_subtype',
+      request_config
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -230,42 +255,46 @@ export function addEquipmentSubtype() {
 }
 
 export function createEquipmentModel(idx, title) {
-   const state = store.getState()
+  const state = store.getState()
 
-   const request_config = getRequestConfig({
-      title,
-      equipment_subtype_id: state.order.edit ? state.order.subtype.id : state.order.equipments[idx].subtype.id 
-   })
+  const request_config = getRequestConfig({
+    title,
+    equipment_subtype_id: state.order.edit
+      ? state.order.subtype.id
+      : state.order.equipments[idx].subtype.id,
+  })
 
-   const request_config2 = getRequestConfig({
-      title,
-      equipment_subtype_id: state.book.equipment_subtype.id
-   })
+  const request_config2 = getRequestConfig({
+    title,
+    equipment_subtype_id: state.book.equipment_subtype.id,
+  })
 
-   return async (dispatch) => {
-      await fetch(state.data.url_server + '/equipment_model', request_config)
-      .catch(() => bad_request('Запрос на создание модели не выполнен'))
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_model',
+      request_config
+    ).catch(() => bad_request('Запрос на создание модели не выполнен'))
 
-      await fetch(state.data.url_server + '/get_equipment_model', request_config2)
-         .then((response) => response.json())
-         .then((data) => {
-         if (data.success) {
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_models',
-               data: data.data,
-            })
-            dispatch({
-               type: 'ADD_DATA',
-               field: 'equipment_models_count',
-               data: data.count,
-            })
-         } else {
-            console.warn(data.massage)
-         }
-         })
-         .catch(() => bad_request('Запрос моделей не выполнен'))
-   }
+    await fetch(state.data.url_server + '/get_equipment_model', request_config2)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_models',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_models_count',
+            data: data.count,
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос моделей не выполнен'))
+  }
 }
 
 export function addEquipmentModel() {
@@ -274,7 +303,7 @@ export function addEquipmentModel() {
   const request_config = getRequestConfig({
     title: state.book.filter_model,
     equipment_subtype_id: state.book.equipment_subtype.id,
-    page: state.book.page_model-1
+    page: state.book.page_model - 1,
   })
 
   return async (dispatch) => {
@@ -300,35 +329,34 @@ export function addEquipmentModel() {
   }
 }
 
-export function seveEditEquipment( ) {
+// export function seveEditEquipment( ) {
 
-  const state = store.getState()
-  
-  const field_lidt = ['equipment', 'equipment_type_id', 'equipment_brand_id', 'equipment_subtype_id']
-  const url_list = ['/equipment_type', '/equipment_brand', '/equipment_subtype', '/equipment_model']
-  const list_func = [addEquipmentType, addEquipmentBrand, addEquipmentSubtype, addEquipmentModel]
+//   const state = store.getState()
 
-  let request_config = getRequestConfig({
-    id: state.book.edit,
-    title: state.book.title,
-    icon: state.book.icon,
-    url: state.book.url,
-    [field_lidt[state.book.type]]: state.book.parent_id,
-    branches: state.book.branches
-  })
-  request_config.method = 'PUT'
+//   const field_lidt = ['equipment', 'equipment_type_id', 'equipment_brand_id', 'equipment_subtype_id']
+//   const url_list = ['/equipment_type', '/equipment_brand', '/equipment_subtype', '/equipment_model']
+//   const list_func = [addEquipmentType, addEquipmentBrand, addEquipmentSubtype, addEquipmentModel]
 
-  return async dispatch => {
+//   let request_config = getRequestConfig({
+//     id: state.book.edit,
+//     title: state.book.title,
+//     icon: state.book.icon,
+//     url: state.book.url,
+//     [field_lidt[state.book.type]]: state.book.parent_id,
+//     branches: state.book.branches
+//   })
+//   request_config.method = 'PUT'
 
-    await fetch(state.data.url_server + url_list[state.book.type], request_config)
-    .catch(() => bad_request('Запрос на изменение данных изделия не выполнен')) 
-    
-    list_func[state.book.type]()
-  }
-}
+//   return async dispatch => {
+
+//     await fetch(state.data.url_server + url_list[state.book.type], request_config)
+//     .catch(() => bad_request('Запрос на изменение данных изделия не выполнен'))
+
+//     list_func[state.book.type]()
+//   }
+// }
 
 export function seveEquipmentType() {
-
   const state = store.getState()
 
   let request_config1 = getRequestConfig({
@@ -336,49 +364,53 @@ export function seveEquipmentType() {
     title: state.book.title,
     icon: state.book.icon,
     url: state.book.url,
-    branches: state.book.branches
+    branches: state.book.branches,
+    list_for_join: state.book.list_for_join.map((equipment) => equipment.id),
   })
   request_config1.method = 'PUT'
 
   const request_config2 = getRequestConfig({
     title: state.book.filter_type,
-    page: state.book.page_type-1
+    page: state.book.page_type - 1,
   })
 
-  return async dispatch => {
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_type',
+      request_config1
+    ).catch(() => bad_request('Запрос на изменение данных изделия не выполнен'))
 
-    await fetch(state.data.url_server + '/equipment_type', request_config1)
-    .catch(() => bad_request('Запрос на изменение данных изделия не выполнен')) 
-    
     await fetch(state.data.url_server + '/get_equipment_type', request_config2)
-       .then((response) => response.json())
-       .then((data) => {
-         if (data.success) {
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_types',
-             data: data.data
-           })
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_type_count',
-             data: data.count
-           })
-           dispatch({
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_types',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_type_count',
+            data: data.count,
+          })
+          dispatch({
             type: 'SET_VISIBLE_FLAG',
             field: 'statusEquipmentEditor',
-            value: false
+            value: false,
           })
-         } else {
-           console.warn(data.massage)
-         }
-       })
-       .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
   }
 }
 
 export function seveEquipmentBrand() {
-
   const state = store.getState()
 
   let request_config1 = getRequestConfig({
@@ -387,49 +419,54 @@ export function seveEquipmentBrand() {
     icon: state.book.icon,
     url: state.book.url,
     equipment_type_id: state.book.parent_id,
-    branches: state.book.branches
+    branches: state.book.branches,
+    list_for_join: state.book.list_for_join.map((equipment) => equipment.id),
   })
   request_config1.method = 'PUT'
 
   const request_config2 = getRequestConfig({
-    title: state.book.filter_type,
-    page: state.book.page_type-1
+    title: state.book.filter_brand,
+    equipment_type_id: state.book.equipment_type.id,
+    page: state.book.page_brand - 1,
   })
 
-  return async dispatch => {
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_brand',
+      request_config1
+    ).catch(() => bad_request('Запрос на изменение данных изделия не выполнен'))
 
-    await fetch(state.data.url_server + '/equipment_brand', request_config1)
-    .catch(() => bad_request('Запрос на изменение данных изделия не выполнен')) 
-    
     await fetch(state.data.url_server + '/get_equipment_brand', request_config2)
-       .then((response) => response.json())
-       .then((data) => {
-         if (data.success) {
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_brands',
-             data: data.data
-           })
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_brand_count',
-             data: data.count
-           })
-           dispatch({
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brands',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brand_count',
+            data: data.count,
+          })
+          dispatch({
             type: 'SET_VISIBLE_FLAG',
             field: 'statusEquipmentEditor',
-            value: false
+            value: false,
           })
-         } else {
-           console.warn(data.massage)
-         }
-       })
-       .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
   }
 }
 
 export function seveEquipmentSubtype() {
-
   const state = store.getState()
 
   let request_config1 = getRequestConfig({
@@ -439,49 +476,57 @@ export function seveEquipmentSubtype() {
     url: state.book.url,
     img: state.book.img,
     equipment_brand_id: state.book.parent_id,
-    branches: state.book.branches
+    branches: state.book.branches,
+    list_for_join: state.book.list_for_join.map((equipment) => equipment.id),
   })
   request_config1.method = 'PUT'
 
   const request_config2 = getRequestConfig({
-    title: state.book.filter_type,
-    page: state.book.page_type-1
+    title: state.book.filter_subtype,
+    equipment_brand_id: state.book.equipment_brand.id,
+    page: state.book.page_subtype - 1,
   })
 
-  return async dispatch => {
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_subtype',
+      request_config1
+    ).catch(() => bad_request('Запрос на изменение данных изделия не выполнен'))
 
-    await fetch(state.data.url_server + '/equipment_subtype', request_config1)
-    .catch(() => bad_request('Запрос на изменение данных изделия не выполнен')) 
-    
-    await fetch(state.data.url_server + '/get_equipment_subtype', request_config2)
-       .then((response) => response.json())
-       .then((data) => {
-         if (data.success) {
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_subtypes',
-             data: data.data
-           })
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_subtype_count',
-             data: data.count
-           })
-           dispatch({
+    await fetch(
+      state.data.url_server + '/get_equipment_subtype',
+      request_config2
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_subtypes',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_subtype_count',
+            data: data.count,
+          })
+          dispatch({
             type: 'SET_VISIBLE_FLAG',
             field: 'statusEquipmentEditor',
-            value: false
+            value: false,
           })
-         } else {
-           console.warn(data.massage)
-         }
-       })
-       .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
   }
 }
 
 export function seveEquipmentModel() {
-
   const state = store.getState()
 
   let request_config1 = getRequestConfig({
@@ -490,66 +535,251 @@ export function seveEquipmentModel() {
     icon: state.book.icon,
     url: state.book.url,
     equipment_model_id: state.book.parent_id,
-    branches: state.book.branches
+    branches: state.book.branches,
+    list_for_join: state.book.list_for_join.map((equipment) => equipment.id),
+  })
+  request_config1.method = 'PUT'
+
+  const request_config2 = getRequestConfig({
+    title: state.book.filter_model,
+    equipment_subtype_id: state.book.equipment_subtype.id,
+    page: state.book.page_model - 1,
+  })
+
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_model',
+      request_config1
+    ).catch(() => bad_request('Запрос на изменение данных изделия не выполнен'))
+
+    await fetch(state.data.url_server + '/get_equipment_model', request_config2)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_models',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_model_count',
+            data: data.count,
+          })
+          dispatch({
+            type: 'SET_VISIBLE_FLAG',
+            field: 'statusEquipmentEditor',
+            value: false,
+          })
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+  }
+}
+
+export function deleteEquipmentType(flag) {
+  const state = store.getState()
+
+  let request_config1 = getRequestConfig({
+    id: state.book.edit,
+    deleted: flag,
   })
   request_config1.method = 'PUT'
 
   const request_config2 = getRequestConfig({
     title: state.book.filter_type,
-    page: state.book.page_type-1
   })
 
-  return async dispatch => {
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_type',
+      request_config1
+    ).catch(() => bad_request('Запрос на удаление данных изделия не выполнен'))
 
-    await fetch(state.data.url_server + '/equipment_model', request_config1)
-    .catch(() => bad_request('Запрос на изменение данных изделия не выполнен')) 
-    
-    await fetch(state.data.url_server + '/get_equipment_model', request_config2)
-       .then((response) => response.json())
-       .then((data) => {
-         if (data.success) {
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_models',
-             data: data.data
-           })
-           dispatch({
-             type: 'ADD_DATA',
-             field: 'equipment_model_count',
-             data: data.count
-           })
-           dispatch({
+    await fetch(state.data.url_server + '/get_equipment_type', request_config2)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_types',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_type_count',
+            data: data.count,
+          })
+          dispatch({
             type: 'SET_VISIBLE_FLAG',
             field: 'statusEquipmentEditor',
-            value: false
+            value: false,
           })
-         } else {
-           console.warn(data.massage)
-         }
-       })
-       .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
   }
 }
 
-
-export function deleteEquipment( flag ) {
-
+export function deleteEquipmentBrand(flag) {
   const state = store.getState()
-  
-  const url_list = ['/equipment_type', '/equipment_brand', '/equipment_subtype', '/equipment_model']
-  const list_func = [addEquipmentType, addEquipmentBrand, addEquipmentSubtype, addEquipmentModel]
 
-  let request_config = getRequestConfig({
+  let request_config1 = getRequestConfig({
     id: state.book.edit,
-    deleted: flag
+    deleted: flag,
   })
-  request_config.method = 'PUT'
+  request_config1.method = 'PUT'
 
-  return async dispatch => {
-   
-    await fetch(state.data.url_server + url_list[state.book.type], request_config)
-    .catch(() => bad_request('Запрос на удаление/восстановление изделия не выполнен'))
-    
-    list_func[state.book.type]()
+  const request_config2 = getRequestConfig({
+    title: state.book.filter_brand,
+    equipment_type_id: state.book.equipment_type.id,
+  })
+
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_brand',
+      request_config1
+    ).catch(() => bad_request('Запрос на удаление данных изделия не выполнен'))
+
+    await fetch(state.data.url_server + '/get_equipment_brand', request_config2)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brands',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_brand_count',
+            data: data.count,
+          })
+          dispatch({
+            type: 'SET_VISIBLE_FLAG',
+            field: 'statusEquipmentEditor',
+            value: false,
+          })
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+  }
+}
+
+export function deleteEquipmentSubtype(flag) {
+  const state = store.getState()
+
+  let request_config1 = getRequestConfig({
+    id: state.book.edit,
+    deleted: flag,
+  })
+  request_config1.method = 'PUT'
+
+  const request_config2 = getRequestConfig({
+    title: state.book.filter_subtype,
+    equipment_brand_id: state.book.equipment_brand.id,
+  })
+
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_subtype',
+      request_config1
+    ).catch(() => bad_request('Запрос на удаление данных изделия не выполнен'))
+
+    await fetch(
+      state.data.url_server + '/get_equipment_subtype',
+      request_config2
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_subtypes',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_subtype_count',
+            data: data.count,
+          })
+          dispatch({
+            type: 'SET_VISIBLE_FLAG',
+            field: 'statusEquipmentEditor',
+            value: false,
+          })
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
+  }
+}
+
+export function deleteEquipmentModel(flag) {
+  const state = store.getState()
+
+  let request_config1 = getRequestConfig({
+    id: state.book.edit,
+    deleted: flag,
+  })
+  request_config1.method = 'PUT'
+
+  const request_config2 = getRequestConfig({
+    title: state.book.filter_model,
+    equipment_subtype_id: state.book.equipment_subtype.id,
+  })
+
+  return async (dispatch) => {
+    await fetch(
+      state.data.url_server + '/equipment_model',
+      request_config1
+    ).catch(() => bad_request('Запрос на удаление данных изделия не выполнен'))
+
+    await fetch(state.data.url_server + '/get_equipment_model', request_config2)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_models',
+            data: data.data,
+          })
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'equipment_model_count',
+            data: data.count,
+          })
+          dispatch({
+            type: 'SET_VISIBLE_FLAG',
+            field: 'statusEquipmentEditor',
+            value: false,
+          })
+          dispatch({
+            type: 'RESET_BOOK_EQUIPMENT',
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос типов тихеники не выполнен'))
   }
 }
