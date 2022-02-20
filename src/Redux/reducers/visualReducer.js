@@ -33,6 +33,7 @@ const initialState = {
    statusOperationEditor: false,
    statusPayrollEditor: false,
    statusCellEditor: false,
+   statusWherehouseEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],

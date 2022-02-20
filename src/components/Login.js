@@ -22,11 +22,21 @@ function Login(props) {
         <form id="loginForm">
           <div>
             <label className="loginFormLable">Логин или Email</label>
-            <input className="loginFormInput" type="text" id="login" />
+            <input 
+              id="login"
+              className="loginFormInput" 
+              type="text" 
+              onKeyPress={event => {if (event.key === 'Enter') handleClick(event)}}
+            />
           </div>
           <div>
             <label className="loginFormLable">Пароль</label>
-            <input className="loginFormInput" type="password" id="password" />
+            <input 
+              id="password" 
+              className="loginFormInput" 
+              type="password" 
+              onKeyPress={event => {if (event.key === 'Enter') handleClick(event)}}
+            />
           </div>
           <div>
             <button className="loginButtom" type="button" onClick={handleClick}>

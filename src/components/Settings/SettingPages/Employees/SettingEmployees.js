@@ -7,6 +7,7 @@ import EmploeeyEditor from './EmploeeyEditor'
 import RoleEditor from './RoleEditor'
 import TableEmployees from './TableEmployees'
 import TableRoles from './TableRoles'
+import Button from '../../../general/Button'
 
 const SettingEmployees = (props) => {
 
@@ -23,16 +24,14 @@ const SettingEmployees = (props) => {
         <div className='settingPageBody'>
 
         {props.permission.includes('setting_roles') ?
-          <>
-          <h3>Роли</h3>
+        <>
+        <h3>Роли</h3>
         <p>Роль — это список прав и возможностей сотрудника.</p>
-
-        <div 
+        <Button
           className='greenButton'
+          title='+ Роль'
           onClick={() => props.setVisibleFlag('statusCreateNewRole', true)}
-        > 
-          + Роль
-        </div>
+        />
         {props.statusCreateNewRole ? <RoleEditor/> : null}
 
         <TableRoles/>
@@ -42,21 +41,20 @@ const SettingEmployees = (props) => {
         <p>Каждый сотрудник имеет свой логин и пароль для входа в OneTwoService</p>
 
         <div className='buttons'>
-            <div 
+          <Button
             className='greenButton'
+            title='+ Сотрудник'
             onClick={() => {
               props.resetEmoloyee()
               props.setVisibleFlag('statusEmployeeEditor', true)
             }}
-            >
-              + Сотрудник
-            </div>
-            {props.permission.includes('setting_see_employees') ?
-              <Checkbox
-                label='Показать удаленных'
-                onChange={() => props.changeShowDeleted()}
-                checked={props.showDeleted}
-            /> : null}
+          />
+          <Checkbox
+            label='Показать удаленных'
+            onChange={() => props.changeShowDeleted()}
+            checked={props.showDeleted}
+            unvisible={!props.permission.includes('setting_see_employees')}
+          />
         </div>
 
         {props.statusEmployeeEditor ? <EmploeeyEditor/> : null}

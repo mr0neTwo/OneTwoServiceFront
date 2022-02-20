@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
+
+
+import { addOrders,editOrder } from '../../Redux/actions/orderActions'
+import { initStatusMenuVisibleAction, setVisibleFlag } from '../../Redux/actions'
+import { changeBookForm } from '../../Redux/actions/bookActions'
+
 import Loader from '../Loader/Loader'
 import Create from './cell/Create'
 import Lable from './cell/Lable'
 import EstimatedDone from './cell/EstimatedDone'
 import TableHeader from './TableHeader'
-import { addOrders,editOrder } from '../../Redux/actions/orderActions'
-import { initStatusMenuVisibleAction, setVisibleFlag } from '../../Redux/actions'
 import Status from './cell/Status'
 import KindOfGood from './cell/KindOfGood'
 import Brand from './cell/Brand'
@@ -39,6 +43,15 @@ function TableOrders(props) {
     })
     props.initStatusMenuVisible(statusVis)
   }, [props.ordersShow])
+
+  const handleEdit = (order) => {
+    props.editOrder(order)
+    props.changeBookForm(order.kindof_good, 'equipment_type')
+    props.changeBookForm(order.brand, 'equipment_brand')
+    props.changeBookForm(order.subtype, 'equipment_subtype')
+    props.changeBookForm(order.model, 'equipment_model')
+    props.setVisibleFlag('statusOrderEditor', true)
+  }
   
    
 
@@ -58,10 +71,7 @@ function TableOrders(props) {
               <tr 
                 key={order.id} 
                 className="orderTableRows"
-                onDoubleClick={ () => {
-                  props.setVisibleFlag('statusOrderEditor', true)
-                  props.editOrder(order)
-                }}
+                onDoubleClick={ () => handleEdit(order)}
               >
                 <Lable data = {order}/>
                 <Create data = {order}/>
@@ -100,7 +110,8 @@ const mapDispatchToProps = {
   addOrders,
   initStatusMenuVisible: initStatusMenuVisibleAction,
   setVisibleFlag,
-  editOrder
+  editOrder,
+  changeBookForm
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrders)

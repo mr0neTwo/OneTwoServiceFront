@@ -18,6 +18,7 @@ const SetOrderModel = (props) => {
 
   const model = edit ? props.order.model: props.order.equipments[props.idx].model
   const disabled = !Object.values(props.book.equipment_subtype).length
+  // const disabled = edit ? !Object.values(props.order.subtype).length : !Object.values(props.order.equipments[props.idx].subtype).length
   const seted = !!Object.values(model).length
 
   const clickHandel = (event) => {

@@ -56,11 +56,7 @@ const PhoneTitle = (props) => {
               <input
                 className="optionFilterInput"
                 autoFocus
-                onKeyPress={(event) => {
-                  if (event.key === 'Enter') {
-                    props.setPhoneTitle(props.idx, event.target.value)
-                  }
-                }}
+                onKeyPress={event => { if (event.key === 'Enter') props.setPhoneTitle(props.idx, event.target.value)} }
                 placeholder="Введите и нажмиете Enter"
               />
             ) : (
