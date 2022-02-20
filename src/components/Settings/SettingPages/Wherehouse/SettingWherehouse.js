@@ -27,7 +27,7 @@ const SettingWherehouse = (props) => {
     </div>
   )
 }
-
+// yj
 const mapStateToProps = state => ({
   
 })
