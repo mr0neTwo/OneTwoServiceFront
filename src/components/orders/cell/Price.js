@@ -11,7 +11,6 @@ const Price = ({data: {price}}) => {
 
 const mapStateToProps = state => ({
    //   dataSidebarRows: 'dataSidebarRows',
-     // addTodo: todo => ref('todos').push(todo)
-   })
+})
   
  export default connect(mapStateToProps)(Price)

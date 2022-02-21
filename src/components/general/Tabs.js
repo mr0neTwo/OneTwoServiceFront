@@ -1,5 +1,6 @@
 
 import React from 'react'
+import PropTypes from "prop-types";
 
 const Tabs = (props) => {
    return (
@@ -18,5 +19,18 @@ const Tabs = (props) => {
    )
 }
 
+Tabs.propTypes = {
+    className: PropTypes.string,
+    list: PropTypes.arrayOf(PropTypes.string),
+    tab: PropTypes.number,
+    func: PropTypes.func,
+    tab_field: PropTypes.string
+}
   
  export default Tabs
+
+// className=''
+// list=['tab1', 'tab2', 'tab3']
+// tab={props.tab}
+// func={() => console.log('set tab')}
+// tab_field='tab_field' default 'tabs'

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { changeCashboxForm, setVisibleFlag, createCashbox, seveEditCashbox, deleteCashbox } from '../../../Redux/actions'
+import { permission_cahsbox } from "../../../data/permissions";
+
 import BottomButtons from '../../general/BottomButtons'
 import Tabs from '../../general/Tabs'
 import CashboxAccess from './CashboxAccess'
@@ -29,7 +31,7 @@ const CashboxEditor = (props) => {
          list_per[employee.id] = {}
          list_per[employee.id].available = true
          list_per[employee.id].like_cashbox = true
-         list_per[employee.id].permissions = ['show_cashbox_remains', 'show_cash_flow', 'incoming', 'incoming_move', 'outcoming', 'outcoming_move']
+         list_per[employee.id].permissions = permission_cahsbox
       })
       props.changeCashboxForm(list_per, 'employees')
     }

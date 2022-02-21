@@ -1,3 +1,4 @@
+import {permission_cahsbox} from "../../data/permissions";
 
 
 const initialState = {
@@ -11,12 +12,12 @@ const initialState = {
    isGlobal: false,
    isVirtual: false,
    deleted: false,
-   permissions: ['show_cashbox_remains', 'show_cash_flow', 'incoming', 'incoming_move', 'outcoming', 'outcoming_move'],
+   permissions: permission_cahsbox,
    employees: {},
    branch_id: 0,
 
-   permissions_employee: 0,
-   current_cashbox: {}
+   permissions_employee: 0, // id сотрудника, права которого редактируются в данный момент
+   current_cashbox: {} // активная касса
 }
 
 export const cashboxReducer = (state = initialState, action) => {
@@ -52,26 +53,44 @@ export const cashboxReducer = (state = initialState, action) => {
             isGlobal: false,
             isVirtual: false,
             deleted: false,
-            permissions: ['show_cashbox_remains', 'show_cash_flow', 'incoming', 'incoming_move', 'outcoming', 'outcoming_move'],
+            permissions: permission_cahsbox,
             employees: [],
             branch_id: 0,
-            permissions_employee: 0
+            permissions_employee: 0 // id сотрудника, права которого редактируются в данный момент
          }
       }
 
       
       case 'CHANGE_CASHBOX_PERMISSION': {
 
+         // Вытаскиваем данные о разрешениях сотрудников из state
          let employees = state.employees
+         // Данные имеют следующий json формат
+         // const employees = {
+         //    employee_id1: {
+         //       available: true, // разрешен ли вообще доступ к кассе этого стортудника
+         //       like_cashbox: true, // разрения которые есть у самой кассы ( if available is true )
+         //       permissions: [permission_cahsbox] // список специальных разершений ( if available is true and like_cashbox is false )
+         //    },
+         //    emoloyee_id2: {...}
+         // }
+         // Если запись данных идет в поле permissions (список персональных разрешений)
          if (action.field === 'permissions') {
+            // Если заначение value уже пресутствует в списке специальных разрешений текущего сотрудника (permissions_employee)
             if (employees[state.permissions_employee].permissions.includes(action.value)) {
+               // Удаляем значение value из списка специальных разрешений текущего сотрудника
                employees[state.permissions_employee].permissions = employees[state.permissions_employee].permissions.filter(val => val !== action.value)
+            // Если значение value отсутсвует в списке персональных разрешений текущего сотрудника
             } else {
+               // Добавляем значение value в список персональных разрешений текущего сотрудника
                employees[state.permissions_employee].permissions = employees[state.permissions_employee].permissions.concat([action.value])
             }
+         // Если запись идет не в поле permissions текущего сотрудника
          } else {
+            // Меняем значение этого поля на значение в value
             employees[state.permissions_employee][[action.field]] = action.value
-         } 
+         }
+         // Возвращаем изменненый state
          return {
             ...state, 
             employees: employees

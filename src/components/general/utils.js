@@ -7,6 +7,12 @@ const optionsShowDate = {
    // second: 'numeric'
  }
 
+/**
+ * Приодит номер телефона к читабильному виду
+ *
+ * @param {number} phone The phone number in the format 71234567890
+ * @return {string} The phone number in the string '+7 (123) 456-78-90'
+ */
 export function showPhone (phone) {
    return `+${phone.slice(0, 1)}(${phone.slice(1, 4)}) ${phone.slice(4, 7)}-${phone.slice(7, 10)}-${phone.slice(9, 12)}`
 }

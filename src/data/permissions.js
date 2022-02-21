@@ -546,3 +546,12 @@ export const permission = [
       description: 'Настройки'
    }
 ]
+
+export const permission_cahsbox = [
+   'show_cashbox_remains',
+   'show_cash_flow',
+   'incoming',
+   'incoming_move',
+   'outcoming',
+   'outcoming_move'
+]

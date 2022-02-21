@@ -1,6 +1,6 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { setVisibleFlag } from '../../Redux/actions'
 import { valueOfPhoneInput } from './utils'
@@ -34,6 +34,23 @@ const LableInput = (props) => {
          {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо заполнить'}</div> : null}
       </div>
    )
+}
+
+LableInput.propTypes = {
+    className: PropTypes.string,
+    inputClassName: PropTypes.string,
+    width: PropTypes.string,
+    title: PropTypes.string,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    unit: PropTypes.string,
+    checkedFlag: PropTypes.string,
+    checked: PropTypes.bool,
+    disabled: PropTypes.bool,
+    redStar: PropTypes.bool,
+    errorMassage: PropTypes.string,
+    isPhone: PropTypes.bool
 }
 
 const mapStateToProps = state => ({

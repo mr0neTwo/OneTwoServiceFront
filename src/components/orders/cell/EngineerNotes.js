@@ -13,7 +13,6 @@ const EngineerNotes = ({data: {engineer_notes}}) => {
 
 const mapStateToProps = state => ({
    //   dataSidebarRows: 'dataSidebarRows',
-     // addTodo: todo => ref('todos').push(todo)
-   })
+})
   
  export default connect(mapStateToProps)(EngineerNotes)

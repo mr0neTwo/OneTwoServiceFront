@@ -3,6 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { setVisibleFlag } from '../../Redux/actions'
+import PropTypes from "prop-types";
 
 const LableArea = (props) => {
 
@@ -21,6 +22,18 @@ const LableArea = (props) => {
          {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо заполнить'}</div> : null}
       </div>
    )
+}
+
+LableArea.propTypes ={
+    className: PropTypes.string,
+    title: PropTypes.string,
+    onChange: PropTypes.func,
+    value: PropTypes.string,
+    disabled: PropTypes.bool,
+    checkedFlag: PropTypes.string,
+    checked: PropTypes.bool,
+    redStar: PropTypes.bool,
+    errorMassage: PropTypes.string
 }
 
 const mapStateToProps = state => ({

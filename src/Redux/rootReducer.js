@@ -17,6 +17,7 @@ import { priceReducer } from './reducers/priceReducer'
 import { dictServiceReducer } from './reducers/dictServiceReducer'
 import { operationReducer } from './reducers/operationReducer'
 import { payrollReducer } from './reducers/payrollReducer'
+import {warehouseReducer} from "./reducers/wherehouseReducer";
 
 
 
@@ -37,5 +38,6 @@ export const rootReducer = combineReducers({
    price: priceReducer,
    dictService: dictServiceReducer,
    operation: operationReducer,
-   payroll: payrollReducer
+   payroll: payrollReducer,
+   warehouse: warehouseReducer
 })

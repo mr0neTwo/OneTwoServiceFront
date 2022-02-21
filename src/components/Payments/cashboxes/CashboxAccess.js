@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -8,6 +7,17 @@ import CashboxEmployeeEditor from './CashboxEmployeeEditor'
 
 
 const CashboxAccess = (props) => {
+
+   const handleEdit = employee => {
+      props.changeCashboxForm(employee.id, 'permissions_employee')
+      props.editEmoloyee(employee)
+      props.setVisibleFlag('statusCashboxEmployeeEditor', true)
+   }
+
+   const handleCheck = (employee_id, value) => {
+      props.changeCashboxForm(employee_id, 'permissions_employee')
+      props.changeCashboxPermissions(value, 'available')
+   }
 
    return (
       <div className = 'contentEditor'>
@@ -21,21 +31,14 @@ const CashboxAccess = (props) => {
                </tr>
             </thead>
             <tbody>
-               {props.employees.filter(employee => !employee.deleted).map(employee => (
+               {props.employees.map(employee => (
                   <tr 
                      key={employee.id}
-                     onDoubleClick={() => {
-                        props.changeCashboxForm(employee.id, 'permissions_employee')
-                        props.editEmoloyee(employee)
-                        props.setVisibleFlag('statusCashboxEmployeeEditor', true)
-                     }}
+                     onDoubleClick={() => handleEdit(employee)}
                   >
                      <td>
                         <Checkbox
-                           onChange={event => {
-                              props.changeCashboxForm(employee.id, 'permissions_employee')
-                              props.changeCashboxPermissions(event.target.checked, 'available')
-                           }}
+                           onChange={event => handleCheck(employee.id, event.target.checked)}
                            checked={props.cashbox.employees[employee.id].available}
                            disabled={props.cashbox.deleted}
                         />
@@ -43,7 +46,7 @@ const CashboxAccess = (props) => {
                      <td>{`${employee.first_name} ${employee.last_name}`}</td>
                      <td>
                         {props.cashbox.employees[employee.id].available ? 
-                     ( props.cashbox.employees[employee.id].like_cashbox  ? 'Доступные для кассы' : 'Персональные') : 
+                     (props.cashbox.employees[employee.id].like_cashbox  ? 'Доступные для кассы' : 'Персональные') :
                      'Нет доступа'}
                      </td>
                   </tr>
@@ -56,7 +59,7 @@ const CashboxAccess = (props) => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees,
+   employees: state.data.employees.filter(employee => !employee.deleted),
    cashbox: state.cashbox,
    statusCashboxEmployeeEditor: state.view.statusCashboxEmployeeEditor
    })

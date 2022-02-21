@@ -13,7 +13,6 @@ const KindOfGood = ({data: {kindof_good}}) => {
 
 const mapStateToProps = state => ({
    //   dataSidebarRows: 'dataSidebarRows',
-     // addTodo: todo => ref('todos').push(todo)
-   })
+})
   
  export default connect(mapStateToProps)(KindOfGood)

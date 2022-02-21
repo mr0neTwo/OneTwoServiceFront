@@ -13,7 +13,6 @@ const Malfunction = ({data: {malfunction}}) => {
 
 const mapStateToProps = state => ({
    //   dataSidebarRows: 'dataSidebarRows',
-     // addTodo: todo => ref('todos').push(todo)
-   })
+})
   
  export default connect(mapStateToProps)(Malfunction)

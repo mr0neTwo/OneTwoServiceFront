@@ -2,64 +2,62 @@ import { data_setting_menu } from '../../data/dataSettingRows'
 import { data_menu_rows } from '../../data/dataSidebarRows'
 
 const initialState = {
-  ordersShow: [],
-  count: 0,
-  clientShow: [],
-  count_clients: 0,
-  menuRows: data_menu_rows,
-  settingMenu: data_setting_menu,
-  payments: [],
+    ordersShow: [],
+    count: 0,
+    clientShow: [],
+    count_clients: 0,
+    menuRows: data_menu_rows,
+    settingMenu: data_setting_menu,
+    payments: [],
 
-  employees: [],
-  user: JSON.parse(sessionStorage.getItem('user')) || {},
-  // user: {},
-  status: [],
-  status_group: [],
-  badges: [],
-  order_type: [],
-  equipment: [],
-  discount_margin: [],
-  roles: [],
-  ad_campaign: [],
-  generally_info: {},
-  branches: [],
-  cashboxes: [],
-  payrules: [],
-  payrolls: [],
-  group_dict_service: [],
-  dict_service: [],
-  service_prices: [],
+    employees: [],
+    user: JSON.parse(sessionStorage.getItem('user')) || {},
+    status: [],
+    status_group: [],
+    badges: [],
+    order_type: [],
+    equipment: [],
+    discount_margin: [],
+    roles: [],
+    ad_campaign: [],
+    generally_info: {},
+    branches: [],
+    cashboxes: [],
+    payrules: [],
+    payrolls: [],
+    group_dict_service: [],
+    dict_service: [],
+    service_prices: [],
 
-  counters: [],
-  dictMalfunction: [],
-  count_malfunction: 0,
-  dictPackagelist: [],
-  count_packagelist: 0,
-  item_payments: [],
-  count_item_payments: 0,
-  equipment_types: [],
-  equipment_type_count: 0,
-  equipment_brands: [],
-  equipment_brand_count: 0,
-  equipment_subtypes: [],
-  equipment_subtype_count: 0,
-  equipment_models: [],
-  equipment_models_count: 0,
+    counters: [],
+    dictMalfunction: [],
+    count_malfunction: 0,
+    dictPackagelist: [],
+    count_packagelist: 0,
+    item_payments: [],
+    count_item_payments: 0,
+    equipment_types: [],
+    equipment_type_count: 0,
+    equipment_brands: [],
+    equipment_brand_count: 0,
+    equipment_subtypes: [],
+    equipment_subtype_count: 0,
+    equipment_models: [],
+    equipment_models_count: 0,
  
 
-  current_branch: {},
+    current_branch: {},
 
-  token: sessionStorage.getItem('1xsndt') || '',
-  // token: '',
-  login_status: false,
-  error_message: '',
-  // url_server: process.env.PUBLIC_URL
-  url_server: 'http://192.168.1.48:80' // Домашний
-  // url_server: 'http://192.168.43.224:5005' // Мобильный
-  // url_server: 'http://172.16.6.218:5005' // КЕХУ
-  // url_server: 'http://192.168.1.49:5005' // рабочий WiFI
-  // url_server: 'http://5.53.124.252:80'
-  // url_server: 'http://onetwonline.ru'
+    token: sessionStorage.getItem('1xsndt') || '',
+    login_status: false,
+    error_message: '',
+    // url_server: process.env.PUBLIC_URL
+    url_server: 'http://192.168.1.48:80' // Домашний
+    // url_server: 'http://192.168.43.224:5005' // Мобильный
+    // url_server: 'http://172.16.6.218:5005' // КЕХУ
+    // url_server: 'http://192.168.1.49:5005' // рабочий WiFI
+    // url_server: 'http://5.53.124.252:80'
+    // url_server: 'http://onetwonline.ru'
   
 }
 

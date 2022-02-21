@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react'
+import PropTypes from "prop-types"
 
 const ChooseBotton = (props) => {
 
@@ -30,6 +31,17 @@ const ChooseBotton = (props) => {
          </div>
       </div>
    )
+}
+
+ChooseBotton.propTypes = {
+    className: PropTypes.string,
+    title: PropTypes.string,
+    name: PropTypes.arrayOf(PropTypes.string),
+    func1: PropTypes.func,
+    func2: PropTypes.func,
+    checked: PropTypes.bool,
+    disabled: PropTypes.bool,
+    unvisible: PropTypes.bool
 }
 
  export default ChooseBotton

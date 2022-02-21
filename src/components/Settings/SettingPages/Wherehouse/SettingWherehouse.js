@@ -1,10 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import Button from '../../../general/Button'
 import TableWherehouse from './TableWherehouse'
+import {addWarehouse} from "../../../../Redux/actions/warehouseAction"
+import {setVisibleFlag} from "../../../../Redux/actions"
+import WarehouseEditor from "./WarehouseEditor"
 
 const SettingWherehouse = (props) => {
+
+    useEffect(() => {
+        props.addWarehouse()
+    }, [])
+
   return (
     <div className='settingContent'>
 
@@ -18,9 +26,9 @@ const SettingWherehouse = (props) => {
         <Button
           className='greenButton'
           title='+ Склад'
-          onClick={() => props.setVisibleFlag('statusWherehouseEditor', true)}
+          onClick={() => props.setVisibleFlag('statusWarehouseEditor', true)}
         />
-        {/* {props.statusCreateNewRole ? <RoleEditor/> : null} */}
+         {props.statusWarehouseEditor ? <WarehouseEditor/> : null}
 
         <TableWherehouse/>
       </div>
@@ -29,11 +37,12 @@ const SettingWherehouse = (props) => {
 }
 // yj
 const mapStateToProps = state => ({
-  
+    statusWarehouseEditor: state.view.statusWarehouseEditor
 })
 
 const mapDispatchToProps = {
-
+    addWarehouse,
+    setVisibleFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingWherehouse)

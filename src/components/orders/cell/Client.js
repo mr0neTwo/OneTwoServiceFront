@@ -13,7 +13,6 @@ const Client = ({data: {client}}) => {
 
 const mapStateToProps = state => ({
    //   dataSidebarRows: 'dataSidebarRows',
-     // addTodo: todo => ref('todos').push(todo)
-   })
+})
   
  export default connect(mapStateToProps)(Client)

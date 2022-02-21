@@ -14,7 +14,6 @@ const Telephony = (props) => {
 
 const mapStateToProps = state => ({
   // todos: 'todos',
-  // addTodo: todo => ref('todos').push(todo)
 })
 
 export default connect(mapStateToProps)(Telephony)

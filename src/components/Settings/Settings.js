@@ -49,7 +49,6 @@ const Settings = (props) => {
 
 const mapStateToProps = state => ({
 //   dataSidebarRows: 'dataSidebarRows',
-  // addTodo: todo => ref('todos').push(todo)
 })
 
 const mapDispatchToProps = {

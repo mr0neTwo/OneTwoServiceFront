@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 import { setVisibleFlag } from '../../Redux/actions'
+import PropTypes from "prop-types";
 
 const ChooseOfList = (props) => {
 
@@ -74,16 +75,32 @@ const ChooseOfList = (props) => {
    )
 }
 
-const mapStateToProps = state => ({
+ChooseOfList.propTypes = {
+   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+   title: PropTypes.string,
+   className: PropTypes.string,
+   list: PropTypes.arrayOf(PropTypes.object),
+   field: PropTypes.string,
+   setElement: PropTypes.func,
+   current_id: PropTypes.number,
+   width: PropTypes.string,
+   employee: PropTypes.bool,
+   checkedFlag: PropTypes.string,
+   checked: PropTypes.bool,
+   disabled: PropTypes.bool,
+   unvisible: PropTypes.bool
+}
+
+// const mapStateToProps = state => ({
    // checked: state.view[props.checkedFlag]
-   })
+// })
 
 const mapDispatchToProps = {
    setVisibleFlag
 }
 
   
- export default connect(mapStateToProps, mapDispatchToProps)(ChooseOfList)
+ export default connect(null, mapDispatchToProps)(ChooseOfList)
 
 
    // id={}

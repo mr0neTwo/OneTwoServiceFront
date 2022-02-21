@@ -33,7 +33,7 @@ const initialState = {
    statusOperationEditor: false,
    statusPayrollEditor: false,
    statusCellEditor: false,
-   statusWherehouseEditor: false,
+   statusWarehouseEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -72,11 +72,13 @@ const initialState = {
    inputPayrollEmployeeChecked: true,
    inputPayrollSumChecked: true,
    inputSingleMalfunctionChecked: true,
+   inputWarehouseTitleChecked: true,
 
    errorSameMail: false,
    errorSameLogin: false
 }
 
+// todo: переписать ненужные функции
 export const visualReducer = (state = initialState, action) => {
    switch (action.type){
 

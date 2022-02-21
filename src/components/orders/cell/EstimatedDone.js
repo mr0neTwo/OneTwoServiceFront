@@ -46,7 +46,6 @@ const EstimatedDone = ({data : {estimated_done_at, overdue, status, remaining }}
 
 const mapStateToProps = state => ({
    //   dataSidebarRows: 'dataSidebarRows',
-     // addTodo: todo => ref('todos').push(todo)
-   })
+})
   
  export default connect(mapStateToProps)(EstimatedDone)

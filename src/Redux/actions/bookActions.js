@@ -26,8 +26,7 @@ export function chooseBookSelected(value, field) {
 export function createEquipmentType(title) {
   const state = store.getState()
 
-  const request_config = title
-    ? getRequestConfig({ title })
+  const request_config = title ? getRequestConfig({ title })
     : getRequestConfig({
         title: state.book.title,
         icon: state.book.icon,

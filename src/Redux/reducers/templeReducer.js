@@ -15,7 +15,7 @@ export const templeReducer = (state = initialState, action) => {
          }
       }
  
-      case 'EDIT_TEMPLE_SERVICE': {
+      case 'EDIT_TEMPLE': {
          return {
             ...state, 
             ability1: action.temple.ability1,
@@ -23,7 +23,7 @@ export const templeReducer = (state = initialState, action) => {
          }
       }
  
-      case 'RESET_TEMPLE_SERVICE': {
+      case 'RESET_TEMPLE': {
          return {
             ...state, 
             edit: 0,
