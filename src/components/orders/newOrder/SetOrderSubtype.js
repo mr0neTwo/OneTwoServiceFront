@@ -83,7 +83,7 @@ const SetOrderSubtype = (props) => {
       {!props.view.checkedOrderSubtype[props.idx] ?  <div className="errorMassageInput">{'Необоходимо выбрать из списка'}</div> : null}
       {visibleList && !disabled ? (
         <div className="listFilter" id="listOrderOfSubtype">
-          {props.equipment_subtypes.map((subtype) => {
+          {props.book.equipment_subtypes.map((subtype) => {
               return (
                 <div
                   key={subtype.id}
@@ -124,8 +124,7 @@ const SetOrderSubtype = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  equipment_subtypes: state.data.equipment_subtypes,
+const mapStateToProps = state => ({
   order: state.order,
   view: state.view,
   book: state.book,

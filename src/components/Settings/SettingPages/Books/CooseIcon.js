@@ -47,6 +47,7 @@ const ChooseIcon = (props) => {
               key={idx}
               className="icon_equipment"
               src={`${process.env.PUBLIC_URL}/icon_equipments/${icon}`}
+              alt='icon equipment'
               onClick={() => {
                 props.changeBookForm(icon === 'nothing.svg' ? null : `icon_equipments/${icon}`, 'icon')
                 setIcons(false)
@@ -57,7 +58,8 @@ const ChooseIcon = (props) => {
       ) : (
         <img
           className="icon_equipment"
-          src={props.icon ? `${process.env.PUBLIC_URL}/${props.icon}` : `${process.env.PUBLIC_URL}icon_equipments/nothing.svg`}
+          src={props.icon ? `${process.env.PUBLIC_URL}/${props.icon}` : `${process.env.PUBLIC_URL}/icon_equipments/nothing.svg`}
+          alt='icon equipment'
           onClick={props.disabled ? null : () => setIcons(true)}
         />
       )}

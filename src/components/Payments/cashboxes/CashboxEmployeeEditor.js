@@ -58,7 +58,7 @@ const CashboxEmployeeEditor = (props) => {
                props.cashbox.permissions.includes('show_cashbox_remains') : 
                props.cashbox.employees[props.cashbox.permissions_employee].permissions.includes('show_cashbox_remains')
             }
-            disabled={props.cashbox.deleted && perm}
+            disabled={props.cashbox.deleted || perm}
           />
           <Checkbox
             className='mt15'
@@ -69,7 +69,7 @@ const CashboxEmployeeEditor = (props) => {
                props.cashbox.permissions.includes('show_cash_flow') :
                props.cashbox.employees[props.cashbox.permissions_employee].permissions.includes('show_cash_flow')
             }
-            disabled={props.cashbox.deleted && perm}
+            disabled={props.cashbox.deleted || perm}
           />
           <div className='row'>
             <div>
@@ -83,7 +83,7 @@ const CashboxEmployeeEditor = (props) => {
                      props.cashbox.permissions.includes('incoming') :
                      props.cashbox.employees[props.cashbox.permissions_employee].permissions.includes('incoming')
                   }
-                  disabled={props.cashbox.deleted && perm}
+                  disabled={props.cashbox.deleted || perm}
                />
                <Checkbox
                   className='mt15'
@@ -94,7 +94,7 @@ const CashboxEmployeeEditor = (props) => {
                      props.cashbox.permissions.includes('incoming_move') :
                      props.cashbox.employees[props.cashbox.permissions_employee].permissions.includes('incoming_move')
                   }
-                  disabled={props.cashbox.deleted && perm}
+                  disabled={props.cashbox.deleted || perm}
                />
             </div>
             <div className='ml30'>
@@ -108,7 +108,7 @@ const CashboxEmployeeEditor = (props) => {
                      props.cashbox.permissions.includes('outcoming') :
                      props.cashbox.employees[props.cashbox.permissions_employee].permissions.includes('outcoming')
                   }
-                  disabled={props.cashbox.deleted && perm}
+                  disabled={props.cashbox.deleted || perm}
                />
                <Checkbox
                   className='mt15'
@@ -119,7 +119,7 @@ const CashboxEmployeeEditor = (props) => {
                      props.cashbox.permissions.includes('outcoming_move') :
                      props.cashbox.employees[props.cashbox.permissions_employee].permissions.includes('outcoming_move')
                   }
-                  disabled={props.cashbox.deleted && perm}
+                  disabled={props.cashbox.deleted || perm}
                />
             </div>
           </div>

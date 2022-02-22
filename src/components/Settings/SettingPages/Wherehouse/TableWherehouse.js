@@ -2,8 +2,17 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Icon from "../../../general/Icon";
+import {editWarehouse} from "../../../../Redux/actions/warehouseAction"
+import { setVisibleFlag } from "../../../../Redux/actions";
 
 const TableWherehouse = (props) => {
+
+    const handleEdit = (warehouse) => {
+        if (props.permissions.includes('setting_edit_warehouse')) {
+            props.editWarehouse(warehouse)
+            props.setVisibleFlag('statusWarehouseEditor', true)
+        }
+    }
 
    return (
       <table>
@@ -15,8 +24,12 @@ const TableWherehouse = (props) => {
             </tr>
          </thead>
           <tbody>
-          {props.warehouses.filter(warehouse => !warehouse.deleted).map(warehouse => (
-              <tr key={warehouse.id}>
+          {props.warehouses.filter(warehouse => props.showDeleted || !warehouse.deleted).map(warehouse => (
+              <tr
+                  key={warehouse.id}
+                  className={warehouse.deleted ? 'rowDeleted' : null}
+                  onDoubleClick={() => handleEdit(warehouse)}
+              >
                   <td className=''>
                       <Icon className='icon-s1' icon={warehouse.branch.icon} color={warehouse.branch.color}/>
                   </td>
@@ -30,11 +43,13 @@ const TableWherehouse = (props) => {
 }
 
 const mapStateToProps = state => ({
-    warehouses: state.warehouse.warehouses
+    warehouses: state.warehouse.warehouses,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {
-
+    editWarehouse,
+    setVisibleFlag
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(TableWherehouse)

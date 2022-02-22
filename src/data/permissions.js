@@ -436,6 +436,21 @@ export const setting = [
       value: 'setting_warehouse',
       description: 'Склады'
    },{
+      value: 'setting_create_warehouse',
+      description: 'Может создавать склады'
+   },{
+      value: 'setting_edit_warehouse',
+      description: 'Может редактировать слады'
+   },{
+      value: 'setting_delete_warehouse',
+      description: 'Может удалять склады'
+   },{
+      value: 'setting_see_deleted_warehouse',
+      description: 'Может видеть удаленные склады'
+   },{
+      value: 'setting_recover_warehouse',
+      description: 'Может востанавливать удаленные'
+   },{
       value: 'see_setting_tax', // не реализовано
       description: 'Может видеть настройки налогов'
    },{
@@ -554,4 +569,16 @@ export const permission_cahsbox = [
    'incoming_move',
    'outcoming',
    'outcoming_move'
+]
+
+export const permission_warehouse = [
+    'show_warehouse_remains',
+   'warehouse_registration',
+   'move_in',
+   'return_from_client',
+   'write_off',
+   'move_out',
+   'add_to_order',
+   'add_to_sale',
+   'return_to_supplier'
 ]

@@ -118,28 +118,28 @@ export function createPayroll() {
     await fetch(state.data.url_server + '/payroll', request_config1)
     .catch(() => bad_request('Запрос на создание начисления не выполнен'))
 
-    fetch(state.data.url_server + '/get_payrolls', request_config2)
-    .then(response =>  response.json())
-    .then(data => {
-      if (data.success) {
-        dispatch({
-          type: 'ADD_DATA',
-          field: 'payrolls',
-          data: data.data,
-        })
-        dispatch({
-          type: 'RESET_PAYROLL',
-        })
-        dispatch({
-          type: 'SET_VISIBLE_FLAG',
-          field: 'statusPayrollEditor',
-          value: false
-        })
-      } else {
-        console.warn(data.massage)
-      }
-    })
-    .catch(() => bad_request('Запрос начислений не выполнен'))
+    await fetch(state.data.url_server + '/get_payrolls', request_config2)
+      .then(response =>  response.json())
+      .then(data => {
+        if (data.success) {
+          dispatch({
+            type: 'ADD_DATA',
+            field: 'payrolls',
+            data: data.data,
+          })
+          dispatch({
+            type: 'RESET_PAYROLL',
+          })
+          dispatch({
+            type: 'SET_VISIBLE_FLAG',
+            field: 'statusPayrollEditor',
+            value: false
+          })
+        } else {
+          console.warn(data.massage)
+        }
+      })
+      .catch(() => bad_request('Запрос начислений не выполнен'))
      
   }
 }

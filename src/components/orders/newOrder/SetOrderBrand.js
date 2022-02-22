@@ -92,7 +92,7 @@ const SetOrderBrand = (props) => {
       ) : null}
       {visibleList && !disabled ? (
         <div className="listFilter" id="listOrderOfBrand">
-          {props.equipment_brands.map((brand) => {
+          {props.book.equipment_brands.map(brand => {
               return  (
                 <div
                   key={brand.id}
@@ -134,7 +134,6 @@ const SetOrderBrand = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  equipment_brands: state.data.equipment_brands,
   order: state.order,
   view: state.view,
   book: state.book,

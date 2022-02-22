@@ -34,6 +34,7 @@ const initialState = {
    statusPayrollEditor: false,
    statusCellEditor: false,
    statusWarehouseEditor: false,
+   statusWarehouseEmployeeEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],

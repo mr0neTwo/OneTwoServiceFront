@@ -82,7 +82,7 @@ const SetOrderModel = (props) => {
       </button>
       {visibleList && !disabled ? (
         <div className="listFilter" id="listOrderOfModel">
-          {props.equipment_models.map((model) => {
+          {props.book.equipment_models.map((model) => {
               return (
                 <div
                   key={model.id}
@@ -124,7 +124,6 @@ const SetOrderModel = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  equipment_models: state.data.equipment_models,
   order: state.order,
   book: state.book,
   permissions: state.data.user.role.permissions

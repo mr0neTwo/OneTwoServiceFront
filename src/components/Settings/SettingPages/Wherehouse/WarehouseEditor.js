@@ -3,11 +3,14 @@ import { connect } from 'react-redux'
 import PropTypes from "prop-types";
 
 import { setVisibleFlag } from '../../../../Redux/actions'
-import {changeWarehouseForm, resetWarehouse} from "../../../../Redux/actions/warehouseAction";
+import {changeWarehouseForm, resetWarehouse, createWarehouse} from "../../../../Redux/actions/warehouseAction";
+import {saveWarehouse, deleteWarehouse} from "../../../../Redux/actions/warehouseAction";
 
 import BottomButtons from '../../../general/BottomButtons'
 import Tabs from "../../../general/Tabs";
-import WarehouseInfo from "./WarehouseInfo";
+import WarehouseInfo from "./WarehouseInfo"
+import WarehouseAccess from "./WarehouseAccess";
+import { permission_warehouse} from "../../../../data/permissions";
 
 
 const WarehouseEditor = props => {
@@ -31,14 +34,37 @@ const WarehouseEditor = props => {
         }
     })
 
-    // const handleCreateEquipment = () => {
-    //     if (props.book.title) {
-    //         props.createBookElement()
-    //         props.setVisibleFlag('statusWarehouseEditor', false)
-    //     } else {
-    //         props.setVisibleFlag('inputBookTitleChecked', false)
-    //     }
-    // }
+    useEffect(() => {
+        if (!props.warehouse.edit) {
+            let list_per = {}
+            props.employees.forEach(employee => {
+                list_per[employee.id] = {}
+                list_per[employee.id].available = true
+                list_per[employee.id].like_warehouse = true
+                list_per[employee.id].permissions = permission_warehouse
+            })
+            props.changeWarehouseForm(list_per, 'employees')
+        }
+    }, [])
+
+    const handleCreate = () => {
+        if (props.warehouse.title) {
+            props.createWarehouse()
+        } else {
+            props.setVisibleFlag('inputWarehouseTitleChecked', false)
+        }
+    }
+
+    const handleSave = () => {
+        if (props.warehouse.title) {
+            props.saveWarehouse()
+        } else {
+            props.setVisibleFlag('inputWarehouseTitleChecked', false)
+        }
+    }
+
+    const can_delete = props.permissions.includes('setting_delete_warehouse')
+    const can_recover = props.permissions.includes('setting_recover_warehouse')
 
     return (
         <div className="rightBlock">
@@ -50,20 +76,21 @@ const WarehouseEditor = props => {
                     <Tabs
                         className='mt15'
                         list={['Общие', 'Доступ']}
-                        tab={props.tabs}
+                        tab={props.warehouse.tabs}
                         func={props.changeWarehouseForm}
                     />
-                    {props.tabs === 0 ? <WarehouseInfo/> : null}
-                    {props.tabs === 1 ? null : null}
-
-
-
+                    {props.warehouse.tabs === 0 ? <WarehouseInfo/> : null}
+                    {props.warehouse.tabs === 1 ? <WarehouseAccess/> : null}
 
                 </div>
 
-
                 <BottomButtons
-                    // create={handleCreateEquipment}
+                    edit={ props.warehouse.edit }
+                    deleted={ props.warehouse.deleted }
+                    create={ handleCreate }
+                    save={ handleSave }
+                    delete={ can_delete ? () => props.deleteWarehouse(true) : null }
+                    recover={ can_recover ? () => props.deleteWarehouse(false) : null }
                     close={ handleClose }
                 />
             </div>
@@ -76,13 +103,18 @@ WarehouseEditor.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    tabs: state.warehouse.tabs
+    warehouse: state.warehouse,
+    employees: state.data.employees.filter(employee => !employee.deleted),
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {
     setVisibleFlag,
     changeWarehouseForm,
-    resetWarehouse
+    resetWarehouse,
+    createWarehouse,
+    saveWarehouse,
+    deleteWarehouse
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WarehouseEditor)

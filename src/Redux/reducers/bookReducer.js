@@ -1,5 +1,14 @@
 
 const initialState = {
+   equipment_types: [],
+   equipment_type_count: 0,
+   equipment_brands: [],
+   equipment_brand_count: 0,
+   equipment_subtypes: [],
+   equipment_subtype_count: 0,
+   equipment_models: [],
+   equipment_models_count: 0,
+
    tabs: 0,
 
    equipment_type: {},
@@ -17,7 +26,6 @@ const initialState = {
 
    direction: 0,
 
-   
    type: 0,
    edit: 0,
    choose_list: [],
@@ -38,6 +46,8 @@ const initialState = {
    page_brand: 1,
    page_subtype: 1,
    page_model: 1,
+
+   showDeleted: false,
 
    list_for_join: []
 }
@@ -98,6 +108,19 @@ export const bookReducer = (state = initialState, action) => {
             selected_packagelist: [],
             page_item_payments: 0,
             selected_item_payments: [],
+
+            filter_type: '',
+            filter_brand: '',
+            filter_subtype: '',
+            filter_model: '',
+
+            page_type: 1,
+            page_brand: 1,
+            page_subtype: 1,
+            page_model: 1,
+
+            showDeleted: false,
+
             list_for_join: []
          }
       }

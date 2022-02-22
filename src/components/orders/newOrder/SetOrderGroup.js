@@ -65,14 +65,14 @@ const SetOrderGroupe = (props) => {
     <>
     
       <button 
-        className={false ? 'optionsEquipmentChoosed' : 'optionsFilterText'}
+        className='optionsFilterText'
         id='optionsOrderTextOfGroup'
         onClick={() => setVisibleList(true)}
         disabled={seted}
         style={!props.view.checkedOrderKindofGood[props.idx] ? {borderColor: 'red'} : null}
       > 
         <input 
-          className={false ? 'optionEquipmentInputChoosed' : 'optionFilterInput'}
+          className='optionFilterInput'
           onChange={event => props.changeBookForm(event.target.value, 'filter_type')}
           placeholder='Выбирете группу'
           value={seted ? types.title : props.book.filter_type}
@@ -90,7 +90,7 @@ const SetOrderGroupe = (props) => {
       </button>
       {!props.view.checkedOrderKindofGood[props.idx] ? <div className='errorMassageInput'>{'Необоходимо выбрать из списка'}</div> : null}
       {visibleList ? <div className='listFilter' id='listOrderOfGroup'>
-        {props.equipment_types.map(equipment => {
+        {props.book.equipment_types.map(equipment => {
       
         return (
           <div
@@ -131,7 +131,6 @@ const SetOrderGroupe = (props) => {
 }
 
 const mapStateToProps = state => ({
-  equipment_types: state.data.equipment_types,
   order: state.order,
   view: state.view,
   book: state.book,

@@ -12,8 +12,8 @@ const Wherehouse = (props) => {
   )
 }
 
-const mapStateToProps = state => ({
+// const mapStateToProps = state => ({
   // todos: 'todos',
-})
+// })
 
-export default connect(mapStateToProps)(Wherehouse)
+export default connect(null, null)(Wherehouse)

@@ -11,8 +11,8 @@ const KindOfGood = ({data: {kindof_good}}) => {
    )
 }
 
-const mapStateToProps = state => ({
+// const mapStateToProps = state => ({
    //   dataSidebarRows: 'dataSidebarRows',
-})
+// })
   
- export default connect(mapStateToProps)(KindOfGood)
+ export default connect(null, null)(KindOfGood)

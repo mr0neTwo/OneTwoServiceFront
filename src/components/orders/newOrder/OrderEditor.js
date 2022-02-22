@@ -10,6 +10,8 @@ import {
   addDictService
 } from '../../../Redux/actions'
 import { createOrder, resetOrder, saveOrder, addOrders } from '../../../Redux/actions/orderActions'
+import {resetBookEquipment} from "../../../Redux/actions/bookActions";
+
 
 import BottomButtons from '../../general/BottomButtons'
 import TitleOrderEditor from './TitleOrderEditor'
@@ -27,6 +29,7 @@ const OrderEditor = (props) => {
   useEffect(() => {
     props.addDiscountMargin()
     props.addDictService()
+    props.resetBookEquipment()
   }, [])
 
   const handleClose = () => {
@@ -164,7 +167,8 @@ const mapDispatchToProps = {
   resetOrder,
   addDictService,
   saveOrder,
-  addOrders
+  addOrders,
+  resetBookEquipment
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderEditor)

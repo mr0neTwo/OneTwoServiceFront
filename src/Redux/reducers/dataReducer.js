@@ -36,14 +36,7 @@ const initialState = {
     count_packagelist: 0,
     item_payments: [],
     count_item_payments: 0,
-    equipment_types: [],
-    equipment_type_count: 0,
-    equipment_brands: [],
-    equipment_brand_count: 0,
-    equipment_subtypes: [],
-    equipment_subtype_count: 0,
-    equipment_models: [],
-    equipment_models_count: 0,
+
  
 
     current_branch: {},
@@ -51,8 +44,8 @@ const initialState = {
     token: sessionStorage.getItem('1xsndt') || '',
     login_status: false,
     error_message: '',
-    // url_server: process.env.PUBLIC_URL
-    url_server: 'http://192.168.1.48:80' // Домашний
+    url_server: process.env.PUBLIC_URL
+    // url_server: 'http://192.168.1.48:80' // Домашний
     // url_server: 'http://192.168.43.224:5005' // Мобильный
     // url_server: 'http://172.16.6.218:5005' // КЕХУ
     // url_server: 'http://192.168.1.49:5005' // рабочий WiFI
@@ -143,7 +136,7 @@ export const dataReducer = (state = initialState, action) => {
       menuRows: state.menuRows.map(row => {
         return {
           ...row,
-          active: row.id === action.id ? true : false
+          active: row.id === action.id
         }})}} 
 
     
@@ -159,7 +152,7 @@ export const dataReducer = (state = initialState, action) => {
         settingMenu: state.settingMenu.map(row => {
           return {
             ...row,
-            active: row.id === action.id ? true : false
+            active: row.id === action.id
           }})}} 
 
 
@@ -189,7 +182,7 @@ export const dataReducer = (state = initialState, action) => {
           return {
               ...state, 
               cashboxes: state.cashboxes.map(cashbox => {
-                cashbox.active = cashbox.id === action.id ? true : false
+                cashbox.active = cashbox.id === action.id
                 return cashbox
               }),
             }
