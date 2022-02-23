@@ -13,10 +13,12 @@
   font-weight: Bold;
   } */
 
-  :root {
-    --color-gray: #eeeeef;
-    --color-black: #282e33;
-  }
+:root {
+  --color-gray: #eeeeef;
+  --color-black: #282e33;
+  --hihg-light-blue: #cae1f5;
+}
+
 
 body {
   margin: 0;
@@ -2571,6 +2573,19 @@ div.ssm > div {
   cursor: pointer;
 }
 div.ssm > div:hover {
+  background-color: var(--color-gray);
+}
+
+.hovblue:hover {
+  background-color: var(--hihg-light-blue)
+}
+.overv {
+  overflow: auto;
+}
+.had {
+  background-color: var(--color-gray);
+}
+.had:hover {
   background-color: var(--color-gray);
 }
 

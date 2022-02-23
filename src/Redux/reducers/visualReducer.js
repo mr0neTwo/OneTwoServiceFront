@@ -35,6 +35,7 @@ const initialState = {
    statusCellEditor: false,
    statusWarehouseEditor: false,
    statusWarehouseEmployeeEditor: false,
+   statusWarehouseCategoryEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -74,6 +75,7 @@ const initialState = {
    inputPayrollSumChecked: true,
    inputSingleMalfunctionChecked: true,
    inputWarehouseTitleChecked: true,
+   inputWCategoryTitleChecked: true,
 
    errorSameMail: false,
    errorSameLogin: false

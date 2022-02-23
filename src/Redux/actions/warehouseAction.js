@@ -193,3 +193,68 @@ export function deleteWarehouse(flag) {
             .catch(() => bad_request('Запрос складов не выполнен'))
     }
 }
+
+
+export function addWarehouseCategories() {
+
+    const state = store.getState()
+
+    return dispatch => {
+
+        fetch(state.data.url_server + '/get_warehouse_category', getRequestConfig({id:1}))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_WAREHOUSE_FORM',
+                        field: 'warehouses_categories',
+                        value: data.data
+                    })
+                } else {
+                    console.warn(data.massage)
+                }
+            })
+            .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
+    }
+}
+
+
+export function createWarehouseCategory() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        title: state.warehouse.title_category,
+        parent_category_id: state.warehouse.parent_category_id,
+        deleted: state.warehouse.category_deleted
+    })
+
+    return async dispatch => {
+
+        await fetch(state.data.url_server + '/warehouse_category', request_config)
+            .catch(() => bad_request('Запрос на удаление/восстановление склада не выполнен'))
+
+        await fetch(state.data.url_server + '/get_warehouse_category', getRequestConfig({id:1}))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_WAREHOUSE_FORM',
+                        field: 'warehouses_categories',
+                        value: data.data
+                    })
+                    dispatch({
+                        type: 'SET_VISIBLE_FLAG',
+                        field: 'statusWarehouseCategoryEditor',
+                        value: false
+                    })
+                    dispatch({
+                        type: 'RESET_WAREHOUSE'
+                    })
+                } else {
+                    console.warn(data.massage)
+                }
+            })
+            .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
+    }
+}

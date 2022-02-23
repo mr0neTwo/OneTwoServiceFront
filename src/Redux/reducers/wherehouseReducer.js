@@ -3,6 +3,8 @@ import {permission_warehouse} from "../../data/permissions";
 const initialState = {
 
     warehouses: [],
+    warehouses_categories: [],
+
     tabs: 0,
 
     edit: 0,
@@ -16,7 +18,15 @@ const initialState = {
     categories: [],
 
     branch_id: 0,
-    permissions_employee: 0
+    permissions_employee: 0,
+
+    title_category: '',
+    parent_category_id: 0,
+    warehouse_id: 0,
+    category_deleted: false,
+
+    choose_parents_category: [],
+    current_category: 1,
 }
 
 
@@ -49,7 +59,6 @@ export const warehouseReducer = (state = initialState, action) => {
         case 'RESET_WAREHOUSE': {
             return {
                 ...state,
-                tabs: 0,
                 edit: 0,
                 title: '',
                 description: '',
@@ -60,7 +69,13 @@ export const warehouseReducer = (state = initialState, action) => {
                 branch: {},
                 categories: [],
                 branch_id: 0,
-                permissions_employee: 0
+                permissions_employee: 0,
+
+                title_category: '',
+                parent_category_id: 0,
+                warehouse_id: 0,
+                category_deleted: false
+
             }
         }
 

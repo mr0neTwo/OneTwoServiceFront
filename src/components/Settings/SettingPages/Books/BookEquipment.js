@@ -184,8 +184,9 @@ const BookEquipment = (props) => {
                             >
                                 <img
                                     className="icon_equipment"
+                                    style={{display: equipment.icon ? null : 'none'}}
                                     src={equipment.icon ? `${process.env.PUBLIC_URL}/${equipment.icon}` : null}
-                                    alt={'icon'}
+                                    alt='icon equipment'
                                 />
                                 <div className="td">{equipment.title}</div>
                             </div>
@@ -267,7 +268,8 @@ const BookEquipment = (props) => {
                                 onDoubleClick={() => editSubtype(subtype)}
                             >
                                 <img
-                                    src={subtype.url ? `${process.env.PUBLIC_URL}/${subtype.url}` : null}
+                                    style={{display: subtype.url ? null : 'none'}}
+                                    src={`${process.env.PUBLIC_URL}/${subtype.url}`}
                                     className='miniImg'
                                     alt='subtype phote'
                                 />

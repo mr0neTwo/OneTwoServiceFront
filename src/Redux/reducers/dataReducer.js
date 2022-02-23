@@ -44,8 +44,8 @@ const initialState = {
     token: sessionStorage.getItem('1xsndt') || '',
     login_status: false,
     error_message: '',
-    url_server: process.env.PUBLIC_URL
-    // url_server: 'http://192.168.1.48:80' // Домашний
+    // url_server: process.env.PUBLIC_URL
+    url_server: 'http://192.168.1.48:80' // Домашний
     // url_server: 'http://192.168.43.224:5005' // Мобильный
     // url_server: 'http://172.16.6.218:5005' // КЕХУ
     // url_server: 'http://192.168.1.49:5005' // рабочий WiFI
