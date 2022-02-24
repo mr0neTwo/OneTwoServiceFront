@@ -276,8 +276,20 @@ export const warehouse = [
       value: 'edit_goods', // не реализовано
       description: 'Может редактировать товары'
    },{
-      value: 'edit_goods_categories', // не реализовано
+      value: 'create_warehouse_categories',
+      description: 'Может создавать категории товаров'
+   },{
+      value: 'edit_warehouse_categories', // не реализовано
       description: 'Может редактировать категории товаров'
+   },{
+      value: 'see_deleted_warehouse_categories',
+      description: 'Может видеть удаленные категории товаров'
+   },{
+      value: 'delete_warehouse_categories', // не реализовано
+      description: 'Может удалять категории товаров'
+   },{
+      value: 'recover_warehouse_categories', // не реализовано
+      description: 'Может восстанавливать категории товаров'
    },{
       value: 'delete_goods', // не реализовано
       description: 'Может удалять товары'

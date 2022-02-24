@@ -2576,6 +2576,10 @@ div.ssm > div:hover {
   background-color: var(--color-gray);
 }
 
+.hovblue {
+  cursor: pointer;
+}
+
 .hovblue:hover {
   background-color: var(--hihg-light-blue)
 }
@@ -2630,6 +2634,7 @@ div.ssm > div:hover {
 
 .w500 { width: 500px }
 .w400 { width: 400px }
+.w300 { width: 300px }
 .w250 { width: 250px }
 .w160 { width: 160px }
 .w150 { width: 150px }

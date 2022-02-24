@@ -1,8 +1,8 @@
-import { createStore, compose, applyMiddleware } from 'redux'
+import {createStore, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk';
 // import createSagaMiddleware from 'redux-saga';
 
-import { rootReducer } from './rootReducer'
+import {rootReducer} from './rootReducer'
 // import { sagaWatcher } from './sagas';
 
 // const saga = createSagaMiddleware()
@@ -10,10 +10,10 @@ import { rootReducer } from './rootReducer'
 // saga.run(sagaWatcher)
 
 const store = createStore(rootReducer, compose(
-   applyMiddleware(
-     thunk
-   ),
-   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
- ))
+    applyMiddleware(
+        thunk
+    ),
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+))
 
- export default store
+export default store

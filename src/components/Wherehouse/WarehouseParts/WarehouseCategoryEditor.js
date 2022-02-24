@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 
 import {setVisibleFlag} from '../../../Redux/actions';
 import {changeWarehouseForm, createWarehouseCategory, resetWarehouse} from '../../../Redux/actions/warehouseAction';
+import {saveWarehouseCategory, deleteWarehouseCategory} from '../../../Redux/actions/warehouseAction';
 
 import LableInput from '../../general/LableInput'
 import BottomButtons from '../../general/BottomButtons'
-import ChooseOfList from '../../general/ChooseOfList'
+import ChooseCategory from './ChooseCategory';
 
 const WarehouseCategoryEditor = props => {
 
@@ -40,6 +41,17 @@ const WarehouseCategoryEditor = props => {
         }
     }
 
+    const handleSave = () => {
+        if (props.warehouse.title_category) {
+            props.saveWarehouseCategory()
+        } else {
+            props.setVisibleFlag('inputWCategoryTitleChecked', false)
+        }
+    }
+
+    const can_delete = props.permissions.includes('delete_warehouse_categories')
+    const can_recover = props.permissions.includes('recover_warehouse_categories')
+
     return (
         <div className="rightBlock">
             <div className="rightBlockWindow" id="wgategoryEditorWindow">
@@ -56,22 +68,17 @@ const WarehouseCategoryEditor = props => {
                         redStar={ true }
                         disabled={props.warehouse.category_deleted}
                     />
-                    <ChooseOfList
-                        id='WCat'
-                        className='mt15'
-                        width='250px'
-                        title='Родительская категория'
-                        list={props.warehouse.choose_parents_category}
-                        current_id={props.warehouse.parent_category_id}
-                        setElement={props.changeWarehouseForm}
-                        field='parent_category'
-                        disabled={props.warehouse.category_deleted}
-                    />
+                    <ChooseCategory/>
                 </div>
 
 
                 <BottomButtons
+                    edit={props.warehouse.edit}
+                    deleted={props.warehouse.category_deleted}
                     create={ handleCreate }
+                    save={ handleSave }
+                    delete={can_delete ? () => props.deleteWarehouseCategory(true) : null}
+                    recover={can_recover ? () => props.deleteWarehouseCategory(false) : null}
                     close={ handleClose }
                 />
             </div>
@@ -81,14 +88,17 @@ const WarehouseCategoryEditor = props => {
 
 const mapStateToProps = (state) => ({
     warehouse: state.warehouse,
-    inputWCategoryTitleChecked: state.view.inputWCategoryTitleChecked
+    inputWCategoryTitleChecked: state.view.inputWCategoryTitleChecked,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {
     setVisibleFlag,
     changeWarehouseForm,
     createWarehouseCategory,
-    resetWarehouse
+    resetWarehouse,
+    saveWarehouseCategory,
+    deleteWarehouseCategory
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WarehouseCategoryEditor)

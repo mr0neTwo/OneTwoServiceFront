@@ -2,6 +2,24 @@
 import React from 'react'
 import PropTypes from "prop-types";
 
+/**
+ * Чек бокс с подписью
+ *
+ * className='className'
+ *
+ * label='label'
+ *
+ * onChange={() => console.log('change')}
+ *
+ * checked={props.checked}
+ *
+ * disabled={false}
+ *
+ * unvisible={false}
+ *
+ * @returns {JSX.Element}
+ *
+ */
 
 const Checkbox = (props) => {
 

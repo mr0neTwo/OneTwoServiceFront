@@ -22,11 +22,12 @@ const initialState = {
 
     title_category: '',
     parent_category_id: 0,
-    warehouse_id: 0,
     category_deleted: false,
 
-    choose_parents_category: [],
     current_category: 1,
+    current_parent_category: {},
+
+    showDeleted: false
 }
 
 
@@ -53,6 +54,16 @@ export const warehouseReducer = (state = initialState, action) => {
                 branch: action.warehouse.branch,
                 categories: action.warehouse.categories,
                 branch_id: action.warehouse.branch.id
+            }
+        }
+
+        case 'EDIT_WAREHOUSE_CATEGORY': {
+            return {
+                ...state,
+                edit: action.warehouse_category.id,
+                title_category: action.warehouse_category.title,
+                parent_category_id: action.warehouse_category.parent_category_id,
+                category_deleted: action.warehouse_category.deleted,
             }
         }
 

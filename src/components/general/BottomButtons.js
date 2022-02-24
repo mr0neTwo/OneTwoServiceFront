@@ -2,6 +2,24 @@ import React from 'react'
 
 import { icon_trush, icon_spinner } from '../../data/icons'
 
+/**
+* Кнопки сниза панели редактора
+*
+ * edit={props.edit} // Новый заказ или редактируем существующий
+ *
+ * deleted={props.deleted} // Удален ли заказ
+ *
+ * create={() => console.log('create')} // Функция создания нового
+ *
+ * save={() => console.log('save')} // Функция сохранения уже существующего
+ *
+ * delete={() => console.log('delete')} // Функция удаления
+ *
+ * recover={() => console.log('recover')} // Фунция восстановления
+ *
+ * close={() => console.log('close')} // Функция закрытия редактора
+ *
+ */
 const BottomButtons = (props) => {
   const buttomCreate = props.create ? (
     <div className="blueButton mr-lf-0 " onClick={props.create}>

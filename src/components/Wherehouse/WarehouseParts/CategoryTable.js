@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
 
-import {changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
+import {changeWarehouseForm, editWarehouseCategory} from '../../../Redux/actions/warehouseAction';
+import {setVisibleFlag} from '../../../Redux/actions';
 
 import { icon_down, icon_right} from '../../../data/icons';
 
@@ -15,9 +16,17 @@ const CategoryTable = props => {
     const mainCategory = props.warehouse.warehouses_categories[0] || {id: 1, title: 'Все категории', categories: []}
 
     const handleChoose = () => {
-        props.changeWarehouseForm(mainCategory.id, 'current_category')
-        props.changeWarehouseForm(props.warehouse.warehouses_categories, 'choose_parents_category')
+        props.changeWarehouseForm(mainCategory, 'current_category')
+        // props.changeWarehouseForm(props.warehouse.warehouses_categories, 'choose_parents_category')
         setVisibleList(!visibleList)
+    }
+
+    const handleEdit = (cat) => {
+        if(props.permissions.includes('edit_warehouse_categories')) {
+            props.editWarehouseCategory(cat)
+            props.changeWarehouseForm(props.warehouse.current_parent_category, 'current_parent_category')
+            props.setVisibleFlag('statusWarehouseCategoryEditor', true)
+        }
     }
 
     return (
@@ -31,8 +40,8 @@ const CategoryTable = props => {
             <tbody>
                 <tr
                     className='row hovblue'
-                    style={mainCategory.id === props.warehouse.current_category ? { backgroundColor: '#cae1f5'} : null}
-                    onClick= {handleChoose }
+                    style={mainCategory.id === props.warehouse.current_category.id ? { backgroundColor: '#cae1f5'} : null}
+                    onClick= { handleChoose }
                 >
                     <td className='row w100 pd5'>
                         <Icon className='icon-s1' icon={visibleList ? icon_down : icon_right}/>
@@ -48,8 +57,9 @@ const CategoryTable = props => {
                             category={category}
                             choose={cat => props.changeWarehouseForm(cat, 'current_category')}
                             current={props.warehouse.current_category}
-                            parent_categories={mainCategory.categories}
-                            choose_parent_catigories={cats => props.changeWarehouseForm(cats, 'choose_parents_category')}
+                            parent_category={mainCategory}
+                            choose_parent_category={cats => props.changeWarehouseForm(cats, 'current_parent_category')}
+                            edit={cat => handleEdit(cat)}
                         />
                     ))}
                     </div>
@@ -61,11 +71,14 @@ const CategoryTable = props => {
 }
 
 const mapStateToProps = state => ({
-    warehouse: state.warehouse
+    warehouse: state.warehouse,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {
-    changeWarehouseForm
+    changeWarehouseForm,
+    editWarehouseCategory,
+    setVisibleFlag
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryTable)
