@@ -860,11 +860,12 @@ export function resetService() {
 }
 
 
-export function selectedService(value, field) {
+export function selectedService(value, field, saveToApp=false) {
     return {
-        type: 'SELECTED_OPERATION',
+        type: 'SELECTED_SERVICE',
         field,
-        value
+        value,
+        saveToApp
     }
 }
 

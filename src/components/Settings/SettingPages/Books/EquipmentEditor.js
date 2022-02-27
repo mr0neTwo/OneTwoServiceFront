@@ -78,13 +78,6 @@ const EquipmentEditor = (props) => {
     }
   }
 
-  const fileHandler = event => {
-    let reader = new FileReader()
-    reader.onload = function(e) { props.changeBookForm(e.target.result, 'img')}
-    reader.readAsDataURL(event.target.files[0])
-    // reader.onload = function(e) { props.changeBookForm(new Uint8Array(e.target.result), 'img')}
-    // reader.readAsArrayBuffer(event.target.files[0])
- }
 
   const tilte_list = [
     'Новая группа',
@@ -117,7 +110,7 @@ const EquipmentEditor = (props) => {
               className="mt15"
               title="Добавить изображение"
               url={props.book.url}
-              onChange={fileHandler}
+              onChange={file => props.changeBookForm(file, 'img')}
               value={props.book.img}
               disabled={props.book.deleted}
             />

@@ -4,6 +4,26 @@ import React, { useEffect, useState, useRef } from 'react'
 import Checkbox from './Checkbox'
 import { icon_table } from '../../data/icons'
 
+
+/**
+ * Меню выбора полей таблицы для отображения
+ *
+ * id='id' // id компонента
+ *
+ * className='className' // Класс оболочки компонента
+ *
+ * height='200px' // Высота компонента
+ *
+ * list={props.list} // Список всех полей таблицы
+ *
+ * checked_list={props.checked_list} // Список выбраных палей таблицы
+ *
+ * func={() => console.log('choose element')} // функция выбора элементов
+ *
+ * field='field' // имя поля в редюссере списка выбраных полей таблицы
+ *
+ * @returns {JSX.Element}
+ */
 const TableFields = (props) => {
 
    const [listVisible, setListVisible] = useState(true)
@@ -86,7 +106,7 @@ const TableFields = (props) => {
                   <Checkbox
                      className='ml10'
                      label={field.title}
-                     onChange={() => props.func([field.id], props.field)}
+                     onChange={() => props.func([field.id], props.field, true)}
                      checked={props.checked_list.includes(field.id)}
                   />
                   

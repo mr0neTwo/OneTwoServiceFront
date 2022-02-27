@@ -31,8 +31,8 @@ const ChooseCategory = (props) => {
                 <div className='noWr'>{props.warehouse.current_parent_category.title}</div>
                 <Icon className='icon-s2' icon={listVisible ? icon_down : icon_left}/>
             </div>
-            {listVisible ?
-                <div className='listOptionsChoose'>
+            {listVisible && !props.disabled ?
+                <div className='listOptionsChoose pos-a'>
                     <div
                         className='row hovblue'
                     >

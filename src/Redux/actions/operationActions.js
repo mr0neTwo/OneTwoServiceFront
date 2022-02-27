@@ -24,11 +24,12 @@ export function editOperation(operation) {
  }
  
  
- export function selectedOperation( value, field ) {
-   return {
-     type: 'SELECTED_SERVICE',
-     field,
-     value
+ export function selectedOperation( value, field, saveToApp=false ) {
+    return {
+        type: 'SELECTED_SERVICE',
+        field,
+        value,
+        saveToApp
    }
  }
 

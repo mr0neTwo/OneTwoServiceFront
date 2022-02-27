@@ -16,7 +16,10 @@ const SelectCategory = props => {
             >
                 <div className='row w100 '>
                     <div onClick={() => setVisibleList(!visibleList)}>
-                        <Icon className='icon-s1 pd1' icon={visibleList ? icon_down : icon_right}/>
+                        {props.category.categories.length ?
+                            <Icon className='icon-s1 pd1' icon={visibleList ? icon_down : icon_right}/>
+                            : <div className='ml15'/>
+                        }
                     </div>
                     <div
                         className={props.category.deleted ? 'rowDeleted noWr' : 'noWr'}

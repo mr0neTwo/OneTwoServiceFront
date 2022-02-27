@@ -1,10 +1,14 @@
-
 import React from 'react'
 
 const AddPicture = (props) => {
 
-   // const url = props.value ? props.value : (props.url ? props.url : null)
-
+    const fileHandler = event => {
+        let reader = new FileReader()
+        reader.onload = function (e) {
+            props.onChange(e.target.result)
+        }
+        reader.readAsDataURL(event.target.files[0])
+    }
    return (
 
       <div className={props.className}>
@@ -19,7 +23,7 @@ const AddPicture = (props) => {
                      className=''
                      type='file'
                      accept="image/*"
-                     onChange={props.onChange}
+                     onChange={fileHandler}
                      disabled={props.disabled}
                   />
                </label>

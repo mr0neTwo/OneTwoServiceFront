@@ -25,7 +25,10 @@ const WarehouseCategory = props => {
                 onDoubleClick={() => props.edit(props.category)}
             >
                 <td className='row w100 pd5'>
-                    <Icon className='icon-s1 pd1' icon={visibleList ? icon_down : icon_right}/>
+                    {props.category.categories.length ?
+                        <Icon className='icon-s1 pd1' icon={visibleList ? icon_down : icon_right}/>
+                        : <div className='ml15'/>
+                    }
                     <div className={props.category.deleted ? 'rowDeleted noWr' : 'noWr'}>{props.category.title}</div>
                 </td>
                 <td className='w70 pd5 tac'>{props.category.categories.length}</td>

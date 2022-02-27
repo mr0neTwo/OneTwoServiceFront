@@ -12,10 +12,12 @@ const initialState = {
     description: '',
     deleted: false,
     isGlobal: false,
+    img_url: '',
     permissions: permission_warehouse,
     employees: {},
     branch: {},
     categories: [],
+    img: '',
 
     branch_id: 0,
     permissions_employee: 0,
@@ -24,7 +26,7 @@ const initialState = {
     parent_category_id: 0,
     category_deleted: false,
 
-    current_category: 1,
+    current_category: {},
     current_parent_category: {},
 
     showDeleted: false

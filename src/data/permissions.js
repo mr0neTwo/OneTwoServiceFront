@@ -267,32 +267,38 @@ export const warehouse = [
       value: 'create_refund_to_supplier', // не реализовано
       description: 'Может создавать возвраты'
    },{
-      value: 'create_new_goods', // не реализовано
-      description: 'Может создавать новые товары'
-   },{
       value: 'serial_accounting', // не реализовано
       description: 'Может включать серийный учет для существующих товаров'
-   },{
-      value: 'edit_goods', // не реализовано
-      description: 'Может редактировать товары'
    },{
       value: 'create_warehouse_categories',
       description: 'Может создавать категории товаров'
    },{
-      value: 'edit_warehouse_categories', // не реализовано
+      value: 'edit_warehouse_categories',
       description: 'Может редактировать категории товаров'
    },{
       value: 'see_deleted_warehouse_categories',
       description: 'Может видеть удаленные категории товаров'
    },{
-      value: 'delete_warehouse_categories', // не реализовано
+      value: 'delete_warehouse_categories',
       description: 'Может удалять категории товаров'
    },{
-      value: 'recover_warehouse_categories', // не реализовано
+      value: 'recover_warehouse_categories',
       description: 'Может восстанавливать категории товаров'
    },{
-      value: 'delete_goods', // не реализовано
+      value: 'create_new_part',
+      description: 'Может создавать новые товары'
+   },{
+      value: 'edit_part', // не реализовано
+      description: 'Может редактировать товары'
+   },{
+      value: 'see_delete_parts',
+      description: 'Может видеть удаленные товары'
+   },{
+      value: 'delete_parts',
       description: 'Может удалять товары'
+   },{
+      value: 'recover_parts',
+      description: 'Может восстанавливать товары'
    },{
       value: 'delete_operation_of_warehouse', // не реализовано
       description: 'Может удалять операции на складе'

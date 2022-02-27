@@ -1151,6 +1151,8 @@ div.tableOrders td {
   justify-content: space-between;
   color: #4791d1;
   cursor: pointer;
+  border: none;
+  background-color: white;
 }
 .whiteBlueBotton:hover {
   text-decoration: underline;
@@ -2169,6 +2171,10 @@ thead:hover {
   color: #000;
 }
 
+.addDoc{
+  display: none;
+}
+
 .icon_equipment {
   /* width: 30px; */
   height: 30px;
@@ -2614,6 +2620,7 @@ div.ssm > div:hover {
 .ml2 { margin-left: 2px }
 .ml5 { margin-left: 5px }
 .ml10 { margin-left: 10px }
+.ml15 { margin-left: 15px }
 .ml30 { margin-left: 30px }
 .ml50 { margin-left: 50px }
 
@@ -2657,6 +2664,7 @@ div.ssm > div:hover {
 .wmn700 { min-width: 700px }
 .wmn750 { min-width: 750px }
 .wm400 { min-width: 400px }
+.wmn300 { min-width: 300px }
 .wm50 { max-width: 50px }
 .mwp { max-width: 30% }
 .wmx700 {max-width: 700px }
@@ -2678,6 +2686,8 @@ div.ssm > div:hover {
 
 .curP { cursor: pointer }
 .curNone { cursor: auto }
+
+.pos-a { position: absolute }
 
 .al-itm-bl { align-items: baseline }
 .al-itm-fs { align-items: flex-start }

@@ -47,7 +47,7 @@ const BookEquipment = (props) => {
         props.changeBookForm(1, 'type')
         props.resetBookEquipment()
         props.changeBookForm(props.branches.filter(branch => !branch.deleted).map(branch => branch.id), 'branches')
-        props.changeBookForm(props.equipment_types, 'choose_list')
+        props.changeBookForm(props.book.equipment_types, 'choose_list')
         props.changeBookForm(props.book.equipment_type.id, 'parent_id')
     }
 
@@ -56,7 +56,7 @@ const BookEquipment = (props) => {
         props.changeBookForm(2, 'type')
         props.resetBookEquipment()
         props.changeBookForm(props.branches.filter(branch => !branch.deleted).map(branch => branch.id), 'branches')
-        props.changeBookForm(props.equipment_brands, 'choose_list')
+        props.changeBookForm(props.book.equipment_brands, 'choose_list')
         props.changeBookForm(props.book.equipment_brand.id, 'parent_id')
     }
 
@@ -65,7 +65,7 @@ const BookEquipment = (props) => {
         props.changeBookForm(3, 'type')
         props.resetBookEquipment()
         props.changeBookForm(props.branches.filter(branch => !branch.deleted).map(branch => branch.id), 'branches')
-        props.changeBookForm(props.equipment_subtypes, 'choose_list')
+        props.changeBookForm(props.book.equipment_subtypes, 'choose_list')
         props.changeBookForm(props.book.equipment_subtype.id, 'parent_id')
     }
 
