@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import ChooseOfList from '../../general/ChooseOfList'
+import ChooseOfList from '../../../general/ChooseOfList'
 
-import { changeOrderFormS } from '../../../Redux/actions'
+import { changeOrderFormS } from '../../../../Redux/actions'
 
 const SetTypeOrder = (props) => {
 

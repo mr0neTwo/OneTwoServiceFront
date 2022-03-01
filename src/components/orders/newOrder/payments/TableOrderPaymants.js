@@ -2,9 +2,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { showDate } from '../../general/utils'
-import { icon_warning } from '../../../data/icons'
-import Icon from '../../general/Icon'
+import { showDate } from '../../../general/utils'
+import { icon_warning } from '../../../../data/icons'
+import Icon from '../../../general/Icon'
 
 const TableOrderPaymants = (props) => {
 

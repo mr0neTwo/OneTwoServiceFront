@@ -40,7 +40,7 @@ function PartTable (props) {
                                     <td>
                                         {part[header.field] ?
                                             <a
-                                                href={`${process.env.PUBLIC_URL}/${props.url}`}
+                                                href={`${process.env.PUBLIC_URL}/${part[header.field]}`}
                                                 target='_blank'
                                             >
                                                 {part[header.field].split('/').pop()}

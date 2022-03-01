@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS } from '../../../Redux/actions'
-import { createEquipmentBrand, addEquipmentBrand, changeBookForm} from '../../../Redux/actions/bookActions'
-import { icon_close } from '../../../data/icons'
+import { setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS } from '../../../../Redux/actions'
+import { createEquipmentBrand, addEquipmentBrand, changeBookForm} from '../../../../Redux/actions/bookActions'
+import { icon_close } from '../../../../data/icons'
 
 const SetOrderBrand = (props) => {
   const [visibleList, setVisibleList] = useState(false)

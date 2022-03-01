@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { connect } from 'react-redux'
 
-import { setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS} from '../../../Redux/actions'
-import { createEquipmentType, addEquipmentType, changeBookForm } from '../../../Redux/actions/bookActions'
-import { icon_close } from '../../../data/icons'
+import { setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS} from '../../../../Redux/actions'
+import { createEquipmentType, addEquipmentType, changeBookForm } from '../../../../Redux/actions/bookActions'
+import { icon_close } from '../../../../data/icons'
 
 const SetOrderGroupe = (props) => {
 

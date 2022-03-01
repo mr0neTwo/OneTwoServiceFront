@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 
-import { setVisibleFlag } from '../../../Redux/actions'
+import { setVisibleFlag } from '../../../../Redux/actions'
 import CellEditor from './CellEditor'
 
 const SetCell = (props) => {

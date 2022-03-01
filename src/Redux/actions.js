@@ -2009,46 +2009,7 @@ export function deleteBranch(flag) {
 }
 
 
-export function createBookEquipment() {
 
-    const state = store.getState()
-
-    const field_lidt = ['equipment', 'equipment_type_id', 'equipment_brand_id', 'equipment_subtype_id']
-    const url_list = ['/equipment_type', '/equipment_brand', '/equipment_subtype', '/equipment_model']
-
-    const request_config = getRequestConfig({
-        title: state.book.title,
-        icon: state.book.icon,
-        url: state.book.url,
-        [field_lidt[state.book.type]]: state.book.parent_id,
-        branches: state.book.branches
-    })
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + url_list[state.book.type], request_config)
-            .catch(() => bad_request('Запрос на создание изделия не выполнен'))
-
-        await fetch(state.data.url_server + '/get_equipment_type', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_EQUIPMENT',
-                        equipment: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusEquipmentEditor',
-                        value: false
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос изделий не выполнен'))
-    }
-}
 
 
 export function addDictMalfunction() {

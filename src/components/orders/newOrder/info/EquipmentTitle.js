@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setOrderEquipment } from '../../../Redux/actions'
+import { setOrderEquipment } from '../../../../Redux/actions'
 
 const EquipmentTitle = (props) => {
    return (

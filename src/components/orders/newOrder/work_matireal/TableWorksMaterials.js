@@ -2,10 +2,10 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, changeOrderFormS } from '../../../Redux/actions'
-import { editOperation, deleteOperation, resetOperation } from '../../../Redux/actions/operationActions'
-import { icon_briefcase, icon_bug, icon_pencil, icon_trush } from '../../../data/icons'
-import Icon from '../../general/Icon'
+import { setVisibleFlag, changeOrderFormS } from '../../../../Redux/actions'
+import { editOperation, deleteOperation, resetOperation } from '../../../../Redux/actions/operationActions'
+import { icon_briefcase, icon_bug, icon_pencil, icon_trush } from '../../../../data/icons'
+import Icon from '../../../general/Icon'
 
 const TableWorksMaterials = (props) => {
 

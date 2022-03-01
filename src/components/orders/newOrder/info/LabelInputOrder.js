@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleListFlag } from '../../../Redux/actions'
+import { setVisibleListFlag } from '../../../../Redux/actions'
 
 const LabelInputOrder = (props) => {
 

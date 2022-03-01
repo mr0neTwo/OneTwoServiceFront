@@ -5,8 +5,8 @@ import {
   changeOrderForm,
   addAnotherEquipment,
   deleteDevice,
-} from '../../../Redux/actions'
-import { icon_trush } from '../../../data/icons'
+} from '../../../../Redux/actions'
+import { icon_trush } from '../../../../data/icons'
 
 import LabelInputOrder from './LabelInputOrder'
 import SetOrderBrand from './SetOrderBrand'

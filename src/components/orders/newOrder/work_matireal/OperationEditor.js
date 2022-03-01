@@ -1,22 +1,24 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag } from '../../../Redux/actions'
-import { resetOperation, changeOperationForm, createCustomOperation } from '../../../Redux/actions/operationActions'
-import { saveOperation, deleteOperation } from '../../../Redux/actions/operationActions'
+import { setVisibleFlag } from '../../../../Redux/actions'
+import { resetOperation, changeOperationForm, createCustomOperation } from '../../../../Redux/actions/operationActions'
+import { saveOperation, deleteOperation } from '../../../../Redux/actions/operationActions'
 
-import LableInput from '../../general/LableInput'
-import LableArea from '../../general/LableArea'
-import BottomButtons from '../../general/BottomButtons'
-import ChooseOfList from '../../general/ChooseOfList'
-import ChooseBotton from '../../general/ChooseBotton'
+import LableInput from '../../../general/LableInput'
+import LableArea from '../../../general/LableArea'
+import BottomButtons from '../../../general/BottomButtons'
+import ChooseOfList from '../../../general/ChooseOfList'
+import ChooseBotton from '../../../general/ChooseBotton'
 
 const OperationEditor = (props) => {
 
    const handleClose = () => {
-      props.setVisibleFlag('statusOperationEditor', false)
-      props.resetOperation()
-     }
+       props.resetOperation()
+       props.setVisibleFlag('statusOperationEditor', false)
+       props.setVisibleFlag('inputOperationTitleChacked', true)
+       props.setVisibleFlag('inputOperationEngineerChacked', true)
+   }
    
    const clickHandel = (event) => {
       if (!event.path.map((el) => el.id).includes('operationEditorWiondow')) {
@@ -67,7 +69,6 @@ const OperationEditor = (props) => {
          <div className='createNewTitle fsz20'>{props.operation.edit ? props.operation.title : 'Новая операция'}</div>
 
          <div className='contentEditor'>
-            {props.operation.edit ? null :
             <LableInput
                className='mt15'
                title='Наименование'
@@ -76,9 +77,9 @@ const OperationEditor = (props) => {
                checkedFlag='inputOperationTitleChacked'
                checked={props.view.inputOperationTitleChacked}
                disabled={props.operation.deleted}
+               unvisible={props.operation.edit}
                redStar={true}
             />
-            }
             <LableInput
                className='w70 mt15'
                title='Цена'

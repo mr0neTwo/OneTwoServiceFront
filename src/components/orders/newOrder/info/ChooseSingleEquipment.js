@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { changeOrderForm, addAnotherEquipment, deleteDevice, changeOrderFormS } from '../../../Redux/actions'
+import { changeOrderForm, addAnotherEquipment, deleteDevice, changeOrderFormS } from '../../../../Redux/actions'
 
 import LabelInputOrder from './LabelInputOrder'
 import SetOrderBrand from './SetOrderBrand'

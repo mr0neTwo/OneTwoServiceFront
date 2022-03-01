@@ -2,9 +2,9 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { changeOrderFormS } from '../../../Redux/actions'
+import { changeOrderFormS } from '../../../../Redux/actions'
 
-import ChooseOfList from '../../general/ChooseOfList'
+import ChooseOfList from '../../../general/ChooseOfList'
 
 const AssingEmployee = (props) => {
 

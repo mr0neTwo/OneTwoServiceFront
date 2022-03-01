@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { changeOrderFormS } from '../../../Redux/actions'
-import ChooseOfList from '../../general/ChooseOfList'
+import { changeOrderFormS } from '../../../../Redux/actions'
+import ChooseOfList from '../../../general/ChooseOfList'
 import ChooseEquipment from './ChooseEquipment'
 import LabelInputOrder from './LabelInputOrder'
 import ChooseSingleEquipment from './ChooseSingleEquipment'
-import ChooseDate from '../../general/ChooseDate'
+import ChooseDate from '../../../general/ChooseDate'
 
 
 const TypeForm1 = (props) => {

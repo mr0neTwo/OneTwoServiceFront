@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { showPhone } from '../../general/utils'
-import { editClient, changeOrderFormS } from '../../../Redux/actions'
-import ClientEditor from '../../Clients/ClientEditor/ClientEditor'
+import { showPhone } from '../../../general/utils'
+import { editClient, changeOrderFormS } from '../../../../Redux/actions'
+import ClientEditor from '../../../Clients/ClientEditor/ClientEditor'
 
 const ClientCard = (props) => {
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { setOrderEquipment, resetEquipment, changeOrderFormS } from '../../../Redux/actions'
-import { createEquipmentModel, addEquipmentModel, changeBookForm } from '../../../Redux/actions/bookActions'
-import { icon_close } from '../../../data/icons'
+import { setOrderEquipment, resetEquipment, changeOrderFormS } from '../../../../Redux/actions'
+import { createEquipmentModel, addEquipmentModel, changeBookForm } from '../../../../Redux/actions/bookActions'
+import { icon_close } from '../../../../data/icons'
 
 const SetOrderModel = (props) => {
 

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, changePaymentForm, addItemPayments, editCurrentClient, addCashboxes } from '../../../Redux/actions'
-import { changeOrderFormS } from '../../../Redux/actions'
-import Button from '../../general/Button'
+import { setVisibleFlag, changePaymentForm, addItemPayments, editCurrentClient, addCashboxes } from '../../../../Redux/actions'
+import { changeOrderFormS } from '../../../../Redux/actions'
+import Button from '../../../general/Button'
 import TableOrderPaymants from './TableOrderPaymants'
-import PaymentsEditor from '../../Payments/PaymentsEditor'
+import PaymentsEditor from '../../../Payments/PaymentsEditor'
 
 const OrderPayments = (props) => {
 

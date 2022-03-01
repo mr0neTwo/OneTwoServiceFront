@@ -3,9 +3,9 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag } from '../../../Redux/actions'
-import { changeOrderFormS } from '../../../Redux/actions'
-import { cells } from '../../../data/cells'
+import { setVisibleFlag } from '../../../../Redux/actions'
+import { changeOrderFormS } from '../../../../Redux/actions'
+import { cells } from '../../../../data/cells'
 
 
 

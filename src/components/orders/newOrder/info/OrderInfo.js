@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import ChooseOfList from '../../general/ChooseOfList'
+import ChooseOfList from '../../../general/ChooseOfList'
 
 import AssingEmployee from './AssingEmployee'
 import ClientCard from './ClientCard'

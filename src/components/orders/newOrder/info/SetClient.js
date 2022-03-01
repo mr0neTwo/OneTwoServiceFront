@@ -1,10 +1,10 @@
 import React, { useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 
-import { changeNameClientFilter, changePhoneClientFilter, setVisibleFlag, changeOrderFormS } from '../../../Redux/actions'
-import { showPhone } from '../../general/utils'
-import ClientEditor from '../../Clients/ClientEditor/ClientEditor'
-import LableInput from '../../general/LableInput'
+import { changeNameClientFilter, changePhoneClientFilter, setVisibleFlag, changeOrderFormS } from '../../../../Redux/actions'
+import { showPhone } from '../../../general/utils'
+import ClientEditor from '../../../Clients/ClientEditor/ClientEditor'
+import LableInput from '../../../general/LableInput'
 
 const SetClient = (props) => {
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, chooseEquipmentBranches, createBookEquipment } from '../../../../Redux/actions'
+import { setVisibleFlag, chooseEquipmentBranches } from '../../../../Redux/actions'
 import { changeBookForm, resetBookEquipment, seveEquipmentModel } from '../../../../Redux/actions/bookActions'
+import { createEModel, createESubtype, createEbrand, createEType } from '../../../../Redux/actions/bookActions'
 import { seveEquipmentType, seveEquipmentBrand, seveEquipmentSubtype  } from '../../../../Redux/actions/bookActions'
 import { deleteEquipmentType, deleteEquipmentBrand, deleteEquipmentSubtype, deleteEquipmentModel } from '../../../../Redux/actions/bookActions'
 
@@ -43,7 +44,12 @@ const EquipmentEditor = (props) => {
 
   const handleCreateEquipment = () => {
     if (props.book.title) {
-      props.createBookEquipment()
+
+      if (props.book.type === 0) props.createEType()
+      if (props.book.type === 1) props.createEbrand()
+      if (props.book.type === 2) props.createESubtype()
+      if (props.book.type === 3) props.createEModel()
+
     } else {
       props.setVisibleFlag('inputBookTitleChecked', false)
     }
@@ -185,9 +191,9 @@ const mapDispatchToProps = {
   setVisibleFlag,
   changeBookForm,
   chooseEquipmentBranches,
-  createBookEquipment,
   seveEquipmentType, seveEquipmentBrand, seveEquipmentSubtype, seveEquipmentModel,
   deleteEquipmentType, deleteEquipmentBrand, deleteEquipmentSubtype, deleteEquipmentModel,
+  createEType, createEbrand, createESubtype, createEModel,
   resetBookEquipment
 }
 

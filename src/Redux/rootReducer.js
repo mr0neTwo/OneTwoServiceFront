@@ -19,6 +19,7 @@ import { operationReducer } from './reducers/operationReducer'
 import { payrollReducer } from './reducers/payrollReducer'
 import {warehouseReducer} from "./reducers/wherehouseReducer";
 import {partReducer} from './reducers/partReducer';
+import {orderPartReducer} from './reducers/orderPartReducer'
 
 
 
@@ -41,5 +42,6 @@ export const rootReducer = combineReducers({
    operation: operationReducer,
    payroll: payrollReducer,
    warehouse: warehouseReducer,
-   part: partReducer
+   part: partReducer,
+   orderPart: orderPartReducer
 })

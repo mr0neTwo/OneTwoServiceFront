@@ -37,6 +37,7 @@ const initialState = {
    statusWarehouseEmployeeEditor: false,
    statusWarehouseCategoryEditor: false,
    statusPartEditor: false,
+   statusOrderPartEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -78,6 +79,8 @@ const initialState = {
    inputWarehouseTitleChecked: true,
    inputWCategoryTitleChecked: true,
    inputWPartTitleChecked: true,
+   inputOrderPartTitleChacked: true,
+   inputOrderPartEngineerChecked: true,
 
    errorSameMail: false,
    errorSameLogin: false

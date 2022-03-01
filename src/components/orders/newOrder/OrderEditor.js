@@ -16,9 +16,9 @@ import {resetBookEquipment} from "../../../Redux/actions/bookActions";
 import BottomButtons from '../../general/BottomButtons'
 import TitleOrderEditor from './TitleOrderEditor'
 import Tabs from '../../general/Tabs'
-import OrderInfo from './OrderInfo'
-import OrderWorksMaterials from './OrderWorksMaterials'
-import OrderPayments from './OrderPayments'
+import OrderInfo from './info/OrderInfo'
+import OrderWorksMaterials from './work_matireal/OrderWorksMaterials'
+import OrderPayments from './payments/OrderPayments'
 
 const OrderEditor = (props) => {
 
