@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { icone_sphere, icone_setting } from '../../../data/icons'
-import { activeCashbox, editCashbox, setVisibleFlag, changePaymentForm, changeCashboxForm } from '../../../Redux/actions'
+import { activeCashbox, editCashbox, setVisibleFlag, changeCashboxForm } from '../../../Redux/actions'
+import {changePaymentForm} from '../../../Redux/actions/paymentAction'
 import Button from '../../general/Button'
 import Icon from '../../general/Icon'
 
@@ -67,6 +68,7 @@ const Cashbox = (props) => {
                className={props.cashbox.deleted ? 'whiteButton m10' : 'greenButton m10'}
                onClick={() => {
                   props.changePaymentForm(2, 'direction')
+                  props.changePaymentForm({type: 'payment'}, 'context')
                   props.setVisibleFlag('statusPaymentsEditor', true)
                }}
                disabled={props.cashbox.deleted}
@@ -77,6 +79,7 @@ const Cashbox = (props) => {
                className={props.cashbox.deleted ? 'whiteButton m10' : 'greenButton bcr m10'}
                onClick={() => {
                   props.changePaymentForm(1, 'direction')
+                  props.changePaymentForm({type: 'payment'}, 'context')
                   props.setVisibleFlag('statusPaymentsEditor', true)
                }}
                disabled={props.cashbox.deleted}
@@ -89,6 +92,7 @@ const Cashbox = (props) => {
             onClick={() => {
                props.changePaymentForm(0, 'direction')
                props.changePaymentForm(props.cashbox.id, 'cashbox_id')
+               props.changePaymentForm({type: 'payment'}, 'context')
                props.setVisibleFlag('statusPaymentsEditor', true)
             }}
             disabled={props.cashbox.deleted}

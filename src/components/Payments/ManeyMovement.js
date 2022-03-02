@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import ru from 'date-fns/locale/ru';
 import DatePicker, { registerLocale } from 'react-datepicker'
 
-import { changePaymentForm, addPayments } from '../../Redux/actions';
+import { addPayments } from '../../Redux/actions/paymentAction'
+import {changePaymentForm} from '../../Redux/actions/paymentAction'
 import { icon_stats_docs } from '../../data/icons'
 import Icon from '../general/Icon'
 import TablePayments from './TablePayments';

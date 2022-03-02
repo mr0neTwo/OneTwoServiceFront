@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { changePaymentForm, setVisibleFlag } from '../../Redux/actions'
+import { setVisibleFlag } from '../../Redux/actions'
+import {changePaymentForm} from '../../Redux/actions/paymentAction'
 
 const Receipt = (props) => {
 
@@ -32,6 +33,7 @@ const Receipt = (props) => {
                                  onChange={event => props.changePaymentForm(parseFloat(event.target.value.replace(/[^0-9.]/g, '')), props.payment.direction === 2 ? 'income' : 'outcome')}
                                  value={ sum }
                                  onBlur={() => props.setVisibleFlag('inputPaymentSumChecked', props.payment.direction === 2 ? !!props.payment.income : !!props.payment.outcome)}
+                                 disabled={props.payment.context.type === 'closed_order_editor' || props.payment.context.type === 'closed_order'}
                               />}
                            </td>
                         </tr>

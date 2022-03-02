@@ -38,6 +38,7 @@ const initialState = {
    statusWarehouseCategoryEditor: false,
    statusPartEditor: false,
    statusOrderPartEditor: false,
+   statusOrderSticker: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],

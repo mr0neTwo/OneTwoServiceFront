@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 
-import { setVisibleFlag, addCashboxes, changeCashboxForm, addPayments } from '../../../Redux/actions'
+import { setVisibleFlag, addCashboxes, changeCashboxForm } from '../../../Redux/actions'
+import {addPayments} from '../../../Redux/actions/paymentAction'
 import Checkbox from '../../general/Checkbox'
 import Cashbox from './Cashbox'
 import CashboxEditor from './CashboxEditor'

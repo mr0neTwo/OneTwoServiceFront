@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { changeStatusMenuVisibleAction, setVisibleFlag } from '../../Redux/actions'
+import { changeStatusMenuVisible, setVisibleFlag } from '../../Redux/actions'
 import StatusListGroup from './StatusListGroup'
 
 function StatusList(props) {
@@ -16,12 +16,8 @@ function StatusList(props) {
   ]
 
   const clichHandel = (event) => {
-    if (
-      // event.target.parentElement.id !== 'statusList' &&
-      // event.target.id !== 'statusList'
-      !event.path.map(el => el.id).includes('statusListOrderForm') 
-    ) {
-      props.changeStatusMenuVisible(props.orderId)
+    if (!event.path.map(el => el.id).includes('statusListOrderForm')) {
+      props.changeStatusMenuVisible(props.order.id)
       props.setVisibleFlag('statusStatusList', false)
     }
   }
@@ -39,8 +35,8 @@ function StatusList(props) {
         <StatusListGroup
           key={idx + groupName}
           groupName={groupName}
-          orderId={props.orderId}
           groupIdx={idx}
+          order={props.order}
         />
       ))}
     </div>
@@ -48,7 +44,7 @@ function StatusList(props) {
 }
 
 const mapDispatchToProps = {
-  changeStatusMenuVisible: changeStatusMenuVisibleAction,
+  changeStatusMenuVisible,
   setVisibleFlag
 }
 

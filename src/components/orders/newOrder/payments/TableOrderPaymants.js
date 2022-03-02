@@ -1,5 +1,4 @@
-
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import { showDate } from '../../../general/utils'
@@ -7,13 +6,6 @@ import { icon_warning } from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 
 const TableOrderPaymants = (props) => {
-
-   let sum = 0
-   props.order.payments.filter(payment => !payment.deleted).forEach(payment => {
-      sum += payment.income
-      sum += payment.outcome
-   })
-
 
    return (
       <div className = 'mt15'>
@@ -46,7 +38,7 @@ const TableOrderPaymants = (props) => {
                         </div>
                      </td>
                      <td>{payment.description}</td>
-                     {payment.direction == 2 ?
+                     {payment.direction === 2 ?
                      <td className='greenFont tac'>{payment.income}</td> :
                      <td className='redFont tac'>{payment.outcome}</td>}
                   </tr>
@@ -55,7 +47,7 @@ const TableOrderPaymants = (props) => {
                 <tr className='ss'>
                   <td></td>
                   <td className='tae'>Итого платежей:</td>
-                  <td className='tae'>{sum} руб.</td>
+                  <td className='tae'>{props.order.payed} руб.</td>
                </tr>
                <tr className='ss'>
                   <td></td>
@@ -64,8 +56,15 @@ const TableOrderPaymants = (props) => {
                </tr>
                <tr className='ss'>
                   <td></td>
-                  <td className='tae'>Клиент должен нам:</td>
-                  <td className='tae'>{props.order.price - sum} руб.</td>
+                  <td className='tae'>
+                     {(props.order.price - props.order.payed) > 0 ? 'Клиент должен нам:' : 'Мы должны клиенту'}
+                  </td>
+                  <td
+                      className='tae'
+                      style={{color: (props.order.price - props.order.payed) > 0 ? '#5cb85c' : '#f74e4d'}}
+                  >
+                     {Math.abs(props.order.price - props.order.payed)} руб.
+                  </td>
                </tr>
             </tbody>
          </table>
@@ -78,7 +77,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(TableOrderPaymants)

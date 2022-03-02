@@ -5,6 +5,7 @@ import { icon_burn, icon_clock } from '../../../data/icons'
 import { setVisibleFlag } from '../../../Redux/actions'
 import Icon from '../../general/Icon'
 import StatusList from '../StatusList'
+import PaymentsEditor from '../../Payments/PaymentsEditor'
 
 const TitleOrderEditor = (props) => {
 
@@ -29,22 +30,28 @@ const TitleOrderEditor = (props) => {
                   {props.order.status.name}
                   <span className="statusSeparate"> | &#6662;</span>
                </button>
-               {props.statusStatusList ?  <StatusList orderId = {props.order.edit}/>  : null}
+               {props.statusStatusList ?
+                   <StatusList
+                       order={props.order}
+                   />
+                   : null
+               }
             </span>
             <span className='ml10'>{iconBr}</span>
             <span className='ml5'>{iconB}</span>   
             <span className='ml5'>{iconC}</span>
          </div> : 'Новый заказ'}
-         
+          {props.statusPaymentsEditor ? <PaymentsEditor/> : null}
       </div>
    )
 }
 
 const mapStateToProps = state => ({
-   order: state.order,
-   current_branch: state.data.current_branch,
-   statusStatusList: state.view.statusStatusList
-   })
+    order: state.order,
+    current_branch: state.data.current_branch,
+    statusStatusList: state.view.statusStatusList,
+    statusPaymentsEditor: state.view.statusPaymentsEditor
+})
 
 const mapDispatchToProps = {
    setVisibleFlag

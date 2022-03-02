@@ -2,7 +2,8 @@
 import React, { useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 
-import { changeNameClientFilter, setVisibleFlag, changePaymentForm, editCurrentClient } from '../../Redux/actions'
+import { changeNameClientFilter, setVisibleFlag,  editCurrentClient } from '../../Redux/actions'
+import {changePaymentForm} from '../../Redux/actions/paymentAction'
 import { showPhone } from '../general/utils'
 import ClientEditor from '../Clients/ClientEditor/ClientEditor'
 

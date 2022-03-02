@@ -2360,7 +2360,7 @@ thead:hover {
   white-space: nowrap;
 }
 .redFont {
-  color: #f74e4d;;
+  color: #f74e4d;
   font-weight: 700;
   font-size: 12px;
   overflow: hidden;
@@ -2671,7 +2671,17 @@ div.ssm > div:hover {
   background-color: var(--color-gray);
 }
 
+.orderSticker{
+  display: block;
+  width: 60mm;
+  height: 40mm;
+  padding: 10px;
+  font-size: 14px;
+  /*border: 1px solid grey;*/
+}
+
 .fsz12 { font-size: 12px }
+.fsz16 { font-size: 16px }
 .fsz20 { font-size: 20px }
 
 .statusListOrder {

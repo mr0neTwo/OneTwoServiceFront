@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, changePaymentForm, addItemPayments, editCurrentClient, addCashboxes } from '../../../../Redux/actions'
+import { setVisibleFlag, addItemPayments, editCurrentClient, addCashboxes } from '../../../../Redux/actions'
+import {changePaymentForm} from '../../../../Redux/actions/paymentAction'
 import { changeOrderFormS } from '../../../../Redux/actions'
 import Button from '../../../general/Button'
 import TableOrderPaymants from './TableOrderPaymants'
-import PaymentsEditor from '../../../Payments/PaymentsEditor'
+// import PaymentsEditor from '../../../Payments/PaymentsEditor'
 
 const OrderPayments = (props) => {
 
@@ -17,30 +18,30 @@ const OrderPayments = (props) => {
    const handelIncome = () => {
       props.changePaymentForm(2, 'direction')
       props.changePaymentForm(props.order.client.id, 'client_id')
-      // props.changePaymentForm(props.order.client, 'client')
       props.editCurrentClient(props.order.client)
       props.changePaymentForm(`Оплата по заказу № ${props.order.id_label}`, 'description')
       props.changePaymentForm(2, 'cashflow_category')
       props.changePaymentForm(props.current_user_id, 'employee_id')
       props.changePaymentForm(props.order.edit, 'order_id')
+      props.changePaymentForm({type: 'order'}, 'context')
       props.setVisibleFlag('statusPaymentsEditor', true)
    }
 
    const handelOutcome = () => {
       props.changePaymentForm(1, 'direction')
       props.changePaymentForm(props.order.client.id, 'client_id')
-      // props.changePaymentForm(props.order.client, 'client')
       props.editCurrentClient(props.order.client)
       props.changePaymentForm(`Выплата по заказу № ${props.order.id_label}`, 'description')
       props.changePaymentForm(8, 'cashflow_category')
       props.changePaymentForm(props.current_user_id, 'employee_id')
       props.changePaymentForm(props.order.edit, 'order_id')
+      props.changePaymentForm({type: 'order'}, 'context')
       props.setVisibleFlag('statusPaymentsEditor', true)
    }
 
    return (
       <div className = 'contentTab'>
-         <div className='row mt15'>
+         <div className='row mt15' id='btorderpay'>
             <Button
                className='greenButton'
                title='Предоплата'
@@ -57,7 +58,7 @@ const OrderPayments = (props) => {
             />
          </div>
          <TableOrderPaymants/>
-          {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
+          {/*{props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}*/}
       </div>
    )
 }

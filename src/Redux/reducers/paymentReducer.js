@@ -34,7 +34,9 @@ const initialState = {
    order: {},
 
    filter_created_at: [Math.round(Date.now()/1000 - Date.now()/1000 % 86400 - 10800), Math.round(Date.now() / 1000)],
-   filter_tags: []
+   filter_tags: [],
+
+   context: {}
 }
 
 export const paymentReducer = (state = initialState, action) => {
@@ -111,6 +113,8 @@ export const paymentReducer = (state = initialState, action) => {
             employee_id: 0,
             order_id: 0,
             target_cashbox_id: 0,
+
+            context: {}
          }
       }
       

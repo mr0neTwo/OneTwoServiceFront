@@ -21,6 +21,8 @@ import Price from './cell/Price'
 import EngineerNotes from './cell/EngineerNotes'
 import Equipment from './cell/Equipment'
 import OrderEditor from './newOrder/OrderEditor'
+import PaymentsEditor from '../Payments/PaymentsEditor'
+import StikerToPrint from './StikerToPrint'
 
 // const optionsShowDate = {
 //   year: 'numeric',
@@ -89,7 +91,10 @@ function TableOrders(props) {
             ))}
           </tbody>
         </table>
-        {props.statusOrderEditor ? <OrderEditor/> : null}
+        {props.view.statusOrderEditor ? <OrderEditor/> : null}
+        {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
+        {props.view.statusOrderSticker ? <StikerToPrint onAfterPrint={() => props.setVisibleFlag('statusOrderSticker', false)}/> : null}
+
       </div>
     )
   } else {
@@ -101,8 +106,8 @@ const mapStateToProps = state => ({
   ordersShow: state.data.ordersShow,
   employees: state.data.employees, 
   user: state.data.user,
+  view: state.view,
   mainFilter: state.filter.mainFilter,
-  statusOrderEditor: state.view.statusOrderEditor,
   permissions: state.data.user.role.permissions
 })
 

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
@@ -6,25 +5,11 @@ import { setVisibleFlag, changeOrderFormS } from '../../../../Redux/actions'
 import { editOperation, deleteOperation, resetOperation } from '../../../../Redux/actions/operationActions'
 import { icon_briefcase, icon_bug, icon_pencil, icon_trush } from '../../../../data/icons'
 import Icon from '../../../general/Icon'
+import {deleteOrderPart, editOrderPart, resetOrderPart} from '../../../../Redux/actions/orderPartAction'
 
 const TableWorksMaterials = (props) => {
 
-   let price = 0
-   let discount = 0
-   props.order.operations.filter(operation => !operation.deleted).forEach(operation => {
-      price += operation.total
-      discount += operation.discount_value
-   })
-   props.order.parts.filter(part => !part.deleted).forEach(part => {
-      price += part.price
-      discount += part.discount_value
-   })
-
    const disabled = props.order.status.group > 3 || !props.permissions.includes('edit_operations_materials')
-
-   useEffect(() => {
-      props.changeOrderFormS(price, 'price')
-   }, [])
    
 
    const editOperation = (operation) => {
@@ -36,6 +21,17 @@ const TableWorksMaterials = (props) => {
       props.editOperation(operation)
       props.deleteOperation(true)
       props.resetOperation()
+   }
+
+   const deletePart = (part) => {
+      props.editOrderPart(part)
+      props.deleteOrderPart(true)
+      props.resetOrderPart()
+   }
+
+   const editPart = (part) => {
+      props.editOrderPart(part)
+      props.setVisibleFlag('statusOrderPartEditor', true)
    }
 
    return (
@@ -90,7 +86,7 @@ const TableWorksMaterials = (props) => {
                      <tr 
                         key={part.id}
                         className='fillcol'
-                        onDoubleClick={disabled ? null : () => console.log('edit part') }
+                        onDoubleClick={disabled ? null : () => editPart(part) }
                      >
                         <td>
                            <Icon className='icon-s1' icon={icon_bug} color='#aaa'/>
@@ -102,10 +98,10 @@ const TableWorksMaterials = (props) => {
                         <td>
                         {!disabled ?
                            <div className='row'>
-                              <div onClick={() => console.log('edit parts')}>
+                              <div onClick={() => editPart(part)}>
                                  <Icon className='icon-s2 curP ml5' icon={icon_pencil}/>
                               </div>
-                              <div onClick={() => console.log('delete parts')}>
+                              <div onClick={() => deletePart(part)}>
                                  <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
                               </div>
                            </div> : null}
@@ -117,12 +113,12 @@ const TableWorksMaterials = (props) => {
             <tbody>
                <tr className='ss'>
                   <td className='tae' colSpan='4'>Итого скидка:</td>
-                  <td className='tae'>{discount}</td>
+                  <td className='tae'>{props.order.discount_sum}</td>
                   <td>руб.</td>
                </tr>
                <tr className='ss'>
                   <td className='tae' colSpan='4'>Итого сумма:</td>
-                  <td className='tae'>{price}</td>
+                  <td className='tae'>{props.order.price}</td>
                   <td>руб.</td>
                </tr>
             </tbody>
@@ -141,7 +137,10 @@ const mapDispatchToProps = {
    setVisibleFlag,
    deleteOperation,
    resetOperation,
-   changeOrderFormS
+   changeOrderFormS,
+   deleteOrderPart,
+   editOrderPart,
+   resetOrderPart
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(TableWorksMaterials)

@@ -102,7 +102,6 @@ export function createOrder() {
       }
     }
 
-
 export function changeStatus( status_id, order_id) {
 
    const state = store.getState()
@@ -142,7 +141,7 @@ export function changeStatus( status_id, order_id) {
    }
  }
 
- export function saveOrder() {
+export function saveOrder() {
 
   const state = store.getState()
 
@@ -174,7 +173,10 @@ export function changeStatus( status_id, order_id) {
       resume: state.order.resume,
       cell: state.order.cell, 
    
-      estimated_cost: state.order.estimated_cost, 
+      estimated_cost: state.order.estimated_cost,
+      discount_sum: state.order.discount_sum,
+      payed: state.order.payed,
+      price: state.order.price,
       overdue: state.order.overdue
     })
     request_config.method = 'PUT'
@@ -187,7 +189,7 @@ export function changeStatus( status_id, order_id) {
       await fetch(state.data.url_server + '/orders', request_config)
       .catch(() => bad_request('Запрос на изменение заказов не выполнен'))
 
-      fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
+      await fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
      .then(response =>  response.json())
      .then(data => {
        if (data.success) {

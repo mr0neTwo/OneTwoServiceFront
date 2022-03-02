@@ -62,7 +62,7 @@ export function initStatusMenuVisibleAction(list_id) {
     }
 }
 
-export function changeStatusMenuVisibleAction(id_order) {
+export function changeStatusMenuVisible(id_order) {
     return {
         type: 'CANGE_STATUS_MENU_VISIBLE',
         id_order: id_order
@@ -82,7 +82,6 @@ export function activeBadgeAction(filters) {
         filters
     }
 }
-
 
 export function changeSetStatusFilter() {
     return {
@@ -121,7 +120,6 @@ export function changeTypeListFilter() {
     }
 }
 
-
 export function changeCheckType(field) {
     return {
         type: 'CHANGE_CHECK_TYPE',
@@ -146,7 +144,6 @@ export function changeManagerListFilter() {
         type: 'CHANGE_MANAGER_LIST_FILTER'
     }
 }
-
 
 export function changeCheckManager(field) {
     return {
@@ -173,7 +170,6 @@ export function changeEngineerListFilter() {
     }
 }
 
-
 export function changeCheckEngineer(field) {
     return {
         type: 'CHANGE_CHECK_ENGINEER',
@@ -198,7 +194,6 @@ export function changeGroupListFilter() {
         type: 'CHANGE_GROUP_LIST_FILTER'
     }
 }
-
 
 export function changeGroupMainFilter(word) {
     return {
@@ -279,7 +274,6 @@ export function resetFilter() {
     }
 }
 
-
 export function changeStatusCreateNewFilter() {
     return {
         type: 'CHANGE_STATUS_CREATE_NEW_FILTER'
@@ -293,13 +287,11 @@ export function changeTitleCreate(title) {
     }
 }
 
-
 export function changeGeneraleCreate() {
     return {
         type: 'CHANGE_GENERALE_CREATE'
     }
 }
-
 
 export function appCustomFilter(filter, id) {
     return {
@@ -316,14 +308,12 @@ export function changeStatusMenuRow(id) {
     }
 }
 
-
 export function changeStatusSettingRow(id) {
     return {
         type: 'CHANGE_STATUS_SETTING_ROW',
         id
     }
 }
-
 
 export function changeTitleCreateRole(title) {
     return {
@@ -374,14 +364,12 @@ export function changeSettableStatuses(id) {
     }
 }
 
-
 export function changeSettableMargin(id) {
     return {
         type: 'CHANGE_SETTABLE_MARGIN',
         id
     }
 }
-
 
 export function editRole(role) {
     return {
@@ -390,14 +378,12 @@ export function editRole(role) {
     }
 }
 
-
 export function changeEmployeeTabs(tab) {
     return {
         type: 'CHANGE_EMPLOYEE_TAB',
         tab
     }
 }
-
 
 export function changeEmployeEditorForm(value, field) {
     return {
@@ -549,20 +535,6 @@ export function addClientTag(tag) {
 export function deleteClientTag(idx) {
     return {
         type: 'DELETE_CLIENT_TAG',
-        idx
-    }
-}
-
-export function addPaymentTag(tag) {
-    return {
-        type: 'ADD_PAYMENT_TAG',
-        tag
-    }
-}
-
-export function deletePaymentTag(idx) {
-    return {
-        type: 'DELETE_PAYMENT_TAG',
         idx
     }
 }
@@ -780,14 +752,6 @@ export function editCashbox(cashbox) {
 }
 
 
-export function changePaymentForm(value, field) {
-    return {
-        type: 'CHANGE_PAYMENT_FORM',
-        field,
-        value
-    }
-}
-
 
 export function editCurrentClient(client) {
     return {
@@ -796,11 +760,6 @@ export function editCurrentClient(client) {
     }
 }
 
-export function resetPayments() {
-    return {
-        type: 'RESET_PAYMENTS'
-    }
-}
 
 export function setPayment(payment) {
     return {
@@ -1084,7 +1043,6 @@ export function saveChangeClient() {
     }
 }
 
-
 export function editClient(id) {
 
     const state = store.getState()
@@ -1106,7 +1064,6 @@ export function editClient(id) {
             .catch(() => bad_request('Запрос данных клиента не выполнен'))
     }
 }
-
 
 export function deleteClient(flag) {
 
@@ -1147,7 +1104,6 @@ export function deleteClient(flag) {
 }
 
 //===========================================================================================================================
-
 
 export function addEmployees(filters) {
 
@@ -1192,7 +1148,6 @@ export function addAdCampaign() {
             .catch(() => bad_request('Запрос рекламных компаний не выполнен'))
     }
 }
-
 
 export function createEmployee() {
 
@@ -1282,7 +1237,6 @@ export function seveEditEmployee() {
     }
 }
 
-
 export function deleteEmployee(flag) {
 
     const state = store.getState()
@@ -1341,7 +1295,6 @@ export function addStatus() {
     }
 }
 
-
 export function refreshDataOrder(order_id) {
 
     const state = store.getState()
@@ -1368,7 +1321,6 @@ export function refreshDataOrder(order_id) {
     }
 }
 
-
 export function addBaggesAction() {
 
     const state = store.getState()
@@ -1393,7 +1345,6 @@ export function addBaggesAction() {
     }
 }
 
-
 export function addStatusGroupAction() {
 
     const state = store.getState()
@@ -1415,7 +1366,6 @@ export function addStatusGroupAction() {
             .catch(() => bad_request('Запрос групп статусов не выполнен'))
     }
 }
-
 
 export function addEquipment() {
 
@@ -2008,10 +1958,6 @@ export function deleteBranch(flag) {
     }
 }
 
-
-
-
-
 export function addDictMalfunction() {
 
     const state = store.getState()
@@ -2043,7 +1989,6 @@ export function addDictMalfunction() {
             .catch(() => bad_request('Запрос словарая неисправностей не выполнен'))
     }
 }
-
 
 export function createBookElement() {
 
@@ -2084,7 +2029,6 @@ export function createBookElement() {
     }
 }
 
-
 export function deleteBookElements() {
 
     const state = store.getState()
@@ -2123,7 +2067,6 @@ export function deleteBookElements() {
             .catch(() => bad_request('Запрос данных словаря не выполнен'))
     }
 }
-
 
 export function addDictPackagelist() {
 
@@ -2189,7 +2132,6 @@ export function addItemPayments() {
     }
 }
 
-
 export function createCashbox() {
 
     const state = store.getState()
@@ -2235,7 +2177,6 @@ export function createCashbox() {
             .catch(() => bad_request('Запрос касс не выполнен'))
     }
 }
-
 
 export function addCashboxes() {
 
@@ -2317,7 +2258,6 @@ export function seveEditCashbox() {
     }
 }
 
-
 export function deleteCashbox(flag) {
 
     const state = store.getState()
@@ -2357,197 +2297,6 @@ export function deleteCashbox(flag) {
             .catch(() => bad_request('Запрос касс не выполнен'))
     }
 }
-
-
-export function createPayment() {
-
-    const state = store.getState()
-
-    const now = Math.round(Date.now() / 1000)
-    const cashbox1 = state.data.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).title
-    const cashbox2 = state.payment.target_cashbox_id ? state.data.cashboxes.find(cashbox => cashbox.id === state.payment.target_cashbox_id).title : ''
-
-    const disc = `Перемещение денег из кассы "${cashbox1}" в кассу "${cashbox2}".`
-
-    const request_config = getRequestConfig({
-        cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
-        description: state.payment.direction ? state.payment.description : disc + state.payment.description,
-        deposit: state.data.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
-        income: state.payment.income,
-        outcome: -state.payment.outcome,
-        direction: state.payment.direction,
-        deleted: false,
-        can_print_fiscal: state.payment.can_print_fiscal,
-        is_fiscal: state.payment.is_fiscal,
-        created_at: now,
-        custom_created_at: state.payment.custom_created_at ? state.payment.custom_created_at : now,
-        tags: state.payment.tags,
-        cashbox_id: state.payment.cashbox_id ? state.payment.cashbox_id : null,
-        client_id: state.payment.client_id ? state.payment.client_id : null,
-        employee_id: state.payment.employee_id,
-        order_id: state.payment.order_id ? state.payment.order_id : null,
-        target_cashbox_id: state.payment.direction ? null : state.payment.target_cashbox_id
-    })
-
-    const request_config_2 = getRequestConfig({
-        custom_created_at: [state.payment.filter_created_at[0], state.payment.filter_created_at[1] + 86399],
-        cashbox_id: state.cashbox.current_cashbox.id,
-        tags: state.payment.filter_tags.length ? state.payment.filter_tags : null
-    })
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/payments', request_config)
-            .catch(() => bad_request('Запрос на создание платежа не выполнен'))
-
-        await fetch(state.data.url_server + '/get_payments', request_config_2)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'payments',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPaymentsEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PAYMENTS'
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос платежей не выполнен'))
-
-        await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'cashboxes',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос касс не выполнен'))
-
-        if (state.order.edit) {
-            fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch({
-                            type: 'EDIT_ORDER',
-                            order: data.data[0]
-                        })
-                    } else {
-                        console.warn(data.massage)
-                    }
-                })
-                .catch(() => bad_request('Запрос заказов не выполнен'))
-        }
-    }
-}
-
-export function addPayments() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        custom_created_at: [state.payment.filter_created_at[0], state.payment.filter_created_at[1] + 86399],
-        cashbox_id: state.cashbox.current_cashbox.id,
-        tags: state.payment.filter_tags.length ? state.payment.filter_tags : null
-    })
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_payments', request_config)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'payments',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос платежей не выполнен'))
-    }
-}
-
-
-export function deletePayment(flag) {
-
-    const state = store.getState()
-
-    let request_config = getRequestConfig({
-        id: state.payment.edit,
-        relation_id: state.payment.relation_id ? state.payment.relation_id : null,
-        deleted: flag
-    })
-    request_config.method = 'PUT'
-
-    const request_config2 = getRequestConfig({
-        custom_created_at: [state.payment.filter_created_at[0], state.payment.filter_created_at[1] + 86399],
-        cashbox_id: state.cashbox.current_cashbox.id,
-        tags: state.payment.filter_tags.length ? state.payment.filter_tags : null
-    })
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/payments', request_config)
-            .catch(() => bad_request('Запрос на удаление/восстановление платежа не выполнен'))
-
-        await fetch(state.data.url_server + '/get_payments', request_config2)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'payments',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPaymentsCard',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PAYMENTS'
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос платежей не выполнен'))
-
-        await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'cashboxes',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос касс не выполнен'))
-    }
-}
-
 
 export function createPrice() {
 
@@ -2589,7 +2338,6 @@ export function createPrice() {
             .catch(() => bad_request('Запрос наценок не выполнен'))
     }
 }
-
 
 export function savePrice() {
 
@@ -2674,7 +2422,6 @@ export function deletePrice(flag) {
     }
 }
 
-
 export function addGroupeService() {
 
     const state = store.getState()
@@ -2697,7 +2444,6 @@ export function addGroupeService() {
             .catch(() => bad_request('Запрос категорий не выполнен'))
     }
 }
-
 
 export function createGroupDictService() {
 
@@ -2737,7 +2483,6 @@ export function createGroupDictService() {
             .catch(() => bad_request('Запрос категорий не выполнен'))
     }
 }
-
 
 export function saveGroupDictService() {
 
@@ -2819,7 +2564,6 @@ export function deleteGroupDictService(flag) {
     }
 }
 
-
 export function addDictService() {
 
     const state = store.getState()
@@ -2846,7 +2590,6 @@ export function addDictService() {
             .catch(() => bad_request('Запрос услуг не выполнен'))
     }
 }
-
 
 export function createDictService() {
 
@@ -2942,7 +2685,6 @@ export function saveDictService() {
     }
 }
 
-
 export function deleteDictService(flag) {
 
     const state = store.getState()
@@ -3005,7 +2747,6 @@ export function addServicePrices() {
             .catch(() => bad_request('Запрос цен на услуги не выполнен'))
     }
 }
-
 
 export function createSaveServicePrice(id, cost, discount_margin_id, service_id) {
 

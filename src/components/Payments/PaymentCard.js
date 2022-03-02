@@ -2,7 +2,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, resetPayments, deletePayment } from '../../Redux/actions'
+import { setVisibleFlag } from '../../Redux/actions'
+import {deletePayment, resetPayments} from '../../Redux/actions/paymentAction'
 import Receipt from './Receipt'
 import BottomButtons from '../general/BottomButtons'
 import Clause from './cashboxes/Clause'

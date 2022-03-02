@@ -1,10 +1,8 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 
 import { showName } from '../../general/utils'
 import { changePayrollForm } from '../../../Redux/actions/payrollActions'
-
 
 const TableSalaryEmployees = (props) => {
    return (
@@ -23,7 +21,7 @@ const TableSalaryEmployees = (props) => {
                   style={employee.id === props.payroll.setted_employee ? { backgroundColor: '#cae1f5'} : null}
                >
                   <td>{showName(employee)}</td>
-                  <td>{employee.balance}</td>
+                  <td>{employee.balance ? employee.balance.toFixed(2) : 0}</td>
                </tr>
             ))}
          </tbody>

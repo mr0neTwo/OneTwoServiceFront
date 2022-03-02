@@ -61,13 +61,13 @@ const TablePayrolls = (props) => {
                   <td className='pd-lr-5'>{payroll.description}</td>
                   <td className={payroll.income ? 'greenFont tac': 'tac'}>{payroll.income}</td>
                   <td className={payroll.outcome ? 'redFont tac': 'tac'}>{payroll.outcome}</td>
-                  <td className='tac'>{payroll.deposit}</td>
+                  <td className='tac'>{payroll.deposit.toFixed(2)}</td>
                </tr>
             ))}
             <tr>
                <td colSpan='2'>Всего - {payrolls.length}</td>
-               <td className='txtb tac'>{incomeSum} руб.</td>
-               <td className='txtb tac'>{outcomeSum} руб.</td>
+               <td className='txtb tac'>{incomeSum.toFixed(2)} руб.</td>
+               <td className='txtb tac'>{outcomeSum.toFixed(2)} руб.</td>
                <td></td>
             </tr>
          </tbody>

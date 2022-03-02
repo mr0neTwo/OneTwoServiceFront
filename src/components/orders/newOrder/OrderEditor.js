@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import {
@@ -19,7 +19,14 @@ import Tabs from '../../general/Tabs'
 import OrderInfo from './info/OrderInfo'
 import OrderWorksMaterials from './work_matireal/OrderWorksMaterials'
 import OrderPayments from './payments/OrderPayments'
+import * as PropTypes from 'prop-types'
+import OrderHistory from '../OrderHistory'
 
+function ComponentToPrint(props) {
+  return null
+}
+
+ComponentToPrint.propTypes = {ref: PropTypes.any}
 const OrderEditor = (props) => {
 
   useEffect(() => {
@@ -43,7 +50,10 @@ const OrderEditor = (props) => {
   }
 
   const clickHandel = (event) => {
-    if (!event.path.map((el) => el.id).includes('createNewOrder')) {
+    if (
+        !event.path.map((el) => el.id).includes('createNewOrder') &&
+        !event.path.map((el) => el.id).includes('paymentsEditorWiondow')
+    ) {
       handleClose()
     }
   }
@@ -54,6 +64,30 @@ const OrderEditor = (props) => {
       window.removeEventListener('click', clickHandel)
     }
   })
+
+  useEffect(() => {
+    let sum = 0
+    props.order.payments.filter(payment => !payment.deleted).forEach(payment => {
+      sum += payment.income
+      sum += payment.outcome
+    })
+    props.changeOrderFormS(sum, 'payed')
+  }, [props.order.payments])
+
+  useEffect(() => {
+    let price = 0
+    let discount = 0
+    props.order.operations.filter(operation => !operation.deleted).forEach(operation => {
+      price += operation.total
+      discount += operation.discount_value
+    })
+    props.order.parts.filter(part => !part.deleted).forEach(part => {
+      price += part.total
+      discount += part.discount_value
+    })
+    props.changeOrderFormS(price, 'price')
+    props.changeOrderFormS(discount, 'discount_sum')
+  }, [props.order.operations, props.order.parts])
 
   
 
@@ -107,6 +141,7 @@ const OrderEditor = (props) => {
     }
   }
 
+
   return (
     <div className="rightBlock">
       <div className="rightBlockWindow" id="createNewOrder">
@@ -128,14 +163,7 @@ const OrderEditor = (props) => {
                 </div> : <OrderInfo/> }
           </div>
 
-          <div className="orderHistory">
-          <div className = 'tempPage'>
-            <div className = 'tempContainer'>
-                <h1 className = 'tempTitle'>История</h1>
-                <p className = 'tempDescription'>Страница на стадии разработки</p>
-            </div>
-          </div>
-          </div>
+         <OrderHistory/>
         </div>
 
         <div className="boxOrderButtons">
