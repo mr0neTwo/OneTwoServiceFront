@@ -20,6 +20,8 @@ import { payrollReducer } from './reducers/payrollReducer'
 import {warehouseReducer} from "./reducers/wherehouseReducer";
 import {partReducer} from './reducers/partReducer';
 import {orderPartReducer} from './reducers/orderPartReducer'
+import {notTemplateReducer} from './reducers/notTemplateReducer'
+import {notEventReducer} from './reducers/notEventReducer'
 
 
 
@@ -43,5 +45,7 @@ export const rootReducer = combineReducers({
    payroll: payrollReducer,
    warehouse: warehouseReducer,
    part: partReducer,
-   orderPart: orderPartReducer
+   orderPart: orderPartReducer,
+   notTemplate: notTemplateReducer,
+   notEvent: notEventReducer
 })

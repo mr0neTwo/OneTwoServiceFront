@@ -39,6 +39,10 @@ const initialState = {
    statusPartEditor: false,
    statusOrderPartEditor: false,
    statusOrderSticker: false,
+   statusOrderLoader: false,
+   checkOrderSticker: localStorage.getItem('checkOrderSticker') === 'true',
+   statusNotTemplateEditor: false,
+   statusNotEventEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -82,6 +86,10 @@ const initialState = {
    inputWPartTitleChecked: true,
    inputOrderPartTitleChacked: true,
    inputOrderPartEngineerChecked: true,
+   inputNotTempTitleChecked: true,
+   inputNotTempTempleChecked: true,
+   inputNotEventEventChecked: true,
+   inputNotEventTemplateChecked: true,
 
    errorSameMail: false,
    errorSameLogin: false

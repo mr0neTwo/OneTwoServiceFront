@@ -1,11 +1,9 @@
-
-
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-
 import { changeOrderFormS } from '../../../../Redux/actions'
 import { changeOperationForm } from '../../../../Redux/actions/operationActions'
+
 import ChooseOfList from '../../../general/ChooseOfList'
 import SetWorkMatireals from './SetWorkMatireals'
 import TableWorksMaterials from './TableWorksMaterials'

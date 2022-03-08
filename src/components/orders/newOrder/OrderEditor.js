@@ -9,7 +9,7 @@ import {
   changeOrderFormS,
   addDictService
 } from '../../../Redux/actions'
-import { createOrder, resetOrder, saveOrder, addOrders } from '../../../Redux/actions/orderActions'
+import {createOrder, resetOrder, saveOrder, addOrders, saveOrderPyaments} from '../../../Redux/actions/orderActions'
 import {resetBookEquipment} from "../../../Redux/actions/bookActions";
 
 
@@ -46,7 +46,7 @@ const OrderEditor = (props) => {
     props.setVisibleListFlag('checkedOrderKindofGood', 0, true)
     props.setVisibleListFlag('checkedOrderBrand', 0, true)
     props.setVisibleListFlag('checkedOrderSubtype', 0, true)
-    props.addOrders()
+    // props.addOrders()
   }
 
   const clickHandel = (event) => {
@@ -65,29 +65,29 @@ const OrderEditor = (props) => {
     }
   })
 
-  useEffect(() => {
-    let sum = 0
-    props.order.payments.filter(payment => !payment.deleted).forEach(payment => {
-      sum += payment.income
-      sum += payment.outcome
-    })
-    props.changeOrderFormS(sum, 'payed')
-  }, [props.order.payments])
-
-  useEffect(() => {
-    let price = 0
-    let discount = 0
-    props.order.operations.filter(operation => !operation.deleted).forEach(operation => {
-      price += operation.total
-      discount += operation.discount_value
-    })
-    props.order.parts.filter(part => !part.deleted).forEach(part => {
-      price += part.total
-      discount += part.discount_value
-    })
-    props.changeOrderFormS(price, 'price')
-    props.changeOrderFormS(discount, 'discount_sum')
-  }, [props.order.operations, props.order.parts])
+  // useEffect(() => {
+  //   let sum = 0
+  //   props.order.payments.filter(payment => !payment.deleted).forEach(payment => {
+  //     sum += payment.income
+  //     sum += payment.outcome
+  //   })
+  //   props.changeOrderFormS(sum, 'payed')
+  // }, [props.order.payments])
+  //
+  // useEffect(() => {
+  //   let price = 0
+  //   let discount = 0
+  //   props.order.operations.filter(operation => !operation.deleted).forEach(operation => {
+  //     price += operation.total
+  //     discount += operation.discount_value
+  //   })
+  //   props.order.parts.filter(part => !part.deleted).forEach(part => {
+  //     price += part.total
+  //     discount += part.discount_value
+  //   })
+  //   props.changeOrderFormS(price, 'price')
+  //   props.changeOrderFormS(discount, 'discount_sum')
+  // }, [props.order.operations, props.order.parts])
 
   
 

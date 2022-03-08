@@ -1,28 +1,24 @@
-import React, {useRef, useState} from 'react'
+import React, { useState} from 'react'
 import {connect} from 'react-redux'
-import ReactToPrint, {useReactToPrint} from 'react-to-print'
 
 import Icon from '../general/Icon'
 import {icon_down, icon_print} from '../../data/icons'
-import Sticker from './Sticker'
 import Button from '../general/Button'
 import Checkbox from '../general/Checkbox'
-import StikerToPrint from './StikerToPrint'
 import {setVisibleFlag} from '../../Redux/actions'
 
 const OrderPrint = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
-    const [chekOrderSticker, setChekOrderSticker] = useState(false)
 
     const handlePrint = () => {
-        props.setVisibleFlag('statusOrderSticker', chekOrderSticker)
+        props.setVisibleFlag('statusOrderSticker', props.checkOrderSticker)
         setListVisible(false)
     }
 
-    const afterPrint = () => {
-
-
+    const handleCheckSticker = (event) => {
+        props.setVisibleFlag('checkOrderSticker', event.target.checked)
+        localStorage.setItem('checkOrderSticker', event.target.checked)
     }
 
     return (
@@ -40,25 +36,26 @@ const OrderPrint = (props) => {
                 <div className='listFilter'>
                     <Checkbox
                         label='Приемная этикетка'
-                        onChange={event => setChekOrderSticker(event.target.checked)}
-                        checked={chekOrderSticker}
+                        onChange={handleCheckSticker}
+                        checked={props.checkOrderSticker}
                     />
                     <Button
                         className='blueButton ml30'
                         title='Печать'
                         onClick={handlePrint}
+                        unvisible={!props.order.edit}
                     />
                 </div>
                 : null
             }
-
 
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    order: state.order
+    order: state.order,
+    checkOrderSticker: state.view.checkOrderSticker
 })
 
 const mapDispatchToProps = {

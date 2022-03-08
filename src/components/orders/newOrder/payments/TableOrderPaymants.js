@@ -57,13 +57,13 @@ const TableOrderPaymants = (props) => {
                <tr className='ss'>
                   <td></td>
                   <td className='tae'>
-                     {(props.order.price - props.order.payed) > 0 ? 'Клиент должен нам:' : 'Мы должны клиенту'}
+                     {props.order.missed_payments > 0 ? 'Клиент должен нам:' : 'Мы должны клиенту'}
                   </td>
                   <td
                       className='tae'
-                      style={{color: (props.order.price - props.order.payed) > 0 ? '#5cb85c' : '#f74e4d'}}
+                      style={{color: props.order.missed_payments > 0 ? '#5cb85c' : '#f74e4d'}}
                   >
-                     {Math.abs(props.order.price - props.order.payed)} руб.
+                     {Math.abs(props.order.missed_payments)} руб.
                   </td>
                </tr>
             </tbody>

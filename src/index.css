@@ -1272,6 +1272,22 @@ div.tableOrders td {
   animation-duration: 300ms;
 }
 
+.orderLoader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.25);
+  animation-name: appear;
+  animation-duration: 300ms;
+}
+
 .blockWindowFix {
   min-width: 30%;
   max-width: max-content;
@@ -2676,8 +2692,46 @@ div.ssm > div:hover {
   width: 60mm;
   height: 40mm;
   padding: 10px;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: bold;
   /*border: 1px solid grey;*/
+}
+
+.boxVariable {
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px 15px;
+}
+
+.variableItem {
+  color: #4791d1;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+.variableItem:hover {
+  color: #175e9a;
+  text-decoration: underline;
+}
+
+.statuses {
+  position: relative;
+  left: -20px;
+  border-radius: 4px;
+  padding: 0px 4px;
+  margin: 1px 0px;
+  color: white;
+}
+
+.stat {
+  border-radius: 4px;
+  padding: 0px 2px;
+  margin: 0px 1px;
+  color: white;
+  font-size: 10px;
 }
 
 .fsz12 { font-size: 12px }
@@ -2703,6 +2757,7 @@ div.ssm > div:hover {
 .ml5 { margin-left: 5px }
 .ml10 { margin-left: 10px }
 .ml15 { margin-left: 15px }
+.ml20 { margin-left: 20px }
 .ml30 { margin-left: 30px }
 .ml50 { margin-left: 50px }
 
@@ -2721,10 +2776,12 @@ div.ssm > div:hover {
 .h90 { height: 90px }
 .mh { max-height: min-content }
 
+.w515 { width: 515px }
 .w500 { width: 500px }
 .w400 { width: 400px }
 .w300 { width: 300px }
 .w250 { width: 250px }
+.w200 { width: 200px }
 .w160 { width: 160px }
 .w150 { width: 150px }
 .w135 { width: 135px }

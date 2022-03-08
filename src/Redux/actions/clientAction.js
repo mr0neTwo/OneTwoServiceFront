@@ -2,14 +2,15 @@ import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
 
 
-export function changeTempleForm( value, field ) {
+export function changeClientForm( value, field ) {
     return {
-        type: 'CHANGE_TEMPLE_FORM',
+        type: 'CHANGE_CLIENT_FORM',
         field,
         value
     }
 }
 
+/*
 export function editTemple(temple) {
     return {
         type: 'EDIT_TEMPLE',
@@ -117,7 +118,7 @@ export function saveTemple() {
         ability1: 0,
         ability2: 0
     })
-    request_config1.method = 'PUT'
+    request_config.method = 'PUT'
 
     const request_config2 = getRequestConfig({
         ability1: 0,
@@ -163,7 +164,7 @@ export function deleteOperation(flag) {
         id: state.temple.edit,
         deleted: flag
     })
-    request_config1.method = 'PUT'
+    request_config.method = 'PUT'
 
     const request_config2 = getRequestConfig({
         ability1: 0,
@@ -200,3 +201,5 @@ export function deleteOperation(flag) {
 
     }
 }
+
+*/

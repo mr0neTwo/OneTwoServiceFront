@@ -28,7 +28,7 @@ const Checkbox = (props) => {
       <div className={`checkbox ${props.className}`}>
          <input 
             type='checkbox'
-            onChange={ props.onChange}
+            onChange={props.onChange}
             checked={props.checked}
             disabled={props.disabled}
          />

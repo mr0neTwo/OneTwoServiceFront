@@ -140,7 +140,8 @@ export function createESubtype() {
         url: state.book.url,
         equipment_brand_id: state.book.parent_id,
         branches: state.book.branches,
-        deleted: false
+        deleted: false,
+        img: state.book.img
     })
 
     const request_config2 = getRequestConfig({

@@ -1,10 +1,32 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 
 import { setVisibleFlag } from '../../Redux/actions'
 import PropTypes from "prop-types";
 
+
+/**
+ *
+ * className='className' // Класс оболочки
+ *
+ * title='Наименование' // Наименование поля
+ *
+ * onChange={event => console.log(event.target.value)} // Функция изменения
+ *
+ * value={props.value} // Значение
+ *
+ * disabled={false} // Заблокировать
+ *
+ * checkedFlag='flagname' // Имя флага для проверки
+ *
+ * checked={props.statusChecked} // Флаг проверки
+ *
+ * redStar={true} // Добавить красную звездочку к наименованию поля
+ *
+ * errorMassage='errorMassage' // Ошибка при непройденой проверки
+ *
+ * @returns {JSX.Element}
+ */
 const LableArea = (props) => {
 
    return (

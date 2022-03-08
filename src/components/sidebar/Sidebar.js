@@ -2,7 +2,6 @@ import React from 'react';
 import MenuGroup from './MenuGroup';
 import LogoUser from './LogoUser';
 import { connect } from 'react-redux'
-import  Loader  from '../Loader/Loader';
 import ChooseBranch from './ChooseBranch';
 
 function Sidebar(props) {
@@ -20,7 +19,7 @@ function Sidebar(props) {
     return (
         <div className = 'sidebarMain'> 
             <LogoUser/>
-           {props.current_branch ? <ChooseBranch/> : <Loader/>}
+           {props.current_branch ? <ChooseBranch/> : null}
             <hr className = 'hrMenu' />
 
         {generally_menu.length ? 

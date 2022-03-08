@@ -487,6 +487,36 @@ export const setting = [
       value: 'setting_alert',
       description: 'Оповещения'
    },{
+      value: 'setting_create_not_template',
+      description: 'Может создавать шаблоны оповещения'
+   },{
+      value: 'setting_edit_not_template',
+      description: 'Может редактировать шаблоны оповещения'
+   },{
+      value: 'setting_see_deleted_not_template',
+      description: 'Может видеть удаленные шаблоны оповещения'
+   },{
+      value: 'setting_delete_not_template',
+      description: 'Может удалять шаблоны оповещения'
+   },{
+      value: 'setting_recover_not_template',
+      description: 'Может восстанавливать шаблоны оповещения'
+   },{
+      value: 'setting_create_not_event',
+      description: 'Может создавать оповещения'
+   },{
+      value: 'setting_edit_not_event',
+      description: 'Может редактировать оповещения'
+   },{
+      value: 'setting_see_deleted_not_event',
+      description: 'Может видеть удаленные оповещения'
+   },{
+      value: 'setting_delete_not_event',
+      description: 'Может удалять оповещения'
+   },{
+      value: 'setting_recover_not_event',
+      description: 'Может восстанавливать оповещения'
+   },{
       value: 'setting_service',
       description: 'Перечень работ и услуг'
    },{

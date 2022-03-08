@@ -41,7 +41,7 @@ const initialState = {
    discount_materials_type: false,
    discount_service_type: false,
 
-   tabs: 1,
+   tabs: 0,
    phone_titles: ['Мобильный', 'Рабочий', 'Домашний'],
    statusPhoneList: [false],
    statusAddTitle: [false]
@@ -65,7 +65,7 @@ export const clientReducer = (state = initialState, action) => {
          }
       }
 
-      case 'CHANGE_CLIENT_EDITOR_FORM': {
+      case 'CHANGE_CLIENT_FORM': {
             return {
                ...state, 
                [action.field]: action.value
@@ -235,7 +235,7 @@ export const clientReducer = (state = initialState, action) => {
             discount_service_type: false,
 
             edit: 0,
-            tabs: 1,
+            tabs: 0,
             statusPhoneList: [false],
             statusAddTitle: [false]
 
@@ -290,8 +290,7 @@ export const clientReducer = (state = initialState, action) => {
             discount_materials_type: action.client.discount_materials_type,
             discount_service_type: action.client.discount_service_type,
 
-            edit: action.client.id,
-            tabs: 1
+            edit: action.client.id
          }
       }
 

@@ -2,12 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {
-  changeClientEditorForm,
   setClietnCheckbox,
   changeStatusAdCampaignClient,
   setAdCampaignClient,
   setVisibleFlag,
 } from '../../../Redux/actions'
+import {changeClientForm} from '../../../Redux/actions/clientAction'
 import AddPhones from './AddPhones'
 import ChooseOfList from '../../general/ChooseOfList'
 import ClientJuridicalInfo from './ClientJuridicalInfo'
@@ -21,7 +21,7 @@ const ClientGenerallyInfo = (props) => {
         className='w250 mt15'
         title={props.client.juridical ? 'Название компании' : 'Имя клиета'}
         redStar={true}
-        onChange={event => props.changeClientEditorForm(event.target.value, 'name')}
+        onChange={event => props.changeClientForm(event.target.value, 'name')}
         value={props.client.name}
         checkedFlag='inputClientNameChecked'
         checked={props.inputClientNameChecked}
@@ -29,14 +29,14 @@ const ClientGenerallyInfo = (props) => {
       <LableInput
         className='w250 mt15'
         title='Обращение'
-        onChange={event => props.changeClientEditorForm(event.target.value, 'name_doc')}
+        onChange={event => props.changeClientForm(event.target.value, 'name_doc')}
         value={props.client.name_doc}
       />
       <AddPhones />
       <LableInput
         className='w250 mt15'
         title='Email'
-        onChange={event => props.changeClientEditorForm(event.target.value, 'email')}
+        onChange={event => props.changeClientForm(event.target.value, 'email')}
         value={props.client.email}
       />
       <div className='checkbox mt5'>
@@ -53,7 +53,7 @@ const ClientGenerallyInfo = (props) => {
       <LableInput
         className='w250 mt15'
         title='Адрес'
-        onChange={event => props.changeClientEditorForm(event.target.value, 'address')}
+        onChange={event => props.changeClientForm(event.target.value, 'address')}
         value={props.client.address}
       />
 
@@ -81,7 +81,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  changeClientEditorForm,
+    changeClientForm,
   setClietnCheckbox,
   changeStatusAdCampaignClient,
   setAdCampaignClient,

@@ -2,12 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {
-  changeClientEditorForm,
   setClietnCheckbox,
   addClientTag,
   deleteClientTag,
   setVisibleFlag,
 } from '../../../Redux/actions'
+import { changeClientForm} from '../../../Redux/actions/clientAction'
 import { check0_100 } from '../../general/utils'
 import AddTags from '../../general/AddTags'
 import ChooseOfList from '../../general/ChooseOfList'
@@ -16,6 +16,8 @@ import ChooseBotton from '../../general/ChooseBotton'
 import LableArea from '../../general/LableArea'
 
 const ClientAnotherInfo = (props) => {
+    console.log(props.client.discount_service_margin_id)
+    console.log(props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 1))
 
   return (
     <div className="clientGenerally">
@@ -24,7 +26,7 @@ const ClientAnotherInfo = (props) => {
       <LableInput
         className='mt15 w250'
         title='Скидочная карта'
-        onChange={event => props.changeClientEditorForm(event.target.value, 'discount_code')}
+        onChange={event => props.changeClientForm(event.target.value, 'discount_code')}
         value={props.client.discount_code}
         disabled={props.client.deleted}
       />
@@ -44,14 +46,14 @@ const ClientAnotherInfo = (props) => {
             className='ml30 mt35 h27'
             list={props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 1)}
             field='discount_service_margin_id'
-            setElement={props.changeClientEditorForm}
+            setElement={props.changeClientForm}
             current_id={props.client.discount_service_margin_id}
             width={'150px'}
           />
         ) : (
           <LableInput
             className='ml30 mt35'
-            onChange={event => props.changeClientEditorForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_services')}
+            onChange={event => props.changeClientForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_services')}
             value={props.client.discount_services}
             unit='%'
             disabled={props.client.deleted}
@@ -77,14 +79,14 @@ const ClientAnotherInfo = (props) => {
             className='mt35 h27'
             list={props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 2)}
             field='discount_materials_margin_id'
-            setElement={props.changeClientEditorForm}
+            setElement={props.changeClientForm}
             current_id={props.client.discount_materials_margin_id}
             width={'150px'}
           />
         ) : (
           <LableInput
             className='ml15 mt35'
-            onChange={event => props.changeClientEditorForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_materials')}
+            onChange={event => props.changeClientForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_materials')}
             value={props.client.discount_materials}
             unit='%'
             disabled={props.client.deleted}
@@ -110,14 +112,14 @@ const ClientAnotherInfo = (props) => {
             className='ml30 mt35 h27'
             list={props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 2)}
             field='discount_goods_margin_id'
-            setElement={props.changeClientEditorForm}
+            setElement={props.changeClientForm}
             current_id={props.client.discount_goods_margin_id}
             width={'150px'}
           />
         ) : (
           <LableInput
             className='ml30 mt35'
-            onChange={event => props.changeClientEditorForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_goods')}
+            onChange={event => props.changeClientForm(event.target.value.replace(/[^0-9]/g, ''), 'discount_goods')}
             value={props.client.discount_goods}
             unit='%'
             disabled={props.client.deleted}
@@ -130,7 +132,7 @@ const ClientAnotherInfo = (props) => {
       <LableArea
         className='mt15'
         title='Примечание'
-        onChange={event => props.changeClientEditorForm(event.target.value, 'notes')}
+        onChange={event => props.changeClientForm(event.target.value, 'notes')}
         value={props.client.notes}
         disabled={props.client.deleted}
       />
@@ -152,7 +154,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  changeClientEditorForm,
+    changeClientForm,
   setClietnCheckbox,
   addClientTag,
   deleteClientTag,

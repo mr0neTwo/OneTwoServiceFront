@@ -4,6 +4,38 @@ import { connect } from 'react-redux'
 import { setVisibleFlag } from '../../Redux/actions'
 import PropTypes from "prop-types";
 
+/**
+ * id='idElement'
+ *
+ * title='Наменование'
+ *
+ * className='className'
+ *
+ * list={props.list}
+ *
+ * field='field'
+ *
+ * setElement={props.setElement}
+ *
+ * current_id={props.current_id}
+ *
+ * width={'250px'}
+ *
+ * employee={false}
+ *
+ * checkedFlag='checkedFlag'
+ *
+ * checked={flag}
+ *
+ * noChoosed='Выберете тип'
+ *
+ * disabled={false}
+ *
+ * unvisible={false}
+ *
+ * @returns {JSX.Element}
+ *
+ */
 const ChooseOfList = (props) => {
 
    const [listVisible, setListVisible] = useState(false)
@@ -35,6 +67,8 @@ const ChooseOfList = (props) => {
       setListVisible(false)
    }
 
+   const noChoosed = props.noChoosed || 'Выберете тип'
+
    return props.unvisible ? (<div/>) : (
       <div 
          className={props.className}
@@ -50,7 +84,7 @@ const ChooseOfList = (props) => {
             <div className='noWr'>
                {props.employee ? 
                (props.current_id ? `${current.last_name} ${current.first_name}` : 'не назначен') : 
-               (props.current_id ? (current.title ? current.title : current.name) : 'Выберете тип')}
+               (props.current_id ? (current.title ? current.title : current.name) : noChoosed)}
             </div>
             <span>&#6662;</span>
          </div>
@@ -82,7 +116,7 @@ ChooseOfList.propTypes = {
    list: PropTypes.arrayOf(PropTypes.object),
    field: PropTypes.string,
    setElement: PropTypes.func,
-   current_id: PropTypes.number,
+   current_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
    width: PropTypes.string,
    employee: PropTypes.bool,
    checkedFlag: PropTypes.string,

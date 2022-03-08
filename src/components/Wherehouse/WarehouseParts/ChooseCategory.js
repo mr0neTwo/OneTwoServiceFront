@@ -22,7 +22,7 @@ const ChooseCategory = (props) => {
 
     return (
         <div className = 'w250 mt15'>
-            <div className='lableImput'>Родтельская категория</div>
+            <div className='lableImput'>Родительская категория</div>
             <div
                 className='optionsButton'
                 onClick={() => setListVisible(!listVisible && !props.warehouse.category_deleted)}

@@ -14,11 +14,11 @@ const Sticker = forwardRef((props, ref) => {
                 <div>OneTwoService</div>
                 <div className='ml30'>{props.order.id_label}</div>
             </div>
-            <div>{ `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}  Горантия до: _________` }</div>
+            <div className=' '>{ `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}  Гaрантия до: _____` }</div>
             <div>{props.order.client.name}</div>
             <div>{props.order.malfunction}</div>
             <div>Работа/дата:______________</div>
-            <div>Комментарий_______________</div>
+            <div>Комментарий_____________</div>
 
         </div>
     )

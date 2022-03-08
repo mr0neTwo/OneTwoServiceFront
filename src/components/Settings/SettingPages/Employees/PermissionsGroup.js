@@ -27,9 +27,9 @@ const PermissionsGroup = (props) => {
     <div className="chackboxes">
       <div className='checkbox'>
          <input 
-         ref={mainCheckbox}
-         type='checkbox' 
-         onChange={() => props.changePermissions(props.data.permission.map(per => per.value))}
+             ref={mainCheckbox}
+             type='checkbox'
+             onChange={() => props.changePermissions(props.data.permission.map(per => per.value))}
          />
          <label>{props.data.description}</label>
       </div>

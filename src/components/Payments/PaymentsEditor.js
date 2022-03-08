@@ -77,20 +77,6 @@ const PaymentsEditor = (props) => {
             props.payment.employee_id
         ) {
             props.createPayment(props.payment.context)
-            // Если есть значение closed_order_status значит окно платежа вызвано закртыием заказа
-            // и после платежа нам нужно сменить статус заказа на закрыт
-            // if (props.payment.closed_order_status) {
-            //     // Отправляем запрос на смену статуса
-            //     props.changeStatus(props.payment.closed_order_status, props.payment.order_id)
-            //     // Если смена статуса вызавана из редактора заказа
-            //     if (props.order_edit) {
-            //         // Обновляем заказ после смены статуса
-            //         props.refreshDataOrder(props.payment.order_id)
-            //     } else {
-            //         // Если смена статуса вызвана из таблицы заказов, то закрытваем меню выбора статуса
-            //         props.changeStatusMenuVisible(props.payment.order_id)
-            //     }
-            // }
         } else {
             if (!(props.payment.income || props.payment.outcome))
                 props.setVisibleFlag('inputPaymentSumChecked', false)
@@ -105,21 +91,6 @@ const PaymentsEditor = (props) => {
         }
     }
 
-    // const hangleSave = () => {
-    //     if (
-    //         check0_999(props.payment.sum) &&
-    //         props.payment.cashbox_id
-    //     ) {
-    //         console.log('all is good')
-    //     } else {
-    //         if (check0_999(props.payment.sum)) {
-    //             props.setVisibleFlag('inputPaymentSumChecked', false)
-    //         }
-    //         if (!props.payment.cashbox_id) {
-    //             props.setVisibleFlag('inputPaymentCashboxChecked', false)
-    //         }
-    //     }
-    // }
 
     const [chooseData, setChooseData] = useState(false)
     const [chooseForm, setChooseForm] = useState(props.current_cashbox.type)
@@ -132,6 +103,9 @@ const PaymentsEditor = (props) => {
         !cashbox.deleted &&
         (cashbox.isGlobal || cashbox.branch_id === props.current_branch_id)
     )
+
+    console.log(props.payment.cashflow_category)
+    console.log(props.item_payments.filter(item => item.direction === props.payment.direction))
 
     return (
         <div className="rightBlock">
@@ -219,7 +193,7 @@ const PaymentsEditor = (props) => {
                         disabled={props.payment.deleted}
                     />
                     <ChooseOfList
-                        id={21}
+                        id={41}
                         title='Статья'
                         className='mt15 h52'
                         list={props.item_payments.filter(item => item.direction === props.payment.direction)}

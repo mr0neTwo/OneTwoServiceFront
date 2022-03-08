@@ -52,7 +52,7 @@ const SalaryRuleReducer = (props) => {
                   width={'250px'}
                />
                <ChooseOfList
-                  id={21}
+                  id={31}
                   title='Тип заказа'
                   className='mt15 ml10'
                   list={props.order_type}

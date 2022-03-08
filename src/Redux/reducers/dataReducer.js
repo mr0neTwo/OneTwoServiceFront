@@ -48,7 +48,7 @@ const initialState = {
     // url_server: 'http://192.168.1.48:80' // Домашний
     // url_server: 'http://192.168.43.224:5005' // Мобильный
     // url_server: 'http://172.16.6.218:5005' // КЕХУ
-    // url_server: 'http://192.168.1.49:5005' // рабочий WiFI
+    // url_server: 'http://192.168.1.49:80' // рабочий WiFI
     // url_server: 'http://5.53.124.252:80'
     // url_server: 'http://onetwonline.ru'
   

@@ -1,7 +1,27 @@
-
 import React, { useState } from 'react'
 import PropTypes from "prop-types"
 
+/**
+ *
+ * className='className'
+ *
+ * title= Подпись'
+ *
+ * name={['Имя1', 'Имя2']}
+ *
+ * func1 = {() => function()}
+ *
+ * func2 = {() => function()}
+ *
+ * checked = { true }
+ *
+ * disabled={false}
+ *
+ * unvisible={false}
+ *
+ * @returns {JSX.Element}
+ *
+ */
 const ChooseBotton = (props) => {
 
    const [stateButton, setStateButton] = useState(props.checked ? props.checked : false)

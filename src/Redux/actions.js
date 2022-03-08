@@ -446,15 +446,6 @@ export function setClietnCheckbox(field, value) {
 }
 
 
-export function changeClientEditorForm(value, field) {
-    return {
-        type: 'CHANGE_CLIENT_EDITOR_FORM',
-        field,
-        value
-    }
-}
-
-
 export function changeClientEditorPhone(idx, value) {
     return {
         type: 'CHANGE_CLIENT_EDITOR_PHONE',
@@ -575,14 +566,6 @@ export function deleteVisibleFlag(field, idx) {
 export function resetDataClient() {
     return {
         type: 'RESET_DATA_CLIENT'
-    }
-}
-
-
-export function changeClientTabs(tab) {
-    return {
-        type: 'CHANGE_CLIENT_TABS',
-        tab
     }
 }
 
@@ -1733,6 +1716,16 @@ export function addMainData() {
                         type: 'ADD_DATA',
                         field: 'ad_campaign',
                         data: data.ad_campaign,
+                    })
+                    dispatch({
+                        type: 'ADD_DATA',
+                        field: 'item_payments',
+                        data: data.item_payments,
+                    })
+                    dispatch({
+                        type: 'ADD_DATA',
+                        field: 'status_group',
+                        data: data.status_group,
                     })
                 } else {
                     console.warn(data.massage)

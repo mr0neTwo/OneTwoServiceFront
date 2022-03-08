@@ -3,9 +3,9 @@ import './Loader.css'
 
 
 
-const Loader = () => {
+const Loader = props => {
     return (
-        <div className = 'tempPage'>
+        <div className={props.className}>
             <div className = "lds-spinner">
                 <div></div>
                 <div></div>
