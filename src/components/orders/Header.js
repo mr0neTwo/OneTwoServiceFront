@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { changeFilterAction } from '../../Redux/actions'
 
 function Header({changeFilter, search_word}) {
 
-   
+   const [search, setSearch] = useState('')
 
-    const handleChange = (event) => {
+    const handleSearch = (event) => {
+        if (event.key !== 'Enter') return
         event.preventDefault()
-        changeFilter(event.target.value) 
+        if (event.key === 'Enter') changeFilter(search)
     }
 
     
@@ -21,8 +22,9 @@ function Header({changeFilter, search_word}) {
                     <input 
                         className = 'imputSearchForm' 
                         placeholder = 'Минимум 3 символа'
-                        onChange = {handleChange}
-                        value = {search_word}
+                        onChange={event => setSearch(event.target.value)}
+                        onKeyPressCapture={event => handleSearch(event)}
+                        value = {search}
                         />
                 </form>
             </div>
