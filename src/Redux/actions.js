@@ -1727,6 +1727,21 @@ export function addMainData() {
                         field: 'status_group',
                         data: data.status_group,
                     })
+                    dispatch({
+                        type: 'ADD_DATA',
+                        field: 'cashboxes',
+                        data: data.cashboxes,
+                    })
+                    dispatch({
+                        type: 'ADD_DATA',
+                        field: 'item_payments',
+                        data: data.item_payments,
+                    })
+                    dispatch({
+                        type: 'ADD_DATA',
+                        field: 'service_prices',
+                        data: data.service_prices,
+                    })
                 } else {
                     console.warn(data.massage)
                 }

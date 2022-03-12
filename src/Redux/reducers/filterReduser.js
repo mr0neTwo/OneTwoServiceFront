@@ -7,7 +7,7 @@ const initialState = {
    customFilters: [],
 
    mainFilter: {
-    sort: 'asc',
+    sort: 'desc',
     field_sort: 'id',
     page: 0
   },

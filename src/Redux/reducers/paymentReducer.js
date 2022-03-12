@@ -36,6 +36,7 @@ const initialState = {
    filter_created_at: [Math.round(Date.now()/1000 - Date.now()/1000 % 86400 - 10800), Math.round(Date.now() / 1000)],
    filter_tags: [],
 
+   current_type: 0,
    context: {}
 }
 

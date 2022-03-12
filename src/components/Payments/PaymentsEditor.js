@@ -58,7 +58,7 @@ const PaymentsEditor = (props) => {
     }, [props.clientFilter])
 
     useEffect(() => {
-        props.addItemPayments()
+        // props.addItemPayments()
         props.changePaymentForm(props.user_id, 'employee_id')
         props.changePaymentForm(props.current_cashbox.id, 'cashbox_id')
     }, [])
@@ -93,19 +93,15 @@ const PaymentsEditor = (props) => {
 
 
     const [chooseData, setChooseData] = useState(false)
-    const [chooseForm, setChooseForm] = useState(props.current_cashbox.type)
 
     const title = ['Перемещение денег', 'Расход денег', 'Приход денег']
 
     const cashboxes = props.cashboxes.filter(cashbox =>
-        cashbox.type === chooseForm &&
+        cashbox.type === props.payment.current_type  &&
         (props.payment.direction || cashbox.id !== props.payment.cashbox_id) &&
         !cashbox.deleted &&
         (cashbox.isGlobal || cashbox.branch_id === props.current_branch_id)
     )
-
-    console.log(props.payment.cashflow_category)
-    console.log(props.item_payments.filter(item => item.direction === props.payment.direction))
 
     return (
         <div className="rightBlock">
@@ -160,11 +156,11 @@ const PaymentsEditor = (props) => {
                             name={['Нал.', 'Безнал.']}
                             func1={() => {
                                 props.changePaymentForm(0, props.payment.direction ? 'cashbox_id' : 'target_cashbox_id')
-                                setChooseForm(0)
+                                props.changePaymentForm(0, 'current_type')
                             }}
                             func2={() => {
                                 props.changePaymentForm(0, props.payment.direction ? 'cashbox_id' : 'target_cashbox_id')
-                                setChooseForm(1)
+                                props.changePaymentForm(1, 'current_type')
                             }}
                             checked={!props.current_cashbox.type}
                         />

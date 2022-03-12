@@ -10,11 +10,6 @@ import TableOrderPaymants from './TableOrderPaymants'
 
 const OrderPayments = (props) => {
 
-   useEffect(() => {
-      props.addItemPayments()
-      props.addCashboxes()
-   }, [])
-
    const handelIncome = () => {
       props.changePaymentForm(2, 'direction')
       props.changePaymentForm(props.order.client.id, 'client_id')

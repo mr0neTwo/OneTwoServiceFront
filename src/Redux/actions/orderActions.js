@@ -147,6 +147,8 @@ export function changeStatus(status_id, order_id) {
     })
     const request_config2 = getRequestConfig(state.filter.mainFilter)
 
+    const request_config3 = getRequestConfig({id: state.order.edit})
+
 
     return async dispatch => {
 
@@ -168,22 +170,33 @@ export function changeStatus(status_id, order_id) {
                         ordersShow: data.data,
                         count: data.count
                     })
-                    if (state.order.edit) {
-                        dispatch({
-                            type: 'EDIT_ORDER',
-                            order: data.data.find(order => order.id === state.order.edit),
-                        })
-                    }
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusOrderLoader',
-                        value: false
-                    })
                 } else {
                     console.warn(data.massage)
                 }
             })
             .catch(() => bad_request('Запрос заказов не выполнен'))
+
+        if (state.order.edit) {
+            await fetch(state.data.url_server + '/get_orders', request_config3)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        dispatch({
+                            type: 'EDIT_ORDER',
+                            order: data.data[0],
+                        })
+                    } else {
+                        console.warn(data.massage)
+                    }
+                })
+                .catch(() => bad_request('Запрос заказов не выполнен'))
+        }
+
+        await dispatch({
+            type: 'SET_VISIBLE_FLAG',
+            field: 'statusOrderLoader',
+            value: false
+        })
     }
 }
 
@@ -220,10 +233,7 @@ export function saveOrder() {
         cell: state.order.cell,
 
         estimated_cost: state.order.estimated_cost,
-        discount_sum: state.order.discount_sum,
-        payed: state.order.payed,
-        price: state.order.price,
-        overdue: state.order.overdue
+        urgent: state.order.urgent
     })
     request_config.method = 'PUT'
 
@@ -248,6 +258,21 @@ export function saveOrder() {
                     dispatch({
                         type: 'EDIT_ORDER',
                         order: data.data[0]
+                    })
+                } else {
+                    console.warn(data.massage)
+                }
+            })
+            .catch(() => bad_request('Запрос заказов не выполнен'))
+
+        await fetch(state.data.url_server + '/get_orders', getRequestConfig(filters))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'ADD_ORDERS_SHOW',
+                        ordersShow: data.data,
+                        count: data.count
                     })
                     dispatch({
                         type: 'SET_VISIBLE_FLAG',

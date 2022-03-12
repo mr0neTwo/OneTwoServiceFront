@@ -10,15 +10,16 @@ const initialState = {
    total: 0,
    title: '',
    comment: '',
+   percent: true,
+   discount: 0,
    warranty: false,
    warranty_period: 0,
    created_at: 0,
    order_id: 0,
    dict_id: 0,
 
-   warranty_value: 30*24*60*60,
-   percent: true,
-   discount: 0
+   warranty_value: 30*24*60*60
+
 }
  
 export const operationReducer = (state = initialState, action) => {
@@ -43,6 +44,8 @@ export const operationReducer = (state = initialState, action) => {
             total: action.operation.total,
             title: action.operation.title,
             comment: action.operation.comment,
+            percent: action.operation.percent,
+            discount: action.operation.discount,
             warranty: action.operation.warranty,
             warranty_period: action.operation.warranty_period,
             created_at: action.operation.created_at,
@@ -63,6 +66,8 @@ export const operationReducer = (state = initialState, action) => {
             total: 0,
             title: '',
             comment: '',
+            percent: true,
+            discount: 0,
             warranty: false,
             warranty_period: 0,
             created_at: 0,

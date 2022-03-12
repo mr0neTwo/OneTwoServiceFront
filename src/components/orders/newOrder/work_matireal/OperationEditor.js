@@ -34,7 +34,7 @@ const OperationEditor = (props) => {
    })
 
    useEffect(() => {
-      const discount = props.operation.percent ?  props.operation.price * props.operation.amount * props.operation.discount / 100 : props.operation.discount
+      const discount = props.operation.percent ?  props.operation.price * props.operation.amount * props.operation.discount / 100 : props.operation.discount * props.operation.amount
       props.changeOperationForm(discount, 'discount_value')
    }, [props.operation.discount, props.operation.percent, props.operation.amount])
 

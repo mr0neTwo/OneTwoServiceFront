@@ -16,8 +16,7 @@ import ChooseBotton from '../../general/ChooseBotton'
 import LableArea from '../../general/LableArea'
 
 const ClientAnotherInfo = (props) => {
-    console.log(props.client.discount_service_margin_id)
-    console.log(props.discount_margin.filter(margin => !margin.deleted && margin.margin_type === 1))
+
 
   return (
     <div className="clientGenerally">

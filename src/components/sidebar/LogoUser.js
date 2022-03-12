@@ -8,7 +8,7 @@ function LogoUser() {
         <div className = 'avatar'> 
         
             <img 
-                src = {`${process.env.PUBLIC_URL}/avatars/ava.jpeg`}  
+                src = {`${process.env.PUBLIC_URL}/data/avatars/ava.jpeg`}
                 className = 'imgAvatar' 
                 alt = 'User avatar' 
             />

@@ -37,8 +37,6 @@ const initialState = {
     item_payments: [],
     count_item_payments: 0,
 
- 
-
     current_branch: {},
 
     token: sessionStorage.getItem('1xsndt') || '',

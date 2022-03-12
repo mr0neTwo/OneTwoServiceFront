@@ -43,6 +43,7 @@ const TableWorksMaterials = (props) => {
                <th>Наименование</th>
                <th className='w50 tae'>Кол-во</th>
                <th className='w70 tae'>Цена</th>
+               <th className='w70 tae'>Скидка</th>
                <th className='w70 tae'>Сумма</th>
                <th></th>
             </tr>
@@ -67,7 +68,8 @@ const TableWorksMaterials = (props) => {
                         </td>
                         <td>{operation.title}{operation.comment ? ` (${operation.comment })`: null}</td>
                         <td className='tae'>{operation.amount}</td>
-                        <td className='tae'>{operation.total / operation.amount}</td>
+                        <td className='tae'>{operation.price * operation.amount}</td>
+                        <td className='tae'>{operation.discount_value / operation.amount}</td>
                         <td className='tae'>{operation.total}</td>
                         <td>
                            {!disabled ?
@@ -93,7 +95,8 @@ const TableWorksMaterials = (props) => {
                         </td>
                         <td>{part.title}{part.comment ? ` (${part.comment })`: null}</td>
                         <td className='tae'>{part.amount}</td>
-                        <td className='tae'>{part.total / part.amount}</td>
+                        <td className='tae'>{part.price * part.amount}</td>
+                        <td className='tae'>{part.discount_value / part.amount}</td>
                         <td className='tae'>{part.total}</td>
                         <td>
                         {!disabled ?

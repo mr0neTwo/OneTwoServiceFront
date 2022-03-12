@@ -19,14 +19,15 @@ import Tabs from '../../general/Tabs'
 import OrderInfo from './info/OrderInfo'
 import OrderWorksMaterials from './work_matireal/OrderWorksMaterials'
 import OrderPayments from './payments/OrderPayments'
-import * as PropTypes from 'prop-types'
+// import * as PropTypes from 'prop-types'
 import OrderHistory from '../OrderHistory'
 
-function ComponentToPrint(props) {
-  return null
-}
+// function ComponentToPrint(props) {
+//   return null
+// }
+//
+// ComponentToPrint.propTypes = {ref: PropTypes.any}
 
-ComponentToPrint.propTypes = {ref: PropTypes.any}
 const OrderEditor = (props) => {
 
   useEffect(() => {
@@ -46,7 +47,6 @@ const OrderEditor = (props) => {
     props.setVisibleListFlag('checkedOrderKindofGood', 0, true)
     props.setVisibleListFlag('checkedOrderBrand', 0, true)
     props.setVisibleListFlag('checkedOrderSubtype', 0, true)
-    // props.addOrders()
   }
 
   const clickHandel = (event) => {

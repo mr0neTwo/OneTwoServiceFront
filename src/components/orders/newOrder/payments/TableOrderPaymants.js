@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { showDate } from '../../../general/utils'
 import { icon_warning } from '../../../../data/icons'
 import Icon from '../../../general/Icon'
+import {setPayment, setVisibleFlag} from '../../../../Redux/actions'
+import PaymentCard from '../../../Payments/PaymentCard'
 
 const TableOrderPaymants = (props) => {
 
@@ -22,6 +24,10 @@ const TableOrderPaymants = (props) => {
                   <tr
                      key={payment.id}
                      className={payment.deleted ? 'rowDeleted redBorder' : null}
+                     onDoubleClick={() => {
+                         props.setPayment(payment)
+                         props.setVisibleFlag('statusPaymentsCard', true)
+                     }}
                   >
                      <td>
                         <div>{payment.employee.name}</div>
@@ -68,15 +74,19 @@ const TableOrderPaymants = (props) => {
                </tr>
             </tbody>
          </table>
+        {props.statusPaymentsCard ? <PaymentCard/> : null}
       </div>
    )
 }
 
 const mapStateToProps = state => ({
-   order: state.order
+   order: state.order,
+    statusPaymentsCard: state.view.statusPaymentsCard
 })
 
 const mapDispatchToProps = {
+    setPayment,
+    setVisibleFlag
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(TableOrderPaymants)
