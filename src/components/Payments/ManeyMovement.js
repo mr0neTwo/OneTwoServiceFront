@@ -44,7 +44,7 @@ const ManeyMovement = (props) => {
                   className="optionFilterInputDate"
                   dateFormat="dd.MM.yyyy"
                   locale={'ru'}
-                  maxDate={ Date.now() }
+                  maxDate={ Date.now() + 84600000 }
                />
             </div>
 

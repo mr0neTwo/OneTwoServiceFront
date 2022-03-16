@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import {selectedNotEvent} from '../../../../Redux/actions/notEventAction'
 
 import {icon_down, icon_left} from '../../../../data/icons'
+
 import ChooseStatusesGruoup from './ChooseStatusesGruoup'
 import Icon from '../../../general/Icon'
+import Button from '../../../general/Button'
 
 const ChooseStatuses = props => {
 
@@ -25,6 +26,8 @@ const ChooseStatuses = props => {
         }
     })
 
+    const allStatuses = props.statuses.map(status => status.id)
+
 
     return props.unvisible ? null : (
         <div
@@ -34,26 +37,41 @@ const ChooseStatuses = props => {
         >
             <div className='lableImput'>Выберете статусы</div>
             <div
-                className='optionsButton'
+                className='optionsButton al-itm-ct'
                 onClick={props.disabled ? null : () => setListVisible(!listVisible)}
             >
                 <div className='noWr'>{`Выбрано ${props.current_list.length}`}</div>
                 <Icon icon={listVisible ? icon_down : icon_left} className='icon-s2' color='grey'/>
             </div>
             {listVisible ?
-                <div
-                    className='listOptionsChoose'
-                    style={{width: props.width ? props.width : '250px'}}
-                >
-                    {props.status_group.map(group => (
-                        <ChooseStatusesGruoup
-                            key={group.id}
-                            label={group.name}
-                            group={group.type_group}
-                            func={value => props.func(value)}
-                            current_list={props.current_list}
+                <div className='liststatus'>
+                    <div
+                        className='blocList'
+                        style={{width: props.width ? props.width : '250px'}}
+                    >
+                        {props.status_group.map(group => (
+                            <ChooseStatusesGruoup
+                                key={group.id}
+                                label={group.name}
+                                group={group.type_group}
+                                func={value => props.func(value)}
+                                current_list={props.current_list}
+                            />
+                        ))}
+                    </div>
+                    <div className='btmsts'>
+                        <Button
+                            className='whiteBlueBotton'
+                            title='Выбрать все'
+                            onClick={() => props.func(allStatuses)}
+                            disabled={props.current_list.length === allStatuses.length}
                         />
-                    ))}
+                        <Button
+                            className='whiteBlueBotton'
+                            title='Отменить все'
+                            onClick={() => props.func_clear()}
+                        />
+                    </div>
                 </div>
                 : null
             }
@@ -64,8 +82,8 @@ const ChooseStatuses = props => {
 
 
 const mapStateToProps = state => ({
-    status_group: state.data.status_group.filter(group => group.type_group < 8 && group.type_group !== 5)
-
+    status_group: state.data.status_group.filter(group => group.type_group < 8 && group.type_group !== 5),
+    statuses: state.data.status.filter(status => status.group < 8)
 })
 
 const mapDispatchToProps = {

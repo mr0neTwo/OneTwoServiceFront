@@ -1,34 +1,54 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
-import { activeBadgeAction } from '../../Redux/actions'
+import Icon from '../general/Icon'
+import {changeFilterState, resetFilter} from '../../Redux/actions/filterAction'
 
 
+// function MainFilter({data: {color, title, count, img, filters}, activeBadge}) {
+const MainFilter = props => {
 
-
-function MainFilter({data: {color, title, count, img, filters}, activeBadge}) { 
+    const handleChoose = () => {
+        if (props.active_badge !== props.badge.id) {
+            props.changeFilterState({
+                ...props.badge.filter,
+                active_badge: props.badge.id,
+                active_filter: 0
+            })
+        } else {
+            props.resetFilter()
+        }
+    }
 
     return (
-        <div 
-        className = 'mainFilter' 
-        style = {{backgroundColor: color}}
-        onClick = {() => activeBadge(filters)}
+        <div
+            className='mainFilter'
+            style={{
+                backgroundColor: props.badge.color,
+                opacity: props.active_badge === props.badge.id || props.active_badge === 0 ? 1 : 0.3
+            }}
+            onClick={handleChoose}
         >
-            <div className = 'filterIcon'>
-                <svg className = "svgFilterIcon">
-                    <path  d = {img}></path>
-                </svg>
+            <div className='pd5'>
+                <Icon icon={props.badge.icon} className='icon-s25' color='white'/>
             </div>
-            <div className = 'filterName'>
-                <div className = 'filterName-value'>{count} {count === 1 ? 'заказ': ((count < 5) ? 'заказа': 'заказов') }</div>
-                <div className = 'filterName-title'> {title}</div>
+            <div className='filterName'>
+                <div className='filterName-value'>
+                    {props.badge.count} {props.badge.count === 1 ? 'заказ' : ((props.badge.count < 5) ? 'заказа' : 'заказов')}
+                </div>
+                <div className='filterName-title'> {props.badge.title}</div>
             </div>
         </div>
     )
 }
 
+const mapStateToProps = state => ({
+    active_badge: state.filter.active_badge
+})
+
 const mapDispatchToProps = {
-    activeBadge: activeBadgeAction
+    changeFilterState,
+    resetFilter
 }
 
-export default connect(null, mapDispatchToProps) (MainFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(MainFilter);

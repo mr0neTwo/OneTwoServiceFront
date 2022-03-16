@@ -14,11 +14,11 @@ const ChooseStatusesGruoup = props => {
 
     useEffect(() => {
 
-        const values = current_statuses.filter(status => props.current_list.includes(status.id))
-        if (values.length === props.statuses.length) {
+        const choosed_values = current_statuses.filter(status => props.current_list.includes(status.id))
+        if (choosed_values.length === current_statuses.length) {
             mainCheckbox.current.indeterminate = false
             mainCheckbox.current.checked = true
-        } else if (!values.length) {
+        } else if (!choosed_values.length) {
             mainCheckbox.current.indeterminate = false
             mainCheckbox.current.checked = false
         } else {

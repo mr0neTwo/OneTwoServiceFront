@@ -14,7 +14,12 @@ export const templeReducer = (state = initialState, action) => {
             [action.field]: action.value
          }
       }
- 
+
+      case 'CHANGE_TEMPLE_STATE': {
+         return Object.assign(state, action.data)
+      }
+
+
       case 'EDIT_TEMPLE': {
          return {
             ...state, 

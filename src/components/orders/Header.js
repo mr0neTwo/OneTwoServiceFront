@@ -1,18 +1,24 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import { changeFilterAction } from '../../Redux/actions'
 
-function Header({changeFilter, search_word}) {
+import {changeFilterState, resetFilter} from '../../Redux/actions/filterAction'
+
+
+const Header = props => {
 
    const [search, setSearch] = useState('')
+
+    const handleChange = event => {
+        setSearch(event.target.value)
+        if (!search) props.changeFilterState({search: ''})
+    }
 
     const handleSearch = (event) => {
         if (event.key !== 'Enter') return
         event.preventDefault()
-        if (event.key === 'Enter') changeFilter(search)
+        if(!props.filter.active_badge) props.resetFilter()
+        if (event.key === 'Enter') props.changeFilterState({search})
     }
-
-    
 
     return (
         <div className = 'Header'>
@@ -22,10 +28,10 @@ function Header({changeFilter, search_word}) {
                     <input 
                         className = 'imputSearchForm' 
                         placeholder = 'Минимум 3 символа'
-                        onChange={event => setSearch(event.target.value)}
+                        onChange={event => handleChange(event)}
                         onKeyPressCapture={event => handleSearch(event)}
                         value = {search}
-                        />
+                    />
                 </form>
             </div>
         </div>
@@ -33,11 +39,12 @@ function Header({changeFilter, search_word}) {
 }
 
 const mapStateToProps = state => ({
-    search_word: state.data.search_word
+    filter: state.filter
 })
 
 const mapDispatchToProps = {
-    changeFilter: changeFilterAction
+    changeFilterState,
+    resetFilter
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (Header)

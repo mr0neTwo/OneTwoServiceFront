@@ -14,7 +14,6 @@ const initialState = {
     user: JSON.parse(sessionStorage.getItem('user')) || {},
     status: [],
     status_group: [],
-    badges: [],
     order_type: [],
     equipment: [],
     discount_margin: [],
@@ -45,6 +44,8 @@ const initialState = {
     url_server: process.env.PUBLIC_URL
     // url_server: 'http://192.168.1.48:80' // Домашний
     // url_server: 'http://192.168.43.224:5005' // Мобильный
+    // url_server: 'http://10.6.1.26:80/' // VPN
+
     // url_server: 'http://172.16.6.218:5005' // КЕХУ
     // url_server: 'http://192.168.1.49:80' // рабочий WiFI
     // url_server: 'http://5.53.124.252:80'

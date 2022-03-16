@@ -18,8 +18,25 @@ export function addOrders() {
 
     const state = store.getState()
 
-    let filters = state.filter.mainFilter
-    filters.engineer_id = !state.data.user.role.orders_visibility ? [state.data.user.id] : state.filter.mainFilter.engineer_id
+    const request_config = getRequestConfig({
+        sort: state.filter.sort,
+        field_sort: state.filter.field_sort,
+        page: state.filter.page,
+
+        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+        overdue: state.filter.overdue,
+        status_id: state.filter.status_id,
+        urgent: state.filter.urgent,
+        order_type_id: state.filter.order_type_id,
+        manager_id: state.filter.manager_id,
+        created_at: state.filter.created_at,
+        kindof_good: state.filter.kindof_good,
+        brand: state.filter.brand,
+        subtype: state.filter.subtype,
+        client_id: state.filter.client_id,
+
+        search: state.filter.search
+    })
 
     return async dispatch => {
 
@@ -29,7 +46,7 @@ export function addOrders() {
             value: true
         })
 
-        await fetch(state.data.url_server + '/get_orders', getRequestConfig(filters))
+        await fetch(state.data.url_server + '/get_orders', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -55,14 +72,14 @@ export function createOrder() {
 
     const state = store.getState()
 
-    const request_config = getRequestConfig({
+    const request_config1 = getRequestConfig({
         estimated_done_at: state.order.estimated_done_at,
 
         order_type_id: state.order.order_type_id,
         client_id: state.order.client.id,
         ad_campaign_id: state.order.ad_campaign_id,
         manager_id: state.order.manager_id,
-        engineer_id: state.order.engineer_id ? state.order.engineer_id : null,
+        engineer_id: state.order.engineer_id,
         created_by_id: state.data.user.id,
         branch_id: state.data.current_branch.id,
         status_id: 1,
@@ -73,8 +90,25 @@ export function createOrder() {
         estimated_cost: state.order.estimated_cost
     })
 
-    let filters = state.filter.mainFilter
-    filters.engineer_id = !state.data.user.role.orders_visibility ? [state.data.user.id] : state.filter.mainFilter.engineer_id
+    const request_config2 = getRequestConfig({
+        sort: state.filter.sort,
+        field_sort: state.filter.field_sort,
+        page: state.filter.page,
+
+        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+        overdue: state.filter.overdue,
+        status_id: state.filter.status_id,
+        urgent: state.filter.urgent,
+        order_type_id: state.filter.order_type_id,
+        manager_id: state.filter.manager_id,
+        created_at: state.filter.created_at,
+        kindof_good: state.filter.kindof_good,
+        brand: state.filter.brand,
+        subtype: state.filter.subtype,
+        client_id: state.filter.client_id,
+
+        search: state.filter.search
+    })
 
     return async dispatch => {
 
@@ -90,7 +124,7 @@ export function createOrder() {
             value: false
         })
 
-        await fetch(state.data.url_server + '/orders', request_config)
+        await fetch(state.data.url_server + '/orders', request_config1)
             .then(response => response.json())
             .then(data => {
                 if(state.view.checkOrderSticker) {
@@ -107,7 +141,7 @@ export function createOrder() {
             })
             .catch(() => bad_request('Запрос на создание заказов не выполнен'))
 
-        await fetch(state.data.url_server + '/get_orders', getRequestConfig(filters))
+        await fetch(state.data.url_server + '/get_orders', getRequestConfig(request_config2))
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -145,7 +179,25 @@ export function changeStatus(status_id, order_id) {
         id: order_id,
         status_id: status_id
     })
-    const request_config2 = getRequestConfig(state.filter.mainFilter)
+    const request_config2 = getRequestConfig({
+        sort: state.filter.sort,
+        field_sort: state.filter.field_sort,
+        page: state.filter.page,
+
+        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+        overdue: state.filter.overdue,
+        status_id: state.filter.status_id,
+        urgent: state.filter.urgent,
+        order_type_id: state.filter.order_type_id,
+        manager_id: state.filter.manager_id,
+        created_at: state.filter.created_at,
+        kindof_good: state.filter.kindof_good,
+        brand: state.filter.brand,
+        subtype: state.filter.subtype,
+        client_id: state.filter.client_id,
+
+        search: state.filter.search
+    })
 
     const request_config3 = getRequestConfig({id: state.order.edit})
 
@@ -204,7 +256,7 @@ export function saveOrder() {
 
     const state = store.getState()
 
-    let request_config = getRequestConfig({
+    let request_config1 = getRequestConfig({
         id: state.order.edit,
         assigned_at: state.order.assigned_at,
         duration: state.order.duration,
@@ -235,10 +287,27 @@ export function saveOrder() {
         estimated_cost: state.order.estimated_cost,
         urgent: state.order.urgent
     })
-    request_config.method = 'PUT'
+    request_config1.method = 'PUT'
 
-    let filters = state.filter.mainFilter
-    filters.engineer_id = !state.data.user.role.orders_visibility ? [state.data.user.id] : state.filter.mainFilter.engineer_id
+    const request_config2 = getRequestConfig({
+        sort: state.filter.sort,
+        field_sort: state.filter.field_sort,
+        page: state.filter.page,
+
+        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+        overdue: state.filter.overdue,
+        status_id: state.filter.status_id,
+        urgent: state.filter.urgent,
+        order_type_id: state.filter.order_type_id,
+        manager_id: state.filter.manager_id,
+        created_at: state.filter.created_at,
+        kindof_good: state.filter.kindof_good,
+        brand: state.filter.brand,
+        subtype: state.filter.subtype,
+        client_id: state.filter.client_id,
+
+        search: state.filter.search
+    })
 
     return async dispatch => {
 
@@ -248,7 +317,7 @@ export function saveOrder() {
             value: true
         })
 
-        await fetch(state.data.url_server + '/orders', request_config)
+        await fetch(state.data.url_server + '/orders', request_config1)
             .catch(() => bad_request('Запрос на изменение заказов не выполнен'))
 
         await fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
@@ -265,7 +334,7 @@ export function saveOrder() {
             })
             .catch(() => bad_request('Запрос заказов не выполнен'))
 
-        await fetch(state.data.url_server + '/get_orders', getRequestConfig(filters))
+        await fetch(state.data.url_server + '/get_orders', getRequestConfig(request_config2))
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -285,23 +354,4 @@ export function saveOrder() {
             })
             .catch(() => bad_request('Запрос заказов не выполнен'))
     }
-}
-
-export function saveOrderPyaments() {
-
-    const state = store.getState()
-
-    let request_config = getRequestConfig({
-        id: state.order.edit,
-        discount_sum: state.order.discount_sum,
-        payed: state.order.payed,
-        price: state.order.price,
-    })
-    request_config.method = 'PUT'
-
-     return async dispatch => {
-
-         await  fetch(state.data.url_server + '/orders', request_config)
-             .catch(() => bad_request('Запрос на изменение заказов не выполнен'))
-     }
 }

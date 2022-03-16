@@ -41,20 +41,6 @@ export function addUserAction(user) {
     }
 }
 
-export function changePageAction(page) {
-    return {
-        type: 'CHANGE_PAGE',
-        page: page
-    }
-}
-
-export function changeSortAction(field) {
-    return {
-        type: 'CHANGE_SORT',
-        field: field
-    }
-}
-
 export function initStatusMenuVisibleAction(list_id) {
     return {
         type: 'INIT_STATUS_MENU_VISIBLE',
@@ -69,125 +55,6 @@ export function changeStatusMenuVisible(id_order) {
     }
 }
 
-export function changeFilterAction(word) {
-    return {
-        type: 'CANGE_FILTER',
-        word: word
-    }
-}
-
-export function activeBadgeAction(filters) {
-    return {
-        type: 'ACTIVE_BADGE',
-        filters
-    }
-}
-
-export function changeSetStatusFilter() {
-    return {
-        type: 'CHANGE_STATUS_SET_STATUS_FILTER'
-    }
-}
-
-export function changeStausListFilter() {
-    return {
-        type: 'CHANGE_STATUS_LIST_FILTER'
-    }
-}
-
-export function changeCheckStatus(field) {
-    return {
-        type: 'CHANGE_CHECK_STATUS',
-        field
-    }
-}
-
-export function setAllStatusFalse() {
-    return {
-        type: 'SET_ALL_STATUS_FALSE'
-    }
-}
-
-export function setAllStatusTrue() {
-    return {
-        type: 'SET_ALL_STATUS_TRUE'
-    }
-}
-
-export function changeTypeListFilter() {
-    return {
-        type: 'CHANGE_TYPE_LIST_FILTER'
-    }
-}
-
-export function changeCheckType(field) {
-    return {
-        type: 'CHANGE_CHECK_TYPE',
-        field
-    }
-}
-
-export function setAllTypeTrue() {
-    return {
-        type: 'SET_ALL_TYPE_TRUE'
-    }
-}
-
-export function setAllTypeFalse() {
-    return {
-        type: 'SET_ALL_TYPE_FALSE'
-    }
-}
-
-export function changeManagerListFilter() {
-    return {
-        type: 'CHANGE_MANAGER_LIST_FILTER'
-    }
-}
-
-export function changeCheckManager(field) {
-    return {
-        type: 'CHANGE_CHECK_MANAGER',
-        field
-    }
-}
-
-export function setAllManagerTrue() {
-    return {
-        type: 'SET_ALL_MANAGER_TRUE'
-    }
-}
-
-export function setAllManagerFalse() {
-    return {
-        type: 'SET_ALL_MANAGER_FALSE'
-    }
-}
-
-export function changeEngineerListFilter() {
-    return {
-        type: 'CHANGE_ENGINEER_LIST_FILTER'
-    }
-}
-
-export function changeCheckEngineer(field) {
-    return {
-        type: 'CHANGE_CHECK_ENGINEER',
-        field
-    }
-}
-
-export function setAllEngineerTrue() {
-    return {
-        type: 'SET_ALL_ENGINEER_TRUE'
-    }
-}
-
-export function setAllEngineerFalse() {
-    return {
-        type: 'SET_ALL_ENGINEER_FALSE'
-    }
-}
 
 export function changeGroupListFilter() {
     return {
@@ -262,44 +129,6 @@ export function changeCreateAtMainFilter(range) {
     }
 }
 
-export function appFilter() {
-    return {
-        type: 'APPLY_FILTER'
-    }
-}
-
-export function resetFilter() {
-    return {
-        type: 'RESET_FILTER'
-    }
-}
-
-export function changeStatusCreateNewFilter() {
-    return {
-        type: 'CHANGE_STATUS_CREATE_NEW_FILTER'
-    }
-}
-
-export function changeTitleCreate(title) {
-    return {
-        type: 'CHANGE_TITLE_CREATE',
-        title
-    }
-}
-
-export function changeGeneraleCreate() {
-    return {
-        type: 'CHANGE_GENERALE_CREATE'
-    }
-}
-
-export function appCustomFilter(filter, id) {
-    return {
-        type: 'APPLY_CUSTOM_FILTER',
-        filter,
-        id
-    }
-}
 
 export function changeStatusMenuRow(id) {
     return {
@@ -535,6 +364,13 @@ export function setVisibleFlag(field, value) {
         type: 'SET_VISIBLE_FLAG',
         field,
         value
+    }
+}
+
+export function changeVisibleState( data ) {
+    return {
+        type: 'CHANGE_VISIBLE_STATE',
+        data
     }
 }
 
@@ -1304,30 +1140,6 @@ export function refreshDataOrder(order_id) {
     }
 }
 
-export function addBaggesAction() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({employee_id: state.data.user.id})
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/bagges', request_config)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_BADGES',
-                        badges: data.data,
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос беджей не выполнен'))
-    }
-}
-
 export function addStatusGroupAction() {
 
     const state = store.getState()
@@ -1373,142 +1185,14 @@ export function addEquipment() {
 }
 
 
-export function addCustomFilter() {
-
-    const state = store.getState()
-
-    const request_config1 = getRequestConfig({
-        employee_id: state.data.user.id,
-        title: state.filter.title_create,
-        filters: state.filter.tempFilter,
-        general: state.filter.addCustomFilter
-    })
-
-    const request_config2 = getRequestConfig({employee_id: state.data.user.id})
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/custom_filters', request_config1)
-            .catch(() => bad_request('Запрос на создание фильтра не выполнен'))
-
-        await fetch(state.data.url_server + '/get_custom_filters', request_config2)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_CUSTOM_FILTERS',
-                        filters: data.data,
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))
-    }
-}
 
 
-export function addCustomFilters() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({employee_id: state.data.user.id})
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_custom_filters', request_config)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_CUSTOM_FILTERS',
-                        filters: data.data,
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))
-    }
-}
 
 
-export function saveCustomFilter() {
-
-    const state = store.getState()
-    const idActiveFilter = state.filter.customFilters.find(filter => filter.active === true).id
-
-    let request_config = getRequestConfig({
-        id: idActiveFilter,
-        filters: state.filter.tempFilter
-    })
-    request_config.method = 'PUT'
-
-    const request_config2 = getRequestConfig({employee_id: state.data.user.id})
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/custom_filters', request_config)
-            .catch(() => bad_request('Запрос на изменеие фильтра не выполнен'))
-
-        await fetch(state.data.url_server + '/get_custom_filters', request_config2)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_CUSTOM_FILTERS',
-                        filters: data.data,
-                    })
-                    dispatch({
-                        type: 'APPLY_CUSTOM_FILTER',
-                        id: idActiveFilter,
-                        filter: data.data.find(filter => filter.id === idActiveFilter).filters
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос пользовательских фильров не выполнен'))
-    }
-}
 
 
-export function removeFilter() {
 
-    const state = store.getState()
 
-    let request_config = getRequestConfig({
-        id: state.filter.customFilters.find(filter => filter.active === true).id
-    })
-    request_config.method = 'DELETE'
-
-    const request_config2 = getRequestConfig({employee_id: state.data.user.id})
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/custom_filters', request_config)
-            .catch(() => bad_request('Запрос на удаление фильтра не выполнен'))
-
-        await fetch(state.data.url_server + '/get_custom_filters', request_config2)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_CUSTOM_FILTERS',
-                        filters: data.data,
-                    })
-                    dispatch({
-                        type: 'CHANGE_ORDER_FORM_S',
-                        field: 'client',
-                        value: {}
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))
-    }
-}
 
 export function addDiscountMargin() {
 

@@ -1,26 +1,22 @@
 import React from 'react'
-import MainFilter from './MainFilter';
-import dataMainFilters from '../../data/dataMainFilters'
-import { connect } from 'react-redux';
+import {connect} from 'react-redux'
 
+import MainFilter from './MainFilter'
 
-function Filters({badges}) {
- 
+const Filters = props => {
+
     return (
-        <div className = 'mainFilters'>
-            {badges.map(badge => {
-                return (
-                   badge.count ? <MainFilter data = {badge} key = {badge.id}/> : null
-                    )
-                }
-            )
+        <div className='mainFilters'>
+            {props.badges.map(badge => (
+                    badge.count ? <MainFilter badge={badge} key={badge.id}/> : null
+                ))
             }
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    badges: state.data.badges
+    badges: state.filter.badges
 })
 
-export default connect(mapStateToProps) (Filters);
+export default connect(mapStateToProps)(Filters)

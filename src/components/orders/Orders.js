@@ -1,7 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react'
-import _, {add} from 'lodash'
+import React, {useEffect} from 'react'
 import ReactPaginate from 'react-paginate'
 import {connect} from 'react-redux'
+
+import {addStatusGroupAction, addAdCampaign, addEquipment} from '../../Redux/actions'
+import {addBadges, changeFilterForm, changeFilterState, addCustomFilters} from '../../Redux/actions/filterAction'
 
 import Header from './Header'
 import Filters from './Filters'
@@ -9,18 +11,32 @@ import TableOrders from './TableOrdrers'
 import Loader from '../Loader/Loader'
 import OrderEditor from './newOrder/OrderEditor'
 import {addOrders} from '../../Redux/actions/orderActions'
-import {
-    changePageAction,
-    addBaggesAction,
-    addStatusGroupAction,
-    addCustomFilters,
-    addAdCampaign,
-    addEquipment
-} from '../../Redux/actions'
+
 import CustomPanel from './CustomPanel'
+
 
 function Orders(props) {
 
+    useEffect(() => {
+        props.addOrders()
+    }, [
+        props.filter.sort,
+        props.filter.field_sort,
+        props.filter.page,
+        props.filter.engineer_id,
+        props.filter.overdue,
+        props.filter.status_id,
+        props.filter.status_overdue,
+        props.filter.urgent,
+        props.filter.order_type_id,
+        props.filter.manager_id,
+        props.filter.created_at,
+        props.filter.kindof_good,
+        props.filter.brand,
+        props.filter.subtype,
+        props.filter.client_id,
+        props.filter.search
+    ])
 
 // Загружаем заказы
     useEffect(() => {
@@ -30,14 +46,18 @@ function Orders(props) {
     }, [])
 
 
-    const pageChangeHandler = (page) => {
+
+
+    const pageChangeHandler = page => {
         const curent_page = page.selected ? page.selected : 0
-        props.changePage(curent_page)
+        props.changeFilterState({page: curent_page})
+        // props.changeFilterForm(curent_page, 'page')
     }
+
+
     useEffect(() => {
-        props.addOrders()
-        props.addBagges()
-    }, [props.mainFilter])
+        props.addBadges()
+    }, [])
 
     return (
         <div className="pageContent">
@@ -51,7 +71,7 @@ function Orders(props) {
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     onPageChange={pageChangeHandler}
-                    forcePage={props.mainFilter.page}
+                    forcePage={props.page}
                     previousLabel={'<'}
                     nextLabel={'>'}
                     breakLabel={'...'}
@@ -72,20 +92,21 @@ function Orders(props) {
 }
 
 const mapStateToProps = state => ({
-    mainFilter: state.filter.mainFilter,
-    count: state.filter.count,
+    filter: state.filter,
+    count: state.data.count,
     ordersShow: state.data.ordersShow,
     statusOrderLoader: state.view.statusOrderLoader
 })
 
 const mapDispatchToProps = {
     addOrders,
-    changePage: changePageAction,
-    addBagges: addBaggesAction,
     addStatusGroup: addStatusGroupAction,
     addCustomFilters,
     addAdCampaign,
-    addEquipment
+    addEquipment,
+    addBadges,
+    changeFilterState,
+    changeFilterForm
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders)

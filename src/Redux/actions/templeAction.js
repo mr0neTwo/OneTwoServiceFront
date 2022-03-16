@@ -10,6 +10,13 @@ export function changeTempleForm( value, field ) {
     }
 }
 
+export function changeTempleState( data ) {
+    return {
+        type: 'CHANGE_FILTER_STATE',
+        data
+    }
+}
+
 export function editTemple(temple) {
     return {
         type: 'EDIT_TEMPLE',
