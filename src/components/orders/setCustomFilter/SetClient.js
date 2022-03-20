@@ -42,7 +42,7 @@ const SetClient = (props) => {
       <span>&#6662;</span> 
     </div>
     {props.clientListFilter ? <div className='listFilter' id='listFilterOfClient'>
-      {props.clientShow.map(client => {
+      {props.clients.map(client => {
        return (
         client.name.toLowerCase().includes(props.tempFilter.client_name.toLowerCase()) ? 
         <div 
@@ -64,7 +64,7 @@ const SetClient = (props) => {
 
 const mapStateToProps = state => ({
   clientListFilter: state.view.clientListFilter,
-  clientShow: state.data.clientShow,
+    clients: state.client.clients,
   tempFilter: state.filter.tempFilter
 })
 

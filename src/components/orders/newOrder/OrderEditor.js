@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 
 import {
   setVisibleFlag,
-  addClients,
   addDiscountMargin,
   setVisibleListFlag,
   changeOrderFormS,
   addDictService
 } from '../../../Redux/actions'
-import {createOrder, resetOrder, saveOrder, addOrders, saveOrderPyaments} from '../../../Redux/actions/orderActions'
+import {createOrder, resetOrder, saveOrder, addOrders} from '../../../Redux/actions/orderActions'
 import {resetBookEquipment} from "../../../Redux/actions/bookActions";
+import {addClients} from '../../../Redux/actions/clientAction'
 
 
 import BottomButtons from '../../general/BottomButtons'
@@ -32,7 +32,7 @@ const OrderEditor = (props) => {
 
   useEffect(() => {
     props.addClients()
-  }, [props.clientFilter])
+  }, [props.client.filter_name, props.client.filter_phone])
 
   useEffect(() => {
     props.addDiscountMargin()
@@ -180,9 +180,10 @@ const OrderEditor = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  clientFilter: state.filter.clientFilter,
-  order: state.order
+const mapStateToProps = state => ({
+  filter: state.filter,
+  order: state.order,
+  client: state.client
 })
 
 const mapDispatchToProps = {

@@ -43,7 +43,7 @@ const initialState = {
     temp_kindof_good_id: null,
     temp_brand: null,
     temp_subtype: null,
-    temp_client: null,
+    temp_client: {},
 
     active_badge: 0,
     active_filter: 0
@@ -117,7 +117,7 @@ export const filterReducer = (state = initialState, action) => {
                 temp_kindof_good_id: null,
                 temp_brand: null,
                 temp_subtype: null,
-                temp_client: null,
+                temp_client: {},
             }
 
         case 'RESET_DATA_FILTER':

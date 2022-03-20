@@ -119,7 +119,7 @@ export function createCustomFilter() {
             kindof_good: state.filter.temp_kindof_good_id,
             brand: state.filter.temp_brand,
             subtype: state.filter.temp_subtype,
-            client_id: state.filter.temp_client
+            client_id: Object.values(state.filter.temp_client).length ? [state.filter.temp_client.id] : null
         }
     })
 

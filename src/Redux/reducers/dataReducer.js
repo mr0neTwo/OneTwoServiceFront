@@ -4,8 +4,6 @@ import { data_menu_rows } from '../../data/dataSidebarRows'
 const initialState = {
     ordersShow: [],
     count: 0,
-    clientShow: [],
-    count_clients: 0,
     menuRows: data_menu_rows,
     settingMenu: data_setting_menu,
     payments: [],
@@ -96,12 +94,6 @@ export const dataReducer = (state = initialState, action) => {
          count: action.count
         }}
 
-    case 'ADD_CLIENTS_SHOW': {
-      return {
-          ...state, 
-          clientShow: action.clientShow,
-          count_clients: action.count
-        }}
     
     case 'ADD_EMPLOYEES': {
       return {

@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import {connect} from 'react-redux'
 
-import {addClients, changeVisibleState,} from '../../../Redux/actions'
+import { changeVisibleState,} from '../../../Redux/actions'
 import {changeFilterState, deleteFilter, resetTempFilter, selectedFilter} from '../../../Redux/actions/filterAction'
+import {addClients, changeClientState} from '../../../Redux/actions/clientAction'
 import {icon_cross, icon_trush} from '../../../data/icons'
 
 // import SetBrand from './SetBrand'
@@ -14,12 +15,13 @@ import FilterEditor from '../FilterEditor'
 import Button from '../../general/Button'
 import ChooseStatuses from '../../Settings/SettingPages/Notification/ChooseStatuses'
 import ChooseOfListMany from '../../general/ChooseOfListMany'
+import ChooseWithSearch from '../../general/ChooseWithSearch'
 
 const SetFilter = props => {
 
     useEffect(() => {
         props.addClients()
-    }, [props.clientFilter])
+    }, [props.client.filter_name])
 
     const handleSet = () => {
         const data = {
@@ -35,12 +37,14 @@ const SetFilter = props => {
             kindof_good: props.filter.temp_kindof_good_id,
             brand: props.filter.temp_brand,
             subtype: props.filter.temp_subtype,
-            client_id: props.filter.temp_client,
+            client_id: Object.values(props.filter.temp_client).length ? [props.filter.temp_client.id] : null,
             active_badge: 0,
             active_filter: 0
         }
         props.changeFilterState(data)
     }
+
+    // const current_client = useMemo(() => Object.values(props.temp_client).length ? props.temp_client.name : '', [props.filter.temp_client])
 
     return (
         <div className="setCustomFilter">
@@ -55,7 +59,19 @@ const SetFilter = props => {
                         current_list={props.filter.temp_statuses}
                     />
                     {/*<div className='mt15'><SetGroup/></div>*/}
-                    {/*<div className='mt15'><SetClient/></div>*/}
+                    <ChooseWithSearch
+                        id='filterClient'
+                        className='mt15 h52'
+                        width='100%'
+                        title='Клиент'
+                        list={props.client.clients}
+                        current_element={Object.values(props.temp_client).length ? props.temp_client.name : ''}
+                        setElement={client => props.changeFilterState({temp_client: client})}
+                        filter={props.client.filter_name}
+                        changeFilter={filter => props.changeClientState({filter_name: filter})}
+                        placeholder='Введите имя'
+                        disabled={false}
+                    />
                 </div>
 
                 <div className="jc-sb w100 m10">
@@ -135,12 +151,13 @@ const SetFilter = props => {
 }
 
 const mapStateToProps = (state) => ({
-    clientFilter: state.filter.clientFilter,
     statusCreateNewFilter: state.view.statusCreateNewFilter,
     filter: state.filter,
     order_type: state.data.order_type,
     employees: state.data.employees.filter(employee => !employee.deleted),
+    client: state.client,
     user: state.data.user,
+    temp_client: state.filter.temp_client
 })
 
 const mapDispatchToProps = {
@@ -149,7 +166,8 @@ const mapDispatchToProps = {
     deleteFilter,
     selectedFilter,
     changeFilterState,
-    changeVisibleState
+    changeVisibleState,
+    changeClientState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetFilter)

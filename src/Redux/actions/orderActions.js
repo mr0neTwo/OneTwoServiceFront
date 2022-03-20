@@ -334,7 +334,7 @@ export function saveOrder() {
             })
             .catch(() => bad_request('Запрос заказов не выполнен'))
 
-        await fetch(state.data.url_server + '/get_orders', getRequestConfig(request_config2))
+        await fetch(state.data.url_server + '/get_orders', request_config2)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {

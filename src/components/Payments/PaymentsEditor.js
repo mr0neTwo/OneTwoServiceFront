@@ -4,15 +4,16 @@ import ru from 'date-fns/locale/ru';
 import DatePicker, {registerLocale} from 'react-datepicker'
 
 import {
-    setVisibleFlag,
-    addClients,
     addItemPayments,
     refreshDataOrder,
-    changeStatusMenuVisible
+    changeStatusMenuVisible,
+    changeVisibleState
 } from '../../Redux/actions'
 import {changePaymentForm, addPaymentTag, deletePaymentTag} from '../../Redux/actions/paymentAction'
 import {createPayment, resetPayments} from '../../Redux/actions/paymentAction'
-import {check0_999} from '../general/utils';
+import {changeStatus} from '../../Redux/actions/orderActions'
+import {addClients} from '../../Redux/actions/clientAction'
+
 import BottomButtons from '../general/BottomButtons'
 import ChooseBotton from '../general/ChooseBotton'
 import SetClientByName from './SetClientByName'
@@ -21,26 +22,28 @@ import Receipt from './Receipt'
 import ChooseOfList from '../general/ChooseOfList'
 import LableArea from '../general/LableArea'
 import AddTags from '../general/AddTags'
-import {changeStatus} from '../../Redux/actions/orderActions'
 
 registerLocale('ru', ru)
 
 const PaymentsEditor = (props) => {
 
     const handleClose = () => {
-        props.setVisibleFlag('inputPaymentSumChecked', true)
-        props.setVisibleFlag('inputPaymentCashboxChecked', true)
-        props.setVisibleFlag('inputPaymentDescChecked', true)
-        props.setVisibleFlag('inputPaymentCashflowChecked', true)
-        props.setVisibleFlag('inputPaymentEmployeeChecked', true)
-        props.setVisibleFlag('statusPaymentsEditor', false)
+        props.changeVisibleState({
+            'inputPaymentSumChecked': true,
+            'inputPaymentCashboxChecked': true,
+            'inputPaymentDescChecked': true,
+            'inputPaymentCashflowChecked': true,
+            'inputPaymentEmployeeChecked': true,
+            'statusPaymentsEditor': false,
+        })
         props.resetPayments()
     }
 
     const clickHandel = (event) => {
 
         if (!event.path.map((el) => el.id).includes('paymentsEditorWiondow') &&
-            !event.path.map((el) => el.id).includes('createNewOrder')
+            !event.path.map((el) => el.id).includes('createNewOrder') &&
+            !event.path.map((el) => el.id).includes('344')
         ) {
             handleClose()
         }
@@ -55,13 +58,8 @@ const PaymentsEditor = (props) => {
 
     useEffect(() => {
         props.addClients()
-    }, [props.clientFilter])
+    }, [props.client.filter_name, props.client.filter_phone])
 
-    useEffect(() => {
-        // props.addItemPayments()
-        props.changePaymentForm(props.user_id, 'employee_id')
-        props.changePaymentForm(props.current_cashbox.id, 'cashbox_id')
-    }, [])
 
     const hangleCreate = () => {
         if (
@@ -79,15 +77,15 @@ const PaymentsEditor = (props) => {
             props.createPayment(props.payment.context)
         } else {
             if (!(props.payment.income || props.payment.outcome))
-                props.setVisibleFlag('inputPaymentSumChecked', false)
+                props.changeVisibleState({'in}putPaymentSumChecked': false})
             if (!(props.payment.cashbox_id && props.payment.direction) || !(props.payment.target_cashbox_id && !props.payment.direction))
-                props.setVisibleFlag('inputPaymentCashboxChecked', false)
+                props.changeVisibleState({'inputPaymentCashboxChecked': false})
             if (!props.payment.description)
-                props.setVisibleFlag('inputPaymentDescChecked', false)
+                props.changeVisibleState({'inputPaymentDescChecked': false})
             if (!props.payment.cashflow_category)
-                props.setVisibleFlag('inputPaymentCashflowChecked', false)
+                props.changeVisibleState({'inputPaymentCashflowChecked': false})
             if (!props.payment.employee_id)
-                props.setVisibleFlag('inputPaymentEmployeeChecked', false)
+                props.changeVisibleState({'inputPaymentEmployeeChecked': false})
         }
     }
 
@@ -144,7 +142,7 @@ const PaymentsEditor = (props) => {
 
                     {props.payment.direction ? (props.payment.client_id ?
                         <ClientCard
-                            edit={() => props.setVisibleFlag('statusCreateNewClient', true)}
+                            edit={() => props.changeVisibleState({'statusCreateNewClient': true})}
                             close={() => props.changePaymentForm(0, 'client_id')}
                         /> : <SetClientByName/>) : null}
                     <Receipt/>
@@ -244,7 +242,8 @@ const mapStateToProps = (state) => ({
     view: state.view,
     payment: state.payment,
     permissions: state.data.user.role.permissions,
-    clientFilter: state.filter.clientFilter,
+    filter: state.filter,
+    client: state.client,
     cashboxes: state.data.cashboxes,
     current_branch_id: state.data.current_branch.id,
     item_payments: state.data.item_payments,
@@ -256,7 +255,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     changePaymentForm,
-    setVisibleFlag,
+    changeVisibleState,
     addClients,
     addItemPayments,
     addPaymentTag,

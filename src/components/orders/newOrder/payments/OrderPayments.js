@@ -1,37 +1,40 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, addItemPayments, editCurrentClient, addCashboxes } from '../../../../Redux/actions'
-import {changePaymentForm} from '../../../../Redux/actions/paymentAction'
-import { changeOrderFormS } from '../../../../Redux/actions'
+import {editCurrentClient, changeVisibleState} from '../../../../Redux/actions'
+import { changePaymentState} from '../../../../Redux/actions/paymentAction'
+
 import Button from '../../../general/Button'
-import TableOrderPaymants from './TableOrderPaymants'
-// import PaymentsEditor from '../../../Payments/PaymentsEditor'
+import TableOrderPayments from './TableOrderPayments'
 
 const OrderPayments = (props) => {
 
-   const handelIncome = () => {
-      props.changePaymentForm(2, 'direction')
-      props.changePaymentForm(props.order.client.id, 'client_id')
+   const handleIncome = () => {
+      props.changePaymentState({
+         direction: 2,
+         client_id: props.order.client.id,
+         description: `Оплата по заказу № ${props.order.id_label}`,
+         cashflow_category: 2,
+         employee_id: props.current_user_id,
+         order_id: props.order.edit,
+         context: {type: 'order'}
+      })
       props.editCurrentClient(props.order.client)
-      props.changePaymentForm(`Оплата по заказу № ${props.order.id_label}`, 'description')
-      props.changePaymentForm(2, 'cashflow_category')
-      props.changePaymentForm(props.current_user_id, 'employee_id')
-      props.changePaymentForm(props.order.edit, 'order_id')
-      props.changePaymentForm({type: 'order'}, 'context')
-      props.setVisibleFlag('statusPaymentsEditor', true)
+      props.changeVisibleState({'statusPaymentsEditor': true})
    }
 
-   const handelOutcome = () => {
-      props.changePaymentForm(1, 'direction')
-      props.changePaymentForm(props.order.client.id, 'client_id')
+   const handleOutcome = () => {
+      props.changePaymentState({
+         direction: 1,
+         client_id: props.order.client.id,
+         description: `Выплата по заказу № ${props.order.id_label}`,
+         cashflow_category: 8,
+         employee_id: props.current_user_id,
+         order_id: props.order.edit,
+         context: {type: 'order'}
+      })
       props.editCurrentClient(props.order.client)
-      props.changePaymentForm(`Выплата по заказу № ${props.order.id_label}`, 'description')
-      props.changePaymentForm(8, 'cashflow_category')
-      props.changePaymentForm(props.current_user_id, 'employee_id')
-      props.changePaymentForm(props.order.edit, 'order_id')
-      props.changePaymentForm({type: 'order'}, 'context')
-      props.setVisibleFlag('statusPaymentsEditor', true)
+      props.changeVisibleState({'statusPaymentsEditor': true})
    }
 
    return (
@@ -40,20 +43,19 @@ const OrderPayments = (props) => {
             <Button
                className='greenButton'
                title='Предоплата'
-               onClick={ handelIncome }
+               onClick={ handleIncome }
                unvisible={false}
                disabled={false}
             />
             <Button
                className='greenButton bcr ml10'
                title='Выплата'
-               onClick={ handelOutcome }
+               onClick={ handleOutcome }
                unvisible={false}
                disabled={false}
             />
          </div>
-         <TableOrderPaymants/>
-          {/*{props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}*/}
+         <TableOrderPayments/>
       </div>
    )
 }
@@ -66,12 +68,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-   changeOrderFormS,
-   setVisibleFlag,
-   changePaymentForm,
-   addItemPayments,
+   changeVisibleState,
+   changePaymentState,
    editCurrentClient,
-   addCashboxes
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(OrderPayments)

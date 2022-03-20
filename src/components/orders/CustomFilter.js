@@ -2,11 +2,13 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import {changeFilterState} from '../../Redux/actions/filterAction'
+import {addClientToTempFilter} from '../../Redux/actions/clientAction'
 
 const CustomFilter = props => {
 
-    const handleChoose = () => {
+    async function  handleChoose()  {
         if (props.filter.active_filter !== props.data.id) {
+            if (props.data.filters.client_id) props.addClientToTempFilter(props.data.filters.client_id[0])
             props.changeFilterState({
                 ...props.data.filters,
                 active_filter: props.data.id,
@@ -20,7 +22,7 @@ const CustomFilter = props => {
                 temp_kindof_good_id: props.data.filters.kindof_good,
                 temp_brand: props.data.filters.brand,
                 temp_subtype: props.data.filters.subtype,
-                temp_client: props.data.filters.client_id
+                temp_client: {}
             })
         } else {
             props.changeFilterState({
@@ -61,7 +63,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changeFilterState
+    changeFilterState,
+    addClientToTempFilter
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomFilter)

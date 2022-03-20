@@ -83,8 +83,8 @@ const ChooseOfList = (props) => {
          >
             <div className='noWr'>
                {props.employee ? 
-               (props.current_id ? `${current.last_name} ${current.first_name}` : 'не назначен') : 
-               (props.current_id ? (current.title ? current.title : current.name) : noChoosed)}
+               (current ? `${current.last_name} ${current.first_name}` : 'не назначен') :
+               (current ? (current.title || current.name) : noChoosed)}
             </div>
             <span>&#6662;</span>
          </div>

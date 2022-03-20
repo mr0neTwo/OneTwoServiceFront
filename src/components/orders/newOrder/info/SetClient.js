@@ -72,7 +72,7 @@ const SetClient = (props) => {
 
                {listClientsVisible ? 
                <div className='listFilter' id='listFilterOfOrOrder'>
-               {props.clientShow.map(client => (
+               {props.clients.map(client => (
                   <div 
                      className='rowGropList' 
                      key={client.id}
@@ -122,7 +122,7 @@ const SetClient = (props) => {
 
                   {listClientsPhoneVisible ? 
                   <div className='listFilter' id='listFilterOfOrOrderPhone'>
-                  {props.clientShow.map(client => (
+                  {props.clients.map(client => (
                      <div 
                         className='rowGropList' 
                         key={client.id}
@@ -149,7 +149,7 @@ const SetClient = (props) => {
 }
 
 const mapStateToProps = state => ({
-   clientShow: state.data.clientShow,
+    clients: state.client.clients,
    phone: state.filter.clientFilter.phone,
    view: state.view,
    client: state.order.client

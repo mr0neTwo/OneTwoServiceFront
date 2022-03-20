@@ -1,6 +1,7 @@
-
-
 const initialState = {
+
+   clients: [],
+
    juridical: false,
    supplier: false,
    conflicted: false,
@@ -44,11 +45,27 @@ const initialState = {
    tabs: 0,
    phone_titles: ['Мобильный', 'Рабочий', 'Домашний'],
    statusPhoneList: [false],
-   statusAddTitle: [false]
+   statusAddTitle: [false],
+
+   page: 0,
+   filter_name: '',
+   filter_phone: ''
+
 }
 
 export const clientReducer = (state = initialState, action) => {
    switch (action.type){
+
+      case 'CHANGE_CLIENT_FORM': {
+         return {
+            ...state,
+            [action.field]: action.value
+         }
+      }
+
+      case 'CHANGE_CLIENT_STATE': {
+         return {...Object.assign(state, action.data)}
+      }
 
       case 'SET_CLIENT_CHECKBOX': {
 
@@ -65,12 +82,7 @@ export const clientReducer = (state = initialState, action) => {
          }
       }
 
-      case 'CHANGE_CLIENT_FORM': {
-            return {
-               ...state, 
-               [action.field]: action.value
-            }
-      }
+
       
       case 'CHANGE_CLIENT_EDITOR_PHONE': {
 

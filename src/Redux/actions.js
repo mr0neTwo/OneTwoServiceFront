@@ -702,28 +702,7 @@ export function log_in(login, password) {
 
 
 // Client ================================================================================================================
-export function addClients() {
 
-    const state = store.getState()
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_clients', getRequestConfig(state.filter.clientFilter))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_CLIENTS_SHOW',
-                        clientShow: data.data,
-                        count: data.count
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос клиентов не выполнен'))
-    }
-}
 
 export function createNewClient() {
 

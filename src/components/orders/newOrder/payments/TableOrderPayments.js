@@ -7,7 +7,7 @@ import Icon from '../../../general/Icon'
 import {setPayment, setVisibleFlag} from '../../../../Redux/actions'
 import PaymentCard from '../../../Payments/PaymentCard'
 
-const TableOrderPaymants = (props) => {
+const TableOrderPayments = (props) => {
 
    return (
       <div className = 'mt15'>
@@ -89,4 +89,4 @@ const mapDispatchToProps = {
     setVisibleFlag
 }
   
- export default connect(mapStateToProps, mapDispatchToProps)(TableOrderPaymants)
+ export default connect(mapStateToProps, mapDispatchToProps)(TableOrderPayments)

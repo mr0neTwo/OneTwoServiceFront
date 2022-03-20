@@ -9,6 +9,13 @@ export function changePaymentForm(value, field) {
     }
 }
 
+export function changePaymentState( data ) {
+    return {
+        type: 'CHANGE_PAYMENT_STATE',
+        data
+    }
+}
+
 export function addPaymentTag(tag) {
     return {
         type: 'ADD_PAYMENT_TAG',

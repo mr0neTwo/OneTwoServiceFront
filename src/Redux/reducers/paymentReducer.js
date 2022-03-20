@@ -50,6 +50,10 @@ export const paymentReducer = (state = initialState, action) => {
          }
       }
 
+      case 'CHANGE_PAYMENT_STATE': {
+         return {...Object.assign(state, action.data)}
+      }
+
       case 'CHOOSE_PAYMENT_SELECTED': {
          if (action.id.every(id => state[action.field].includes(id))) {
             return {
