@@ -43,7 +43,7 @@ const OrderPrint = (props) => {
                         className='blueButton ml30'
                         title='Печать'
                         onClick={handlePrint}
-                        unvisible={!props.order.edit}
+                        invisible={!props.order.edit}
                     />
                 </div>
                 : null

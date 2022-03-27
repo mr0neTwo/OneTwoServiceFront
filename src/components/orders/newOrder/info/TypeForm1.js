@@ -6,7 +6,7 @@ import ChooseOfList from '../../../general/ChooseOfList'
 import ChooseEquipment from './ChooseEquipment'
 import LabelInputOrder from './LabelInputOrder'
 import ChooseSingleEquipment from './ChooseSingleEquipment'
-import ChooseDate from '../../../general/ChooseDate'
+import ChooseDate from '../../../general/calandar/ChooseDate'
 
 
 const TypeForm1 = (props) => {
@@ -66,6 +66,8 @@ const TypeForm1 = (props) => {
               func={date => props.changeOrderFormS(parseInt(date / 1000), 'estimated_done_at')}
               current_date={props.order.estimated_done_at * 1000}
               disabled={props.order.status.group > 3 || !props.permissions.includes('edit_info_orders')}
+              showTop={true}
+              // range={true}
           />
         </div>
       </div>

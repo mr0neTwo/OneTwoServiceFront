@@ -41,7 +41,7 @@ const WarehouseInfo = props => {
                 func2 = {() => props.changeWarehouseForm(false, 'isGlobal')}
                 // checked = { true }
                 disabled={props.warehouse.deleted}
-                unvisible={false}
+                invisible={false}
             />
             <ChooseOfList
                 id='brWH'
@@ -52,7 +52,7 @@ const WarehouseInfo = props => {
                 setElement={props.changeWarehouseForm}
                 current_id={ props.warehouse.branch_id }
                 disabled={props.warehouse.deleted}
-                unvisible={props.warehouse.isGlobal}
+                invisible={props.warehouse.isGlobal}
             />
             <div className='lableImput mt15'>Допустимые действия с кассой</div>
             <Checkbox

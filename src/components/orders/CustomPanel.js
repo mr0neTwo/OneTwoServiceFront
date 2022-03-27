@@ -24,27 +24,29 @@ const CustomPanel = (props) => {
     return (
         <div className='mainCustomPanel '>
             <div className='customPanel'>
-                <Button
-                    className='greenButton'
-                    title='+ Заказ'
-                    onClick={newOrder}
-                    unvisible={!props.permissions.includes('create_orders')}
-                />
-                <div className='customFilters'>
+                <div className='row al-itm-fe'>
                     <Button
-                        className='customFilter'
-                        title='Фильтр'
-                        onClick={handleEditFilter}
-                        unvisible={false}
-                        icon={icon_filter}
-                        iconClassName='icon-s2'
-                        iconColor='282e33'
+                        className='greenButton'
+                        title='+ Заказ'
+                        onClick={newOrder}
+                        invisible={!props.permissions.includes('create_orders')}
                     />
-                    {props.customFilters.map(filter => {
-                        return (
-                            <CustomFilter data={filter} key={filter.id}/>
-                        )
-                    })}
+                    <div className='customFilters'>
+                        <Button
+                            className='customFilter'
+                            title='Фильтр'
+                            onClick={handleEditFilter}
+                            invisible={false}
+                            icon={icon_filter}
+                            iconClassName='icon-s2'
+                            iconColor='282e33'
+                        />
+                        {props.customFilters.map(filter => {
+                            return (
+                                <CustomFilter data={filter} key={filter.id}/>
+                            )
+                        })}
+                    </div>
                 </div>
                 <div
                     className='chooseFieldButton'
@@ -54,7 +56,7 @@ const CustomPanel = (props) => {
                         <Icon icon={icon_table} className='icon-table'/>
                     </div>
                     <div className='cl12'>
-                        <Icon icon={icon_down} className='icon-table mt5'/>
+                        <Icon icon={icon_down} className='icon-table'/>
                     </div>
                 </div>
             </div>

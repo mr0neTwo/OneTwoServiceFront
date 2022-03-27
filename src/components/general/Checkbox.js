@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
  *
  * disabled={false}
  *
- * unvisible={false}
+ * invisible={false}
  *
  * @returns {JSX.Element}
  *
@@ -24,7 +24,7 @@ import PropTypes from "prop-types";
 const Checkbox = (props) => {
 
    return (
-      props.unvisible ? <div/> :
+      props.invisible ? <div/> :
       <div className={`checkbox ${props.className}`}>
          <input 
             type='checkbox'
@@ -43,7 +43,7 @@ Checkbox.propTypes ={
     onChange: PropTypes.func,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
-    unvisible: PropTypes.bool
+    invisible: PropTypes.bool
 }
 
  export default Checkbox
@@ -53,4 +53,4 @@ Checkbox.propTypes ={
 // onChange={() => console.log('change')}
 // checked={props.checked}
 // disabled={false}
-// unvisible={false}
+// invisible={false}

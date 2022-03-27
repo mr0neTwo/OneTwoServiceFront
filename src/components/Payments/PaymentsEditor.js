@@ -1,15 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
-import ru from 'date-fns/locale/ru';
-import DatePicker, {registerLocale} from 'react-datepicker'
 
-import {
-    addItemPayments,
-    refreshDataOrder,
-    changeStatusMenuVisible,
-    changeVisibleState
-} from '../../Redux/actions'
-import {changePaymentForm, addPaymentTag, deletePaymentTag} from '../../Redux/actions/paymentAction'
+import {addItemPayments, refreshDataOrder, changeStatusMenuVisible, changeVisibleState} from '../../Redux/actions'
+import { addPaymentTag, deletePaymentTag, changePaymentState} from '../../Redux/actions/paymentAction'
 import {createPayment, resetPayments} from '../../Redux/actions/paymentAction'
 import {changeStatus} from '../../Redux/actions/orderActions'
 import {addClients} from '../../Redux/actions/clientAction'
@@ -22,8 +15,8 @@ import Receipt from './Receipt'
 import ChooseOfList from '../general/ChooseOfList'
 import LableArea from '../general/LableArea'
 import AddTags from '../general/AddTags'
+import ChooseDate from '../general/calandar/ChooseDate'
 
-registerLocale('ru', ru)
 
 const PaymentsEditor = (props) => {
 
@@ -95,7 +88,7 @@ const PaymentsEditor = (props) => {
     const title = ['Перемещение денег', 'Расход денег', 'Приход денег']
 
     const cashboxes = props.cashboxes.filter(cashbox =>
-        cashbox.type === props.payment.current_type  &&
+        cashbox.type === props.payment.current_type &&
         (props.payment.direction || cashbox.id !== props.payment.cashbox_id) &&
         !cashbox.deleted &&
         (cashbox.isGlobal || cashbox.branch_id === props.current_branch_id)
@@ -117,33 +110,28 @@ const PaymentsEditor = (props) => {
                             name={['Текущее', 'Заданное']}
                             func1={() => {
                                 setChooseData(false)
-                                props.changePaymentForm(0, 'custom_created_at')
+                                props.changePaymentState({custom_created_at: null})
                             }}
-                            func2={() => setChooseData(true)}
+                            func2={() => {
+                                setChooseData(true)
+                                props.changePaymentState({custom_created_at: parseInt(new Date() / 1000)})
+                            }}
                             checked={true}
                             disabled={!props.permissions.includes('backdating')}
                         />
-                        {chooseData ?
-                            <DatePicker
-                                selected={props.payment.custom_created_at ? new Date(props.payment.custom_created_at * 1000) : Date.now()}
-                                onChange={(date) => {
-                                    props.changePaymentForm(date / 1000, 'custom_created_at')
-                                }}
-                                isClearable={true}
-                                placeholderText='Выбирите дату'
-                                className="optionFilterInputDate"
-                                dateFormat='dd.MM.yyyy HH:mm'
-                                locale={'ru'}
-                                maxDate={Date.now()}
-                                // startDate={Date.now()}
-                                showTimeSelect
-                            /> : null}
+                        <ChooseDate
+                            className='h31'
+                            width='250px'
+                            func={date => props.changePaymentState({custom_created_at: parseInt(date / 1000)})}
+                            current_date={props.payment.custom_created_at * 1000}
+                            invisible={!chooseData}
+                        />
                     </div>
 
                     {props.payment.direction ? (props.payment.client_id ?
                         <ClientCard
                             edit={() => props.changeVisibleState({'statusCreateNewClient': true})}
-                            close={() => props.changePaymentForm(0, 'client_id')}
+                            close={() => props.changeVisibleState({client_id: 0})}
                         /> : <SetClientByName/>) : null}
                     <Receipt/>
 
@@ -153,12 +141,16 @@ const PaymentsEditor = (props) => {
                             title='Форма оплаты'
                             name={['Нал.', 'Безнал.']}
                             func1={() => {
-                                props.changePaymentForm(0, props.payment.direction ? 'cashbox_id' : 'target_cashbox_id')
-                                props.changePaymentForm(0, 'current_type')
+                                props.changePaymentState({
+                                    [props.payment.direction ? 'cashbox_id' : 'target_cashbox_id']: 0,
+                                    current_type: 0
+                                })
                             }}
                             func2={() => {
-                                props.changePaymentForm(0, props.payment.direction ? 'cashbox_id' : 'target_cashbox_id')
-                                props.changePaymentForm(1, 'current_type')
+                                props.changePaymentState({
+                                    [props.payment.direction ? 'cashbox_id' : 'target_cashbox_id']: 0,
+                                    current_type: 1
+                                })
                             }}
                             checked={!props.current_cashbox.type}
                         />
@@ -167,8 +159,7 @@ const PaymentsEditor = (props) => {
                             title='Касса'
                             className='ml10 h52'
                             list={cashboxes}
-                            field={props.payment.direction ? 'cashbox_id' : 'target_cashbox_id'}
-                            setElement={props.changePaymentForm}
+                            setElement={cashbox => props.changePaymentState({[props.payment.direction ? 'cashbox_id' : 'target_cashbox_id'] : cashbox})}
                             current_id={props.payment.direction ? props.payment.cashbox_id : props.payment.target_cashbox_id}
                             width={'250px'}
                             checkedFlag='inputPaymentCashboxChecked'
@@ -179,7 +170,7 @@ const PaymentsEditor = (props) => {
                     <LableArea
                         className='mt15'
                         title='Коментарий'
-                        onChange={event => props.changePaymentForm(event.target.value, 'description')}
+                        onChange={event => props.changePaymentState({description: event.target.value})}
                         value={props.payment.description}
                         checkedFlag='inputPaymentDescChecked'
                         checked={props.view.inputPaymentDescChecked}
@@ -192,13 +183,13 @@ const PaymentsEditor = (props) => {
                         className='mt15 h52'
                         list={props.item_payments.filter(item => item.direction === props.payment.direction)}
                         field='cashflow_category'
-                        setElement={props.changePaymentForm}
+                        setElement={category => props.changePaymentState({cashflow_category: category})}
                         current_id={props.payment.cashflow_category}
                         width={'250px'}
                         checkedFlag='inputPaymentCashflowChecked'
                         checked={props.view.inputPaymentCashflowChecked}
                         disabled={props.payment.deleted}
-                        unvisible={!props.payment.direction}
+                        invisible={!props.payment.direction}
                     />
                     <ChooseOfList
                         id={22}
@@ -206,7 +197,7 @@ const PaymentsEditor = (props) => {
                         className='mt15 h52'
                         list={props.employees.filter(employee => !employee.deleted)}
                         field='employee_id'
-                        setElement={props.changePaymentForm}
+                        setElement={employee => props.changePaymentState({employee_id: employee})}
                         current_id={props.payment.employee_id}
                         width={'250px'}
                         employee={true}
@@ -254,7 +245,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    changePaymentForm,
+    changePaymentState,
     changeVisibleState,
     addClients,
     addItemPayments,

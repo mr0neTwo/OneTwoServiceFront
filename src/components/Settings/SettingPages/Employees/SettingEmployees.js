@@ -53,7 +53,7 @@ const SettingEmployees = (props) => {
                         label='Показать удаленных'
                         onChange={() => props.changeShowDeleted()}
                         checked={props.showDeleted}
-                        unvisible={!props.permission.includes('setting_see_employees')}
+                        invisible={!props.permission.includes('setting_see_employees')}
                     />
                 </div>
 

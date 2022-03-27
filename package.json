@@ -14,7 +14,6 @@
     "re-base": "^4.0.0",
     "react": "^17.0.2",
     "react-date-picker": "^8.3.2",
-    "react-datepicker": "^4.2.1",
     "react-dom": "^17.0.2",
     "react-firebase": "^2.2.8",
     "react-input-mask": "^2.0.4",

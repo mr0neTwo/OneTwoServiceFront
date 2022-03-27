@@ -1,104 +1,110 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React, {useEffect, useState} from 'react'
+import {connect} from 'react-redux'
 
-import { changeBrandListFilter, changeBrandMainFilter } from '../../../Redux/actions'
+import { addEquipmentBrand, changeBookState} from '../../../Redux/actions/bookActions'
+import {changeFilterState} from '../../../Redux/actions/filterAction'
 
-const SetBrand = (props) => {
+import {icon_cancel, icon_down, icon_left} from '../../../data/icons'
+import Icon from '../../general/Icon'
 
-  const clickHandel = (event) => {
-    if (
-       !event.path.map(el => el.id).includes('listFilterOfBrand') &&
-       !event.path.map(el => el.id).includes('optionsFilterTextOfBrand')
-       ) {
-       if (props.brandListFilter) {
-        props.changeBrandListFilter()
-    }}
-  }
- 
-  useEffect(() => {
-    window.addEventListener('click', clickHandel)
-    return () => {
-      window.removeEventListener('click', clickHandel)
+const SetBrand = props => {
+
+    const [visibleList, setVisibleList] = useState(false)
+
+    useEffect(() => {
+        props.addEquipmentBrand()
+    }, [props.book.filter_brand, props.book.equipment_type])
+
+    const settled = !!Object.values(props.book.equipment_brand).length
+    const settledType = !!Object.values(props.book.equipment_type).length
+
+    const clickHandel = (event) => {
+        if (
+            !event.path.map(el => el.id).includes('listFilterOfBrand') &&
+            !event.path.map(el => el.id).includes('optionsFilterTextOfBrand')
+        ) {
+            if (visibleList) {
+                setVisibleList(false)
+            }
+        }
     }
-  })
 
-  const listOfBrand = (tempFilter, equipment) => {
+    useEffect(() => {
+        window.addEventListener('click', clickHandel)
+        return () => {
+            window.removeEventListener('click', clickHandel)
+        }
+    })
 
-    if (equipment.map(equipment => equipment.title).includes(tempFilter.kindof_good)) {
-      
-      return (
-        equipment.find(equipment => equipment.title === tempFilter.kindof_good).equipment_brand.map(brand => {
+    const reset = () => {
+        props.changeFilterState({
+            temp_brand: null,
+            temp_subtype: null
+        })
+        props.changeBookState({
+            filter_brand: '',
+            filter_subtype: '',
+            equipment_brand: {},
+            equipment_subtype: {}
+        })
+    }
 
-       return (
-        brand.title.toLowerCase().includes(props.tempFilter.brand.toLowerCase()) ? 
-        <div key={brand.id}
-        className='rowGropList'
-        onClick={() => {
-          props.changeBrandMainFilter(brand.title)
-          props.changeBrandListFilter()
-        }}
-        >
-          {brand.title}
-        </div> : null
-      )})
-      
-    )
-  } else {
-    let list_brand = []
-    props.equipment.forEach(equip => {
-      list_brand = list_brand.concat(equip.equipment_brand)
-    } )
-    list_brand = list_brand.map(brand => brand.title)
-    list_brand = [...new Set(list_brand)]  
+
+    const setBrand = (brand) => {
+        props.changeFilterState({temp_brand: brand.id})
+        props.changeBookState({equipment_brand: brand})
+        setVisibleList(false)
+    }
 
     return (
-      list_brand.map((brand, idx) => {
-          return (
-            brand.toLowerCase().includes(props.tempFilter.brand.toLowerCase()) ? 
-        <div 
-        key={idx}
-        className='rowGropList'
-        onClick={() => {
-          props.changeBrandMainFilter(brand)
-          props.changeBrandListFilter()
-        }}
-        >
-          {brand}
-        </div> : null
-          )}))}}
-
-   return (
-    <>
-    <div className='optionsFilterTitle'>Бренд</div>
-    <div 
-    className='optionsFilterText'
-    id='optionsFilterTextOfBrand'
-    onClick={() => props.changeBrandListFilter()}
-    > 
-      <input 
-      className='optionFilterInput'
-      onChange={event => props.changeBrandMainFilter(event.target.value)}
-      placeholder='Выбирете бренд'
-      value={props.tempFilter.brand}
-      />
-      <span>&#6662;</span> 
-    </div>
-    {props.brandListFilter ? <div className='listFilter' id='listFilterOfBrand'>
-      {listOfBrand(props.tempFilter, props.equipment)}
-    </div> : null}
-    </>
-   )
+        <div className='mt15 h52'>
+            <div className='lableImput'>Бренд</div>
+            <button
+                id='optionsFilterTextOfBrand'
+                className='optionsFilterText'
+                onClick={() => setVisibleList(true)}
+                disabled={settled || !settledType}
+            >
+                <input
+                    className='optionFilterInput'
+                    onChange={event => props.changeBookState({filter_brand: event.target.value})}
+                    placeholder='Выбирете бренд'
+                    value={settled ? props.book.equipment_brand.title : props.book.filter_brand}
+                    disabled={settled  || !settledType}
+                />
+                {settled ?
+                    <div onClick={reset}>
+                        <Icon icon={icon_cancel} className='icon-close'/>
+                    </div>
+                    :
+                    <Icon icon={visibleList ? icon_down : icon_left} className='icon-s2'/>
+                }
+            </button>
+            {visibleList ?
+                <div className='listFilter' id='listFilterOfBrand'>
+                    {props.book.equipment_brands.map(brand => (
+                        <div
+                            key={brand.id}
+                            className='rowGropList'
+                            onClick={() => setBrand(brand)}
+                        >
+                            {brand.title}
+                        </div>
+                    ))}
+                </div> : null}
+        </div>
+    )
 }
 
 const mapStateToProps = state => ({
-  brandListFilter: state.view.brandListFilter,
-  equipment: state.data.equipment,
-  tempFilter: state.filter.tempFilter
+    filter: state.filter,
+    book: state.book
 })
 
 const mapDispatchToProps = {
-  changeBrandListFilter,
-  changeBrandMainFilter,
+    addEquipmentBrand,
+    changeBookState,
+    changeFilterState
 }
-  
- export default connect(mapStateToProps, mapDispatchToProps)(SetBrand)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SetBrand)

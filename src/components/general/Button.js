@@ -13,7 +13,7 @@ import Icon from './Icon'
  *
  * onClick={() => console.log('click')} // Функция при нажатии на кнопку
  *
- * unvisible={false} // Неотображать
+ * invisible={false} // Неотображать
  *
  * disabled={false} // Заблакировать
  *
@@ -24,12 +24,12 @@ import Icon from './Icon'
  * iconColor='black' // Цвет Иконки
  */
 const Button = (props) => {
-   return props.unvisible ? (<div/>) : (
+   return props.invisible ? (<div/>) : (
       <button
          id={props.id}
-         className={props.unvisible ? 'disabledButton' : props.className}
+         className={props.invisible ? 'disabledButton' : props.className}
          onClick={props.onClick}
-         disabled={props.unvisible || props.disabled}
+         disabled={props.invisible || props.disabled}
       >
           <div className='row'>
               {props.icon ? <Icon icon={props.icon} className={props.iconClassName} color={props.iconColor}/> : null}
@@ -43,7 +43,7 @@ Button.propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
     onClick: PropTypes.func,
-    unvisible: PropTypes.bool,
+    invisible: PropTypes.bool,
     disabled: PropTypes.bool,
     icon: PropTypes.string,
     iconClassName: PropTypes.string,

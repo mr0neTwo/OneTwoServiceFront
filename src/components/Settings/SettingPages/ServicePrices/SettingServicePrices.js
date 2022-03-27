@@ -79,7 +79,7 @@ const SettingServicePrices = (props) => {
           label='Показать удаленые'
           onChange={event => setShowDeleted(event.target.checked)}
           value={showDeleted}
-          unvisible={!props.permissions.includes('setting_see_deleted_service')}
+          invisible={!props.permissions.includes('setting_see_deleted_service')}
         />
 
         <div className='row al-itm-bl'>
@@ -89,7 +89,7 @@ const SettingServicePrices = (props) => {
                 title='+ Категория'
                 className='greenButton'
                 onClick={() => props.setVisibleFlag('statusGroupServiceEditor', true)}
-                unvisible={!props.permissions.includes('setting_create_service')}
+                invisible={!props.permissions.includes('setting_create_service')}
               /> 
               <table>
                 <thead>
@@ -123,7 +123,7 @@ const SettingServicePrices = (props) => {
                 title='+ Услуга'
                 className='greenButton'
                 onClick={() => props.setVisibleFlag('statusServiceEditor', true)}
-                unvisible={!props.permissions.includes('setting_create_service')}
+                invisible={!props.permissions.includes('setting_create_service')}
               /> 
                 <TableFields
                   id='service'

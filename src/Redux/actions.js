@@ -56,45 +56,6 @@ export function changeStatusMenuVisible(id_order) {
 }
 
 
-export function changeGroupListFilter() {
-    return {
-        type: 'CHANGE_GROUP_LIST_FILTER'
-    }
-}
-
-export function changeGroupMainFilter(word) {
-    return {
-        type: 'CHANGE_GROUP_MAINFILTER',
-        word
-    }
-}
-
-export function changeBrandListFilter() {
-    return {
-        type: 'CHANGE_BRAND_LIST_FILTER'
-    }
-}
-
-export function changeBrandMainFilter(word) {
-    return {
-        type: 'CHANGE_BRAND_MAINFILTER',
-        word
-    }
-}
-
-export function changeSubtypeListFilter() {
-    return {
-        type: 'CHANGE_SUBTYPE_LIST_FILTER'
-    }
-}
-
-export function changeSubtypeMainFilter(word) {
-    return {
-        type: 'CHANGE_SUBTYPE_MAINFILTER',
-        word
-    }
-}
-
 export function changeClientListFilter() {
     return {
         type: 'CHANGE_CLIENT_LIST_FILTER'
@@ -108,19 +69,7 @@ export function changeClientMainFilter(word) {
     }
 }
 
-export function changeNameClientFilter(word) {
-    return {
-        type: 'CHANGE_NAME_CLIENTFILTER',
-        word
-    }
-}
 
-export function changePhoneClientFilter(word) {
-    return {
-        type: 'CHANGE_PHONE_CLIENTFILTER',
-        word
-    }
-}
 
 export function changeCreateAtMainFilter(range) {
     return {

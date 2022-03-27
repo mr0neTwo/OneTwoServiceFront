@@ -89,7 +89,7 @@ const OrderPartEditor = (props) => {
                         checkedFlag='inputOrderPartTitleChacked'
                         checked={props.view.inputOrderPartTitleChacked}
                         disabled={props.orderPart.deleted}
-                        unvisible={props.orderPart.edit}
+                        invisible={props.orderPart.edit}
                         redStar={true}
                     />
                     <LableInput

@@ -53,7 +53,7 @@ const ChooseStatusesGruoup = props => {
                         color={status.color}
                         onChange={() => handleChoose([status.id])}
                         checked={props.current_list.includes(status.id)}
-                        unvisible={status.deleted}
+                        invisible={status.deleted}
                     />
                     <div
                         className='statuses'

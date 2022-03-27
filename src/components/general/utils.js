@@ -7,6 +7,12 @@ const optionsShowDate = {
    // second: 'numeric'
  }
 
+const optionsShowRangeDate = {
+   year: 'numeric',
+   month: 'numeric',
+   day: 'numeric'
+}
+
 /**
  * Приодит номер телефона к читабильному виду
  *
@@ -31,6 +37,12 @@ export function showName (employee) {
 
 export function showDate (date) {
    return new Date(date * 1000).toLocaleString('ru', optionsShowDate).replace('г.,', '')
+}
+
+export function showRangeDate (range_date) {
+   const first = new Date(range_date[0] * 1000).toLocaleString('ru', optionsShowRangeDate).replace('г.,', '')
+   const second = new Date(range_date[1] * 1000).toLocaleString('ru', optionsShowRangeDate).replace('г.,', '')
+   return `${first} - ${second}`
 }
 
 export function currentMonth() {

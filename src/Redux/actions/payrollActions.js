@@ -11,6 +11,13 @@ export function changePayrollForm( value, field ) {
    }
  }
 
+export function changePayrollState( data ) {
+    return {
+        type: 'CHANGE_PAYROLL_STATE',
+        data
+    }
+}
+
 export function editPayroll(payroll) {
    return {
      type: 'EDIT_PAYROLL',

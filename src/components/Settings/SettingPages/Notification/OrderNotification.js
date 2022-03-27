@@ -36,14 +36,14 @@ const OrderNotification = (props) => {
                     className='greenButton'
                     title='+ Оповещение'
                     onClick={handleCreateClients}
-                    unvisible={!props.permissions.includes('setting_create_not_event')}
+                    invisible={!props.permissions.includes('setting_create_not_event')}
                 />
                 <Checkbox
                     className='ml10'
                     label='Показать удаленные'
                     onChange={event => props.changeNotEventForm(event.target.checked, 'showDeleted')}
                     checked={props.showDeleted}
-                    unvisible={!props.permissions.includes('setting_see_deleted_not_event')}
+                    invisible={!props.permissions.includes('setting_see_deleted_not_event')}
                 />
             </div>
             {props.statusNotEventEditor ? <NotEventEditor/> : null}

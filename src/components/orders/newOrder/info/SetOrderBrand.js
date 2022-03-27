@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS} from '../../../../Redux/actions'
-import {createEquipmentBrand, addEquipmentBrand, changeBookForm} from '../../../../Redux/actions/bookActions'
-import {icon_close} from '../../../../data/icons'
+import {createEquipmentBrand, addEquipmentBrand, changeBookState} from '../../../../Redux/actions/bookActions'
+import {icon_cancel, icon_close, icon_down} from '../../../../data/icons'
+import Icon from '../../../general/Icon'
 
 const SetOrderBrand = (props) => {
     const [visibleList, setVisibleList] = useState(false)
@@ -48,16 +49,15 @@ const SetOrderBrand = (props) => {
             props.resetEquipment(props.idx, 'subtype')
             props.resetEquipment(props.idx, 'model')
         }
-        props.changeBookForm({}, 'equipment_brand')
+        props.changeBookState({equipment_brand: {}})
     }
 
     const setBrand = (idx, brand) => {
         edit ? props.changeOrderFormS(brand, 'brand') : props.setOrderEquipment(idx, 'brand', brand)
-        props.changeBookForm(brand, 'equipment_brand')
+        props.changeBookState({equipment_brand: brand, filter_brand: ''})
         setVisibleList(false)
         setVisisbleBotton(false)
         props.setVisibleListFlag('checkedOrderBrand', props.idx, true)
-        props.changeBookForm('', 'filter_brand')
     }
 
     return (
@@ -71,19 +71,18 @@ const SetOrderBrand = (props) => {
             >
                 <input
                     className={disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
-                    onChange={event => props.changeBookForm(event.target.value, 'filter_brand')}
+                    onChange={event => props.changeBookState({filter_brand: event.target.value})}
                     placeholder="Выбирете бренд"
                     value={seted ? brand.title : props.book.filter_brand}
                     disabled={disabled || seted}
                 />
                 {seted && props.permissions.includes('edit_info_orders') ?
-                    <svg
-                        className="icon-close"
-                        viewBox="0 0 22 22"
-                        onClick={reset}
-                    >
-                        <path d={icon_close}/>
-                    </svg> : <span>&#6662;</span>}
+                    <div onClick={reset}>
+                        <Icon icon={icon_cancel} className='icon-close'/>
+                    </div>
+                    :
+                    <Icon icon={icon_down} className='icon-s2'/>
+                }
             </button>
             {!props.view.checkedOrderBrand[props.idx] ? (
                 <div className="errorMassageInput">
@@ -92,8 +91,8 @@ const SetOrderBrand = (props) => {
             ) : null}
             {visibleList && !disabled ? (
                 <div className="listFilter" id="listOrderOfBrand">
-                    {props.book.equipment_brands.map(brand => {
-                        return (
+                    {props.book.equipment_brands.map(brand => (
+                        visibleBotton ? null :
                             <div
                                 key={brand.id}
                                 className="rowGropList"
@@ -101,21 +100,21 @@ const SetOrderBrand = (props) => {
                             >
                                 {brand.title}
                             </div>
-                        )
-                    })}
+                    ))}
                     <div className="btmsts">
                         {visibleBotton ? (
                             <input
                                 className="optionFilterInput"
                                 autoFocus
+                                onChange={event => props.changeBookState({filter_brand: event.target.value})}
                                 onKeyPress={event => {
                                     if (event.key === 'Enter') {
                                         props.createEquipmentBrand(props.idx, event.target.value)
-                                        props.changeBookForm(event.target.value, 'filter_brand')
-                                        // props.addEquipmentBrand()
                                         setVisisbleBotton(false)
                                     }
                                 }}
+                                onBlur={() => setVisisbleBotton(false)}
+                                value={props.book.filter_brand}
                                 placeholder="Введите и нажмиете Enter"
                             />
                         ) : (
@@ -147,7 +146,7 @@ const mapDispatchToProps = {
     setVisibleListFlag,
     changeOrderFormS,
     addEquipmentBrand,
-    changeBookForm
+    changeBookState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetOrderBrand)

@@ -32,13 +32,13 @@ const SettingWherehouse = (props) => {
                         className='greenButton'
                         title='+ Склад'
                         onClick={() => props.setVisibleFlag('statusWarehouseEditor', true)}
-                        unvisible={!props.permissions.includes('setting_create_warehouse')}
+                        invisible={!props.permissions.includes('setting_create_warehouse')}
                     />
                     <Checkbox
                         label='Показать удаленных'
                         onChange={event => setShowDeleted(event.target.checked)}
                         checked={showDeleted}
-                        unvisible={!props.permissions.includes('setting_see_deleted_warehouse')}
+                        invisible={!props.permissions.includes('setting_see_deleted_warehouse')}
                     />
                 </div>
                 {props.statusWarehouseEditor ? <WarehouseEditor/> : null}

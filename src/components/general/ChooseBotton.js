@@ -17,7 +17,7 @@ import PropTypes from "prop-types"
  *
  * disabled={false}
  *
- * unvisible={false}
+ * invisible={false}
  *
  * @returns {JSX.Element}
  *
@@ -26,7 +26,7 @@ const ChooseBotton = (props) => {
 
    const [stateButton, setStateButton] = useState(props.checked ? props.checked : false)
 
-   return props.unvisible ? (<div/>) : (
+   return props.invisible ? (<div/>) : (
       <div className={props.className}>
          <div className='lableImput'>{props.title}</div>
          <div className='checkButton'>
@@ -61,7 +61,7 @@ ChooseBotton.propTypes = {
     func2: PropTypes.func,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
-    unvisible: PropTypes.bool
+    invisible: PropTypes.bool
 }
 
  export default ChooseBotton
@@ -76,4 +76,4 @@ ChooseBotton.propTypes = {
 // func2 = {() => function()}
 // checked = { true }
 // disabled={false}
-// unvisible={false}
+// invisible={false}

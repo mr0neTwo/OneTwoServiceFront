@@ -44,14 +44,14 @@ const WarehouseParts = props => {
                             className='greenButton'
                             title='+ категорию'
                             onClick={ handleAddCategory }
-                            unvisible={!props.permissions.includes('create_warehouse_categories')}
+                            invisible={!props.permissions.includes('create_warehouse_categories')}
                         />
                         <Checkbox
                             className='ml10'
                             label='Показать удаленные'
                             onChange={event => props.changeWarehouseForm(event.target.checked, 'showDeleted')}
                             checked={props.warehouse.showDeleted}
-                            unvisible={!props.permissions.includes('see_deleted_warehouse_categories')}
+                            invisible={!props.permissions.includes('see_deleted_warehouse_categories')}
                         />
                     </div>
                     {props.statusWarehouseCategoryEditor ? <WarehouseCategoryEditor/> : null}
@@ -65,14 +65,14 @@ const WarehouseParts = props => {
                                 className='greenButton'
                                 title='+ Товар'
                                 onClick={ handleAddPart }
-                                unvisible={!props.permissions.includes('create_new_part')}
+                                invisible={!props.permissions.includes('create_new_part')}
                             />
                             <Checkbox
                                 className='ml10'
                                 label='Показать удаленные'
                                 onChange={event => props.changePartForm(event.target.checked, 'showDeleted')}
                                 checked={props.part.showDeleted}
-                                unvisible={!props.permissions.includes('see_delete_parts')}
+                                invisible={!props.permissions.includes('see_delete_parts')}
                             />
                         </div>
                         <TableFields

@@ -18,7 +18,7 @@ const CustomFilter = props => {
                 temp_order_types: props.data.filters.order_type_id || [],
                 temp_managers: props.data.filters.manager_id || [],
                 temp_engineers: props.data.filters.engineer_id || [],
-                temp_created_at: props.data.filters.created_at,
+                temp_created_at: props.data.filters.created_at || [0, 0],
                 temp_kindof_good_id: props.data.filters.kindof_good,
                 temp_brand: props.data.filters.brand,
                 temp_subtype: props.data.filters.subtype,

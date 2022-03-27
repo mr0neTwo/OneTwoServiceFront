@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS} from '../../../../Redux/actions'
-import {cteateEquipmentSubtype, changeBookForm, addEquipmentSubtype} from '../../../../Redux/actions/bookActions'
-import {icon_close} from '../../../../data/icons'
+import {cteateEquipmentSubtype, addEquipmentSubtype, changeBookState} from '../../../../Redux/actions/bookActions'
+import {icon_cancel, icon_close, icon_down} from '../../../../data/icons'
 import Subtype from './Subtype'
+import Icon from '../../../general/Icon'
 
 const SetOrderSubtype = (props) => {
     const [visibleList, setVisibleList] = useState(false)
@@ -46,17 +47,16 @@ const SetOrderSubtype = (props) => {
             props.resetEquipment(props.idx, 'subtype')
             props.resetEquipment(props.idx, 'model')
         }
-        props.changeBookForm({}, 'equipment_subtype')
+        props.changeBookState({equipment_subtype: {}})
 
     }
 
     const setSubtype = (idx, subtype) => {
         edit ? props.changeOrderFormS(subtype, 'subtype') : props.setOrderEquipment(idx, 'subtype', subtype)
-        props.changeBookForm(subtype, 'equipment_subtype')
+        props.changeBookState({equipment_subtype: subtype, filter_subtype: ''})
         setVisibleList(false)
         setVisisbleBotton(false)
         props.setVisibleListFlag('checkedOrderSubtype', props.idx, true)
-        props.changeBookForm('', 'filter_subtype')
     }
 
     return (
@@ -70,43 +70,46 @@ const SetOrderSubtype = (props) => {
             >
                 <input
                     className={disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
-                    onChange={event => props.changeBookForm(event.target.value, 'filter_subtype')}
+                    onChange={event => props.changeBookState({filter_subtype: event.target.value})}
                     placeholder="Выбирете модуль / серию"
                     value={seted ? subtype.title : props.book.filter_subtype}
                     disabled={disabled || seted}
                 />
                 {seted && props.permissions.includes('edit_info_orders') ?
-                    <svg className="icon-close" viewBox="0 0 22 22" onClick={reset}>
-                        <path d={icon_close}/>
-                    </svg> : <span>&#6662;</span>
+                    <div onClick={reset}>
+                        <Icon icon={icon_cancel} className='icon-close'/>
+                    </div>
+                    :
+                    <Icon icon={icon_down} className='icon-s2'/>
                 }
             </button>
             {!props.view.checkedOrderSubtype[props.idx] ?
                 <div className="errorMassageInput">{'Необоходимо выбрать из списка'}</div> : null}
             {visibleList && !disabled ? (
                 <div className="listFilter" id="listOrderOfSubtype">
-                    {props.book.equipment_subtypes.map((subtype) => {
-                        return (
+                    {props.book.equipment_subtypes.map((subtype) => (
+                        visibleBotton ? null :
                             <Subtype
                                 key={subtype.id}
                                 subtype={subtype}
                                 onClick={() => setSubtype(props.idx, subtype)}
                             />
                         )
-                    })}
+                    )}
                     <div className="btmsts">
                         {visibleBotton ? (
                             <input
                                 className="optionFilterInput"
                                 autoFocus
+                                onChange={event => props.changeBookState({filter_subtype: event.target.value})}
                                 onKeyPress={(event) => {
                                     if (event.key === 'Enter') {
                                         props.cteateEquipmentSubtype(props.idx, event.target.value)
-                                        props.changeBookForm(event.target.value, 'filter_subtype')
-                                        // props.addEquipmentSubtype()
                                         setVisisbleBotton(false)
                                     }
                                 }}
+                                onBlur={() => setVisisbleBotton(false)}
+                                value={props.book.filter_subtype}
                                 placeholder="Введите и нажмиете Enter"
                             />
                         ) : (
@@ -137,8 +140,8 @@ const mapDispatchToProps = {
     resetEquipment,
     setVisibleListFlag,
     changeOrderFormS,
-    changeBookForm,
-    addEquipmentSubtype
+    addEquipmentSubtype,
+    changeBookState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetOrderSubtype)

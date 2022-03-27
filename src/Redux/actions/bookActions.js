@@ -9,6 +9,13 @@ export function changeBookForm(value, field) {
     }
 }
 
+export function changeBookState(data) {
+    return {
+        type: 'CHANGE_BOOK_STATE',
+        data
+    }
+}
+
 export function resetBookEquipment() {
     return {
         type: 'RESET_BOOK_EQUIPMENT',
@@ -231,7 +238,7 @@ export function createEquipmentType(title) {
     const state = store.getState()
 
     const request_config = getRequestConfig({
-            title: state.book.title,
+            title,
             icon: state.book.icon,
             url: state.book.url,
             branches: state.data.branches.map(branch => branch.id),

@@ -157,7 +157,7 @@ const BookEquipment = (props) => {
                 label="Показать удаленные"
                 onChange={event => props.changeBookForm(event.target.checked, 'showDeleted')}
                 checked={props.book.showDeleted}
-                unvisible={!props.permissions.includes('setting_see_equipment')}
+                invisible={!props.permissions.includes('setting_see_equipment')}
             />
             <div className="bookEquipment mt15">
                 <div className="columnEquipment">

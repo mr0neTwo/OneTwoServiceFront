@@ -60,7 +60,7 @@ const SalaryRuleReducer = (props) => {
                   setElement={props.changeSalaryRuleForm}
                   current_id={props.salaryRule.order_type}
                   width={'150px'}
-                  unvisible={![1, 2, 3, 4, 5].includes(props.salaryRule.type_rule)}
+                  invisible={![1, 2, 3, 4, 5].includes(props.salaryRule.type_rule)}
                />
                <ChooseOfList
                   id={26}
@@ -71,7 +71,7 @@ const SalaryRuleReducer = (props) => {
                   setElement={props.changeSalaryRuleForm}
                   current_id={props.salaryRule.check_status}
                   width={'150px'}
-                  unvisible={![1, 2, 3, 4, 5].includes(props.salaryRule.type_rule)}
+                  invisible={![1, 2, 3, 4, 5].includes(props.salaryRule.type_rule)}
                />
                <ChooseButton
                   className='mt15 ml10'
@@ -80,7 +80,7 @@ const SalaryRuleReducer = (props) => {
                   func1 = {() => props.changeSalaryRuleForm(0, 'method')}
                   func2 = {() => props.changeSalaryRuleForm(1, 'method')}
                   checked = { true }
-                  unvisible={![1, 2, 3, 4, 5, 6].includes(props.salaryRule.type_rule)}
+                  invisible={![1, 2, 3, 4, 5, 6].includes(props.salaryRule.type_rule)}
                />
             </div>
 

@@ -22,7 +22,15 @@ const TablePayments = (props) => {
         setOutcomeSum(outcome_sum)
     }, [props.payments])
 
-    const showBalance = props.user.role.permissions.includes('see_remains')
+    const showBalance = () => {
+        let cashboxAvailable = false
+        if (Object.values(props.current_cashbox).length) {
+            cashboxAvailable = (props.current_cashbox.employees[props.user.id].like_cashbox ?
+                props.current_cashbox.permissions.includes('show_cashbox_remains') :
+                props.current_cashbox.employees[props.user.id].permissions.includes('show_cashbox_remains'))
+        }
+        return cashboxAvailable && props.user.role.permissions.includes('see_remains')
+    }
 
     const payments = props.payments.filter(payment => props.showDeleted || !payment.deleted)
 
@@ -35,7 +43,7 @@ const TablePayments = (props) => {
                 <th>Описание</th>
                 <th className='w91'>Приход, руб.</th>
                 <th className='w91'>Расход, руб.</th>
-                {showBalance ? <th className='w91'>Остаток, руб.</th> : null}
+                {showBalance() ? <th className='w91'>Остаток, руб.</th> : null}
             </tr>
             </thead>
             <tbody>
@@ -63,7 +71,7 @@ const TablePayments = (props) => {
                         </div>
                     </td>
                     <td>
-                        <div>{payment.description}</div>
+                        <div>{payment.description}{payment.client.name ?` (Клиент: ${payment.client.name})` : null }</div>
                         {payment.direction ?
                             <div className='row'>
                                 <Icon className='icon-s1' icon={icon_file_text} color='#acacac'/>
@@ -72,7 +80,7 @@ const TablePayments = (props) => {
                     </td>
                     <td className={payment.income ? 'greenFont tac' : 'tac'}>{payment.income}</td>
                     <td className={payment.outcome ? 'redFont tac' : 'tac'}>{payment.outcome}</td>
-                    {showBalance ? <td className='tac'>{parseFloat(payment.deposit).toFixed(2)}</td> : null}
+                    {showBalance() ? <td className='tac'>{parseFloat(payment.deposit).toFixed(2)}</td> : null}
                 </tr>
             ))}
             <tr>

@@ -44,14 +44,14 @@ const OrderPayments = (props) => {
                className='greenButton'
                title='Предоплата'
                onClick={ handleIncome }
-               unvisible={false}
+               invisible={false}
                disabled={false}
             />
             <Button
                className='greenButton bcr ml10'
                title='Выплата'
                onClick={ handleOutcome }
-               unvisible={false}
+               invisible={false}
                disabled={false}
             />
          </div>

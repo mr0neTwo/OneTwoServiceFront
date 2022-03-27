@@ -162,7 +162,7 @@ const EquipmentEditor = (props) => {
             />
           )}
           <JoinEquipmets 
-            unvisible={!props.book.edit || props.book.type === 3 || !props.permissions.includes('setting_join_equipment')}
+            invisible={!props.book.edit || props.book.type === 3 || !props.permissions.includes('setting_join_equipment')}
           />
         </div>
 

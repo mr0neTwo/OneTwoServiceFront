@@ -77,7 +77,7 @@ const OperationEditor = (props) => {
                checkedFlag='inputOperationTitleChacked'
                checked={props.view.inputOperationTitleChacked}
                disabled={props.operation.deleted}
-               unvisible={props.operation.edit}
+               invisible={props.operation.edit}
                redStar={true}
             />
             <LableInput

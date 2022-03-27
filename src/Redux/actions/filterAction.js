@@ -66,7 +66,7 @@ export function addBadges() {
                         data: {badges: data.data}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос temple не выполнен'))
@@ -91,7 +91,7 @@ export function addCustomFilters() {
                         data: {customFilters: data.data}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))
@@ -102,7 +102,7 @@ export function createCustomFilter() {
 
     const state = store.getState()
 
-    const request_config1 = getRequestConfig({
+    const request_config = getRequestConfig({
         title: state.filter.title,
         general: state.filter.general,
         employee_id: state.data.user.id,
@@ -115,7 +115,7 @@ export function createCustomFilter() {
             urgent: null,
             order_type_id: state.filter.temp_order_types.length ? state.filter.temp_order_types : null,
             manager_id: state.filter.temp_managers.length ? state.filter.temp_managers : null,
-            created_at: state.filter.temp_created_at,
+            created_at: state.filter.temp_created_at.some(date => date) ? state.filter.temp_created_at : null,
             kindof_good: state.filter.temp_kindof_good_id,
             brand: state.filter.temp_brand,
             subtype: state.filter.temp_subtype,
@@ -123,16 +123,9 @@ export function createCustomFilter() {
         }
     })
 
-    const request_config2 = getRequestConfig({
-        employee_id: state.data.user.id
-    })
-
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/custom_filters', request_config1)
-            .catch(() => bad_request('Запрос на создание пользовательского фильтра не выполнен'))
-
-        await fetch(state.data.url_server + '/get_custom_filters', request_config2)
+        await fetch(state.data.url_server + '/custom_filters', request_config)
             .then(response =>  response.json())
             .then(data => {
                 if (data.success) {
@@ -148,7 +141,7 @@ export function createCustomFilter() {
                         type: 'RESET_DATA_FILTER'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))
@@ -161,19 +154,16 @@ export function deleteFilter() {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
-        id: state.filter.active_filter
+    let request_config = getRequestConfig({
+        id: state.filter.active_filter,
+        employee_id: state.data.user.id
     })
-    request_config1.method = 'DELETE'
+    request_config.method = 'DELETE'
 
-    const request_config2 = getRequestConfig({employee_id: state.data.user.id})
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/custom_filters', request_config1)
-            .catch(() => bad_request('Запрос на удаление фильтра не выполнен'))
-
-        await fetch(state.data.url_server + '/get_custom_filters', request_config2)
+        await fetch(state.data.url_server + '/custom_filters', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -184,8 +174,15 @@ export function deleteFilter() {
                             active_filter: 0
                         }
                     })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusCreateNewFilter: false}
+                    })
+                    dispatch({
+                        type: 'RESET_DATA_FILTER'
+                    })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос пользовательских фильтров не выполнен'))

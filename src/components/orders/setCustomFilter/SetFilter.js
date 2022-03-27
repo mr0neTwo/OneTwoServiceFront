@@ -6,16 +6,16 @@ import {changeFilterState, deleteFilter, resetTempFilter, selectedFilter} from '
 import {addClients, changeClientState} from '../../../Redux/actions/clientAction'
 import {icon_cross, icon_trush} from '../../../data/icons'
 
-// import SetBrand from './SetBrand'
-// import SetClient from './SetClient'
-// import SetDataCreate from './SetDataCreate'
-// import SetGroup from './SetGroup'
-// import SetSubtype from './SetSubtype'
+
 import FilterEditor from '../FilterEditor'
 import Button from '../../general/Button'
 import ChooseStatuses from '../../Settings/SettingPages/Notification/ChooseStatuses'
 import ChooseOfListMany from '../../general/ChooseOfListMany'
 import ChooseWithSearch from '../../general/ChooseWithSearch'
+import ChooseDate from '../../general/calandar/ChooseDate'
+import SetGroup from './SetGroup'
+import SetBrand from './SetBrand'
+import SetSubtype from './SetSubtype'
 
 const SetFilter = props => {
 
@@ -33,7 +33,7 @@ const SetFilter = props => {
             urgent: null,
             order_type_id: props.filter.temp_order_types.length ? props.filter.temp_order_types : null,
             manager_id: props.filter.temp_managers.length ? props.filter.temp_managers : null,
-            created_at: props.filter.temp_created_at,
+            created_at: props.filter.temp_created_at || [0, 0],
             kindof_good: props.filter.temp_kindof_good_id,
             brand: props.filter.temp_brand,
             subtype: props.filter.temp_subtype,
@@ -44,7 +44,6 @@ const SetFilter = props => {
         props.changeFilterState(data)
     }
 
-    // const current_client = useMemo(() => Object.values(props.temp_client).length ? props.temp_client.name : '', [props.filter.temp_client])
 
     return (
         <div className="setCustomFilter">
@@ -58,7 +57,7 @@ const SetFilter = props => {
                         func_clear={() => props.changeFilterState({temp_statuses: []})}
                         current_list={props.filter.temp_statuses}
                     />
-                    {/*<div className='mt15'><SetGroup/></div>*/}
+                    <SetGroup/>
                     <ChooseWithSearch
                         id='filterClient'
                         className='mt15 h52'
@@ -85,7 +84,7 @@ const SetFilter = props => {
                         checked_list={props.filter.temp_order_types}
                         func={value => props.selectedFilter(value, 'temp_order_types')}
                     />
-                    {/*<div className='mt15'><SetBrand/></div>*/}
+                    <SetBrand/>
                     <ChooseOfListMany
                         id='idManagerOrders'
                         className='h52 mt15'
@@ -99,8 +98,16 @@ const SetFilter = props => {
                     />
                 </div>
                 <div className="jc-sb w100 m10">
-                    {/*<SetDataCreate/>*/}
-                    {/*<div className='mt15'><SetSubtype/></div>*/}
+                    <ChooseDate
+                        className='h52'
+                        title='Дата'
+                        width='100%'
+                        range={true}
+                        allDate={true}
+                        func={date => props.changeFilterState({temp_created_at: date.map(date => parseInt(date / 1000))})}
+                        current_date={props.filter.temp_created_at}
+                    />
+                    <SetSubtype/>
                     <ChooseOfListMany
                         id='idEngineerOrders'
                         className='h52 mt15'

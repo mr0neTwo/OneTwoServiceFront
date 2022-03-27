@@ -35,7 +35,7 @@ const JoinEquipmets = props => {
         .filter(equipment => equipment.id !== props.book.edit)
         .filter(equipment => !props.book.list_for_join.some((eq) => eq.id === equipment.id))
 
-    return props.unvisible ? <div/> :
+    return props.invisible ? <div/> :
         <div className="mt15 w250">
             <div className="lableImput">Объединить с:</div>
             <div className="blockImput">

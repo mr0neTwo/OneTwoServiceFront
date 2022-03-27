@@ -39,7 +39,7 @@ const initialState = {
     temp_order_types: [],
     temp_managers: [],
     temp_engineers: [],
-    temp_created_at: null,
+    temp_created_at: [0, 0],
     temp_kindof_good_id: null,
     temp_brand: null,
     temp_subtype: null,
@@ -113,7 +113,7 @@ export const filterReducer = (state = initialState, action) => {
                 temp_order_types: [],
                 temp_managers: [],
                 temp_engineers: [],
-                temp_created_at: null,
+                temp_created_at: [0, 0],
                 temp_kindof_good_id: null,
                 temp_brand: null,
                 temp_subtype: null,
@@ -155,35 +155,6 @@ export const filterReducer = (state = initialState, action) => {
 
 
 
-        case 'CHANGE_GROUP_MAINFILTER': {
-            return {
-                ...state,
-                tempFilter: {
-                    ...state.tempFilter,
-                    kindof_good: action.word
-                }
-            }
-        }
-
-        case 'CHANGE_BRAND_MAINFILTER': {
-            return {
-                ...state,
-                tempFilter: {
-                    ...state.tempFilter,
-                    brand: action.word
-                }
-            }
-        }
-
-        case 'CHANGE_SUBTYPE_MAINFILTER': {
-            return {
-                ...state,
-                tempFilter: {
-                    ...state.tempFilter,
-                    subtype: action.word
-                }
-            }
-        }
 
 
         case 'CHANGE_CLIENT_MAINFILTER': {

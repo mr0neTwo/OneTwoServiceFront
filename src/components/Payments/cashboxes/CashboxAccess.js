@@ -59,10 +59,10 @@ const CashboxAccess = (props) => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees.filter(employee => !employee.deleted),
+   employees: state.data.employees.filter(employee => !employee.deleted && employee.id !== 0),
    cashbox: state.cashbox,
    statusCashboxEmployeeEditor: state.view.statusCashboxEmployeeEditor
-   })
+})
 
 const mapDispatchToProps = {
    setVisibleFlag,

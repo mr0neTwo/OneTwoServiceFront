@@ -26,6 +26,7 @@ export function addOrders() {
         engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
         overdue: state.filter.overdue,
         status_id: state.filter.status_id,
+        status_overdue: state.filter.status_overdue,
         urgent: state.filter.urgent,
         order_type_id: state.filter.order_type_id,
         manager_id: state.filter.manager_id,
@@ -98,6 +99,7 @@ export function createOrder() {
         engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
         overdue: state.filter.overdue,
         status_id: state.filter.status_id,
+        status_overdue: state.filter.status_overdue,
         urgent: state.filter.urgent,
         order_type_id: state.filter.order_type_id,
         manager_id: state.filter.manager_id,
@@ -187,6 +189,7 @@ export function changeStatus(status_id, order_id) {
         engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
         overdue: state.filter.overdue,
         status_id: state.filter.status_id,
+        status_overdue: state.filter.status_overdue,
         urgent: state.filter.urgent,
         order_type_id: state.filter.order_type_id,
         manager_id: state.filter.manager_id,
@@ -266,7 +269,7 @@ export function saveOrder() {
         status_deadline: state.order.status_deadline,
 
         ad_campaign_id: state.order.ad_campaign_id,
-        client: state.order.client.id,
+        client_id: state.order.client.id,
         order_type_id: state.order_type_id,
         manager_id: state.order.manager_id,
         engineer_id: state.order.engineer_id,
@@ -297,6 +300,7 @@ export function saveOrder() {
         engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
         overdue: state.filter.overdue,
         status_id: state.filter.status_id,
+        status_overdue: state.filter.status_overdue,
         urgent: state.filter.urgent,
         order_type_id: state.filter.order_type_id,
         manager_id: state.filter.manager_id,
@@ -312,9 +316,8 @@ export function saveOrder() {
     return async dispatch => {
 
         await  dispatch({
-            type: 'SET_VISIBLE_FLAG',
-            field: 'statusOrderLoader',
-            value: true
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
         })
 
         await fetch(state.data.url_server + '/orders', request_config1)
@@ -344,9 +347,8 @@ export function saveOrder() {
                         count: data.count
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusOrderLoader',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {'statusOrderLoader': false}
                     })
                 } else {
                     console.warn(data.massage)

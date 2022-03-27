@@ -31,7 +31,7 @@ import PropTypes from "prop-types";
  *
  * disabled={false}
  *
- * unvisible={false}
+ * invisible={false}
  *
  * @returns {JSX.Element}
  *
@@ -69,7 +69,7 @@ const ChooseOfList = (props) => {
 
    const noChoosed = props.noChoosed || 'Выберете тип'
 
-   return props.unvisible ? (<div/>) : (
+   return props.invisible ? (<div/>) : (
       <div 
          className={props.className}
          style={{width: props.width ? props.width : '250px'}} 
@@ -122,7 +122,7 @@ ChooseOfList.propTypes = {
    checkedFlag: PropTypes.string,
    checked: PropTypes.bool,
    disabled: PropTypes.bool,
-   unvisible: PropTypes.bool
+   invisible: PropTypes.bool
 }
 
 // const mapStateToProps = state => ({
@@ -149,4 +149,4 @@ const mapDispatchToProps = {
    // checkedFlag='checkedFlag'
    // checked={flag}
    // disabled={false}
-   // unvisible={false}
+   // invisible={false}

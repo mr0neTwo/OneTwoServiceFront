@@ -74,6 +74,11 @@ export function createPayment(context) {
 
     return async dispatch => {
 
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
+
         await fetch(state.data.url_server + '/payments', request_config)
             .catch(() => bad_request('Запрос на создание платежа не выполнен'))
 
@@ -209,6 +214,10 @@ export function createPayment(context) {
                 })
                 .catch(() => bad_request('Запрос на обновление заказа не выполнен'))
         }
+        await dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }
 

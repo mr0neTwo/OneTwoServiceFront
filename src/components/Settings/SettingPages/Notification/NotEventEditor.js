@@ -86,7 +86,7 @@ const NotEventEditor = props => {
                             className='mt15 ml15 h27'
                             func={value => props.selectedNotEvent(value, 'statuses')}
                             current_list={props.notEvent.statuses}
-                            unvisible={props.notEvent.event !== 'ORDER_STATUS_CHANGED_TO'}
+                            invisible={props.notEvent.event !== 'ORDER_STATUS_CHANGED_TO'}
                         />
                     </div>
                     <ChooseButton
@@ -97,7 +97,7 @@ const NotEventEditor = props => {
                         func2 = {() => props.changeNotEventForm(2, 'notification_type')}
                         checked = { true }
                         disabled={false}
-                        unvisible={false}
+                        invisible={false}
                     />
                     <ChooseOfList
                         id='idChooseNotTemplate'

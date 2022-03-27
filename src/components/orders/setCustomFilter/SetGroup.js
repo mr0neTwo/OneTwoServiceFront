@@ -1,17 +1,28 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
-import {changeGroupListFilter, changeGroupMainFilter} from '../../../Redux/actions'
+import { addEquipmentType, changeBookState} from '../../../Redux/actions/bookActions'
+import {icon_cancel, icon_down, icon_left} from '../../../data/icons'
+import Icon from '../../general/Icon'
+import {changeFilterState} from '../../../Redux/actions/filterAction'
 
-const SetGroupe = (props) => {
+const SetGroup = props => {
+
+    const [visibleList, setVisibleList] = useState(false)
+
+    useEffect(() => {
+        props.addEquipmentType()
+    }, [props.book.filter_type])
+
+    const seted = !!Object.values(props.book.equipment_type).length
 
     const clickHandel = (event) => {
         if (
             !event.path.map(el => el.id).includes('listFilterOfGroup') &&
             !event.path.map(el => el.id).includes('optionsFilterTextOfGroup')
         ) {
-            if (props.groupListFilter) {
-                props.changeGroupListFilter()
+            if (visibleList) {
+                setVisibleList(false)
             }
         }
     }
@@ -23,54 +34,78 @@ const SetGroupe = (props) => {
         }
     })
 
+    const reset = () => {
+        props.changeFilterState({
+            temp_kindof_good_id: null,
+            temp_brand: null,
+            temp_subtype: null
+        })
+        props.changeBookState({
+            filter_type: '',
+            filter_brand: '',
+            filter_subtype: '',
+            equipment_type: {},
+            equipment_brand: {},
+            equipment_subtype: {}
+        })
+    }
+
+
+    const setType = (equipment) => {
+        props.changeFilterState({temp_kindof_good_id: equipment.id})
+        props.changeBookState({equipment_type: equipment})
+        setVisibleList(false)
+    }
+
     return (
-        <div className=''>
-            <div className='optionsFilterTitle'>Группа</div>
-            <div
-                className='optionsFilterText'
+        <div className='mt15 h52'>
+            <div className='lableImput'>Тип устройства</div>
+            <button
                 id='optionsFilterTextOfGroup'
-                onClick={() => props.changeGroupListFilter()}
+                className='optionsFilterText'
+                onClick={() => setVisibleList(true)}
+                disabled={seted}
             >
                 <input
                     className='optionFilterInput'
-                    onChange={event => props.changeGroupMainFilter(event.target.value)}
+                    onChange={event => props.changeBookState({filter_type: event.target.value})}
                     placeholder='Выбирете группу'
-                    value={props.tempFilter.kindof_good}
+                    value={seted ? props.book.equipment_type.title : props.book.filter_type}
+                    disabled={seted}
                 />
-                <span>&#6662;</span>
-            </div>
-            {props.groupListFilter ? <div className='listFilter' id='listFilterOfGroup'>
-                {props.equipment.map(equipment => {
-
-                    return (
-                        equipment.title.toLowerCase().includes(props.tempFilter.kindof_good.toLowerCase()) ?
+                {seted ?
+                    <div onClick={reset}>
+                        <Icon icon={icon_cancel} className='icon-close'/>
+                    </div>
+                    :
+                    <Icon icon={visibleList ? icon_down : icon_left} className='icon-s2'/>
+                }
+            </button>
+            {visibleList ?
+                <div className='listFilter' id='listFilterOfGroup'>
+                    {props.book.equipment_types.map(equipment => (
                             <div
                                 key={equipment.id}
                                 className='rowGropList'
-                                onClick={() => {
-                                    props.changeGroupMainFilter(equipment.title)
-                                    props.changeGroupListFilter()
-                                }}
+                                onClick={() => setType(equipment)}
                             >
                                 {equipment.title}
-                            </div> : null
-                    )
-                })}
-
-            </div> : null}
+                            </div>
+                    ))}
+                </div> : null}
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    groupListFilter: state.view.groupListFilter,
-    equipment: state.data.equipment,
-    tempFilter: state.filter.tempFilter
+    filter: state.filter,
+    book: state.book
 })
 
 const mapDispatchToProps = {
-    changeGroupListFilter,
-    changeGroupMainFilter
+    addEquipmentType,
+    changeBookState,
+    changeFilterState
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SetGroupe)
+export default connect(mapStateToProps, mapDispatchToProps)(SetGroup)

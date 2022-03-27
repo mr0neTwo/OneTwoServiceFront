@@ -36,13 +36,13 @@ const SettingMargin = (props) => {
             props.setVisibleFlag('statusPriceEditor', true)
             props.changePriceForm(2, 'margin_type')
           }}
-          unvisible={!props.permissions.includes('setting_create_price')}
+          invisible={!props.permissions.includes('setting_create_price')}
         />
         <Checkbox
           label='Показать удаленных'
           onChange={event => setShowDeletedGood(event.target.checked)}
           checked={showDeletedGood}
-          unvisible={!props.permissions.includes('setting_price_show_deleted')}
+          invisible={!props.permissions.includes('setting_price_show_deleted')}
         />
       </div>
       {props.statusPriceEditor ? <PriceEditor/> : null}
@@ -60,13 +60,13 @@ const SettingMargin = (props) => {
             props.setVisibleFlag('statusPriceEditor', true)
             props.changePriceForm(1, 'margin_type')
           }}
-          unvisible={!props.permissions.includes('setting_create_price')}
+          invisible={!props.permissions.includes('setting_create_price')}
         />
         <Checkbox
           label='Показать удаленных'
           onChange={event => setShowDeletedServ(event.target.checked)}
           checked={showDeletedServ}
-          unvisible={!props.permissions.includes('setting_price_show_deleted')}
+          invisible={!props.permissions.includes('setting_price_show_deleted')}
         />
         </div>
       <TablePrice type={1} showDeleted={showDeletedServ}/>

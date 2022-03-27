@@ -12,7 +12,7 @@ const LableInput = (props) => {
       if (out.length < 12) props.onChange(out)
    }
 
-   return props.unvisible ? <div/> : (
+   return props.invisible ? <div/> : (
       <div className={props.className}>
             <div className='lableImput'>{props.title}{props.redStar ? <span className='redStar'>*</span> : null}</div>
             <div className='row'>
@@ -78,4 +78,4 @@ const mapDispatchToProps = {
 //  redStar={false}
 //  errorMassage=''
 //  isPhone={true}
-//  unvisible={false}
+//  invisible={false}

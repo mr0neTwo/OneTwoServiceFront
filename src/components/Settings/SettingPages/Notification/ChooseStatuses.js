@@ -29,7 +29,7 @@ const ChooseStatuses = props => {
     const allStatuses = props.statuses.map(status => status.id)
 
 
-    return props.unvisible ? null : (
+    return props.invisible ? null : (
         <div
             className={props.className}
             style={{width: props.width ? props.width : '250px'}}
@@ -106,4 +106,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(ChooseStatuses)
 // checkedFlag='checkedFlag'
 // checked={flag}
 // disabled={false}
-// unvisible={false}
+// invisible={false}

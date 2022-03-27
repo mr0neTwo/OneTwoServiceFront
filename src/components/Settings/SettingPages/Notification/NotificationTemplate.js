@@ -22,14 +22,14 @@ const NotificationTemplate = props => {
                     className='greenButton'
                     title='+ Шаблон'
                     onClick={() => props.setVisibleFlag('statusNotTemplateEditor', true)}
-                    unvisible={props.permissions.includes('setting_create_notification')}
+                    invisible={props.permissions.includes('setting_create_notification')}
                 />
                 <Checkbox
                     className='ml10'
                     label='Показать удаленные'
                     onChange={event => props.changeNotTemplateForm(event.target.checked, 'showDeleted')}
                     checked={props.showDeleted}
-                    unvisible={!props.permissions.includes('setting_see_deleted_not_template')}
+                    invisible={!props.permissions.includes('setting_see_deleted_not_template')}
                 />
             </div>
             {props.statusNotTemplateEditor ? <NotTemplateEditor/> : null}

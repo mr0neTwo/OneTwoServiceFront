@@ -62,6 +62,10 @@ export const bookReducer = (state = initialState, action) => {
          }
       }
 
+      case 'CHANGE_BOOK_STATE': {
+         return {...Object.assign(state, action.data)}
+      }
+
 
       case 'CHOOSE_EQUIPMENT_BRANCHES': {
          if (action.id.every(id => state.branches.includes(id))) {

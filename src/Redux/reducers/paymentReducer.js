@@ -1,164 +1,166 @@
+const now = new Date()
 
 const initialState = {
-   edit: 0,
-   sum: 0,
-   title: '',
+    edit: 0,
+    sum: 0,
+    title: '',
 
-   cashflow_category: '',
-   description: '',
+    cashflow_category: '',
+    description: '',
 
-   deposit: 0,
-   income: 0,
-   outcome: 0,
-   direction: 0,
+    deposit: 0,
+    income: 0,
+    outcome: 0,
+    direction: 0,
 
-   can_print_fiscal: false,
-   deleted: false,
-   is_fiscal: false,
+    can_print_fiscal: false,
+    deleted: false,
+    is_fiscal: false,
 
-   created_at: 0,
-   custom_created_at: 0,
+    created_at: 0,
+    custom_created_at: null,
 
-   tags: [],
+    tags: [],
 
-   relation_id: null,
-   cashbox_id: 0,
-   client_id: 0,
-   employee_id: 0,
-   order_id: 0,
-   target_cashbox_id: 0,
+    relation_id: null,
+    cashbox_id: 0,
+    client_id: 0,
+    employee_id: 0,
+    order_id: 0,
+    target_cashbox_id: 0,
 
-   cashbox: {},
-   client: {},
-   employee: {},
-   order: {},
+    cashbox: {},
+    client: {},
+    employee: {},
+    order: {},
 
-   filter_created_at: [Math.round(Date.now()/1000 - Date.now()/1000 % 86400 - 10800), Math.round(Date.now() / 1000)],
-   filter_tags: [],
+    filter_created_at: [
+        parseInt(now.setHours(0, 0, 0, 0) / 1000),
+        parseInt(now.setHours(23, 59, 59, 999) / 1000)
+    ],
+    filter_tags: [],
 
-   current_type: 0,
-   context: {}
+    current_type: 0,
+    context: {}
 }
 
 export const paymentReducer = (state = initialState, action) => {
-   switch (action.type){
+    switch (action.type) {
 
-      case 'CHANGE_PAYMENT_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value,
-         }
-      }
-
-      case 'CHANGE_PAYMENT_STATE': {
-         return {...Object.assign(state, action.data)}
-      }
-
-      case 'CHOOSE_PAYMENT_SELECTED': {
-         if (action.id.every(id => state[action.field].includes(id))) {
+        case 'CHANGE_PAYMENT_FORM': {
             return {
-               ...state, 
-               [action.field]: state[action.field].filter(id => !action.id.includes(id)),
+                ...state,
+                [action.field]: action.value,
             }
-         } else {
+        }
+
+        case 'CHANGE_PAYMENT_STATE': {
+            return {...Object.assign(state, action.data)}
+        }
+
+        case 'CHOOSE_PAYMENT_SELECTED': {
+            if (action.id.every(id => state[action.field].includes(id))) {
+                return {
+                    ...state,
+                    [action.field]: state[action.field].filter(id => !action.id.includes(id)),
+                }
+            } else {
+                return {
+                    ...state,
+                    [action.field]: state[action.field].concat(action.id.filter(id => !state[action.field].includes(id))),
+                }
+            }
+        }
+
+        case 'ADD_PAYMENT_TAG': {
+
             return {
-               ...state, 
-               [action.field]: state[action.field].concat(action.id.filter(id => !state[action.field].includes(id))),
+                ...state,
+                tags: state.tags.concat([action.tag])
             }
-         }
-      }
+        }
 
-      case 'ADD_PAYMENT_TAG': {
+        case 'DELETE_PAYMENT_TAG': {
 
-         return {
-            ...state, 
-            tags: state.tags.concat([action.tag])
-         }
-      }
-      
-      case 'DELETE_PAYMENT_TAG': {
+            let tags_list = state.tags
+            tags_list.splice(action.idx, 1)
 
-         let tags_list = state.tags
-         tags_list.splice(action.idx, 1)
+            return {
+                ...state,
+                tags: tags_list
+            }
+        }
 
-         return {
-            ...state, 
-            tags: tags_list
-         }
-      }
 
-      
-      case 'RESET_PAYMENTS': {
+        case 'RESET_PAYMENTS': {
 
-         return {
-            ...state, 
-            edit: 0,
-            sum: 0,
-            title: '',
+            return {
+                ...state,
+                edit: 0,
+                sum: 0,
+                title: '',
 
-            cashflow_category: '',
-            description: '',
+                cashflow_category: '',
+                description: '',
 
-            deposit: 0,
-            income: 0,
-            outcome: 0,
-            direction: 0,
+                deposit: 0,
+                income: 0,
+                outcome: 0,
+                direction: 0,
 
-            can_print_fiscal: true,
-            deleted: false,
-            is_fiscal: false,
+                can_print_fiscal: true,
+                deleted: false,
+                is_fiscal: false,
 
-            created_at: 0,
-            custom_created_at: 0,
+                created_at: 0,
+                custom_created_at: 0,
 
-            tags: [],
+                tags: [],
 
-            cashbox_id: 0,
-            client_id: 0,
-            employee_id: 0,
-            order_id: 0,
-            target_cashbox_id: 0,
+                cashbox_id: 0,
+                client_id: 0,
+                employee_id: 0,
+                order_id: 0,
+                target_cashbox_id: 0,
 
-            context: {}
-         }
-      }
-      
-      case 'SET_PAYMENT': {
+                context: {}
+            }
+        }
 
-         return {
-            ...state, 
-            edit: action.payment.id,
+        case 'SET_PAYMENT': {
 
-            cashflow_category: action.payment.cashflow_category,
-            description: action.payment.description,
+            return {
+                ...state,
+                edit: action.payment.id,
 
-            deposit: action.payment.deposit,
-            income: action.payment.income,
-            outcome: action.payment.outcome,
-            direction: action.payment.direction,
+                cashflow_category: action.payment.cashflow_category,
+                description: action.payment.description,
 
-            can_print_fiscal: action.payment.can_print_fiscal,
-            deleted: action.payment.deleted,
-            is_fiscal: action.payment.is_fiscal,
+                deposit: action.payment.deposit,
+                income: action.payment.income,
+                outcome: action.payment.outcome,
+                direction: action.payment.direction,
 
-            created_at: action.payment.created_at,
-            custom_created_at: action.payment.custom_created_at,
+                can_print_fiscal: action.payment.can_print_fiscal,
+                deleted: action.payment.deleted,
+                is_fiscal: action.payment.is_fiscal,
 
-            tags: action.payment.tags,
+                created_at: action.payment.created_at,
+                custom_created_at: action.payment.custom_created_at,
 
-            cashbox: action.payment.cashbox,
-            client: action.payment.client,
-            employee: action.payment.employee,
-            order: action.payment.order,
-            target_cashbox_id: action.payment.target_cashbox_id,
-         }
-      }
-      
-      
+                tags: action.payment.tags,
 
-      
-      
-      default: return state
-   }
-   
+                cashbox: action.payment.cashbox,
+                client: action.payment.client,
+                employee: action.payment.employee,
+                order: action.payment.order,
+                target_cashbox_id: action.payment.target_cashbox_id,
+            }
+        }
+
+
+        default:
+            return state
+    }
+
 }

@@ -101,7 +101,7 @@ const Cashbox = (props) => {
                     className={props.cashbox.deleted ? 'whiteButton m10' : 'greenButton m10'}
                     onClick={hanldleIncome}
                     disabled={props.cashbox.deleted}
-                    unvisible={!income}
+                    invisible={!income}
                 />
                 <Button
                     id='344'
@@ -109,7 +109,7 @@ const Cashbox = (props) => {
                     className={props.cashbox.deleted ? 'whiteButton m10' : 'greenButton bcr m10'}
                     onClick={hanldleOutcome}
                     disabled={props.cashbox.deleted}
-                    unvisible={!outcome}
+                    invisible={!outcome}
                 />
             </div>
             <Button
@@ -117,7 +117,7 @@ const Cashbox = (props) => {
                 className='whiteButton'
                 onClick={hanldleMove}
                 disabled={props.cashbox.deleted}
-                unvisible={!move}
+                invisible={!move}
             />
         </div>
     )

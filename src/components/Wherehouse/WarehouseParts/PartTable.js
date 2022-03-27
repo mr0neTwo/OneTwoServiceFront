@@ -23,7 +23,7 @@ function PartTable (props) {
             <thead>
             <tr>
                 {table_heards.map(header => (
-                    <th>{header.title}</th>
+                    <th key={header.id}>{header.title}</th>
                 ))}
             </tr>
             </thead>
@@ -37,7 +37,7 @@ function PartTable (props) {
                         {table_heards.map(header => {
                             if (header.field === 'doc_url')
                                 return (
-                                    <td>
+                                    <td key={header.title + part.id}>
                                         {part[header.field] ?
                                             <a
                                                 href={`${process.env.PUBLIC_URL}/${part[header.field]}`}
@@ -50,8 +50,8 @@ function PartTable (props) {
                                     </td>
                                 )
                             if (header.field === 'warehouse_category')
-                                return <td>{part[header.field].title}</td>
-                            return <td>{part[header.field]}</td>
+                                return <td key={header.title + part.id}>{part[header.field].title}</td>
+                            return <td key={header.title + part.id}>{part[header.field]}</td>
                         })}
                     </tr>
                 )
