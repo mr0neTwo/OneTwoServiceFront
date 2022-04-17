@@ -33,6 +33,7 @@ const TablePayments = (props) => {
     }
 
     const payments = props.payments.filter(payment => props.showDeleted || !payment.deleted)
+        .filter(payment => props.permissions.includes('see_payment_profit') || payment.cashflow_category !== 'Прибыль')
 
 
     return (
@@ -80,7 +81,11 @@ const TablePayments = (props) => {
                     </td>
                     <td className={payment.income ? 'greenFont tac' : 'tac'}>{payment.income}</td>
                     <td className={payment.outcome ? 'redFont tac' : 'tac'}>{payment.outcome}</td>
-                    {showBalance() ? <td className='tac'>{parseFloat(payment.deposit).toFixed(2)}</td> : null}
+                    {showBalance() ?
+                        <td className='tac'>
+                            {payment.deposit ? parseFloat(payment.deposit).toFixed(2) : 0}
+                        </td>
+                        : null}
                 </tr>
             ))}
             <tr>
@@ -96,10 +101,11 @@ const TablePayments = (props) => {
 }
 
 const mapStateToProps = state => ({
-    payments: state.data.payments,
+    payments: state.payment.payments,
     employees: state.data.employees,
     user: state.data.user,
-    current_cashbox: state.cashbox.current_cashbox
+    current_cashbox: state.cashbox.current_cashbox,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

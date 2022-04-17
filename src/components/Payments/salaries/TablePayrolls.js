@@ -72,7 +72,7 @@ const TablePayrolls = (props) => {
                     <td className='pd-lr-5'>{payroll.description}</td>
                     <td className={payroll.income ? 'greenFont tac' : 'tac'}>{payroll.income}</td>
                     <td className={payroll.outcome ? 'redFont tac' : 'tac'}>{payroll.outcome}</td>
-                    <td className='tac'>{payroll.deposit.toFixed(2)}</td>
+                    <td className='tac'>{payroll.deposit ? payroll.deposit.toFixed(2) : 0}</td>
                 </tr>
             ))}
             <tr>

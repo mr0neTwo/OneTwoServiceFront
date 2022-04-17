@@ -88,9 +88,9 @@ export const filterReducer = (state = initialState, action) => {
                 ...state,
                 page: 0,
 
-                engineer_id: [],
+                engineer_id: null,
                 overdue: null,
-                status_id: [],
+                status_id: null,
                 status_overdue: null,
                 urgent: null,
 

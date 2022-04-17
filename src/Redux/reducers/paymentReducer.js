@@ -1,6 +1,9 @@
 const now = new Date()
 
 const initialState = {
+
+    payments: [],
+
     edit: 0,
     sum: 0,
     title: '',
@@ -46,13 +49,6 @@ const initialState = {
 
 export const paymentReducer = (state = initialState, action) => {
     switch (action.type) {
-
-        case 'CHANGE_PAYMENT_FORM': {
-            return {
-                ...state,
-                [action.field]: action.value,
-            }
-        }
 
         case 'CHANGE_PAYMENT_STATE': {
             return {...Object.assign(state, action.data)}

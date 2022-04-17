@@ -1,16 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
 
-const Lable = ({data: {id_label, urgent}}) => {
+const Lable = props => {
    return (
       <td className="orderLabel tableRow">
-         <span className={urgent ? 'fire-text': null}>{ id_label }</span>
+          <Link
+              className='orderLink'
+              to={{
+                  pathname: `/orders/${props.data.id}`,
+                  state: { order_id: props.data.id }
+              }}
+          >
+              <span
+                  className={props.data.urgent && props.data.status.group < 4 ? 'fire-text': null}
+              >
+                  { props.data.id_label }
+              </span>
+          </Link>
       </td>
    )
 }
 
-const mapStateToProps = state => ({
-   //   dataSidebarRows: 'dataSidebarRows',
-})
+
+const mapDispatchToProps ={
+}
   
- export default connect(mapStateToProps)(Lable)
+ export default connect(null, mapDispatchToProps)(Lable)

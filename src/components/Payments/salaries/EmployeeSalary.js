@@ -35,6 +35,7 @@ const EmployeeSalary = (props) => {
         props.setVisibleFlag('statusPayrollEditor', true)
     }
 
+    const month_balance = props.payroll.month_balance
 
     return (
         <div className=''>
@@ -44,12 +45,13 @@ const EmployeeSalary = (props) => {
             <div className='txtb'>
                 <span>Начисленно в текущем месяце: </span>
                 <span
-                    className={props.payroll.month_balance > 0 ? 'greenFont ml5' : 'redFont ml5'}>{props.payroll.month_balance.toFixed(2)}</span> руб.
+                    className={month_balance > 0 ? 'greenFont ml5' : 'redFont ml5'}>{month_balance ? month_balance.toFixed(2) : 0}</span> руб.
             </div>
             <div className='txtb'>
                 <span>Баланс:</span>
                 <span
-                    className={props.payroll.month_balance > 0 ? 'greenFont ml5' : 'redFont ml5'}>{current_employee.balance.toFixed(2)}</span> руб.
+                    className={month_balance > 0 ? 'greenFont ml5' : 'redFont ml5'}>
+                    {current_employee.balance ? current_employee.balance.toFixed(2) : 0}</span> руб.
             </div>
 
             <div className='row mt15 jc-sb'>

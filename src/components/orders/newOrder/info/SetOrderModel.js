@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
-import {setOrderEquipment, resetEquipment, changeOrderFormS} from '../../../../Redux/actions'
 import {createEquipmentModel, addEquipmentModel, changeBookState} from '../../../../Redux/actions/bookActions'
 import {icon_cancel, icon_close, icon_down} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
+import {changeOrderState} from '../../../../Redux/actions/orderActions'
 
 const SetOrderModel = (props) => {
 
@@ -15,11 +15,9 @@ const SetOrderModel = (props) => {
         if (Object.values(props.book.equipment_subtype).length) props.addEquipmentModel()
     }, [props.book.equipment_subtype, props.book.filter_model])
 
-    const edit = props.order.edit
 
-    const model = edit ? props.order.model : props.order.equipments[props.idx].model
     const disabled = !Object.values(props.book.equipment_subtype).length
-    const seted = !!Object.values(model).length
+    const seted = !!Object.values(props.order.model).length
 
     const clickHandel = (event) => {
         if (
@@ -40,20 +38,20 @@ const SetOrderModel = (props) => {
         }
     })
 
-    const setModel = (idx, model) => {
-        edit ? props.changeOrderFormS(model, 'model') : props.setOrderEquipment(idx, 'model', model)
+    const setModel = model => {
+        props.changeOrderState({model})
         props.changeBookState({equipment_model: model, filter_model: ''})
         setVisibleList(false)
         setVisisbleBotton(false)
     }
 
     const reset = () => {
-        edit ? props.changeOrderFormS({}, 'model') : props.resetEquipment(props.idx, 'model')
+        props.changeOrderState({model: {}})
         props.changeBookState({equipment_model: {}})
     }
 
     return (
-        <>
+        <div>
             <button
                 className={disabled ? 'optionsUnavaliable' : 'optionsFilterText'}
                 id="optionsOrderTextOfModel"
@@ -64,7 +62,7 @@ const SetOrderModel = (props) => {
                     className={disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
                     onChange={event => props.changeBookState({filter_model: event.target.value})}
                     placeholder="Выбирете модель"
-                    value={seted ? model.title : props.book.filter_model}
+                    value={seted ? props.order.model.title : props.book.filter_model}
                     disabled={disabled || seted}
                 />
                 {seted && props.permissions.includes('edit_info_orders') ?
@@ -82,7 +80,7 @@ const SetOrderModel = (props) => {
                         <div
                             key={model.id}
                             className="rowGropList"
-                            onClick={() => setModel(props.idx, model)}
+                            onClick={() => setModel(model)}
                         >
                             {model.title}
                         </div>
@@ -95,7 +93,7 @@ const SetOrderModel = (props) => {
                                 onChange={event => props.changeBookState({filter_model: event.target.value})}
                                 onKeyPress={(event) => {
                                     if (event.key === 'Enter') {
-                                        props.createEquipmentModel(props.idx, event.target.value)
+                                        props.createEquipmentModel(event.target.value)
                                         setVisisbleBotton(false)
                                     }
                                 }}
@@ -114,7 +112,7 @@ const SetOrderModel = (props) => {
                     </div>
                 </div>
             ) : null}
-        </>
+        </div>
     )
 }
 
@@ -126,9 +124,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     createEquipmentModel,
-    setOrderEquipment,
-    resetEquipment,
-    changeOrderFormS,
+    changeOrderState,
     addEquipmentModel,
     changeBookState
 }

@@ -94,7 +94,10 @@ const Cashbox = (props) => {
             </div>
             <div>{props.cashbox.title.toUpperCase()}</div>
             {showBalance ?
-                <div className='cacsboxBalance'>{`${parseFloat(props.cashbox.balance).toFixed(2)} руб.`}</div> : null}
+                <div className='cacsboxBalance'>
+                    {`${props.cashbox.balance ? parseFloat(props.cashbox.balance).toFixed(2) : 0} руб.`}
+                </div>
+                : null}
             <div className='row jc-c'>
                 <Button
                     title='+ Приход'

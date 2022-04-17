@@ -1,4 +1,11 @@
+import {order_event_types} from '../../data/data'
+
 const initialState = {
+
+   ordersShow: [],
+   count: 0,
+
+   events: [],
 
    edit: 0,
    tabs: 1,
@@ -57,50 +64,37 @@ const initialState = {
    urgent: false,
    warranty_measures: false,
 
-   equipments: [{
-      kindof_good: {},
-      brand: {},
-      subtype: {},
-      model: {},
-      malfunction: '',
-      packagelist: '',
-      appearance: '',
-      urgent: false
-   }],
-  
+   event_filter: JSON.parse(localStorage.getItem('event_filter')) || order_event_types.map(event => event.id),
+   event_comment: ''
 }
 
 export const orderReducer = (state = initialState, action) => {
    switch (action.type){
 
-      case 'RESET_EQUIPMENT': {
-
-         let equipments_list = state.equipments
-         equipments_list[action.idx][action.field] = {}
-
-         return {
-            ...state, 
-            equipments: equipments_list
-         }
+      case 'CHANGE_ORDER_STATE': {
+         return {...Object.assign(state, action.data)}
       }
-      
-      case 'SET_ORDER_EQUIPMENT': {
 
-         let equipments_list = state.equipments
-         equipments_list[action.idx][action.field] = {
-            id: action.data.id,
-            icon: action.data.icon,
-            title: action.data.title,
-            url: action.data.url
+      case 'SELECTED_ORDER': {
+         // Обявим переменную для изменных данных
+         let new_data
+         // Проверим если значения value в списке уже существующих
+         if (action.value.every(val => state[action.field].includes(val))) {
+            // Если есть удалим эти значения
+            new_data = state[action.field].filter(val => !action.value.includes(val))
+         } else {
+            // Если нет добавим эти значения
+            new_data = state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
          }
-
+         // Если флаг saveToApp установлен сохраним данные на локальном хранилище
+         if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))
+         // Вернем изменненый стейт
          return {
-            ...state, 
-            equipments: equipments_list
+            ...state,
+            [action.field]: new_data,
          }
       }
 
-      
       case 'CHANGE_ORDER_FORM': {
 
          let equipments_list = state.equipments
@@ -155,7 +149,8 @@ export const orderReducer = (state = initialState, action) => {
       case 'RESET_ORDER': {
 
          return {
-            ...state, 
+            ...state,
+            events: [],
             edit: 0,
             tabs: 1,
 
@@ -269,10 +264,10 @@ export const orderReducer = (state = initialState, action) => {
             malfunction: action.order.malfunction,
             packagelist: action.order.packagelist,
             appearance: action.order.appearance,
-            engineer_notes: action.order.engineer_notes,
-            manager_notes: action.order.manager_notes,
-            resume: action.order.resume,
-            cell: action.order.cell,
+            engineer_notes: action.order.engineer_notes || '',
+            manager_notes: action.order.manager_notes || '',
+            resume: action.order.resume || '',
+            cell: action.order.cell || '',
 
             estimated_cost: action.order.estimated_cost,
             missed_payments: action.order.missed_payments,

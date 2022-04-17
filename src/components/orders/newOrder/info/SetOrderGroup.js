@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useMemo} from 'react'
 import {connect} from 'react-redux'
 
-import {setOrderEquipment, resetEquipment, setVisibleListFlag, changeOrderFormS} from '../../../../Redux/actions'
+import {changeVisibleState} from '../../../../Redux/actions'
 import {createEquipmentType, addEquipmentType, changeBookState} from '../../../../Redux/actions/bookActions'
+import {changeOrderState} from '../../../../Redux/actions/orderActions'
 import {icon_cancel, icon_down} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 
@@ -15,10 +16,7 @@ const SetOrderGroupe = (props) => {
         props.addEquipmentType()
     }, [props.book.filter_type])
 
-    const edit = props.order.edit
-    // const types = edit ? props.order.kindof_good : props.order.equipments[props.idx].kindof_good
-    const types = useMemo(() => edit ? props.order.kindof_good : props.order.equipments[props.idx].kindof_good, [props.order.kindof_good, props.order.equipments[props.idx].kindof_good])
-    const seted = !!Object.values(types).length
+    const settled = !!Object.values(props.order.kindof_good).length
 
     const clickHandel = (event) => {
         if (
@@ -40,46 +38,41 @@ const SetOrderGroupe = (props) => {
     })
 
     const reset = () => {
-        if (edit) {
-            props.changeOrderFormS({}, 'kindof_good')
-            props.changeOrderFormS({}, 'brand')
-            props.changeOrderFormS({}, 'subtype')
-            props.changeOrderFormS({}, 'model')
-        } else {
-            props.resetEquipment(props.idx, 'kindof_good')
-            props.resetEquipment(props.idx, 'brand')
-            props.resetEquipment(props.idx, 'subtype')
-            props.resetEquipment(props.idx, 'model')
-        }
+        props.changeOrderState({
+            kindof_good: {},
+            brand: {},
+            subtype: {},
+            model: {}
+        })
         props.changeBookState({equipment_type: {}})
+        props.changeVisibleState({checkedOrderKindofGood: true})
     }
 
 
-    const setOrderType = (idx, equipment) => {
-        edit ? props.changeOrderFormS(equipment, 'kindof_good') : props.setOrderEquipment(idx, 'kindof_good', equipment)
+    const setOrderType = equipment => {
+        props.changeOrderState({kindof_good: equipment}) 
         props.changeBookState({filter_type: '', equipment_type: equipment})
         setVisibleList(false)
         setVisisbleBotton(false)
     }
 
     return (
-        <>
-
+        <div>
             <button
                 className='optionsFilterText'
                 id='optionsOrderTextOfGroup'
                 onClick={() => setVisibleList(true)}
-                disabled={seted}
-                style={!props.view.checkedOrderKindofGood[props.idx] ? {borderColor: 'red'} : null}
+                disabled={settled}
+                style={!props.view.checkedOrderKindofGood? {borderColor: 'red'} : null}
             >
                 <input
                     className='optionFilterInput'
                     onChange={event => props.changeBookState({filter_type: event.target.value})}
                     placeholder='Выбирете группу'
-                    value={seted ? types.title : props.book.filter_type}
-                    disabled={seted}
+                    value={settled ? props.order.kindof_good.title : props.book.filter_type}
+                    disabled={settled}
                 />
-                {seted && props.permissions.includes('edit_info_orders') ?
+                {settled && props.permissions.includes('edit_info_orders') ?
                     <div onClick={reset}>
                         <Icon icon={icon_cancel} className='icon-close'/>
                     </div>
@@ -87,7 +80,7 @@ const SetOrderGroupe = (props) => {
                     <Icon icon={icon_down} className='icon-s2'/>
                 }
             </button>
-            {!props.view.checkedOrderKindofGood[props.idx] ?
+            {!props.view.checkedOrderKindofGood ?
                 <div className='errorMassageInput'>{'Необоходимо выбрать из списка'}</div> : null}
             {visibleList ? <div className='listFilter' id='listOrderOfGroup'>
                 {props.book.equipment_types.map(equipment => (
@@ -95,7 +88,7 @@ const SetOrderGroupe = (props) => {
                     <div
                         key={equipment.id}
                         className='rowGropList'
-                        onClick={() => setOrderType(props.idx, equipment)}
+                        onClick={() => setOrderType(equipment)}
                     >
                         {equipment.title}
                     </div>
@@ -125,7 +118,7 @@ const SetOrderGroupe = (props) => {
                 </div>
 
             </div> : null}
-        </>
+        </div>
     )
 }
 
@@ -138,12 +131,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     createEquipmentType,
-    setOrderEquipment,
-    resetEquipment,
-    setVisibleListFlag,
-    changeOrderFormS,
     addEquipmentType,
-    changeBookState
+    changeBookState,
+    changeOrderState,
+    changeVisibleState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetOrderGroupe)

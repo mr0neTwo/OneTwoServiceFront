@@ -9,7 +9,7 @@ import PaymentsEditor from '../../Payments/PaymentsEditor'
 
 const TitleOrderEditor = (props) => {
 
-  const iconBr = <Icon icon={props.current_branch.icon} color={props.current_branch.color} className='icon-sm8'/>
+  const iconBr = props.current_branch ? <Icon icon={props.current_branch.icon} color={props.current_branch.color} className='icon-sm8'/> : null
   const iconB = props.order.urgent ? <Icon icon={icon_burn} color='red' className='icon-sm8'/> : null
   const iconC = (!props.order.overdue && props.order.status.group < 4) ? <Icon icon={icon_clock} color='#f0ad4e' className='icon-sm8'/> : null
 

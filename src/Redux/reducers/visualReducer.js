@@ -43,6 +43,7 @@ const initialState = {
    checkOrderSticker: localStorage.getItem('checkOrderSticker') === 'true',
    statusNotTemplateEditor: false,
    statusNotEventEditor: false,
+   needToResetOrder: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -55,10 +56,10 @@ const initialState = {
    inputEmployeeLoginChecked: true,
    inputEmployeePasswordChecked: true,
    inputEmployeeRoleChecked: true,
-   inputMalfunctionChecked: [true],
-   checkedOrderKindofGood: [true],
-   checkedOrderBrand: [true],
-   checkedOrderSubtype: [true],
+   inputMalfunctionChecked: true,
+   checkedOrderKindofGood: true,
+   checkedOrderBrand: true,
+   checkedOrderSubtype: true,
    inputMaindataNameChecked: true,
    inputBranchNameChecked: true,
    inputBranchPrefixChecked: true,
@@ -263,17 +264,6 @@ export const visualReducer = (state = initialState, action) => {
          }
       }
 
-      
-      // case 'SET_ORDER_EQUIPMENT': {
-         
-      //    let checked_list = state[action.field]
-      //    checked_list[action.idx] = true
-
-      //    return {
-      //       ...state, 
-      //       [action.field]: checked_list
-      //    }
-      // }
 
       
 

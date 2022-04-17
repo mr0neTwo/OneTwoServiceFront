@@ -208,6 +208,9 @@ export const finance = [
    },{
       value: 'recover_payrolls', 
       description: 'Может восстанавливать начисления ЗП'
+   },{
+      value: 'see_payment_profit',
+      description: 'Видит транзакии ивлечения прибыли'
    }
 ]
 

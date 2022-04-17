@@ -10,6 +10,7 @@ import {changeStatus} from '../../Redux/actions/orderActions'
 function StatusListGroup(props) {
 
     const handleClick = (status) => {
+
         if (props.groupIdx === 5 && props.order.price !== props.order.payed){
             const income = props.order.price > props.order.payed
             props.changePaymentState({
@@ -21,7 +22,7 @@ function StatusListGroup(props) {
                 employee_id: props.current_user_id,
                 order_id: props.order.edit || props.order.id,
                 context: {
-                    type: props.order.edit ? 'closed_order_editor' : 'closed_order',
+                    type: 'closed_order',
                     order_id: props.order.edit || props.order.id,
                     status_id: status.id
                 }
@@ -31,7 +32,7 @@ function StatusListGroup(props) {
         } else {
             if (props.order.edit) {
                 props.changeStatus(status.id, props.order.edit)
-                props.refreshDataOrder(props.order.edit)
+                // props.refreshDataOrder(props.order.edit)
             } else {
                 props.changeStatus(status.id, props.order.id)
                 props.changeStatusMenuVisible(props.order.id)

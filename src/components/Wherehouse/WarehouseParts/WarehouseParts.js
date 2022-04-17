@@ -38,7 +38,7 @@ const WarehouseParts = props => {
         <div className = 'contentTab'>
             <div className='row al-itm-bl'>
                 <div className='wmn300 overv'>
-                    <div className='row'>
+                    <div className='row al-itm-ct'>
                         <Button
                             id='btaddWC'
                             className='greenButton'
@@ -59,7 +59,7 @@ const WarehouseParts = props => {
                 </div>
                 <div className='ml10 w100'>
                     <div className='row jc-sb'>
-                        <div className='row'>
+                        <div className='row al-itm-ct'>
                             <Button
                                 id='btaddWP'
                                 className='greenButton'
@@ -78,6 +78,7 @@ const WarehouseParts = props => {
                         <TableFields
                             id='part'
                             height='185px'
+                            classNameMenu='listOption'
                             list={part_table_headers}
                             checked_list={props.part.choosed_headers}
                             func={props.choosePartSelected}

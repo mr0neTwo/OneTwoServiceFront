@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import { editCurrentClient, changeVisibleState} from '../../Redux/actions'
-import {changePaymentForm} from '../../Redux/actions/paymentAction'
+import {changePaymentState} from '../../Redux/actions/paymentAction'
 import {showPhone} from '../general/utils'
 import ClientEditor from '../Clients/ClientEditor/ClientEditor'
 import {changeClientState} from '../../Redux/actions/clientAction'
@@ -61,7 +61,7 @@ const SetClientByName = (props) => {
                                 onClick={() => {
                                     setShowList(false)
                                     props.editCurrentClient(client)
-                                    props.changePaymentForm(client.id, 'client_id')
+                                    props.changePaymentState({client_id: client.id})
                                 }}
                             >
                                 <div>{client.name}</div>
@@ -88,7 +88,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changePaymentForm,
+    changePaymentState,
     editCurrentClient,
     changeClientState,
     changeVisibleState

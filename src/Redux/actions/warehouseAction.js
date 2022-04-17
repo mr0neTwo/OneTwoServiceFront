@@ -61,7 +61,7 @@ export function addWarehouse() {
                         value: data.data
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос складов не выполнен'))
@@ -106,7 +106,7 @@ export function createWarehouse() {
                         type: 'RESET_WAREHOUSE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос складов не выполнен'))
@@ -153,7 +153,7 @@ export function saveWarehouse() {
                         type: 'RESET_WAREHOUSE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос складов не выполнен'))
@@ -194,7 +194,7 @@ export function deleteWarehouse(flag) {
                         type: 'RESET_WAREHOUSE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос складов не выполнен'))
@@ -223,7 +223,7 @@ export function addWarehouseCategories() {
                         value: data.data
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
@@ -269,7 +269,7 @@ export function createWarehouseCategory() {
                         type: 'RESET_WAREHOUSE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
@@ -316,7 +316,7 @@ export function saveWarehouseCategory() {
                         type: 'RESET_WAREHOUSE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
@@ -361,7 +361,7 @@ export function deleteWarehouseCategory( flag ) {
                         type: 'RESET_WAREHOUSE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий запчастей не выполнен'))

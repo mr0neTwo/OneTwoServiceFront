@@ -824,10 +824,9 @@ div.tableOrders td {
 
 .icon-table {
   margin: 0;
-  padding: 0;
   display: inline-block;
-  width: 1.6em;
-  height: 1.6em;
+  width: 1.4em;
+  height: 1.4em;
   padding: 0 5px;
 }
 
@@ -841,7 +840,6 @@ div.tableOrders td {
 
 .icon-branch {
   margin: 0;
-  padding: 0;
   display: inline-block;
   width: 1.6em;
   height: 1.6em;
@@ -900,13 +898,13 @@ div.tableOrders td {
   align-items: center;
   flex-direction: row;
   text-align: center;
-  height: 22px;
-  width: 60px;
+  height: 24px;
+  /*width: 60px;*/
   background: #ffffff;
   border: 1px solid #aaaaaa;
   border-radius: 4px;
   cursor: pointer;
-  margin: 4px;
+  /*margin: 4px;*/
   padding: 4px 5px;
   fill: rgb(67, 67, 67);
 }
@@ -923,6 +921,19 @@ div.tableOrders td {
   font-size: 14px;
   cursor: pointer;
 }
+
+.orderLink {
+  text-decoration: none;
+  color: #4791d1;
+  text-align: center;
+}
+
+.orderLink:hover {
+  text-decoration: underline;
+}
+/*.orderLink:visited {*/
+/*  color: #afd7fa;*/
+/*}*/
 
 .mainCustomPanel {
   width: 100%;
@@ -1044,6 +1055,63 @@ div.tableOrders td {
   max-height: 200px;
   z-index: 10;
 }
+.listprint {
+  display: block;
+  position: relative;
+  padding: 5px;
+  top: 7px;
+  width: 250px;
+  right: -9px;
+  border-radius: 5px;
+  box-shadow: 1px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 -1px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
+  background-color: #ffffff;
+  z-index: 99;
+}
+.listprint:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  top: -5px;
+  right: 222px;
+  /* border-bottom: 1px solid #aaa;
+  border-left: 1px solid #aaa; */
+  box-shadow: 0px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 0px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  background: linear-gradient(45deg, #fff 50%, rgba(255, 255, 255, 0) 50%);
+}
+
+.aventFilterMenu {
+  display: block;
+  position: relative;
+  padding: 5px;
+  top: 9px;
+  width: 250px;
+  max-height: 200px;
+  overflow: auto;
+  right: -126px;
+  border-radius: 5px;
+  box-shadow: 1px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 -1px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
+  background-color: #ffffff;
+  z-index: 99;
+}
+.aventFilterMenu:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  top: -5px;
+  right: 166px;
+  /* border-bottom: 1px solid #aaa;
+  border-left: 1px solid #aaa; */
+  box-shadow: 0px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 0px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  background: linear-gradient(45deg, #fff 50%, rgba(255, 255, 255, 0) 50%);
+}
 
 .fire-text {
   color: rgb(252, 0, 0);
@@ -1093,12 +1161,38 @@ div.tableOrders td {
   box-shadow: none;
 }
 
+.orderCommentBox {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  padding: 0px 10px;
+  color: #666666;
+  background-color: white;
+  cursor: pointer;
+  align-items: center;
+}
+
+
+.commentInput {
+  margin-right: 10px;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}
+.commentInput:focus {
+  border: none;
+  box-shadow: none;
+}
 
 .optionEquipmentInputChoosed {
   margin-right: 10px;
   border: none;
   box-shadow: none;
   color: #5cb85b;
+  width: 100%;
 }
 
 .optionFilterInput:disabled {
@@ -1172,7 +1266,7 @@ div.tableOrders td {
 }
 
 .whiteButton {
-  margin: 5px 10px;
+  /*margin: 5px 10px;*/
   padding: 4px 10px;
   background-color: white;
   border-radius: 4px;
@@ -1248,7 +1342,7 @@ div.tableOrders td {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 999999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1594,6 +1688,19 @@ checkboxLable {
   max-height: 200px;
   z-index: 10;
 }
+.printMenu {
+  display: block;
+  flex-direction: column;
+  position: relative;
+  background-color: white;
+  border: 1px solid #aaaaaa;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 4px 0px;
+  overflow: scroll;
+  max-height: 200px;
+  z-index: 10;
+}
 
 .listOptionsPhones {
   display: block;
@@ -1718,9 +1825,9 @@ checkboxLable {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #f5fafc;
-  width: 300px;
+  width: 360px;
   overflow: scroll;
+  background: aliceblue;
 }
 
 .cteateNewOrderContent {
@@ -1803,6 +1910,7 @@ checkboxLable {
   margin-right: 30px;
   box-sizing: border-box;
 }
+
 
 .addPartsBox {
   display: flex;
@@ -2505,8 +2613,8 @@ thead:hover {
 
 .calendar_top {
   display: block;
-  position: absolute;
-  bottom: 487px;
+  position: relative;
+  bottom: 335px;
   width: 250px;
   /*height: 300px;*/
   /* border: 1px solid gray; */
@@ -2642,7 +2750,26 @@ thead:hover {
   color: #fff;
 }
 
+.orderEvent {
+  border-left: 2px solid;
+  font-size: 12px;
+}
 
+.eventElement {
+  position: relative;
+  left: -10px;
+  padding: 5px 0;
+}
+.evFerst {
+  padding: 0 0 5px 0;
+}
+
+.boxHistoryIcon {
+  background-color: rgb(66, 139, 202);
+  border-radius: 2px;
+  height: 18px;
+  padding: 0 2px;
+}
 
 .month {
   padding: 4px 12px;
@@ -2722,6 +2849,11 @@ div.ssm > div:hover {
 .had:hover {
   background-color: var(--color-gray);
 }
+.dateEvent {
+  font-weight: bold;
+  text-align: center;
+  font-size: 12px;
+}
 
 .orderSticker{
   display: block;
@@ -2781,12 +2913,14 @@ div.ssm > div:hover {
   height: 40px;
 }
 
+.m0 {margin: 0}
 .mt15 { margin-top: 15px }
 .mt35 { margin-top: 35px }
 .mt5 { margin-top: 5px }
 .mt0 { margin-top: 0 }
 
 .mr-rg-20 { margin-right: 20px }
+.mr-rg-5 { margin-right: 5px }
 
 .mr-lf-0 { margin-left: 0 }
 .ml2 { margin-left: 2px }
@@ -2806,6 +2940,8 @@ div.ssm > div:hover {
 .m4 { margin: 4px }
 .m10 { margin: 10px }
 
+.pd05 {padding: 0 5px }
+
 
 .h20 { height: 20px }
 .h24 { height: 24px }
@@ -2813,6 +2949,7 @@ div.ssm > div:hover {
 .h31 { height: 31px }
 .h52 { height: 52px }
 .h90 { height: 90px }
+.h100 { height: 100% }
 .mh { max-height: min-content }
 
 .w515 { width: 515px }

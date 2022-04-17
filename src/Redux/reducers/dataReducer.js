@@ -2,11 +2,9 @@ import { data_setting_menu } from '../../data/dataSettingRows'
 import { data_menu_rows } from '../../data/dataSidebarRows'
 
 const initialState = {
-    ordersShow: [],
-    count: 0,
+
     menuRows: data_menu_rows,
     settingMenu: data_setting_menu,
-    payments: [],
 
     employees: [],
     user: JSON.parse(sessionStorage.getItem('user')) || {},
@@ -39,8 +37,8 @@ const initialState = {
     token: sessionStorage.getItem('1xsndt') || '',
     login_status: false,
     error_message: '',
-    url_server: process.env.PUBLIC_URL
-    // url_server: 'http://192.168.1.48:80' // Домашний
+    // url_server: process.env.PUBLIC_URL
+    url_server: 'http://192.168.1.48:80' // Домашний
     // url_server: 'http://192.168.43.224:80' // Мобильный
     // url_server: 'http://10.6.1.26:80/' // VPN
 
@@ -86,14 +84,6 @@ export const dataReducer = (state = initialState, action) => {
           ...state, 
           status_group: action.status_group,
         }}
-    
-    case 'ADD_ORDERS_SHOW': {
-      return {
-         ...state, 
-         ordersShow: action.ordersShow,
-         count: action.count
-        }}
-
     
     case 'ADD_EMPLOYEES': {
       return {

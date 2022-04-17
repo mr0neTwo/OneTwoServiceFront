@@ -15,8 +15,8 @@ export function getRequestConfig(body = {}) {
   }
 }
 
-export function bad_request(massage='') {
+export function bad_request(message='') {
     sessionStorage.clear()
-    console.warn(massage)
+    console.warn(message)
     return { type: 'LOGUOT' }
 }

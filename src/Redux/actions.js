@@ -15,9 +15,9 @@ function getRequestConfig(body = {}) {
     }
 }
 
-function bad_request(massage = '') {
+function bad_request(message = '') {
     sessionStorage.clear()
-    console.warn(massage)
+    console.warn(message)
     return {type: 'LOGUOT'}
 }
 
@@ -354,23 +354,6 @@ export function resetDataClient() {
     }
 }
 
-
-export function resetEquipment(idx, field) {
-    return {
-        type: 'RESET_EQUIPMENT',
-        idx,
-        field
-    }
-}
-
-export function setOrderEquipment(idx, field, data) {
-    return {
-        type: 'SET_ORDER_EQUIPMENT',
-        idx,
-        field,
-        data
-    }
-}
 
 
 export function changeOrderForm(idx, field, value) {
@@ -715,7 +698,7 @@ export function createNewClient() {
                         type: 'RESET_DATA_CLIENT'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос на создание клиента не выполнен'))
@@ -783,7 +766,7 @@ export function saveChangeClient() {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос на изменение данных клиента не выполнен'))
@@ -805,7 +788,7 @@ export function editClient(id) {
                         client: data.data[0]
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос данных клиента не выполнен'))
@@ -843,7 +826,7 @@ export function deleteClient(flag) {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос на изменение клиента не выполнен'))
@@ -867,7 +850,7 @@ export function addEmployees(filters) {
                         employees: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос сотрудников не выполнен'))
@@ -889,7 +872,7 @@ export function addAdCampaign() {
                         ad_campaign: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос рекламных компаний не выполнен'))
@@ -932,7 +915,7 @@ export function createEmployee() {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос сотрудников не выполнен'))
@@ -977,7 +960,7 @@ export function seveEditEmployee() {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос сотрудников не выполнен'))
@@ -1013,7 +996,7 @@ export function deleteEmployee(flag) {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос сотрудников не выполнен'))
@@ -1035,7 +1018,7 @@ export function addStatus() {
                         status: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос статусов не выполнен'))
@@ -1061,7 +1044,7 @@ export function refreshDataOrder(order_id) {
                         order: data.data[0],
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос на обновление заказа не выполнен'))
@@ -1083,7 +1066,7 @@ export function addStatusGroupAction() {
                         status_group: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос групп статусов не выполнен'))
@@ -1105,7 +1088,7 @@ export function addEquipment() {
                         equipment: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос типов изделий не выполнен'))
@@ -1138,7 +1121,7 @@ export function addDiscountMargin() {
                         data: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос наценок не выполнен'))
@@ -1180,7 +1163,7 @@ export function createRole() {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос ролей не выполнен'))
@@ -1202,7 +1185,7 @@ export function addRoles() {
                         roles: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос ролей не выполнен'))
@@ -1246,7 +1229,7 @@ export function seveEditRole() {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос ролей не выполнен'))
@@ -1280,7 +1263,7 @@ export function deleteRole() {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос ролей не выполнен'))
@@ -1355,7 +1338,7 @@ export function addMainData() {
                         data: data.service_prices,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос основных данных не выполнен'))
@@ -1404,7 +1387,7 @@ export function saveGenerallyInfo() {
                         data: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос основных данных компании не выполнен'))
@@ -1428,7 +1411,7 @@ export function addCounters() {
                         data: data.data
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос счетчиков не выполнен'))
@@ -1478,7 +1461,7 @@ export function createBranch() {
                         type: 'RESET_BRANCH'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос филиалов не выполнен'))
@@ -1530,7 +1513,7 @@ export function saveBranch() {
                         type: 'RESET_BRANCH'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос флиалов не выполнен'))
@@ -1571,7 +1554,7 @@ export function deleteBranch(flag) {
                         type: 'RESET_BRANCH'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос филиалов не выполнен'))
@@ -1603,7 +1586,7 @@ export function addDictMalfunction() {
                         data: data.count
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос словарая неисправностей не выполнен'))
@@ -1642,7 +1625,7 @@ export function createBookElement() {
                         data: data.count
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос данных словаря не выполнен'))
@@ -1681,7 +1664,7 @@ export function deleteBookElements() {
                         data: data.count
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос данных словаря не выполнен'))
@@ -1713,7 +1696,7 @@ export function addDictPackagelist() {
                         data: data.count
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос списка комплектаций не выполнен'))
@@ -1745,7 +1728,7 @@ export function addItemPayments() {
                         data: data.count
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос статей плтатежей не выполнен'))
@@ -1791,7 +1774,7 @@ export function createCashbox() {
                         type: 'RESET_CASHBOX'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос касс не выполнен'))
@@ -1823,7 +1806,7 @@ export function addCashboxes() {
                         )[0]
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос касс не выполнен'))
@@ -1871,7 +1854,7 @@ export function seveEditCashbox() {
                         type: 'RESET_CASHBOX'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос касс не выполнен'))
@@ -1911,7 +1894,7 @@ export function deleteCashbox(flag) {
                         type: 'RESET_CASHBOX'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос касс не выполнен'))
@@ -1952,7 +1935,7 @@ export function createPrice() {
                         type: 'RESET_PRICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос наценок не выполнен'))
@@ -1995,7 +1978,7 @@ export function savePrice() {
                         type: 'RESET_PRICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос наценок не выполнен'))
@@ -2035,7 +2018,7 @@ export function deletePrice(flag) {
                         type: 'RESET_PRICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос наценок не выполнен'))
@@ -2058,7 +2041,7 @@ export function addGroupeService() {
                         data: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий не выполнен'))
@@ -2097,7 +2080,7 @@ export function createGroupDictService() {
                         type: 'RESET_GROPE_DICT_SERVICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий не выполнен'))
@@ -2137,7 +2120,7 @@ export function saveGroupDictService() {
                         type: 'RESET_GROPE_DICT_SERVICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий не выполнен'))
@@ -2177,7 +2160,7 @@ export function deleteGroupDictService(flag) {
                         type: 'RESET_GROPE_DICT_SERVICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос категорий не выполнен'))
@@ -2204,7 +2187,7 @@ export function addDictService() {
                         data: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос услуг не выполнен'))
@@ -2250,7 +2233,7 @@ export function createDictService() {
                         type: 'RESET_SERVICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос услуг не выполнен'))
@@ -2298,7 +2281,7 @@ export function saveDictService() {
                         type: 'RESET_SERVICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос услуг не выполнен'))
@@ -2338,7 +2321,7 @@ export function deleteDictService(flag) {
                         type: 'RESET_SERVICE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос услуг не выполнен'))
@@ -2361,7 +2344,7 @@ export function addServicePrices() {
                         data: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос цен на услуги не выполнен'))
@@ -2394,7 +2377,7 @@ export function createSaveServicePrice(id, cost, discount_margin_id, service_id)
                         data: data.data,
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос услуг не выполнен'))

@@ -1,13 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
 
-export function changePaymentForm(value, field) {
-    return {
-        type: 'CHANGE_PAYMENT_FORM',
-        field,
-        value
-    }
-}
 
 export function changePaymentState( data ) {
     return {
@@ -46,7 +39,7 @@ export function createPayment(context) {
 
     const disc = `Перемещение денег из кассы "${cashbox1}" в кассу "${cashbox2}".`
 
-    const request_config = getRequestConfig({
+    let request_body = {
         cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
         description: state.payment.direction ? state.payment.description : disc + state.payment.description,
         deposit: state.data.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
@@ -64,10 +57,144 @@ export function createPayment(context) {
         employee_id: state.payment.employee_id,
         order_id: state.payment.order_id ? state.payment.order_id : null,
         target_cashbox_id: state.payment.direction ? null : state.payment.target_cashbox_id
-    })
+    }
+    if (context.type === 'payment') {
+        request_body.filter_cashboxes = {
+            deleted: null
+        }
+        request_body.filter_payments = {
+            custom_created_at: state.payment.filter_created_at,
+            cashbox_id: state.cashbox.current_cashbox.id,
+            tags: state.payment.filter_tags.length ? state.payment.filter_tags : null,
+            deleted: null
+        }
+    }
+    if (context.type === 'order') request_body.filter_order = {
+        sort: state.filter.sort,
+        field_sort: state.filter.field_sort,
+        page: state.filter.page,
 
-    const request_config_2 = getRequestConfig({
-        custom_created_at: [state.payment.filter_created_at[0], state.payment.filter_created_at[1] + 86399],
+        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+        overdue: state.filter.overdue,
+        status_id: state.filter.status_id,
+        status_overdue: state.filter.status_overdue,
+        urgent: state.filter.urgent,
+        order_type_id: state.filter.order_type_id,
+        manager_id: state.filter.manager_id,
+        created_at: state.filter.created_at,
+        kindof_good_id: state.filter.kindof_good,
+        brand_id: state.filter.brand,
+        subtype_id: state.filter.subtype,
+        client_id: state.filter.client_id,
+
+        update_order: state.order.edit,
+    }
+    if (context.type === 'closed_order') {
+        request_body.closed_order = {
+            order_id: context.order_id,
+            status_id: context.status_id,
+            filter: {
+                sort: state.filter.sort,
+                field_sort: state.filter.field_sort,
+                page: state.filter.page,
+
+                engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+                overdue: state.filter.overdue,
+                status_id: state.filter.status_id,
+                status_overdue: state.filter.status_overdue,
+                urgent: state.filter.urgent,
+                order_type_id: state.filter.order_type_id,
+                manager_id: state.filter.manager_id,
+                created_at: state.filter.created_at,
+                kindof_good_id: state.filter.kindof_good,
+                brand_id: state.filter.brand,
+                subtype_id: state.filter.subtype,
+                client_id: state.filter.client_id,
+
+                search: state.filter.search,
+
+                update_order: state.order.edit,
+                update_badges: true
+            }
+        }
+    }
+    const request_config = getRequestConfig(request_body)
+
+    return async dispatch => {
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {statusOrderLoader: true}
+        })
+
+        await fetch(state.data.url_server + '/payments', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (context.type === 'payment') {
+                        dispatch({
+                            type: 'CHANGE_PAYMENT_STATE',
+                            data: {payments: data.payments}
+                        })
+                        dispatch({
+                            type: 'ADD_DATA',
+                            field: 'cashboxes',
+                            data: data.cashboxes,
+                        })
+                    }
+                    if (context.type === 'order') {
+                        dispatch({
+                            type: 'EDIT_ORDER',
+                            order: data.order
+                        })
+                        dispatch({
+                            type: 'CHANGE_ORDER_STATE',
+                            data: {ordersShow: data.orders, events: data.events}
+                        })
+                    }
+                    if (context.type === 'closed_order') {
+                        if (state.order.edit) {
+                            dispatch({
+                                type: 'EDIT_ORDER',
+                                order: data.order
+                            })
+                            dispatch({
+                                type: 'CHANGE_ORDER_STATE',
+                                data: {events: data.events}
+                            })
+                        }
+                        dispatch({
+                            type: 'CHANGE_ORDER_STATE',
+                            data: {ordersShow: data.orders, count: data.orders_count}
+                        })
+                        dispatch({
+                            type: 'CHANGE_FILTER_STATE',
+                            data: {badges: data.badges}
+                        })
+                    }
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(() => bad_request('Запрос на создание платежа не выполнен'))
+
+        await dispatch({
+            type: 'RESET_PAYMENTS'
+        })
+
+        await dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {statusOrderLoader: false, statusPaymentsEditor: false}
+        })
+    }
+}
+
+export function addPayments() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        custom_created_at: state.payment.filter_created_at,
         cashbox_id: state.cashbox.current_cashbox.id,
         tags: state.payment.filter_tags.length ? state.payment.filter_tags : null
     })
@@ -79,174 +206,24 @@ export function createPayment(context) {
             data: {'statusOrderLoader': true}
         })
 
-        await fetch(state.data.url_server + '/payments', request_config)
-            .catch(() => bad_request('Запрос на создание платежа не выполнен'))
-
-        if (context.type === 'payment') {
-            await fetch(state.data.url_server + '/get_payments', request_config_2)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch({
-                            type: 'ADD_DATA',
-                            field: 'payments',
-                            data: data.data,
-                        })
-                        dispatch({
-                            type: 'SET_VISIBLE_FLAG',
-                            field: 'statusPaymentsEditor',
-                            value: false
-                        })
-                        dispatch({
-                            type: 'RESET_PAYMENTS'
-                        })
-                    } else {
-                        console.warn(data.massage)
-                    }
-                })
-                .catch(() => bad_request('Запрос платежей не выполнен'))
-
-            await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch({
-                            type: 'ADD_DATA',
-                            field: 'cashboxes',
-                            data: data.data,
-                        })
-                    } else {
-                        console.warn(data.massage)
-                    }
-                })
-                .catch(() => bad_request('Запрос касс не выполнен'))
-        }
-
-        if (context.type === 'order') {
-            fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch({
-                            type: 'EDIT_ORDER',
-                            order: data.data[0]
-                        })
-                        dispatch({
-                            type: 'SET_VISIBLE_FLAG',
-                            field: 'statusPaymentsEditor',
-                            value: false
-                        })
-                        dispatch({
-                            type: 'RESET_PAYMENTS'
-                        })
-                    } else {
-                        console.warn(data.massage)
-                    }
-                })
-                .catch(() => bad_request('Запрос заказов не выполнен'))
-        }
-
-        if (context.type === 'closed_order') {
-            const request_config3 = getRequestConfig({
-                id: context.order_id,
-                status_id: context.status_id
-            })
-            const request_config4 = getRequestConfig(state.filter.mainFilter)
-
-            await fetch(state.data.url_server + '/change_order_status', request_config3)
-                .catch(() => bad_request('Запрос изменения статуса заказа не выполнен'))
-
-            await fetch(state.data.url_server + '/get_orders', request_config4)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch({
-                            type: 'ADD_ORDERS_SHOW',
-                            ordersShow: data.data,
-                            count: data.count
-                        })
-                        dispatch({
-                            type: 'SET_VISIBLE_FLAG',
-                            field: 'statusPaymentsEditor',
-                            value: false
-                        })
-                        dispatch({
-                            type: 'RESET_PAYMENTS'
-                        })
-                    } else {
-                        console.warn(data.massage)
-                    }
-                })
-                .catch(() => bad_request('Запрос заказов не выполнен'))
-        }
-
-        if (context.type === 'closed_order_editor') {
-            const request_config5 = getRequestConfig({
-                id: context.order_id,
-                status_id: context.status_id
-            })
-            const request_config6 = getRequestConfig({
-                id: context.order_id
-            })
-
-            await fetch(state.data.url_server + '/change_order_status', request_config5)
-                .catch(() => bad_request('Запрос изменения статуса заказа не выполнен'))
-
-            await fetch(state.data.url_server + '/get_orders', request_config6)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch({
-                            type: 'EDIT_ORDER',
-                            order: data.data[0],
-                        })
-                        dispatch({
-                            type: 'SET_VISIBLE_FLAG',
-                            field: 'statusPaymentsEditor',
-                            value: false
-                        })
-                        dispatch({
-                            type: 'RESET_PAYMENTS'
-                        })
-                    } else {
-                        console.warn(data.massage)
-                    }
-                })
-                .catch(() => bad_request('Запрос на обновление заказа не выполнен'))
-        }
-        await dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': false}
-        })
-    }
-}
-
-export function addPayments() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        custom_created_at: [state.payment.filter_created_at[0], state.payment.filter_created_at[1] + 86399],
-        cashbox_id: state.cashbox.current_cashbox.id,
-        tags: state.payment.filter_tags.length ? state.payment.filter_tags : null
-    })
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_payments', request_config)
+        await fetch(state.data.url_server + '/get_payments', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'ADD_DATA',
-                        field: 'payments',
-                        data: data.data,
+                        type: 'CHANGE_PAYMENT_STATE',
+                        data: {payments: data.data}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос платежей не выполнен'))
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }
 
@@ -254,60 +231,98 @@ export function deletePayment(flag) {
 
     const state = store.getState()
 
-    let request_config = getRequestConfig({
+    let request_body = {
         id: state.payment.edit,
         relation_id: state.payment.relation_id ? state.payment.relation_id : null,
+        order_id: state.payment.order.id,
         deleted: flag
-    })
-    request_config.method = 'PUT'
+    }
+    if (state.order.edit) {
+        request_body.filter_order = {
+            sort: state.filter.sort,
+            field_sort: state.filter.field_sort,
+            page: state.filter.page,
 
-    const request_config2 = getRequestConfig({
-        custom_created_at: [state.payment.filter_created_at[0], state.payment.filter_created_at[1] + 86399],
-        cashbox_id: state.cashbox.current_cashbox.id,
-        tags: state.payment.filter_tags.length ? state.payment.filter_tags : null
-    })
+            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+            overdue: state.filter.overdue,
+            status_id: state.filter.status_id,
+            status_overdue: state.filter.status_overdue,
+            urgent: state.filter.urgent,
+            order_type_id: state.filter.order_type_id,
+            manager_id: state.filter.manager_id,
+            created_at: state.filter.created_at,
+            kindof_good_id: state.filter.kindof_good,
+            brand_id: state.filter.brand,
+            subtype_id: state.filter.subtype,
+            client_id: state.filter.client_id,
+
+            update_order: state.order.edit
+        }
+    } else {
+        request_body.filter_cashboxes = {
+            deleted: null
+        }
+        request_body.filter_payments = {
+            custom_created_at: state.payment.filter_created_at,
+            cashbox_id: state.cashbox.current_cashbox.id,
+            tags: state.payment.filter_tags.length ? state.payment.filter_tags : null,
+            deleted: null
+        }
+    }
+    let request_config = getRequestConfig(request_body)
+    request_config.method = 'PUT'
 
     return async dispatch => {
 
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
+
         await fetch(state.data.url_server + '/payments', request_config)
-            .catch(() => bad_request('Запрос на удаление/восстановление платежа не выполнен'))
-
-        await fetch(state.data.url_server + '/get_payments', request_config2)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    if (state.order.edit) {
+                        dispatch({
+                            type: 'EDIT_ORDER',
+                            order: data.order
+                        })
+                        dispatch({
+                            type: 'CHANGE_ORDER_STATE',
+                            data: {ordersShow: data.orders, events: data.events}
+                        })
+                    } else {
+                        dispatch({
+                            type: 'CHANGE_PAYMENT_STATE',
+                            data: {payments: data.payments}
+                        })
+                        dispatch({
+                            type: 'RESET_PAYMENTS'
+                        })
+                        dispatch({
+                            type: 'ADD_DATA',
+                            field: 'cashboxes',
+                            data: data.cashboxes,
+                        })
+                    }
                     dispatch({
-                        type: 'ADD_DATA',
-                        field: 'payments',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPaymentsCard',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PAYMENTS'
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPaymentsCard: false}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос платежей не выполнен'))
+            .catch(() => bad_request('Запрос удаление платежа не выполнен'))
 
-        await fetch(state.data.url_server + '/get_cashbox', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'cashboxes',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос касс не выполнен'))
+        await dispatch({
+            type: 'RESET_PAYMENTS'
+        })
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }

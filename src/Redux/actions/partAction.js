@@ -83,7 +83,7 @@ export function addParts() {
                         type: 'RESET_PART'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос товаров не выполнен'))
@@ -137,7 +137,7 @@ export function createPart() {
                         type: 'RESET_PART'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос товаров не выполнен'))
@@ -192,7 +192,7 @@ export function savePart() {
                         type: 'RESET_PART'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос товаров не выполнен'))
@@ -238,7 +238,7 @@ export function deletePart( flag ) {
                         type: 'RESET_PART'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос товаров не выполнен'))

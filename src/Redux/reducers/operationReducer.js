@@ -61,7 +61,7 @@ export const operationReducer = (state = initialState, action) => {
             amount: 1,
             cost: 0,
             discount_value: 0,
-            engineer_id: 0,
+            // engineer_id: 0,
             price: 0,
             total: 0,
             title: '',

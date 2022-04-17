@@ -53,7 +53,7 @@ export function addNotTemplate() {
                         value: data.data
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос шаблонов не выполнен'))
@@ -98,7 +98,7 @@ export function createNotTemplate() {
                         type: 'RESET_NOT_TEMPLATE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос шаблонов не выполнен'))
@@ -147,7 +147,7 @@ export function saveNotTemplate() {
                         type: 'RESET_NOT_TEMPLATE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос шаблонов не выполнен'))
@@ -192,7 +192,7 @@ export function deleteNotTemplate(flag) {
                         type: 'RESET_NOT_TEMPLATE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос шиблонов не выполнен'))

@@ -61,7 +61,7 @@ export function addPayrolls() {
            data: data.data,
          })
        } else {
-         console.warn(data.massage)
+         console.warn(data.message)
        }
      })
      .catch(() => bad_request('Запрос начислений не выполнен'))
@@ -89,7 +89,7 @@ export function addPayrolls() {
           value: data.sum,
         })
       } else {
-        console.warn(data.massage)
+        console.warn(data.message)
       }
     })
     .catch(() => bad_request('Запрос баланса не выполнен'))
@@ -143,7 +143,7 @@ export function createPayroll() {
             value: false
           })
         } else {
-          console.warn(data.massage)
+          console.warn(data.message)
         }
       })
       .catch(() => bad_request('Запрос начислений не выполнен'))
@@ -189,7 +189,7 @@ export function deletePayroll(flag) {
           value: false
         })
       } else {
-        console.warn(data.massage)
+        console.warn(data.message)
       }
     })
     .catch(() => bad_request('Запрос начислений не выполнен'))

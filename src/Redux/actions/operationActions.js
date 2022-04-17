@@ -37,13 +37,6 @@ export function createOperation(service) {
 
     const state = store.getState()
 
-    // const price = state.order.client.discount_service_type ? (
-    //     state.data.service_prices.find(price =>
-    //         price.service_id === service.id &&
-    //         price.discount_margin_id === state.order.client.discount_service_margin_id
-    //     ).cost || 0
-    // ) : (service.price)
-
     const getPrice = (service, state) => {
         if (state.order.client.discount_service_type) {
             const price = state.data.service_prices.find(price =>
@@ -80,31 +73,58 @@ export function createOperation(service) {
 
         earnings_percent: service.earnings_percent,
         earnings_summ: service.earnings_summ,
-        order_type_id: state.order.order_type_id
+        order_type_id: state.order.order_type_id,
+        filter_order: {
+            sort: state.filter.sort,
+            field_sort: state.filter.field_sort,
+            page: state.filter.page,
+
+            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+            overdue: state.filter.overdue,
+            status_id: state.filter.status_id,
+            status_overdue: state.filter.status_overdue,
+            urgent: state.filter.urgent,
+            order_type_id: state.filter.order_type_id,
+            manager_id: state.filter.manager_id,
+            created_at: state.filter.created_at,
+            kindof_good_id: state.filter.kindof_good,
+            brand_id: state.filter.brand,
+            subtype_id: state.filter.subtype,
+            client_id: state.filter.client_id,
+        }
     })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/operations', request_config)
-            .catch(() => bad_request('Запрос на создание операции не выполнен'))
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
 
-        fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
+        await fetch(state.data.url_server + '/operations', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'EDIT_ORDER',
-                        order: data.data[0]
+                        order: data.data
+                    })
+                    dispatch({
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.orders, events: data.events || []}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(() => bad_request('Запрос создание операции не выполнен'))
 
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }
-
 
 export function createCustomOperation() {
 
@@ -125,28 +145,56 @@ export function createCustomOperation() {
         order_id: state.order.edit,
         dict_id: null,
 
-        order_type_id: state.order.order_type_id
+        order_type_id: state.order.order_type_id,
+        filter_order: {
+            sort: state.filter.sort,
+            field_sort: state.filter.field_sort,
+            page: state.filter.page,
+
+            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+            overdue: state.filter.overdue,
+            status_id: state.filter.status_id,
+            status_overdue: state.filter.status_overdue,
+            urgent: state.filter.urgent,
+            order_type_id: state.filter.order_type_id,
+            manager_id: state.filter.manager_id,
+            created_at: state.filter.created_at,
+            kindof_good_id: state.filter.kindof_good,
+            brand_id: state.filter.brand,
+            subtype_id: state.filter.subtype,
+            client_id: state.filter.client_id,
+        }
     })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/operations', request_config)
-            .catch(() => bad_request('Запрос на создание операции не выполнен'))
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
 
-        fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
+        await fetch(state.data.url_server + '/operations', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'EDIT_ORDER',
-                        order: data.data[0]
+                        order: data.data
+                    })
+                    dispatch({
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.orders, events: data.events || []}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(() => bad_request('Запрос создание операции не выполнен'))
 
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }
 
@@ -168,29 +216,57 @@ export function saveOperation() {
         percent: state.operation.percent,
         discount: state.operation.discount,
         warranty_period: state.operation.warranty_period,
-        order_id: state.order.edit
+        order_id: state.order.edit,
+        filter_order: {
+            sort: state.filter.sort,
+            field_sort: state.filter.field_sort,
+            page: state.filter.page,
+
+            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+            overdue: state.filter.overdue,
+            status_id: state.filter.status_id,
+            status_overdue: state.filter.status_overdue,
+            urgent: state.filter.urgent,
+            order_type_id: state.filter.order_type_id,
+            manager_id: state.filter.manager_id,
+            created_at: state.filter.created_at,
+            kindof_good_id: state.filter.kindof_good,
+            brand_id: state.filter.brand,
+            subtype_id: state.filter.subtype,
+            client_id: state.filter.client_id,
+        }
     })
     request_config.method = 'PUT'
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/operations', request_config)
-            .catch(() => bad_request('Запрос на изменение операции не выполнен'))
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
 
-        fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
+        await fetch(state.data.url_server + '/operations', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'EDIT_ORDER',
-                        order: data.data[0]
+                        order: data.data
+                    })
+                    dispatch({
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.orders, events: data.events || []}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(() => bad_request('Запрос на изменение операции не выполнен'))
 
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }
 
@@ -200,28 +276,40 @@ export function deleteOperation(flag) {
 
     let request_config = getRequestConfig({
         id: state.operation.edit,
+        order_id: state.order.edit,
         deleted: flag
     })
     request_config.method = 'PUT'
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/operations', request_config)
-            .catch(() => bad_request('Запрос на удаление/восстановление операции не выполнен'))
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
 
-        fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
+        await fetch(state.data.url_server + '/operations', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'EDIT_ORDER',
-                        order: data.data[0]
+                        order: data.data
+                    })
+                    dispatch({
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {events: data.events || []}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(() => bad_request('Запрос на удаление/восстановление операции не выполнен'))
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
 
     }
 }

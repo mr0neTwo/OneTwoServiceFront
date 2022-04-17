@@ -2,7 +2,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 
 import Checkbox from './Checkbox'
-import { icon_table } from '../../data/icons'
+import {icon_down, icon_table} from '../../data/icons'
+import Icon from './Icon'
 
 
 /**
@@ -65,25 +66,25 @@ const TableFields = (props) => {
    return (
       <div 
          id={`tableFields${props.id}`}
-         className={`tableFields ${props.className}`}
+         style={{width: '67px', height: '26px'}}
+         className={`tableFields ml10 ${props.className}`}
       >
          <div 
-            className='chooseFieldButton pd1 h24'
+            className='chooseFieldButton pd1'
             onClick = {()=> setListVisible(!listVisible)}
          >
             <div className='cl11'>
-               <svg className="icon-table" viewBox="0 0 32 32">
-                  <path d={icon_table}></path>
-               </svg>
+               <Icon icon={props.icon || icon_table} className='icon-table'/>
             </div>
             <div className='cl12'>
-               <span className="fieldSeparate">&#6662;</span>
-            </div>   
+                  <Icon icon={icon_down} className='icon-table'/>
+               {/*<span className="fieldSeparate">&#6662;</span>*/}
+            </div>
          </div>
 
          {listVisible ?
             <div 
-               className='listOptions'
+               className={props.classNameMenu}
                style={{ minHeight : props.height}}
             >
                

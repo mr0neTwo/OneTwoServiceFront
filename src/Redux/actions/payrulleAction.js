@@ -63,7 +63,7 @@ export function addPayrules() {
            data: data.data,
          })
        } else {
-         console.warn(data.massage)
+         console.warn(data.message)
        }
      })
      .catch(() => bad_request('Запрос правил не выполнен'))  
@@ -110,7 +110,7 @@ export function createSalaryRule() {
            type: 'RESET_SALARY_RULE'
          })
        } else {
-         console.warn(data.massage)
+         console.warn(data.message)
        }
      })
      .catch(() => bad_request('Запрос правил не выполнен'))  
@@ -159,7 +159,7 @@ export function createSalaryRule() {
            type: 'RESET_SALARY_RULE'
          })
        } else {
-         console.warn(data.massage)
+         console.warn(data.message)
        }
      })
      .catch(() => bad_request('Запрос правил не выполнен'))  
@@ -200,7 +200,7 @@ export function createSalaryRule() {
            type: 'RESET_SALARY_RULE'
          })
        } else {
-         console.warn(data.massage)
+         console.warn(data.message)
        }
      })
      .catch(() => bad_request('Запрос правил не выполнен'))  

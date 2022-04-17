@@ -61,7 +61,7 @@ export function addTemple() {
                         value: data.data
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос temple не выполнен'))
@@ -106,7 +106,7 @@ export function createTemple() {
                         type: 'RESET_TEMPLE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос temple не выполнен'))
@@ -154,7 +154,7 @@ export function saveTemple() {
                         type: 'RESET_TEMPLE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос temple не выполнен'))
@@ -200,7 +200,7 @@ export function deleteOperation(flag) {
                         type: 'RESET_TEMPLE'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос temple не выполнен'))

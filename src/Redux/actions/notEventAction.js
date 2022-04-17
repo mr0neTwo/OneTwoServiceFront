@@ -54,7 +54,7 @@ export function addNotEvent() {
                         value: data.data
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос событий не выполнен'))
@@ -103,7 +103,7 @@ export function createNotEvent() {
                         type: 'RESET_NOT_EVENT'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос событий не выполнен'))
@@ -154,7 +154,7 @@ export function saveNotEvent() {
                         type: 'RESET_NOT_EVENT'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос событий не выполнен'))
@@ -200,7 +200,7 @@ export function deleteNotEvent(flag) {
                         type: 'RESET_NOT_EVENT'
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос событий не выполнен'))

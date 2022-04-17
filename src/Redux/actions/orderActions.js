@@ -1,6 +1,22 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
 
+export function changeOrderState(data) {
+    return {
+        type: 'CHANGE_ORDER_STATE',
+        data
+    }
+}
+
+export function selectedOrder(value, field, saveToApp=false) {
+    return {
+        type: 'SELECTED_ORDER',
+        field,
+        value,
+        saveToApp
+    }
+}
+
 export function editOrder(order) {
     return {
         type: 'EDIT_ORDER',
@@ -31,9 +47,9 @@ export function addOrders() {
         order_type_id: state.filter.order_type_id,
         manager_id: state.filter.manager_id,
         created_at: state.filter.created_at,
-        kindof_good: state.filter.kindof_good,
-        brand: state.filter.brand,
-        subtype: state.filter.subtype,
+        kindof_good_id: state.filter.kindof_good,
+        brand_id: state.filter.brand,
+        subtype_id: state.filter.subtype,
         client_id: state.filter.client_id,
 
         search: state.filter.search
@@ -52,9 +68,8 @@ export function addOrders() {
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'ADD_ORDERS_SHOW',
-                        ordersShow: data.data,
-                        count: data.count
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.data, count: data.count}
                     })
                     dispatch({
                         type: 'SET_VISIBLE_FLAG',
@@ -62,7 +77,7 @@ export function addOrders() {
                         value: false
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос заказов не выполнен'))
@@ -73,7 +88,7 @@ export function createOrder() {
 
     const state = store.getState()
 
-    const request_config1 = getRequestConfig({
+    const request_config = getRequestConfig({
         estimated_done_at: state.order.estimated_done_at,
 
         order_type_id: state.order.order_type_id,
@@ -85,91 +100,90 @@ export function createOrder() {
         branch_id: state.data.current_branch.id,
         status_id: 1,
 
-        equipments: state.order.equipments,
+        kindof_good_id: state.order.kindof_good.id,
+        brand_id: state.order.brand.id,
+        subtype_id: state.order.subtype.id,
+        model_id: state.order.model.id || null,
+        malfunction: state.order.malfunction,
+        packagelist: state.order.packagelist,
+        appearance: state.order.appearance,
+        urgent: state.order.urgent,
 
         manager_notes: state.order.manager_notes,
-        estimated_cost: state.order.estimated_cost
+        estimated_cost: state.order.estimated_cost,
+
+        filter: {
+            sort: state.filter.sort,
+            field_sort: state.filter.field_sort,
+            page: state.filter.page,
+
+            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+            overdue: state.filter.overdue,
+            status_id: state.filter.status_id,
+            status_overdue: state.filter.status_overdue,
+            urgent: state.filter.urgent,
+            order_type_id: state.filter.order_type_id,
+            manager_id: state.filter.manager_id,
+            created_at: state.filter.created_at,
+            kindof_good_id: state.filter.kindof_good,
+            brand_id: state.filter.brand,
+            subtype_id: state.filter.subtype,
+            client_id: state.filter.client_id,
+
+            search: state.filter.search,
+
+            update_badges: true
+        }
     })
 
-    const request_config2 = getRequestConfig({
-        sort: state.filter.sort,
-        field_sort: state.filter.field_sort,
-        page: state.filter.page,
-
-        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-        overdue: state.filter.overdue,
-        status_id: state.filter.status_id,
-        status_overdue: state.filter.status_overdue,
-        urgent: state.filter.urgent,
-        order_type_id: state.filter.order_type_id,
-        manager_id: state.filter.manager_id,
-        created_at: state.filter.created_at,
-        kindof_good: state.filter.kindof_good,
-        brand: state.filter.brand,
-        subtype: state.filter.subtype,
-        client_id: state.filter.client_id,
-
-        search: state.filter.search
-    })
 
     return async dispatch => {
 
-        await  dispatch({
-            type: 'SET_VISIBLE_FLAG',
-            field: 'statusOrderLoader',
-            value: true
+        await dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {statusOrderLoader: true, statusOrderEditor: false}
         })
 
-        dispatch({
-            type: 'SET_VISIBLE_FLAG',
-            field: 'statusOrderEditor',
-            value: false
-        })
-
-        await fetch(state.data.url_server + '/orders', request_config1)
+        await fetch(state.data.url_server + '/orders', request_config)
             .then(response => response.json())
             .then(data => {
-                if(state.view.checkOrderSticker) {
+                dispatch({
+                    type: 'EDIT_ORDER',
+                    order: data.order
+                })
+                if (state.view.checkOrderSticker) {
                     dispatch({
-                        type: 'EDIT_ORDER',
-                        order: data.data
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusOrderSticker',
-                        value: true
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusOrderSticker: true, needToResetOrder: true}
                     })
                 }
+                dispatch({
+                    type: 'CHANGE_ORDER_STATE',
+                    data: {ordersShow: data.data, count: data.count, events: data.events || []}
+                })
+                dispatch({
+                    type: 'CHANGE_FILTER_STATE',
+                    data: {badges: data.badges}
+                })
+
             })
             .catch(() => bad_request('Запрос на создание заказов не выполнен'))
 
-        await fetch(state.data.url_server + '/get_orders', getRequestConfig(request_config2))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'ordersShow',
-                        data: data.data
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'count',
-                        data: data.count
-                    })
-                    dispatch({
-                        type: 'RESET_ORDER'
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusOrderLoader',
-                        value: false
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
+        if (state.view.checkOrderSticker) {
+             await dispatch({
+                type: 'CHANGE_VISIBLE_STATE',
+                data: {statusOrderSticker: true}
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+        } else {
+            await dispatch({
+                type: 'RESET_ORDER'
+            })
+        }
+
+        await dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {statusOrderLoader: false}
+        })
     }
 }
 
@@ -177,32 +191,33 @@ export function changeStatus(status_id, order_id) {
 
     const state = store.getState()
 
-    const request_config1 = getRequestConfig({
-        id: order_id,
-        status_id: status_id
+    const request_config = getRequestConfig({
+        order_id: order_id,
+        status_id: status_id,
+        filter: {
+            sort: state.filter.sort,
+            field_sort: state.filter.field_sort,
+            page: state.filter.page,
+
+            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+            overdue: state.filter.overdue,
+            status_id: state.filter.status_id,
+            status_overdue: state.filter.status_overdue,
+            urgent: state.filter.urgent,
+            order_type_id: state.filter.order_type_id,
+            manager_id: state.filter.manager_id,
+            created_at: state.filter.created_at,
+            kindof_good_id: state.filter.kindof_good,
+            brand_id: state.filter.brand,
+            subtype_id: state.filter.subtype,
+            client_id: state.filter.client_id,
+
+            search: state.filter.search,
+
+            update_order: state.order.edit,
+            update_badges: true
+        }
     })
-    const request_config2 = getRequestConfig({
-        sort: state.filter.sort,
-        field_sort: state.filter.field_sort,
-        page: state.filter.page,
-
-        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-        overdue: state.filter.overdue,
-        status_id: state.filter.status_id,
-        status_overdue: state.filter.status_overdue,
-        urgent: state.filter.urgent,
-        order_type_id: state.filter.order_type_id,
-        manager_id: state.filter.manager_id,
-        created_at: state.filter.created_at,
-        kindof_good: state.filter.kindof_good,
-        brand: state.filter.brand,
-        subtype: state.filter.subtype,
-        client_id: state.filter.client_id,
-
-        search: state.filter.search
-    })
-
-    const request_config3 = getRequestConfig({id: state.order.edit})
 
 
     return async dispatch => {
@@ -213,39 +228,30 @@ export function changeStatus(status_id, order_id) {
             value: true
         })
 
-        await fetch(state.data.url_server + '/change_order_status', request_config1)
-            .catch(() => bad_request('Запрос изменения статуса заказа не выполнен'))
-
-        await fetch(state.data.url_server + '/get_orders', request_config2)
+        await fetch(state.data.url_server + '/change_order_status', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    if (state.order.edit) {
+                        dispatch({
+                            type: 'EDIT_ORDER',
+                            order: data.order
+                        })
+                    }
                     dispatch({
-                        type: 'ADD_ORDERS_SHOW',
-                        ordersShow: data.data,
-                        count: data.count
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.data, count: data.count, events: data.events || []}
+                    })
+                    dispatch({
+                        type: 'CHANGE_FILTER_STATE',
+                        data: {badges: data.badges}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос заказов не выполнен'))
 
-        if (state.order.edit) {
-            await fetch(state.data.url_server + '/get_orders', request_config3)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        dispatch({
-                            type: 'EDIT_ORDER',
-                            order: data.data[0],
-                        })
-                    } else {
-                        console.warn(data.massage)
-                    }
-                })
-                .catch(() => bad_request('Запрос заказов не выполнен'))
-        }
 
         await dispatch({
             type: 'SET_VISIBLE_FLAG',
@@ -259,7 +265,7 @@ export function saveOrder() {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
+    let request_config = getRequestConfig({
         id: state.order.edit,
         assigned_at: state.order.assigned_at,
         duration: state.order.duration,
@@ -273,10 +279,10 @@ export function saveOrder() {
         order_type_id: state.order_type_id,
         manager_id: state.order.manager_id,
         engineer_id: state.order.engineer_id,
-        kindof_good: state.order.kindof_good.id,
-        brand: state.order.brand.id,
-        subtype: state.order.subtype.id,
-        model: state.order.model.id,
+        kindof_good_id: state.order.kindof_good.id,
+        brand_id: state.order.brand.id,
+        subtype_id: state.order.subtype.id,
+        model_id: state.order.model.id,
 
         serial: state.order.serial,
         malfunction: state.order.malfunction,
@@ -288,30 +294,32 @@ export function saveOrder() {
         cell: state.order.cell,
 
         estimated_cost: state.order.estimated_cost,
-        urgent: state.order.urgent
+        urgent: state.order.urgent,
+        filter: {
+            sort: state.filter.sort,
+            field_sort: state.filter.field_sort,
+            page: state.filter.page,
+
+            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
+            overdue: state.filter.overdue,
+            status_id: state.filter.status_id,
+            status_overdue: state.filter.status_overdue,
+            urgent: state.filter.urgent,
+            order_type_id: state.filter.order_type_id,
+            manager_id: state.filter.manager_id,
+            created_at: state.filter.created_at,
+            kindof_good_id: state.filter.kindof_good,
+            brand_id: state.filter.brand,
+            subtype_id: state.filter.subtype,
+            client_id: state.filter.client_id,
+
+            search: state.filter.search,
+
+            update_badges: true
+        }
     })
-    request_config1.method = 'PUT'
+    request_config.method = 'PUT'
 
-    const request_config2 = getRequestConfig({
-        sort: state.filter.sort,
-        field_sort: state.filter.field_sort,
-        page: state.filter.page,
-
-        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-        overdue: state.filter.overdue,
-        status_id: state.filter.status_id,
-        status_overdue: state.filter.status_overdue,
-        urgent: state.filter.urgent,
-        order_type_id: state.filter.order_type_id,
-        manager_id: state.filter.manager_id,
-        created_at: state.filter.created_at,
-        kindof_good: state.filter.kindof_good,
-        brand: state.filter.brand,
-        subtype: state.filter.subtype,
-        client_id: state.filter.client_id,
-
-        search: state.filter.search
-    })
 
     return async dispatch => {
 
@@ -320,40 +328,85 @@ export function saveOrder() {
             data: {'statusOrderLoader': true}
         })
 
-        await fetch(state.data.url_server + '/orders', request_config1)
-            .catch(() => bad_request('Запрос на изменение заказов не выполнен'))
+        await fetch(state.data.url_server + '/orders', request_config)
+            .then(response => response.json())
+            .then(data => {
+                dispatch({
+                    type: 'EDIT_ORDER',
+                    order: data.order
+                })
+                dispatch({
+                    type: 'CHANGE_ORDER_STATE',
+                    data: {ordersShow: data.data, count: data.count, events: data.events || []}
+                })
+                dispatch({
+                    type: 'CHANGE_FILTER_STATE',
+                    data: {badges: data.badges}
+                })
+            })
+            .catch(() => bad_request('Запрос на создание заказов не выполнен'))
 
-        await fetch(state.data.url_server + '/get_orders', getRequestConfig({id: state.order.edit}))
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
+    }
+}
+
+export function getOrder(order_id) {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({id: order_id})
+
+    return async dispatch => {
+        
+        await fetch(state.data.url_server + '/get_order', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'EDIT_ORDER',
-                        order: data.data[0]
-                    })
-                } else {
-                    console.warn(data.massage)
-                }
-            })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
-
-        await fetch(state.data.url_server + '/get_orders', request_config2)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_ORDERS_SHOW',
-                        ordersShow: data.data,
-                        count: data.count
+                        order: data.data
                     })
                     dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {'statusOrderLoader': false}
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {events: data.events || []}
                     })
                 } else {
-                    console.warn(data.massage)
+                    console.warn(data.message)
                 }
             })
             .catch(() => bad_request('Запрос заказов не выполнен'))
     }
+}
+
+export function addEventComment() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        order_id: state.order.edit,
+        current_status_id: state.order.status.id,
+        branch_id: state.data.current_branch.id,
+        comment: state.order.event_comment
+    })
+
+    return async dispatch => {
+
+        await fetch(state.data.url_server + '/order_comment', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {events: data.events || [], event_comment: ''}
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(() => bad_request('Запрос на создание коментариев не выполнен'))
+    }
+
 }

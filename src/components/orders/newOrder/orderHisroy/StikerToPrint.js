@@ -10,8 +10,6 @@ const StikerToPrint = props => {
 
     const stickerToPrintRef = useRef()
 
-
-
     const printOSticker = useReactToPrint({
         content: () => stickerToPrintRef.current,
         onAfterPrint: props.onAfterPrint
@@ -19,7 +17,6 @@ const StikerToPrint = props => {
     useEffect(() => {
         printOSticker()
     })
-
 
     return (
             <div

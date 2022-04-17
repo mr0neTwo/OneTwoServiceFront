@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux';
+import React, {useEffect} from 'react';
+import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
+import {connect} from 'react-redux';
 
 
-import { addMainData, addEmployees, addStatus, addData } from '../Redux/actions';
+import {addMainData, addEmployees, addStatus, addData} from '../Redux/actions';
 
 import Sidebar from './sidebar/Sidebar';
 import Orders from './orders/Orders';
@@ -17,8 +17,7 @@ import Analytics from './Analytics/Analytics';
 import Reports from './Reports/Reports';
 import Telephony from './Telephony/Telephony';
 import Settings from './Settings/Settings';
-
-
+import OrderEditor from './orders/newOrder/OrderEditor'
 
 
 function Main(props) {
@@ -34,27 +33,35 @@ function Main(props) {
     }, [props.branches])
 
 
-    
     return (
         <div>
             <Sidebar/>
-            <div className = 'contentMain'>
+            <div className='contentMain'>
                 <Switch>
-                    <Route path = '/tasks' component = {TaskManager}/>
+                    <Route path='/tasks' component={TaskManager}/>
                     <Route path='/leans' component={Leads}/>
-                    <Route path = '/orders' component = {Orders}/>
-                    <Route path = '/shops' component = {Shops}/>
-                    <Route path = '/payments' component = {Payments}/>
-                    <Route path = '/wherehouse' component = {Wherehouse}/>
-                    <Route path = '/clients' component = {Clients}/>
-                    <Route path = '/analytics' component = {Analytics}/>
-                    <Route path = '/reports' component = {Reports}/>
-                    <Route path = '/telephony' component = {Telephony}/>
-                    <Route path = '/settings' component = {Settings}/>
+                    <Route path='/orders' component={Orders}/>
+                    <Route path='/shops' component={Shops}/>
+                    <Route path='/payments' component={Payments}/>
+                    <Route path='/wherehouse' component={Wherehouse}/>
+                    <Route path='/clients' component={Clients}/>
+                    <Route path='/analytics' component={Analytics}/>
+                    <Route path='/reports' component={Reports}/>
+                    <Route path='/telephony' component={Telephony}/>
+                    <Route path='/settings' component={Settings}/>
+
+
 
                     <Redirect from='/' to='/leans'/>
                 </Switch>
             </div>
+            <Switch>
+                <Route
+                    exact path="/orders/:id"
+                    // loadData={() => props.getOrder(id)}
+                    component={OrderEditor}
+                />
+            </Switch>
         </div>
     )
 }
@@ -65,11 +72,11 @@ const mapStateToProps = state => ({
     branches: state.data.branches
 })
 
-  const mapDispatchToProps = {
+const mapDispatchToProps = {
     addEmployees,
     addStatus,
     addMainData,
-    addData
-  }
+    addData,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main))

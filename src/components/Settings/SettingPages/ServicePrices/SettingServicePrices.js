@@ -128,6 +128,7 @@ const SettingServicePrices = (props) => {
                 <TableFields
                   id='service'
                   height='185px'
+                  classNameMenu='listOption'
                   list={props.dictService.fields.concat(tableMarginFields)}
                   checked_list={props.dictService.chosed_fields}
                   func={props.selectedService}
