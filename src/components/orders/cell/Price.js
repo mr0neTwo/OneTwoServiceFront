@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const Price = ({data: {price}}) => {
+const Price = props => {
    return (
       <td className="tablePrice">
-      <span>{price ? price : null}</span>
+      <span>{props.order.price || null}</span>
     </td>
    )
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-const Brand = props => {
+const Subtype = props => {
     return (
         <td>
             <span className="tableText">
-                {props.order.brand.title}
+                {props.order.subtype.title}
             </span>
         </td>
     )
@@ -15,4 +15,4 @@ const mapStateToProps = state => ({
     //   dataSidebarRows: 'dataSidebarRows',
 })
 
-export default connect(mapStateToProps)(Brand)
+export default connect(mapStateToProps)(Subtype)

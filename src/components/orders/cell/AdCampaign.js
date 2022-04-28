@@ -1,11 +1,11 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
-const Malfunction = props => {
+const AdCampaign = props => {
     return (
         <td>
             <div className="tableText tableOne">
-                {props.order.malfunction}
+                {props.order.ad_campaign.name}
             </div>
         </td>
     )
@@ -15,4 +15,4 @@ const mapStateToProps = state => ({
     //   dataSidebarRows: 'dataSidebarRows',
 })
 
-export default connect(mapStateToProps)(Malfunction)
+export default connect(mapStateToProps)(AdCampaign)

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { icon_clock } from '../../../data/icons'
 import Icon from '../../general/Icon'
 
-const EstimatedDone = ({data : {estimated_done_at, overdue, status, remaining }}) => {
+const EstimatedDone = props => {
    
    const optionsShowDate = {
       year: 'numeric',
@@ -31,14 +31,14 @@ const EstimatedDone = ({data : {estimated_done_at, overdue, status, remaining }}
         <Icon 
           icon={icon_clock} 
           className='clockEstimated'
-          color={(!overdue && status.group < 4) ? '#f0ad4e' : '#ebebeb'}
+          color={(!props.order.overdue && props.order.status.group < 4) ? '#f0ad4e' : '#ebebeb'}
         />
         {/* Вывожу разницу времени от создания до плановой даты готовности в днях или часах */}
-        <span>{getDateEstimated(remaining, status.group)}</span>
+        <span>{getDateEstimated(props.order.remaining, props.order.status.group)}</span>
       </div>
       {/* Вывожу форматированую дату готовности */}
       <div className="orderDate">
-        {new Date(estimated_done_at * 1000).toLocaleString('ru', optionsShowDate ).replace('г.,', '')}
+        {new Date(props.order.estimated_done_at * 1000).toLocaleString('ru', optionsShowDate ).replace('г.,', '')}
       </div>
     </td>
    )

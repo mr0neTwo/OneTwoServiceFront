@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const EngineerNotes = ({data: {engineer_notes}}) => {
+const EngineerNotes = props => {
    return (
      <td>
      <div className="tableText tableOne">
-       {engineer_notes}
+       {props.order.engineer_notes}
      </div>
    </td>
    )

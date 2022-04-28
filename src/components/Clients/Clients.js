@@ -1,19 +1,21 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
+import TableClients from './TableClients'
 
 const Clients = (props) => {
-  return (
-    <div className="tempPage">
-      <div className="tempContainer">
-        <h1 className="tempTitle">Здесь будут клиенты</h1>
-        <p className="tempDescription">Страница на стадии разработки</p>
-      </div>
-    </div>
-  )
+    return (
+        <div className='pageContent'>
+
+            <div className='Header'>
+                <span className='headerTitle'>Клиенты</span>
+            </div>
+            <TableClients/>
+        </div>
+    )
 }
 
 const mapStateToProps = state => ({
-  //   dataSidebarRows: 'dataSidebarRows',
+    //   dataSidebarRows: 'dataSidebarRows',
 })
 
 export default connect(mapStateToProps)(Clients)

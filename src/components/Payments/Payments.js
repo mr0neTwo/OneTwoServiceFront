@@ -16,8 +16,6 @@ const Payments = (props) => {
             <div className='Header'>
                 <span className='headerTitle'>Финансы</span>
             </div>
-            <div className='settingPageBody'>
-            </div>
 
             <Tabs
                 list={['Платежи', 'Взаиморасчеты', 'Счета', 'Зарплаты']}

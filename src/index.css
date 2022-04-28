@@ -97,6 +97,10 @@ th {
 }
 
 td {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-align: left;
   align-items: center;
   padding: 4px;
@@ -492,11 +496,47 @@ textarea:focus {
 /*  border: 3px solid hsla(0, 0%, 100%, 0.8); !* padding вокруг плашки *!*/
 /*}*/
 
-.tableOrders {
+.tableOrdersBox {
   overflow: auto;
   color: #373737;
   max-height: 80vh;
 }
+.tableOrders {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+}
+
+
 
 .tableTh {
   background-color: var(--color-gray);
@@ -507,6 +547,10 @@ textarea:focus {
   background-color: var(--color-gray);
   block-size: block;
   height: 35px;
+}
+.tableColumnHeader {
+  padding: 0;
+  resize: horizontal;
 }
 
 .tableColumnHeader:hover {
@@ -1686,6 +1730,20 @@ checkboxLable {
   padding: 4px 0px;
   overflow: scroll;
   max-height: 200px;
+  z-index: 10;
+}
+.listOptionField {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: white;
+  border: 1px solid #aaaaaa;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 4px 0px;
+  /*overflow: scroll;*/
+  max-height: 200px;
+  width: 220px;
   z-index: 10;
 }
 .printMenu {
@@ -2893,6 +2951,61 @@ div.ssm > div:hover {
   margin: 1px 0px;
   color: white;
 }
+.curResize {
+  /*position: relative;*/
+  /*background-color: red;*/
+  display: block;
+  cursor: col-resize;
+  width: 7px;
+  z-index: 1;
+  border-right: 2px solid transparent;
+}
+
+.dragOver {
+  display: none;
+  width: 0;
+  height: 40px;
+  border: 1px solid #4b94d3;
+  position: relative;
+}
+.dragOver:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  bottom: 36px;
+  right: -5px;
+  box-shadow: 0px 0 0 #4b94d3, -2px 0 0 #4b94d3, 0 2px 0 #4b94d3, 0 0px 0 #4b94d3, 0 3px 13px rgb(0 0 0 / 8%);
+  transform: rotate(-45deg);
+  background: linear-gradient(45deg, #fff 50%, rgba(255, 255, 255, 0) 50%);
+}
+.dragOver:before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  bottom: -7px;
+  right: -5px;
+  box-shadow: 0px 0 0 #4b94d3, -2px 0 0 #4b94d3, 0 2px 0 #4b94d3, 0 0px 0 #4b94d3, 0 3px 13px rgb(0 0 0 / 8%);
+  transform: rotate(-225deg);
+  background: linear-gradient(45deg, #fff 50%, rgba(255, 255, 255, 0) 50%);
+}
+
+.overArea {
+  width: 1px;
+}
+.overArea:before {
+  background-color: red;
+  opacity: 0.0;
+  content: '';
+  width: 40px;
+  height: 40px;
+  display: block;
+  position: relative;
+  right: 20px;
+}
 
 .stat {
   border-radius: 4px;
@@ -2900,6 +3013,11 @@ div.ssm > div:hover {
   margin: 0px 1px;
   color: white;
   font-size: 10px;
+}
+.otf_pos {
+  width: 67px;
+  height: 26px;
+  margin: 4px 4px 11px 4px;
 }
 
 .fsz12 { font-size: 12px }
@@ -2991,6 +3109,7 @@ div.ssm > div:hover {
   max-width: none;
 }
 .pd1 { padding: 1px }
+.pd2 { padding: 2px }
 .pd5 { padding: 5px }
 .pd10 { padding: 10px }
 .pd-lf-5 { padding: 5px }

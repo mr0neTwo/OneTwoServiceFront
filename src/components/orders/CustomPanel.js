@@ -8,6 +8,7 @@ import {icon_down, icon_filter, icon_table} from '../../data/icons'
 import Button from '../general/Button'
 import Icon from '../general/Icon'
 import {changeFilterState} from '../../Redux/actions/filterAction'
+import TableOrderFields from './TableOrderFields'
 
 const CustomPanel = (props) => {
 
@@ -48,17 +49,7 @@ const CustomPanel = (props) => {
                         })}
                     </div>
                 </div>
-                <div
-                    className='chooseFieldButton'
-                    onClick={() => console.log('ckick on "set table"')}
-                >
-                    <div className='cl11'>
-                        <Icon icon={icon_table} className='icon-table'/>
-                    </div>
-                    <div className='cl12'>
-                        <Icon icon={icon_down} className='icon-table'/>
-                    </div>
-                </div>
+                <TableOrderFields/>
             </div>
 
             {props.statusSetCustomFilter ? <SetFilter/> : null}

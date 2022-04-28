@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleListFlag } from '../../../../Redux/actions'
+import {changeVisibleState} from '../../../../Redux/actions'
 
 const LabelInputOrder = (props) => {
 
@@ -16,7 +16,7 @@ const LabelInputOrder = (props) => {
                name={props.name}
                onChange={props.onChange}
                value={props.value}
-               onBlur={props.checkedFlag ? event => props.setVisibleListFlag(props.checkedFlag, props.idx, !!event.target.value) : null}
+               onBlur={props.checkedFlag ? event => props.changeVisibleState({[props.checkedFlag]: !!event.target.value}) : null}
                style={props.checkedFlag && !props.checked  ? { borderColor: 'red' } : null}
                disabled={props.disabled}
             />
@@ -32,7 +32,7 @@ const mapStateToProps = state => ({
    })
 
 const mapDispatchToProps = {
-   setVisibleListFlag
+    changeVisibleState
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(LabelInputOrder)

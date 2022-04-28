@@ -8,14 +8,14 @@ const Lable = props => {
           <Link
               className='orderLink'
               to={{
-                  pathname: `/orders/${props.data.id}`,
-                  state: { order_id: props.data.id }
+                  pathname: `/orders/${props.order.id}`,
+                  state: { order_id: props.order.id }
               }}
           >
               <span
-                  className={props.data.urgent && props.data.status.group < 4 ? 'fire-text': null}
+                  className={props.order.urgent && props.order.status.group < 4 ? 'fire-text': null}
               >
-                  { props.data.id_label }
+                  { props.order.id_label }
               </span>
           </Link>
       </td>

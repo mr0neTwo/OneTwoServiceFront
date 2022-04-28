@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const KindOfGood = ({data: {kindof_good}}) => {
+const KindOfGood = props => {
    return (
      <td>
      <span className="tableText">
-       {kindof_good}
+       {props.order.kindof_good.title}
      </span>
    </td>
    )

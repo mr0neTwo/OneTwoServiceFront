@@ -30,6 +30,23 @@ export function resetOrder() {
     }
 }
 
+export function changeOrderField(id, field, value) {
+    return {
+        type: 'CHANGE_ORDER_FIELD',
+        id,
+        field,
+        value
+    }
+}
+
+export function reorderOrderField(id, order) {
+    return {
+        type: 'REORDER_ORDER_FIELD',
+        id,
+        order
+    }
+}
+
 export function addOrders() {
 
     const state = store.getState()

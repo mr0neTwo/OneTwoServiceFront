@@ -61,6 +61,8 @@ const ChooseSingleEquipment = (props) => {
                     name='malfunction'
                     onChange={(event) => props.changeOrderFormS(event.target.value, 'malfunction')}
                     value={props.order.malfunction}
+                    checkedFlag='inputMalfunctionChecked'
+                    checked={props.view.inputMalfunctionChecked}
                     disabled={!props.permissions.includes('edit_info_orders')}
                 />
                 <LabelInputOrder

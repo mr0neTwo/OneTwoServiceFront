@@ -37,8 +37,8 @@ const initialState = {
     token: sessionStorage.getItem('1xsndt') || '',
     login_status: false,
     error_message: '',
-    // url_server: process.env.PUBLIC_URL
-    url_server: 'http://192.168.1.48:80' // Домашний
+    url_server: process.env.PUBLIC_URL
+    // url_server: 'http://192.168.1.48:80' // Домашний
     // url_server: 'http://192.168.43.224:80' // Мобильный
     // url_server: 'http://10.6.1.26:80/' // VPN
 

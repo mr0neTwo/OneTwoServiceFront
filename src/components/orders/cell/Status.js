@@ -14,13 +14,13 @@ const Status = props => {
             <button
                 className="statusButtom"
                 type="button"
-                style={{backgroundColor: props.data.status.color}}
-                onClick={() => props.changeStatusMenuVisible(props.data.id)}
+                style={{backgroundColor: props.order.status.color}}
+                onClick={() => props.changeStatusMenuVisible(props.order.id)}
             >
-                {props.data.status.name}
+                {props.order.status.name}
                 <span className="statusSeparate"> | &#6662;</span>
             </button>
-            {props.statusMenuVisible[[props.data.id]] ? <StatusList order={props.data}/> : null}
+            {props.statusMenuVisible[[props.order.id]] ? <StatusList order={props.order}/> : null}
         </span>
             </div>
         </td>

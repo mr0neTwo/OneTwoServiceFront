@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const Engineer = ({data: {engineer_id}, employees}) => {
+const Engineer = props => {
 
    function getEmploeeName(id) {
       if (id) {
-        let employee = employees.find((employee) => employee.id === id)
+        let employee = props.employees.find((employee) => employee.id === id)
         return `${employee.last_name} ${employee.first_name}`
       }
     }
@@ -13,7 +13,7 @@ const Engineer = ({data: {engineer_id}, employees}) => {
    return (
      <td>
      <div>
-        {getEmploeeName(engineer_id)}
+        {getEmploeeName(props.order.engineer_id)}
      </div>
    </td>
    )

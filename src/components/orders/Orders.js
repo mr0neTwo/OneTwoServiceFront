@@ -93,7 +93,7 @@ function Orders(props) {
 
 const mapStateToProps = state => ({
     filter: state.filter,
-    count: state.data.count,
+    count: state.order.count,
     ordersShow: state.order.ordersShow,
     statusOrderLoader: state.view.statusOrderLoader
 })
