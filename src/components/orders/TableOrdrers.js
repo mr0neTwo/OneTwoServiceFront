@@ -95,7 +95,7 @@ const TableOrders = props => {
     if (props.employees) {
         return (
             <div className="tableOrdersBox">
-                <table className="tableOrders1" ref={table_order}>
+                <table id="tableOrders" ref={table_order}>
                     <thead className="tableThead">
                     <tr>
                         {tFields.map(header => (

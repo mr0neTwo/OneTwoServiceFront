@@ -25,7 +25,7 @@ const Tabs = (props) => {
                     <div
                         key={idx}
                         className={props.tab === idx ? 'tabOn' : 'tab'}
-                        onClick={() => props.func(idx, props.tab_field ? props.tab_field : 'tabs')}
+                        onClick={() => props.func(idx)}
                     >
                         {tab}
                     </div>

@@ -55,8 +55,8 @@ const Receipt = (props) => {
 const mapStateToProps = state => ({
    payment: state.payment,
    inputPaymentSumChecked: state.view.inputPaymentSumChecked,
-   cashboxes: state.data.cashboxes
-   })
+   cashboxes: state.cashbox.cashboxes
+})
 
 const mapDispatchToProps = {
    changePaymentState,

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { addPayrolls, changePayrollForm } from '../../../Redux/actions/payrollActions'
+import { addPayrolls, changePayrollState } from '../../../Redux/actions/payrollActions'
 import EmployeeSalary from './EmployeeSalary'
 import TableSalaryEmployees from './TableSalaryEmployees'
 
@@ -13,7 +13,7 @@ const Salaries = (props) => {
    }, [props.payroll.setted_employee])
 
    useEffect(() => {
-      props.changePayrollForm(props.user_id, 'setted_employee')
+      props.changePayrollState({setted_employee: props.user_id})
    }, [])
 
    return (
@@ -41,7 +41,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
    addPayrolls,
-   changePayrollForm
+   changePayrollState
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(Salaries)

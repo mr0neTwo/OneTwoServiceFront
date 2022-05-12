@@ -2,6 +2,9 @@ import {permission_cahsbox} from "../../data/permissions";
 
 
 const initialState = {
+
+   cashboxes: [],
+
    tabs: 0,
    edit: 0,
    tabs_editor: 0,
@@ -16,6 +19,8 @@ const initialState = {
    employees: {},
    branch_id: 0,
 
+   showDeleted: false,
+
    permissions_employee: 0, // id сотрудника, права которого редактируются в данный момент
    current_cashbox: {} // активная касса
 }
@@ -28,6 +33,14 @@ export const cashboxReducer = (state = initialState, action) => {
             ...state, 
             [action.field]: action.value,
          }
+      }
+
+      case 'CHANGE_CASHBOX_STATE': {
+         const local_save = []
+         Object.keys(action.data).forEach(field => {
+            if (local_save.includes(field)) localStorage.setItem(field, JSON.stringify(action.data[field]))
+         })
+         return {...Object.assign(state, action.data)}
       }
 
       case 'CHOOSE_CASHBOX_SELECTED': {

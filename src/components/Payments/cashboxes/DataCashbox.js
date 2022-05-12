@@ -1,13 +1,11 @@
-
-
 import React from 'react'
 import { connect } from 'react-redux'
 
-import LableInput from '../../general/LableInput'
+import {changeCashboxState, chooseCashboxSelected} from '../../../Redux/actions/cashboxAction'
 
-import { changeCashboxForm, chooseCashboxSelected } from '../../../Redux/actions'
 import ChooseBotton from '../../general/ChooseBotton'
 import Checkbox from '../../general/Checkbox'
+import LableInput from '../../general/LableInput'
 
 const DataCashbox = (props) => {
    return (
@@ -16,7 +14,7 @@ const DataCashbox = (props) => {
          <LableInput
             className="w250 mt15"
             title='Наименование'
-            onChange={(event) => props.changeCashboxForm(event.target.value, 'title')}
+            onChange={event => props.changeCashboxState({title: event.target.value})}
             value={props.cashbox.title}
             checkedFlag="inputCashboxTitleChecked"
             checked={props.view.inputCashboxTitleChecked}
@@ -27,14 +25,15 @@ const DataCashbox = (props) => {
             className='mt15'
             title='Тип'
             name={['Касса компании', 'Касса локации']}
-            func1 = {() => props.changeCashboxForm(true, 'isGlobal')}
-            func2 = {() => props.changeCashboxForm(false, 'isGlobal')}
+            func1 = {() => props.changeCashboxState({isGlobal: true})}
+            func2 = {() => props.changeCashboxState({isGlobal: false})}
+            checked = { props.cashbox.isGlobal }
             disabled={props.cashbox.deleted}
           />
           <Checkbox
             className='mt15'
             label='Виртуальная касса'
-            onChange={event => props.changeCashboxForm(event.target.checked, 'isVirtual')} 
+            onChange={event => props.changeCashboxState({isVirtual: event.target.checked})}
             checked={props.cashbox.isVirtual}
             disabled={props.cashbox.deleted}
           />
@@ -42,8 +41,8 @@ const DataCashbox = (props) => {
             className='mt15'
             title='Способ расчета'
             name={['Наличный', 'Безналичный']}
-            func1={() => props.changeCashboxForm(0, 'type')}
-            func2={() => props.changeCashboxForm(1, 'type')}
+            func1={() => props.changeCashboxState({type: 0})}
+            func2={() => props.changeCashboxState({type: 1})}
             checked={true}
             disabled={props.cashbox.deleted}
          />
@@ -110,7 +109,7 @@ const mapStateToProps = state => ({
    })
 
 const mapDispatchToProps = {
-   changeCashboxForm,
+   changeCashboxState,
    chooseCashboxSelected
 }
   

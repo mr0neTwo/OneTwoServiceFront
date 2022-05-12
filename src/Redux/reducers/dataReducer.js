@@ -17,9 +17,7 @@ const initialState = {
     ad_campaign: [],
     generally_info: {},
     branches: [],
-    cashboxes: [],
     payrules: [],
-    payrolls: [],
     group_dict_service: [],
     dict_service: [],
     service_prices: [],
@@ -159,15 +157,7 @@ export const dataReducer = (state = initialState, action) => {
         }
       }
 
-        case 'ACTIVE_CASHBOX': {
-          return {
-              ...state, 
-              cashboxes: state.cashboxes.map(cashbox => {
-                cashbox.active = cashbox.id === action.id
-                return cashbox
-              }),
-            }
-          }
+
 
     default:
       return state

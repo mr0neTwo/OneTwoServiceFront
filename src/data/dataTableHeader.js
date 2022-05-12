@@ -93,7 +93,7 @@ const dataTableHeader = [
     }, {
         id: 14,
         title: 'К оплате',
-        field: 'price',
+        field: 'missed_payments',
         width: 130,
         visible: true,
         order: 14
@@ -121,7 +121,7 @@ const dataTableHeader = [
     }, {
         id: 18,
         title: 'Рекламная компания',
-        field: 'cell',
+        field: 'ad_campaign_id',
         width: 150,
         visible: true,
         order: 18

@@ -2,6 +2,8 @@ const now = new Date()
 
 const initialState = {
 
+   payrolls: [],
+
    edit: 0,                   // id при редактировании
 
    description: '',              // Описание
@@ -18,24 +20,21 @@ const initialState = {
    order_id: null,               // Заказ
 
    setted_employee: 0,           // Выбранный сотрудник
+   showDeleted: false,           // Показать удаленные
 
    filter_created_at: [
       parseInt(now.setHours(0, 0, 0, 0) / 1000),
       parseInt(now.setHours(23, 59, 59, 999) / 1000)
    ],
+   payment_cashbox_type: 0,      // Тип платежа (для создания платежа при выплате ЗП)
+   payment_cashbox_id: 0,        // id кассы (для создания платежа при выплате ЗП)
+   payment_cashflow_category: 0, // категория расходов (для создания платежа при выплате ЗП)
 
    month_balance: 0
 }
  
 export const payrollReducer = (state = initialState, action) => {
    switch (action.type){
- 
-      case 'CHANGE_PAYROLL_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value
-         }
-      }
 
       case 'CHANGE_PAYROLL_STATE': {
          return {...Object.assign(state, action.data)}
@@ -75,7 +74,11 @@ export const payrollReducer = (state = initialState, action) => {
             relation_type: 0,       
             relation_id: 0,         
             employee_id: 0,         
-            order_id: null            
+            order_id: null,
+
+            payment_cashbox_type: 0,
+            payment_cashbox_id: 0,
+            payment_cashflow_category: 0
          }
       }
 

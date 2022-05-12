@@ -25,6 +25,7 @@ const initialState = {
 
     tags: [],
 
+    relation_type: 0,
     relation_id: null,
     cashbox_id: 0,
     client_id: 0,
@@ -113,6 +114,8 @@ export const paymentReducer = (state = initialState, action) => {
 
                 tags: [],
 
+                relation_type: 0,
+                relation_id: null,
                 cashbox_id: 0,
                 client_id: 0,
                 employee_id: 0,
@@ -146,6 +149,8 @@ export const paymentReducer = (state = initialState, action) => {
 
                 tags: action.payment.tags,
 
+                relation_type: action.payment.relation_type,
+                relation_id: action.payment.relation_id,
                 cashbox: action.payment.cashbox,
                 client: action.payment.client,
                 employee: action.payment.employee,

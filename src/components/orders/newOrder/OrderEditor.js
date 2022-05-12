@@ -2,8 +2,10 @@ import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 
-import {addDiscountMargin, changeOrderFormS, addDictService, changeVisibleState} from '../../../Redux/actions'
+import {addDiscountMargin, addDictService, changeVisibleState} from '../../../Redux/actions'
 import {createOrder, resetOrder, saveOrder, addOrders, getOrder} from '../../../Redux/actions/orderActions'
+import {changeOrderState} from '../../../Redux/actions/orderActions'
+
 import {resetBookEquipment} from "../../../Redux/actions/bookActions";
 import {addClients} from '../../../Redux/actions/clientAction'
 
@@ -47,6 +49,7 @@ const OrderEditor = (props) => {
 
     const clickHandel = (event) => {
         if (
+            !event.path.map((el) => el.id).includes('addOrder') &&
             !event.path.map((el) => el.id).includes('createNewOrder') &&
             !event.path.map((el) => el.id).includes('paymentsEditorWiondow')
         ) {
@@ -116,7 +119,7 @@ const OrderEditor = (props) => {
                             <div>
                                 <Tabs
                                     list={['Информация о заказе', 'Работы и материалы', 'Платежи']}
-                                    func={props.changeOrderFormS}
+                                    func={idx => props.changeOrderState({tabs: idx})}
                                     tab={props.order.tabs}
                                 />
                                 {props.order.tabs === 0 ? <OrderInfo/> : null}
@@ -153,7 +156,7 @@ const mapDispatchToProps = {
     addClients,
     addDiscountMargin,
     createOrder,
-    changeOrderFormS,
+    changeOrderState,
     resetOrder,
     addDictService,
     saveOrder,

@@ -13,14 +13,12 @@ const TablePayrolls = (props) => {
     const [incomeSum, setIncomeSum] = useState(0)
     const [outcomeSum, setOutcomeSum] = useState(0)
 
-    const type_payrolls = ['', 'Cоздания заказа', 'Закрытие заказа', 'Ведение заказа', 'Работа', 'Работа', 'Продажа', 'Оклад', '', 'Премия', 'Взыскания', 'Возврат']
+    const type_payrolls = ['', 'Cоздания заказа', 'Закрытие заказа', 'Ведение заказа', 'Работа', 'Работа', 'Продажа', 'Оклад', '', 'Премия', 'Взыскания', 'Возврат', 'Выплата']
 
     const editPayroll = (payroll) => {
         props.editPayroll(payroll)
         props.setVisibleFlag('statusPayrollEditor', true)
     }
-
-    const payrolls = props.payrolls.filter(payroll => props.showDeleted || !payroll.deleted)
 
 
     useEffect(() => {
@@ -47,7 +45,7 @@ const TablePayrolls = (props) => {
             </tr>
             </thead>
             <tbody>
-            {payrolls.map(payroll => (
+            {props.payrolls.map(payroll => (
                 <tr
                     key={payroll.id}
                     className={payroll.deleted ? 'rowDeleted redBorder' : null}
@@ -76,7 +74,7 @@ const TablePayrolls = (props) => {
                 </tr>
             ))}
             <tr>
-                <td colSpan='2'>Всего - {payrolls.length}</td>
+                <td colSpan='2'>Всего - {props.payrolls.length}</td>
                 <td className='txtb tac'>{incomeSum.toFixed(2)} руб.</td>
                 <td className='txtb tac'>{outcomeSum.toFixed(2)} руб.</td>
                 <td></td>
@@ -88,7 +86,7 @@ const TablePayrolls = (props) => {
 }
 
 const mapStateToProps = state => ({
-    payrolls: state.data.payrolls
+    payrolls: state.payroll.payrolls
 })
 
 const mapDispatchToProps = {

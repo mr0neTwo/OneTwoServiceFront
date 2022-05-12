@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, changeEmployeeSelected, changeCashboxPermissions } from '../../../Redux/actions'
+import { setVisibleFlag, changeEmployeeSelected } from '../../../Redux/actions'
+import {changeCashboxPermissions} from '../../../Redux/actions/cashboxAction'
+
 import ChooseBotton from '../../general/ChooseBotton'
 import WarningOrange from '../../general/WarningOrange'
 import Checkbox from '../../general/Checkbox'

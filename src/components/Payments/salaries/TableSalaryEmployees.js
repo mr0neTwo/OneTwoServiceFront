@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {showName} from '../../general/utils'
-import {changePayrollForm} from '../../../Redux/actions/payrollActions'
+import {changePayrollState} from '../../../Redux/actions/payrollActions'
 
 const TableSalaryEmployees = (props) => {
 
@@ -10,9 +10,10 @@ const TableSalaryEmployees = (props) => {
 
     useEffect(() => {
         let sum = 0
-        props.employees.filter(employee => employee.id != 1).forEach(employee => {
+        props.employees.filter(employee => employee.id !== 1).forEach(employee => {
             sum += employee.balance
         })
+        sum = sum ? sum.toFixed(2) : 0
         setTotal(sum)
     }, [props.employees])
 
@@ -28,7 +29,7 @@ const TableSalaryEmployees = (props) => {
             {props.employees.map(employee => (
                 <tr
                     key={employee.id}
-                    onClick={() => props.changePayrollForm(employee.id, 'setted_employee')}
+                    onClick={() => props.changePayrollState({setted_employee: employee.id})}
                     style={employee.id === props.payroll.setted_employee ? {backgroundColor: '#cae1f5'} : null}
                 >
                     <td>{showName(employee)}</td>
@@ -50,7 +51,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changePayrollForm
+    changePayrollState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableSalaryEmployees)

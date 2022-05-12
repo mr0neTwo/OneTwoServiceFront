@@ -31,6 +31,13 @@ const OrderEvents = props => {
     }
     const values = order_event_types.filter(event => props.event_filter.includes(event.id)).map(event => event.value)
 
+    function getEmploeeName(id) {
+        if (id) {
+            const employee = props.employees.find((employee) => employee.id === id)
+            return employee ? `${employee.last_name} ${employee.first_name}`: ''
+        }
+    }
+
     return (
         <div className='contentEditor mt15'>
             <div className='ml30 h100'>
@@ -51,7 +58,7 @@ const OrderEvents = props => {
                                         <div className='dateEvent'>{showDate(event.created_at)}</div>
                                         : null
                                     }
-                                    <EventStatus event={event}/>
+                                    <EventStatus event={event} employee={getEmploeeName(event.employee_id)}/>
                                 </div>
                             </div>
                         )
@@ -66,7 +73,7 @@ const OrderEvents = props => {
                                     <div className='dateEvent'>{showDate(event.created_at)}</div>
                                     : null
                                 }
-                                <EventSimple event={event}/>
+                                <EventSimple event={event} employee={getEmploeeName(event.employee_id)}/>
                             </div>
                         )
                     }
@@ -79,7 +86,8 @@ const OrderEvents = props => {
 
 const mapStateToProps = state => ({
     events: state.order.events,
-    event_filter: state.order.event_filter
+    event_filter: state.order.event_filter,
+    employees: state.data.employees
 })
 
 const mapDispatchToProps = {}

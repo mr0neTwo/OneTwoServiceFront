@@ -33,7 +33,7 @@ const SetFilter = props => {
             urgent: null,
             order_type_id: props.filter.temp_order_types.length ? props.filter.temp_order_types : null,
             manager_id: props.filter.temp_managers.length ? props.filter.temp_managers : null,
-            created_at: props.filter.temp_created_at || [0, 0],
+            created_at: props.filter.temp_created_at.length && props.filter.temp_created_at.every(el => el === 0) ? null : props.filter.temp_created_at ,
             kindof_good: props.filter.temp_kindof_good_id,
             brand: props.filter.temp_brand,
             subtype: props.filter.temp_subtype,

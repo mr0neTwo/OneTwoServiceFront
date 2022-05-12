@@ -1,9 +1,8 @@
-import React, {useCallback, useRef, useState} from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 
 import {changeFilterState} from '../../Redux/actions/filterAction'
 import {changeOrderField, changeOrderState, reorderOrderField} from '../../Redux/actions/orderActions'
-import {verbose} from 'react-paginate/jest.config'
 
 
 function TableHeader(props) {
@@ -55,7 +54,6 @@ function TableHeader(props) {
                     })}
                     draggable
                     onDragEnd={handleEndDrag}
-                    // onDragOver={() => handleDragOver(props.data.order)}
                 >
                     {props.data.title}
                     <span>
@@ -73,8 +71,6 @@ function TableHeader(props) {
                 />
                 <div
                     className='overArea'
-                    // draggable
-                    // onDragEnd={handleEndDrag}
                     onDragOver={() => handleDragOver(props.data.order)}
                 />
             </div>

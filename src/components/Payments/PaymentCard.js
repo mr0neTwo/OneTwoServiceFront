@@ -88,7 +88,7 @@ const PaymentCard = (props) => {
 
 const mapStateToProps = state => ({
    payment: state.payment,
-   cashboxes: state.data.cashboxes,
+   cashboxes: state.cashbox.cashboxes,
    permissions: state.data.user.role.permissions
    })
 

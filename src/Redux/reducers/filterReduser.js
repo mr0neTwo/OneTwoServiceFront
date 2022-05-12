@@ -16,22 +16,22 @@ const initialState = {
     title: '',
     general: false,
 
-    sort: 'desc',
-    field_sort: 'id',
-    page: 0,
+    sort: JSON.parse(localStorage.getItem('sort')) || 'desc',
+    field_sort:  JSON.parse(localStorage.getItem('field_sort')) || 'id',
+    page: JSON.parse(localStorage.getItem('page')) || 0,
 
-    engineer_id: null,
-    overdue: null,
-    status_id: null,
-    status_overdue: null,
-    urgent: null,
-    order_type_id: null,
-    manager_id: null,
-    created_at: null,
-    kindof_good: null,
-    brand: null,
-    subtype: null,
-    client_id: null,
+    engineer_id: JSON.parse(localStorage.getItem('engineer_id')) || null,
+    overdue: JSON.parse(localStorage.getItem('overdue')) || null,
+    status_id: JSON.parse(localStorage.getItem('status_id')) || null,
+    status_overdue: JSON.parse(localStorage.getItem('status_overdue')) || null,
+    urgent: JSON.parse(localStorage.getItem('urgent')) || null,
+    order_type_id: JSON.parse(localStorage.getItem('order_type_id')) || null,
+    manager_id: JSON.parse(localStorage.getItem('manager_id')) || null,
+    created_at: JSON.parse(localStorage.getItem('created_at')) || null,
+    kindof_good: JSON.parse(localStorage.getItem('kindof_good')) || null,
+    brand: JSON.parse(localStorage.getItem('brand')) || null,
+    subtype: JSON.parse(localStorage.getItem('subtype')) || null,
+    client_id: JSON.parse(localStorage.getItem('client_id')) || null,
 
     search: '',
 
@@ -45,8 +45,8 @@ const initialState = {
     temp_subtype: null,
     temp_client: {},
 
-    active_badge: 0,
-    active_filter: 0
+    active_badge: JSON.parse(localStorage.getItem('active_badge')) || 0,
+    active_filter: JSON.parse(localStorage.getItem('active_filter')) || 0
 }
 
 export const filterReducer = (state = initialState, action) => {
@@ -60,6 +60,12 @@ export const filterReducer = (state = initialState, action) => {
         }
 
         case 'CHANGE_FILTER_STATE': {
+            const local_save = ['sort', 'field_sort', 'page', 'engineer_id', 'overdue', 'status_id', 'status_overdue',
+                'urgent', 'order_type_id', 'manager_id', 'created_at', 'kindof_good', 'brand', 'subtype', 'client_id',
+                'active_badge', 'active_filter']
+            Object.keys(action.data).forEach(field => {
+                if (local_save.includes(field)) localStorage.setItem(field, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 

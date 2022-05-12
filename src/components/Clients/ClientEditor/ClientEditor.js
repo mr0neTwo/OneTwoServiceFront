@@ -9,7 +9,7 @@ import {
     saveChangeClient,
     deleteClient,
 } from '../../../Redux/actions'
-import {changeClientForm} from '../../../Redux/actions/clientAction'
+import {changeClientState} from '../../../Redux/actions/clientAction'
 
 import BottomButtons from '../../general/BottomButtons'
 
@@ -115,7 +115,7 @@ const ClientEditor = (props) => {
                                 className='mt15'
                                 list={['Общие', 'Баланс', 'Обращения', 'Заказы', 'Платежи', 'Звонки', 'SMS', 'Задачи']}
                                 tab={props.client.tabs}
-                                func={props.changeClientForm}
+                                func={idx => props.changeClientState({tabs: idx})}
                             />
                             {props.client.tabs === 0 ? <ClientInfo/> : null}
                             {props.client.tabs === 1 ? <ClientBalans/> : null}
@@ -158,7 +158,7 @@ const mapDispatchToProps = {
     createNewClient,
     saveChangeClient,
     deleteClient,
-    changeClientForm
+    changeClientState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientEditor)

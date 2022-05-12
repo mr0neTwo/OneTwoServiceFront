@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 
-import {changeCashboxForm} from '../../Redux/actions'
+import {changeCashboxState} from '../../Redux/actions/cashboxAction'
 
 import Tabs from '../general/Tabs'
 import Cashboxes from './cashboxes/Cashboxes'
@@ -19,7 +19,7 @@ const Payments = (props) => {
 
             <Tabs
                 list={['Платежи', 'Взаиморасчеты', 'Счета', 'Зарплаты']}
-                func={props.changeCashboxForm}
+                func={idx => props.changeCashboxState({tabs: idx})}
                 tab={props.tabs}
             />
             {props.tabs === 0 ? <Cashboxes/> : null}
@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changeCashboxForm
+    changeCashboxState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payments)

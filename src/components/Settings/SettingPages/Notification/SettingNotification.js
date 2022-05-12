@@ -29,7 +29,7 @@ const SettingNotification = props => {
             className='mt15'
             list={['Заказы', 'Обращения', 'Задачи', 'Шаблоны']}
             tab={props.notEvent.tabs}
-            func={props.changeNotEventForm}
+            func={idx => props.changeNotEventForm(idx, 'tabs')}
         />
         {props.notEvent.tabs === 0 ? <OrderNotification/> : null}
         {props.notEvent.tabs === 1 ? null : null}

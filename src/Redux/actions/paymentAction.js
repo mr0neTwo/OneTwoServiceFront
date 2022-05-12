@@ -34,15 +34,15 @@ export function createPayment(context) {
     const state = store.getState()
 
     const now = Math.round(Date.now() / 1000)
-    const cashbox1 = state.data.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).title
-    const cashbox2 = state.payment.target_cashbox_id ? state.data.cashboxes.find(cashbox => cashbox.id === state.payment.target_cashbox_id).title : ''
+    const cashbox1 = state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).title
+    const cashbox2 = state.payment.target_cashbox_id ? state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.target_cashbox_id).title : ''
 
     const disc = `Перемещение денег из кассы "${cashbox1}" в кассу "${cashbox2}".`
 
     let request_body = {
         cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
         description: state.payment.direction ? state.payment.description : disc + state.payment.description,
-        deposit: state.data.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
+        deposit: state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
         income: state.payment.income,
         outcome: -state.payment.outcome,
         direction: state.payment.direction,
@@ -50,8 +50,9 @@ export function createPayment(context) {
         can_print_fiscal: state.payment.can_print_fiscal,
         is_fiscal: state.payment.is_fiscal,
         created_at: now,
-        custom_created_at: state.payment.custom_created_at ? state.payment.custom_created_at : now,
+        custom_created_at: state.payment.custom_created_at || now,
         tags: state.payment.tags,
+        relation_type: state.payment.relation_type,
         cashbox_id: state.payment.cashbox_id ? state.payment.cashbox_id : null,
         client_id: state.payment.client_id ? state.payment.client_id : null,
         employee_id: state.payment.employee_id,
@@ -137,9 +138,8 @@ export function createPayment(context) {
                             data: {payments: data.payments}
                         })
                         dispatch({
-                            type: 'ADD_DATA',
-                            field: 'cashboxes',
-                            data: data.cashboxes,
+                            type: 'CHANGE_CASHBOX_STATE',
+                            data: {cashboxes: data.cashboxes},
                         })
                     }
                     if (context.type === 'order') {
@@ -233,6 +233,7 @@ export function deletePayment(flag) {
 
     let request_body = {
         id: state.payment.edit,
+        relation_type: state.payment.relation_type,
         relation_id: state.payment.relation_id ? state.payment.relation_id : null,
         order_id: state.payment.order.id,
         deleted: flag
@@ -301,9 +302,8 @@ export function deletePayment(flag) {
                             type: 'RESET_PAYMENTS'
                         })
                         dispatch({
-                            type: 'ADD_DATA',
-                            field: 'cashboxes',
-                            data: data.cashboxes,
+                            type: 'CHANGE_CASHBOX_STATE',
+                            data: {cashboxes: data.cashboxes}
                         })
                     }
                     dispatch({

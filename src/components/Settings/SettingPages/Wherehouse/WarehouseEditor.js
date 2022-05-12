@@ -77,7 +77,7 @@ const WarehouseEditor = props => {
                         className='mt15'
                         list={['Общие', 'Доступ']}
                         tab={props.warehouse.tabs}
-                        func={props.changeWarehouseForm}
+                        func={idx => props.changeWarehouseForm(idx, 'tabs')}
                     />
                     {props.warehouse.tabs === 0 ? <WarehouseInfo/> : null}
                     {props.warehouse.tabs === 1 ? <WarehouseAccess/> : null}

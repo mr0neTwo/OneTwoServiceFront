@@ -1,10 +1,11 @@
+import React, {useEffect, useState} from 'react'
+import {connect} from 'react-redux'
 
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
 
-
-import { setVisibleFlag, addCashboxes, changeCashboxForm } from '../../../Redux/actions'
+import {changeVisibleState} from '../../../Redux/actions'
 import {addPayments} from '../../../Redux/actions/paymentAction'
+import {addCashboxes, changeCashboxState} from '../../../Redux/actions/cashboxAction'
+
 import Checkbox from '../../general/Checkbox'
 import Cashbox from './Cashbox'
 import CashboxEditor from './CashboxEditor'
@@ -15,74 +16,68 @@ import PaymentCard from '../PaymentCard'
 
 const Cashboxes = (props) => {
 
-   const [showDeleted, setShowDeleted] = useState(false)
+    useEffect(() => {
+        if (Object.values(props.current_branch).length)  props.addCashboxes()
+    }, [props.cashbox.showDeleted, props.current_branch])
 
-   useEffect(() => {
-      props.addCashboxes()
-   },[])
+    // const cashboxes = props.cashbox.cashboxes.filter(cashbox =>
+    //    (!cashbox.deleted || showDeleted) &&
+    //    cashbox.employees[props.user.id].available &&
+    //    (cashbox.branch_id === (props.current_branch ? props.current_branch.id : false )|| cashbox.isGlobal)
+    //    )
 
-   const cashboxes = props.cashboxes.filter(cashbox => 
-      (!cashbox.deleted || showDeleted) && 
-      cashbox.employees[props.user.id].available &&
-      (cashbox.branch_id === (props.current_branch ? props.current_branch.id : false )|| cashbox.isGlobal)
-      )
-   
-   
-   // useEffect(() => {
-   //    props.changeCashboxForm(cashboxes[0], 'current_cashbox')
-   // },[])
+    return (
+        <div className='contentTab'>
 
-   return (
-      <div className = 'contentTab'>
+            <div className='row al-itm-bl'>
+                <div className='cashboxes'>
+                    <Checkbox
+                        label='Показать удаленные'
+                        onChange={event => props.changeCashboxState({showDeleted: event.target.checked})}
+                        checked={props.cashbox.showDeleted}
+                    />
+                    {props.cashbox.cashboxes.map(cashbox => {
+                        return (
+                            <Cashbox
+                                key={cashbox.id}
+                                cashbox={cashbox}
+                                active={cashbox.active}
+                            />
+                        )
+                    })}
 
-         <div className = 'row al-itm-bl'>
-            <div className='cashboxes'>
-               <Checkbox
-                  label='Показать удаленные'
-                  onChange={event => setShowDeleted(event.target.checked)}
-                  checked={showDeleted}
-               />
-               {cashboxes.map(cashbox => {
-               return (
-                  <Cashbox
-                     key={cashbox.id}
-                     cashbox={cashbox}
-                     active={cashbox.active}
-                  />
-               )})}
-               
-               {props.user.role.permissions.includes('edit_cash') ?
-               <div 
-                  className='whiteButton'
-                  onClick={() => props.setVisibleFlag('statusCashboxEditor', true)}
-               >
-                     + Добавить кассу
-               </div> : null}
+                    {props.user.role.permissions.includes('edit_cash') ?
+                        <div
+                            className='whiteButton'
+                            onClick={() => props.changeVisibleState({statusCashboxEditor: true})}
+                        >
+                            + Добавить кассу
+                        </div> : null}
+
+                </div>
+                {props.permissions.includes('see_moving_money') ? <ManeyMovement/> : null}
 
             </div>
-            {props.permissions.includes('see_moving_money') ? <ManeyMovement/> : null }
-           
-         </div>
-         {props.view.statusPaymentsCard ? <PaymentCard/> : null}
-         {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
-         {props.view.statusCashboxEditor ? <CashboxEditor/> : null}
-      </div>
-   )
+            {props.view.statusPaymentsCard ? <PaymentCard/> : null}
+            {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
+            {props.view.statusCashboxEditor ? <CashboxEditor/> : null}
+        </div>
+    )
 }
 
 const mapStateToProps = state => ({
-   view: state.view,
-   cashboxes: state.data.cashboxes,
-   user: state.data.user,
-   current_branch: state.data.current_branch,
-   permissions: state.data.user.role.permissions
-   })
+    view: state.view,
+    cashbox: state.cashbox,
+    user: state.data.user,
+    current_branch: state.data.current_branch,
+    permissions: state.data.user.role.permissions
+})
 
 const mapDispatchToProps = {
-   setVisibleFlag,
-   addCashboxes,
-   changeCashboxForm,
-   addPayments
+    changeVisibleState,
+    addCashboxes,
+    changeCashboxState,
+    addPayments
 }
-  
- export default connect(mapStateToProps, mapDispatchToProps)(Cashboxes)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cashboxes)

@@ -32,16 +32,16 @@ const EventSimple = props => {
     const checkLength = (event) => {
         let one, two
         if (event.current && event.current.title){
-            one = event.current.title.toString().length > 12
+            one = event.current.title.toString().length
         } else {
-            one = false
+            one = 0
         }
         if (event.new && event.new.title){
-            two = event.new.title.toString().length > 12
+            two = event.new.title.toString().length
         } else {
-            two = false
+            two = 0
         }
-        return one && two
+        return one + two > 40
     }
 
     const optionsShowDate = {
@@ -54,6 +54,7 @@ const EventSimple = props => {
     }
 
     const time = new Date(props.event.created_at * 1000).toLocaleString('ru', optionsShowDate)
+
 
 
     return (
@@ -70,6 +71,7 @@ const EventSimple = props => {
                                     marginLeft: idx ? '30px': null
                                 }}
                                 className='boxHistoryIcon'
+                                title={props.employee}
                             >
                                 <Icon className='icon-s2' icon={chooseIcon(props.event.event_type)} color='white'/>
                             </div>

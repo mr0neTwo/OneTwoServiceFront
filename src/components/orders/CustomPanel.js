@@ -27,6 +27,7 @@ const CustomPanel = (props) => {
             <div className='customPanel'>
                 <div className='row al-itm-fe'>
                     <Button
+                        id='addOrder'
                         className='greenButton'
                         title='+ Заказ'
                         onClick={newOrder}

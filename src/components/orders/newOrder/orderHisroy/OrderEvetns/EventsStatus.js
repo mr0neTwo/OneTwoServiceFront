@@ -19,6 +19,7 @@ const EventStatus = props => {
                 <div
                     className='statusListRow mt0'
                     style={{backgroundColor: props.event.current_status.color}}
+                    title={props.employee}
                 >
                     {props.event.changed[0].new.title}
                 </div>

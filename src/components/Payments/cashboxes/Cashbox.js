@@ -2,7 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import {icone_sphere, icone_setting} from '../../../data/icons'
-import {activeCashbox, editCashbox, changeCashboxForm, changeVisibleState} from '../../../Redux/actions'
+import {changeVisibleState} from '../../../Redux/actions'
+import {changeCashboxState, editCashbox} from '../../../Redux/actions/cashboxAction'
+
 import {changePaymentState} from '../../../Redux/actions/paymentAction'
 import Button from '../../general/Button'
 import Icon from '../../general/Icon'
@@ -80,7 +82,7 @@ const Cashbox = (props) => {
     return (
         <div
             className={`cashbox ${activ(props.cashbox.id) && !props.cashbox.deleted ? 'bcg' : 'cgr'}`}
-            onClick={() => props.changeCashboxForm(props.cashbox, 'current_cashbox')}
+            onClick={() => props.changeCashboxState({current_cashbox: props.cashbox})}
         >
             <div className='icons'>
                 <div><Icon className='smalIcon' icon={icone_sphere}
@@ -132,9 +134,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    activeCashbox,
     editCashbox,
-    changeCashboxForm,
+    changeCashboxState,
     changePaymentState,
     changeVisibleState
 }

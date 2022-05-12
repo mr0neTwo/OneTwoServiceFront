@@ -1,17 +1,9 @@
 import store from '../store'
-import { getRequestConfig, bad_request } from './actionUtils'
-import { currentMonth } from '../../components/general/utils'
+import {getRequestConfig, bad_request} from './actionUtils'
+import {currentMonth} from '../../components/general/utils'
 
 
-export function changePayrollForm( value, field ) {
-   return {
-     type: 'CHANGE_PAYROLL_FORM',
-     field,
-     value
-   }
- }
-
-export function changePayrollState( data ) {
+export function changePayrollState(data) {
     return {
         type: 'CHANGE_PAYROLL_STATE',
         data
@@ -19,180 +11,172 @@ export function changePayrollState( data ) {
 }
 
 export function editPayroll(payroll) {
-   return {
-     type: 'EDIT_PAYROLL',
-     payroll
-   }
- }
- 
- export function resetPayroll() {
-   return {
-     type: 'RESET_PAYROLL'
-   }
- }
- 
- 
- export function selectedPayroll( value, field ) {
-   return {
-     type: 'SELECTED_PAYROLL',
-     field,
-     value
-   }
- }
+    return {
+        type: 'EDIT_PAYROLL',
+        payroll
+    }
+}
+
+export function resetPayroll() {
+    return {
+        type: 'RESET_PAYROLL'
+    }
+}
+
+
+export function selectedPayroll(value, field) {
+    return {
+        type: 'SELECTED_PAYROLL',
+        field,
+        value
+    }
+}
+
+function getFilter() {
+    const state = store.getState()
+    return {
+        custom_created_at: state.payroll.filter_created_at,
+        employee_id: state.payroll.setted_employee,
+        deleted: state.payroll.showDeleted
+    }
+}
 
 export function addPayrolls() {
 
-   const state = store.getState()
+    const state = store.getState()
 
-   const request_config = getRequestConfig({
-    custom_created_at: state.payroll.filter_created_at,
-    employee_id: state.payroll.setted_employee
-  })
- 
-   return dispatch => {
- 
-     fetch(state.data.url_server + '/get_payrolls', request_config)
-     .then(response => response.json())
-     .then(data => {
-       if (data.success) {
-         dispatch({
-           type: 'ADD_DATA',
-           field: 'payrolls',
-           data: data.data,
-         })
-       } else {
-         console.warn(data.message)
-       }
-     })
-     .catch(() => bad_request('Запрос начислений не выполнен'))
-   }
- }
+    const request_config = getRequestConfig(getFilter())
 
- export function addMonthBalance() {
+    return dispatch => {
 
-  const state = store.getState()
+        fetch(state.data.url_server + '/get_payrolls', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_PAYROLL_STATE',
+                        data: {payrolls: data.data}
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(() => bad_request('Запрос начислений не выполнен'))
+    }
+}
 
-  const request_config = getRequestConfig({
-   custom_created_at: currentMonth(),
-   employee_id: state.payroll.setted_employee
- })
+export function addMonthBalance() {
 
-  return dispatch => {
+    const state = store.getState()
 
-    fetch(state.data.url_server + '/get_payroll_sum', request_config)
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        dispatch({
-          type: 'CHANGE_PAYROLL_FORM',
-          field: 'month_balance',
-          value: data.sum,
-        })
-      } else {
-        console.warn(data.message)
-      }
+    const request_config = getRequestConfig({
+        custom_created_at: currentMonth(),
+        employee_id: state.payroll.setted_employee
     })
-    .catch(() => bad_request('Запрос баланса не выполнен'))
-  }
+
+    return dispatch => {
+
+        fetch(state.data.url_server + '/get_payroll_sum', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_PAYROLL_STATE',
+                        data: {month_balance: data.sum},
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(() => bad_request('Запрос баланса не выполнен'))
+    }
 }
 
 export function createPayroll() {
 
-  const state = store.getState()
+    const state = store.getState()
 
-  const request_config1 = getRequestConfig({
-    description: state.payroll.description,      
-    income: state.payroll.income,
-    outcome: -state.payroll.outcome,
-    direction: state.payroll.direction,
-    deleted: state.payroll.deleted,
-    reimburse: state.payroll.reimburse,
-    created_at: state.payroll.created_at,
-    custom_created_at: state.payroll.custom_created_at,
-    relation_type: state.payroll.relation_type,
-    relation_id: state.payroll.relation_id,
-    employee_id: state.payroll.employee_id,
-    order_id: state.payroll.order_id
-  })
+    const now = Math.round(Date.now() / 1000)
 
-  const request_config2 = getRequestConfig({
-    custom_created_at: state.payroll.filter_created_at,
-    employee_id: state.payroll.setted_employee
-  })
+    const request_config = getRequestConfig({
+        description: state.payroll.description,
+        income: state.payroll.income,
+        outcome: -state.payroll.outcome,
+        direction: state.payroll.direction,
+        deleted: state.payroll.deleted,
+        reimburse: state.payroll.reimburse,
+        created_at: now,
+        custom_created_at: state.payroll.custom_created_at || now,
+        relation_type: state.payroll.relation_type,
+        relation_id: state.payroll.relation_id,
+        employee_id: state.payroll.employee_id,
+        order_id: state.payroll.order_id,
+        payment: state.payroll.relation_type === 12 ? {
+            cashbox_id: state.payroll.payment_cashbox_id,
+            cashflow_category: state.payroll.payment_cashflow_category
+        } : null,
+        filter: getFilter()
+    })
 
-  return async dispatch => {
+    return async dispatch => {
 
-    await fetch(state.data.url_server + '/payroll', request_config1)
-    .catch(() => bad_request('Запрос на создание начисления не выполнен'))
+        await fetch(state.data.url_server + '/payroll', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_PAYROLL_STATE',
+                        data: {payrolls: data.payrolls}
+                    })
+                    dispatch({
+                        type: 'RESET_PAYROLL',
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPayrollEditor: false}
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(() => bad_request('Запрос на создание начисления не выполнен'))
 
-    await fetch(state.data.url_server + '/get_payrolls', request_config2)
-      .then(response =>  response.json())
-      .then(data => {
-        if (data.success) {
-          dispatch({
-            type: 'ADD_DATA',
-            field: 'payrolls',
-            data: data.data,
-          })
-          dispatch({
-            type: 'RESET_PAYROLL',
-          })
-          dispatch({
-            type: 'SET_VISIBLE_FLAG',
-            field: 'statusPayrollEditor',
-            value: false
-          })
-        } else {
-          console.warn(data.message)
-        }
-      })
-      .catch(() => bad_request('Запрос начислений не выполнен'))
-     
-  }
+    }
 }
 
 export function deletePayroll(flag) {
 
-  const state = store.getState()
+    const state = store.getState()
 
-  let request_config1 = getRequestConfig({
-    id: state.payroll.edit,      
-    deleted: flag
-  })
-  request_config1.method = 'PUT'
-
-  const request_config2 = getRequestConfig({
-    custom_created_at: state.payroll.filter_created_at,
-    employee_id: state.payroll.setted_employee
-  })
-
-  return async dispatch => {
-
-    await fetch(state.data.url_server + '/payroll', request_config1)
-    .catch(() => bad_request('Запрос на создание начисления не выполнен'))
-
-    fetch(state.data.url_server + '/get_payrolls', request_config2)
-    .then(response =>  response.json())
-    .then(data => {
-      if (data.success) {
-        dispatch({
-          type: 'ADD_DATA',
-          field: 'payrolls',
-          data: data.data,
-        })
-        dispatch({
-          type: 'RESET_PAYROLL',
-        })
-        dispatch({
-          type: 'SET_VISIBLE_FLAG',
-          field: 'statusPayrollEditor',
-          value: false
-        })
-      } else {
-        console.warn(data.message)
-      }
+    let request_config = getRequestConfig({
+        id: state.payroll.edit,
+        deleted: flag,
+        filter: getFilter()
     })
-    .catch(() => bad_request('Запрос начислений не выполнен'))
-     
-  }
+    request_config.method = 'PUT'
+
+    return async dispatch => {
+
+        fetch(state.data.url_server + '/payroll', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_PAYROLL_STATE',
+                        data: {payrolls: data.payrolls}
+                    })
+                    dispatch({
+                        type: 'RESET_PAYROLL',
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPayrollEditor: false}
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(() => bad_request('Запрос на удаление/восстановления начисления не выполнен'))
+
+    }
 }

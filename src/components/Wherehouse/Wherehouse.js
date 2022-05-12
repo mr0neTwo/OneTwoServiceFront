@@ -25,7 +25,7 @@ const Wherehouse = (props) => {
 
           <Tabs
               list={ ['Остатки', 'Оприходования', 'Списания', 'Пермещения', 'Инвентаризации', 'Возвраты поставщику', 'Товары и категории'] }
-              func={props.changeWarehouseForm}
+              func={idx => props.changeWarehouseForm(idx, 'tabs')}
               tab={props.tabs}
           />
           {props.tabs === 0 ? <WarehouseRemains/> : null}

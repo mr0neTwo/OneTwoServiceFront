@@ -16,8 +16,6 @@ import ChooseDate from '../../general/calandar/ChooseDate'
 
 const EmployeeSalary = (props) => {
 
-    const [showDeleted, setShowDeleted] = useState(false)
-
     useEffect(() => {
         props.addMonthBalance()
         props.addEmployees()
@@ -26,12 +24,30 @@ const EmployeeSalary = (props) => {
     const current_employee = useMemo(() => props.employees.find(employee => employee.id === props.payroll.setted_employee), [props.payroll.setted_employee])
 
     const handleIncome = () => {
-        props.changePayrollState({direction: 2, relation_type: 9})
+        props.changePayrollState({
+            direction: 2,
+            relation_type: 9,
+            employee_id: props.payroll.setted_employee
+        })
         props.setVisibleFlag('statusPayrollEditor', true)
     }
 
     const handleOutcome = () => {
-        props.changePayrollState({direction: 1, relation_type: 10})
+        props.changePayrollState({
+            direction: 1,   
+            relation_type: 10,
+            employee_id: props.payroll.setted_employee
+        })
+        props.setVisibleFlag('statusPayrollEditor', true)
+    }
+
+    const handlePaySalary = () => {
+        props.changePayrollState({
+            direction: 1,
+            relation_type: 12,
+            description: 'Выплата заработной платы',
+            employee_id: props.payroll.setted_employee
+        })
         props.setVisibleFlag('statusPayrollEditor', true)
     }
 
@@ -44,15 +60,21 @@ const EmployeeSalary = (props) => {
             </div>
             <div className='txtb'>
                 <span>Начисленно в текущем месяце: </span>
-                <span
-                    className={month_balance > 0 ? 'greenFont ml5' : 'redFont ml5'}>{month_balance ? month_balance.toFixed(2) : 0}</span> руб.
+                <span className={month_balance >= 0 ? 'greenFont ml5' : 'redFont ml5'}>
+                    {month_balance ? month_balance.toFixed(2) : 0}
+                </span> руб.
             </div>
             <div className='txtb'>
                 <span>Баланс:</span>
                 <span
-                    className={month_balance > 0 ? 'greenFont ml5' : 'redFont ml5'}>
+                    className={current_employee.balance >= 0 ? 'greenFont ml5' : 'redFont ml5'}>
                     {current_employee.balance ? current_employee.balance.toFixed(2) : 0}</span> руб.
             </div>
+            <Button
+                title='Выплатить'
+                className='greenButton bcr'
+                onClick={handlePaySalary}
+            />
 
             <div className='row mt15 jc-sb'>
                 <div className='row'>
@@ -70,8 +92,8 @@ const EmployeeSalary = (props) => {
                     />
                     <Checkbox
                         label='Показать удаленные'
-                        onChange={event => setShowDeleted(event.target.checked)}
-                        value={showDeleted}
+                        onChange={event => props.changePayrollState({showDeleted: event.target.checked})}
+                        value={props.payroll.showDeleted}
                         invisible={!props.permissions.includes('see_seleted_payrolls')}
                     />
                 </div>
@@ -91,7 +113,7 @@ const EmployeeSalary = (props) => {
                 </div>
             </div>
             {props.statusPayrollEditor ? <PaypolleEditor/> : null}
-            <TablePayrolls showDeleted={showDeleted}/>
+            <TablePayrolls/>
         </div>
     )
 }

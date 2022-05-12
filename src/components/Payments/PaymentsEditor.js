@@ -89,9 +89,8 @@ const PaymentsEditor = (props) => {
 
     const cashboxes = props.cashboxes.filter(cashbox =>
         cashbox.type === props.payment.current_type &&
-        (props.payment.direction || cashbox.id !== props.payment.cashbox_id) &&
-        !cashbox.deleted &&
-        (cashbox.isGlobal || cashbox.branch_id === props.current_branch_id)
+        (props.payment.direction || cashbox.id !== props.payment.cashbox_id)
+        // (cashbox.isGlobal || cashbox.branch_id === props.current_branch_id)
     )
 
     return (
@@ -235,7 +234,7 @@ const mapStateToProps = (state) => ({
     permissions: state.data.user.role.permissions,
     filter: state.filter,
     client: state.client,
-    cashboxes: state.data.cashboxes,
+    cashboxes: state.cashbox.cashboxes,
     current_branch_id: state.data.current_branch.id,
     item_payments: state.data.item_payments,
     employees: state.data.employees,
