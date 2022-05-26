@@ -241,7 +241,7 @@ export function createEquipmentType(title) {
             title,
             icon: state.book.icon,
             url: state.book.url,
-            branches: state.data.branches.map(branch => branch.id),
+            branches: state.branch.branches.map(branch => branch.id),
             deleted: false,
             filter: {
                 title,
@@ -313,7 +313,7 @@ export function createEquipmentBrand(title) {
     const request_config = getRequestConfig({
         title,
         equipment_type_id: state.order.kindof_good.id,
-        branches: state.data.branches.map(branch => branch.id),
+        branches: state.branch.branches.map(branch => branch.id),
         deleted: false,
         filter: {
             title,
@@ -385,7 +385,7 @@ export function cteateEquipmentSubtype(title) {
     const request_config = getRequestConfig({
         title,
         equipment_brand_id: state.order.brand.id,
-        branches: state.data.branches.map(branch => branch.id),
+        branches: state.branch.branches.map(branch => branch.id),
         deleted: false,
         filter: {
             title,
@@ -457,7 +457,7 @@ export function createEquipmentModel(title) {
     const request_config = getRequestConfig({
         title,
         equipment_subtype_id: state.order.subtype.id,
-        branches: state.data.branches.map(branch => branch.id),
+        branches: state.branch.branches.map(branch => branch.id),
         deleted: false,
         filter: {
             title,

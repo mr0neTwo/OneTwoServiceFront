@@ -1,177 +1,182 @@
-import { icon_location } from "../../data/icons"
+import {icon_location} from "../../data/icons"
 
 const initialState = {
-   name: '',
-   address: '',
-   phone: '',
-   color: 'grey',
-   icon: icon_location,
-   orders_type_id: 1,
-   orders_type_strategy: 'last',
-   orders_prefix: 'OTS',
-   documents_prefix: 'A',
-   employees: [],
-   deleted: false,
-   schedule: [
-      {
-         start_time: '9:00',
-         end_time: '18:00',
-         work_day: true,
-         week_day: 1
-      }, {
-         start_time: '9:00',
-         end_time: '18:00',
-         work_day: true,
-         week_day: 2
-      }, {
-         start_time: '9:00',
-         end_time: '18:00',
-         work_day: true,
-         week_day: 3
-      }, {
-         start_time: '9:00',
-         end_time: '18:00',
-         work_day: true,
-         week_day: 4
-      }, {
-         start_time: '9:00',
-         end_time: '18:00',
-         work_day: true,
-         week_day: 5
-      }, {
-         start_time: '9:00',
-         end_time: '18:00',
-         work_day: false,
-         week_day: 6
-      }, {
-         start_time: '9:00',
-         end_time: '18:00',
-         work_day: false,
-         week_day: 7
-      },
-   ],
+    branches: [],
+    current_branch: {},
 
-   edit: 0,
-   showDeleted: false
+    edit: 0,
+    name: '',
+    address: '',
+    phone: '',
+    color: 'grey',
+    icon: icon_location,
+    orders_type_id: 1,
+    orders_type_strategy: 'last',
+    orders_prefix: 'OTS',
+    documents_prefix: 'A',
+    employees: [],
+    deleted: false,
+    schedule: [
+        {
+            start_time: '9:00',
+            end_time: '18:00',
+            work_day: true,
+            week_day: 1
+        }, {
+            start_time: '9:00',
+            end_time: '18:00',
+            work_day: true,
+            week_day: 2
+        }, {
+            start_time: '9:00',
+            end_time: '18:00',
+            work_day: true,
+            week_day: 3
+        }, {
+            start_time: '9:00',
+            end_time: '18:00',
+            work_day: true,
+            week_day: 4
+        }, {
+            start_time: '9:00',
+            end_time: '18:00',
+            work_day: true,
+            week_day: 5
+        }, {
+            start_time: '9:00',
+            end_time: '18:00',
+            work_day: false,
+            week_day: 6
+        }, {
+            start_time: '9:00',
+            end_time: '18:00',
+            work_day: false,
+            week_day: 7
+        },
+    ],
+
+    showDeleted: false
 }
 
 export const branchReducer = (state = initialState, action) => {
-   switch (action.type){
+    switch (action.type) {
 
-      case 'CHANGE_BRANCH_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value,
-         }
-      }
+        case 'CHANGE_BRANCH_STATE': {
+            // const local_save = []
+            // Object.keys(action.data).forEach(field => {
+            //    if (local_save.includes(field)) localStorage.setItem(field, JSON.stringify(action.data[field]))
+            // })
+            return {...Object.assign(state, action.data)}
+        }
 
-      case 'CHANGE_SCHEDULE': {
+        case 'CHANGE_SCHEDULE': {
 
-         let list_schedule = state.schedule
-         list_schedule[action.idx][action.field] = action.value
+            let list_schedule = state.schedule
+            list_schedule[action.idx][action.field] = action.value
 
-         return {
-            ...state, 
-            schedule: list_schedule
-         }
-      }
-      
-      case 'SET_BRANCH_EMPLOYEE': {
-         if (action.id.every(id => state.employees.includes(id))) {
             return {
-               ...state, 
-               employees: state.employees.filter(id => !action.id.includes(id)),
+                ...state,
+                schedule: list_schedule
             }
-         } else {
+        }
+
+        case 'SET_BRANCH_EMPLOYEE': {
+            if (action.id.every(id => state.employees.includes(id))) {
+                return {
+                    ...state,
+                    employees: state.employees.filter(id => !action.id.includes(id)),
+                }
+            } else {
+                return {
+                    ...state,
+                    employees: state.employees.concat(action.id.filter(id => !state.employees.includes(id))),
+                }
+            }
+        }
+
+        case 'RESET_BRANCH': {
+
             return {
-               ...state, 
-               employees: state.employees.concat(action.id.filter(id => !state.employees.includes(id))),
+                ...state,
+                name: '',
+                address: '',
+                phone: '',
+                color: 'grey',
+                icon: icon_location,
+                orders_type_id: 1,
+                orders_type_strategy: 'last',
+                orders_prefix: 'OTS',
+                documents_prefix: 'A',
+                employees: [],
+                deleted: false,
+                schedule: [
+                    {
+                        start_time: '9:00',
+                        end_time: '18:00',
+                        work_day: true,
+                        week_day: 1
+                    }, {
+                        start_time: '9:00',
+                        end_time: '18:00',
+                        work_day: true,
+                        week_day: 2
+                    }, {
+                        start_time: '9:00',
+                        end_time: '18:00',
+                        work_day: true,
+                        week_day: 3
+                    }, {
+                        start_time: '9:00',
+                        end_time: '18:00',
+                        work_day: true,
+                        week_day: 4
+                    }, {
+                        start_time: '9:00',
+                        end_time: '18:00',
+                        work_day: true,
+                        week_day: 5
+                    }, {
+                        start_time: '9:00',
+                        end_time: '18:00',
+                        work_day: false,
+                        week_day: 6
+                    }, {
+                        start_time: '9:00',
+                        end_time: '18:00',
+                        work_day: false,
+                        week_day: 7
+                    },
+                ],
+
+                edit: 0
             }
-         }
-      }
+        }
 
-      case 'RESET_BRANCH': {
 
-         return {
-            ...state, 
-            name: '',
-            address: '',
-            phone: '',
-            color: 'grey',
-            icon: icon_location,
-            orders_type_id: 1,
-            orders_type_strategy: 'last',
-            orders_prefix: 'OTS',
-            documents_prefix: 'A',
-            employees: [],
-            deleted: false,
-            schedule: [
-               {
-                  start_time: '9:00',
-                  end_time: '18:00',
-                  work_day: true,
-                  week_day: 1
-               }, {
-                  start_time: '9:00',
-                  end_time: '18:00',
-                  work_day: true,
-                  week_day: 2
-               }, {
-                  start_time: '9:00',
-                  end_time: '18:00',
-                  work_day: true,
-                  week_day: 3
-               }, {
-                  start_time: '9:00',
-                  end_time: '18:00',
-                  work_day: true,
-                  week_day: 4
-               }, {
-                  start_time: '9:00',
-                  end_time: '18:00',
-                  work_day: true,
-                  week_day: 5
-               }, {
-                  start_time: '9:00',
-                  end_time: '18:00',
-                  work_day: false,
-                  week_day: 6
-               }, {
-                  start_time: '9:00',
-                  end_time: '18:00',
-                  work_day: false,
-                  week_day: 7
-               },
-            ],
+        case 'EDIT_BRANCH': {
 
-            edit: 0
-         }
-      }
+            return {
+                ...state,
+                name: action.branch.name,
+                address: action.branch.address,
+                phone: action.branch.phone,
+                color: action.branch.color,
+                icon: action.branch.icon,
+                orders_type_id: action.branch.orders_type_id,
+                orders_type_strategy: action.branch.orders_type_strategy,
+                orders_prefix: action.branch.orders_prefix,
+                documents_prefix: action.branch.documents_prefix,
+                employees: action.branch.employees,
+                deleted: action.branch.deleted,
+                schedule: action.branch.schedule,
 
-      
-      case 'EDIT_BRANCH': {
+                edit: action.branch.id
+            }
+        }
 
-         return {
-            ...state, 
-            name: action.branch.name,
-            address: action.branch.address,
-            phone: action.branch.phone,
-            color: action.branch.color,
-            icon: action.branch.icon,
-            orders_type_id: action.branch.orders_type_id,
-            orders_type_strategy: action.branch.orders_type_strategy,
-            orders_prefix: action.branch.orders_prefix,
-            documents_prefix: action.branch.documents_prefix,
-            employees: action.branch.employees,
-            deleted: action.branch.deleted,
-            schedule: action.branch.schedule,
 
-            edit: action.branch.id
-         }
-      }
-      
-      
-      default: return state
-   }
-   
+        default:
+            return state
+    }
+
 }

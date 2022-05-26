@@ -32,7 +32,7 @@ function MenuRow(props) {
 
 const mapStateToProps = state => ({
   menuRows: state.data.menuRows,
-  current_branch: state.data.current_branch
+  current_branch: state.branch.current_branch
 })
 
 const mapDispatchToProps = {

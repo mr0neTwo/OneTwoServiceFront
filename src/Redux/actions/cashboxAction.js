@@ -38,7 +38,7 @@ export function addCashboxes() {
 
     const request_config = getRequestConfig({
         deleted: state.cashbox.showDeleted,
-        branch_id: Object.values(state.data.current_branch).length ? state.data.current_branch.id : null
+        branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
     })
 
     return dispatch => {
@@ -73,10 +73,10 @@ export function createCashbox() {
         deleted: state.cashbox.deleted,
         permissions: state.cashbox.permissions,
         employees: state.cashbox.employees,
-        branch_id: state.data.current_branch.id,
+        branch_id: state.branch.current_branch.id,
         filter: {
             deleted: state.cashbox.showDeleted,
-            branch_id: Object.values(state.data.current_branch).length ? state.data.current_branch.id : null
+            branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
         }
     })
 
@@ -121,10 +121,10 @@ export function saveEditCashbox() {
         deleted: state.cashbox.deleted,
         permissions: state.cashbox.permissions,
         employees: state.cashbox.employees,
-        branch_id: state.data.current_branch.id,
+        branch_id: state.branch.current_branch.id,
         filter: {
             deleted: state.cashbox.showDeleted,
-            branch_id: Object.values(state.data.current_branch).length ? state.data.current_branch.id : null
+            branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
         }
     })
     request_config.method = 'PUT'
@@ -163,7 +163,7 @@ export function deleteCashbox(flag) {
         deleted: flag,
         filter: {
             deleted: state.cashbox.showDeleted,
-            branch_id: Object.values(state.data.current_branch).length ? state.data.current_branch.id : null
+            branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
         }
     })
     request_config.method = 'PUT'

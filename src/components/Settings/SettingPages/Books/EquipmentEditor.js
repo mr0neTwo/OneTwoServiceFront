@@ -183,7 +183,7 @@ const EquipmentEditor = (props) => {
 const mapStateToProps = (state) => ({
   book: state.book,
   inputBookTitleChecked: state.view.inputBookTitleChecked,
-  branches: state.data.branches,
+  branches: state.branch.branches,
   permissions: state.data.user.role.permissions,
 })
 

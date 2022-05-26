@@ -44,7 +44,7 @@ function Sidebar(props) {
 const mapStateToProps = state => ({
     menuRows: state.data.menuRows,
     permission: state.data.user.role.permissions,
-    current_branch: state.data.current_branch
+    current_branch: state.branch.current_branch
   })
    
 export default connect(mapStateToProps)(Sidebar)

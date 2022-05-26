@@ -18,11 +18,11 @@ import Reports from './Reports/Reports';
 import Telephony from './Telephony/Telephony';
 import Settings from './Settings/Settings';
 import OrderEditor from './orders/newOrder/OrderEditor'
+import {changeBranchState} from '../Redux/actions/branchAction'
 
 
 function Main(props) {
 
-    // Загружаем строки меню в State
     useEffect(() => {
         props.addMainData()
         props.addEmployees()
@@ -30,7 +30,9 @@ function Main(props) {
     }, [])
 
     useEffect(() => {
-        props.addData(props.branches.filter(branch => branch.employees.includes(props.user_id))[0] || {}, 'current_branch')
+        props.changeBranchState({
+            current_branch: props.branches.filter(branch => branch.employees.includes(props.user_id))[0] || {}
+        })
     }, [props.branches])
 
 
@@ -70,7 +72,7 @@ function Main(props) {
 const mapStateToProps = state => ({
     statusCreateNewClient: state.view.statusCreateNewClient,
     user_id: state.data.user.id,
-    branches: state.data.branches
+    branches: state.branch.branches
 })
 
 const mapDispatchToProps = {
@@ -78,6 +80,7 @@ const mapDispatchToProps = {
     addStatus,
     addMainData,
     addData,
+    changeBranchState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main))

@@ -157,7 +157,7 @@ WarehouseInfo.propTypes = {
 
 const mapStateToProps = state => ({
     warehouse: state.warehouse,
-    branches: state.data.branches.filter(branch => !branch.deleted),
+    branches: state.branch.branches.filter(branch => !branch.deleted),
     inputBookTitleChecked: state.view.inputBookTitleChecked
 })
 

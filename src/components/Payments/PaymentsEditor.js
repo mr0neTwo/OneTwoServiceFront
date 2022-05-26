@@ -235,7 +235,7 @@ const mapStateToProps = (state) => ({
     filter: state.filter,
     client: state.client,
     cashboxes: state.cashbox.cashboxes,
-    current_branch_id: state.data.current_branch.id,
+    current_branch_id: state.branch.current_branch.id,
     item_payments: state.data.item_payments,
     employees: state.data.employees,
     user_id: state.data.user.id,

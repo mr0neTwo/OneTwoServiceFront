@@ -48,7 +48,7 @@ const TitleOrderEditor = (props) => {
 
 const mapStateToProps = state => ({
     order: state.order,
-    current_branch: state.data.current_branch,
+    current_branch: state.branch.current_branch,
     statusStatusList: state.view.statusStatusList,
     statusPaymentsEditor: state.view.statusPaymentsEditor
 })

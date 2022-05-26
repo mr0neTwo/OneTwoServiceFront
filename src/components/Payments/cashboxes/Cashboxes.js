@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
     view: state.view,
     cashbox: state.cashbox,
     user: state.data.user,
-    current_branch: state.data.current_branch,
+    current_branch: state.branch.current_branch,
     permissions: state.data.user.role.permissions
 })
 

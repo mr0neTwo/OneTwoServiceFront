@@ -2,10 +2,9 @@
 import React, { useRef, useEffect} from 'react'
 import { connect } from 'react-redux'
 
-import { setBranchEmployee } from '../../../../Redux/actions'
+import {setBranchEmployee} from '../../../../Redux/actions/branchAction'
+
 import Checkbox from '../../../general/Checkbox'
-
-
 
 const ChooseEmployees = (props) => {
 
@@ -43,7 +42,7 @@ const ChooseEmployees = (props) => {
             </tr>
          </thead>
          <tbody>
-         {props.employees.filter(employee => !employee.deleted).map(employee =>{
+         {props.employees.map(employee =>{
             return (
                <tr  key={employee.id}>
                   <td>
@@ -63,7 +62,7 @@ const ChooseEmployees = (props) => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees,
+   employees: state.data.employees.filter(employee => !employee.deleted && employee.id !== 0),
    branch: state.branch
    })
 

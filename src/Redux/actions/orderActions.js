@@ -114,7 +114,7 @@ export function createOrder() {
         manager_id: state.order.manager_id,
         engineer_id: state.order.engineer_id,
         created_by_id: state.data.user.id,
-        branch_id: state.data.current_branch.id,
+        branch_id: state.branch.current_branch.id,
         status_id: 1,
 
         kindof_good_id: state.order.kindof_good.id,
@@ -405,7 +405,7 @@ export function addEventComment() {
     const request_config = getRequestConfig({
         order_id: state.order.edit,
         current_status_id: state.order.status.id,
-        branch_id: state.data.current_branch.id,
+        branch_id: state.branch.current_branch.id,
         comment: state.order.event_comment
     })
 

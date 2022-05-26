@@ -345,7 +345,7 @@ const BookEquipment = (props) => {
 const mapStateToProps = state => ({
     book: state.book,
     statusEquipmentEditor: state.view.statusEquipmentEditor,
-    branches: state.data.branches,
+    branches: state.branch.branches,
     permissions: state.data.user.role.permissions
 })
 

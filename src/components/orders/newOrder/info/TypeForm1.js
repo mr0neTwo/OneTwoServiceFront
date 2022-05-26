@@ -30,7 +30,7 @@ const TypeForm1 = (props) => {
             <ChooseSingleEquipment/>
 
             <div className="formRow">
-                <div className="optionsTitle"></div>
+                <div className="optionsTitle"/>
                 <div className="orderFormTitle mt15">Дополнительная информация</div>
             </div>
 

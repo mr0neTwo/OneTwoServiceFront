@@ -1,17 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, changeBranchForm } from '../../../../Redux/actions'
+import { setVisibleFlag } from '../../../../Redux/actions'
+import {changeBranchState} from '../../../../Redux/actions/branchAction'
+
 import Icon from '../../../general/Icon'
-import {
-  icon_location,
-  icon_map_location,
-  icon_wrench,
-  icon_hammer,
-  icon_radio,
-  icon_git,
-  icon_svg,
-} from '../../../../data/icons'
+import {icon_location, icon_map_location, icon_wrench, icon_hammer, icon_radio, icon_git, icon_svg,} from '../../../../data/icons'
 
 const ChooseIcon = (props) => {
   const colors = [
@@ -51,8 +45,8 @@ const ChooseIcon = (props) => {
                     <div
                       key={idx}
                       onClick={() => {
-                        props.changeBranchForm('color', color)
-                        props.changeBranchForm('icon', icon)
+                        props.changeBranchState({color})
+                        props.changeBranchState({icon})
                         props.setVisibleFlag('statusChooseIcon', false)
                       }}
                     >
@@ -89,7 +83,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setVisibleFlag,
-  changeBranchForm,
+  changeBranchState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChooseIcon)

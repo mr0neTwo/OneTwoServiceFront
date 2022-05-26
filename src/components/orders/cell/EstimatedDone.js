@@ -19,7 +19,7 @@ const EstimatedDone = props => {
       const deltaMinut = Math.round( datestamp / 60 )
       if (Math.abs(deltaMinut) < 60) return `${deltaMinut}м.`
       const deltaHour = Math.round( datestamp / (60 * 60 ))
-      if (Math.abs(deltaHour) < 24) return `${deltaHour}ч.`
+      if (Math.abs(deltaHour) < 48) return `${deltaHour}ч.`
       const deltaDay = Math.round( datestamp / (24 * 60 * 60 ))
       return `${deltaDay}д.`
     }
