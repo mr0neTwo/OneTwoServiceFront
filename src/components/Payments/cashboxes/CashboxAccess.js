@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, editEmoloyee } from '../../../Redux/actions'
+import { setVisibleFlag } from '../../../Redux/actions'
+import {editEmployee} from '../../../Redux/actions/employeeAction'
+
 import {changeCashboxPermissions, changeCashboxState} from '../../../Redux/actions/cashboxAction'
 import Checkbox from '../../general/Checkbox'
 import CashboxEmployeeEditor from './CashboxEmployeeEditor'
@@ -11,7 +13,7 @@ const CashboxAccess = (props) => {
 
    const handleEdit = employee => {
       props.changeCashboxState({permissions_employee: employee.id})
-      props.editEmoloyee(employee)
+      props.editEmployee(employee)
       props.setVisibleFlag('statusCashboxEmployeeEditor', true)
    }
 
@@ -60,14 +62,14 @@ const CashboxAccess = (props) => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees.filter(employee => !employee.deleted && employee.id !== 0),
+   employees: state.employee.employees.filter(employee => !employee.deleted && employee.id !== 0),
    cashbox: state.cashbox,
    statusCashboxEmployeeEditor: state.view.statusCashboxEmployeeEditor
 })
 
 const mapDispatchToProps = {
    setVisibleFlag,
-   editEmoloyee,
+   editEmployee,
    changeCashboxState,
    changeCashboxPermissions
 }

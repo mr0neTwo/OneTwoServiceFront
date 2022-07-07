@@ -1,113 +1,101 @@
 const initialState = {
-  tabs: 1,
-  edit: 0,
-  showDeleted: false,
-  role_title: '',
+    employees: [],
 
-  first_name: '',
-  last_name: '',
-  email: '',
-  notes: '',
-  phone: '',
-  login: '',
-  password: '',
-  role_id: 0,
-  permissions: [],
-  inn: '',
-  doc_name: '',
-  post: '',
-  deleted: false
+    tabs: 0,
+    edit: 0,
+    showDeleted: false,
+    role_title: '',
+
+    first_name: '',
+    last_name: '',
+    email: '',
+    notes: '',
+    phone: '',
+    avatar: '',
+    img: '',
+    login: '',
+    password: '',
+    role_id: 0,
+    permissions: [],
+    inn: '',
+    doc_name: '',
+    post: '',
+    deleted: false,
+
+    avaStartPosition: [0, 0],
+    scale_img: 100
 }
 
 export const employeeReduscer = (state = initialState, action) => {
-   switch (action.type){
+    switch (action.type) {
 
-      case 'CHANGE_EMPLOYEE_TAB': {
-         return {
-            ...state, 
-            tabs: action.tab,
-         }
-      }
+        case 'CHANGE_EMPLOYEE_STATE': {
+            return {...Object.assign(state, action.data)}
+        }
 
-      case 'CHANGE_EMPLOYEE_EDITOR_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value
-         }
-      }
-      
-      case 'CHOOSE_EMPLOYEE_SELECTED': {
-         if (action.value.every(val => state[action.field].includes(val))) {
+
+        case 'SET_ROLE_EMPLOYEE_EDITOR': {
             return {
-               ...state, 
-               [action.field]: state[action.field].filter(val => !action.value.includes(val)),
+                ...state,
+                role_id: action.role
             }
-         } else {
+        }
+
+        case 'CHANGE_SHOW_DELETED': {
             return {
-               ...state, 
-               [action.field]: state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
+                ...state,
+                showDeleted: !state.showDeleted
             }
-         }
-      }
+        }
 
-      case 'SET_ROLE_EMPLOYEE_EDITOR': {
-         return {
-            ...state, 
-            role_id: action.role
-         }
-      }
-      
-      case 'CHANGE_SHOW_DELETED': {
-         return {
-            ...state, 
-            showDeleted: !state.showDeleted
-         }
-      }
 
-      
-      case 'EDIT_EMPLOYEE': {
-         return {
-            ...state, 
-            edit: action.employee.id,
-            first_name: action.employee.first_name || '',
-            last_name: action.employee.last_name || '',
-            email: action.employee.email || '',
-            notes: action.employee.notes || '',
-            phone: action.employee.phone || '',
-            login: action.employee.login || '',
-            role_id: action.employee.role.id,
-            role_title: action.employee.role.title || '',
-            permissions: action.employee.permissions || [],
-            inn: action.employee.inn || '',
-            doc_name: action.employee.doc_name || '',
-            post: action.employee.post || '',
-            deleted: action.employee.deleted
-         }
-      }
+        case 'EDIT_EMPLOYEE': {
+            return {
+                ...state,
+                edit: action.employee.id,
+                first_name: action.employee.first_name || '',
+                last_name: action.employee.last_name || '',
+                email: action.employee.email || '',
+                notes: action.employee.notes || '',
+                phone: action.employee.phone || '',
+                login: action.employee.login || '',
+                role_id: action.employee.role.id,
+                role_title: action.employee.role.title || '',
+                permissions: action.employee.permissions || [],
+                inn: action.employee.inn || '',
+                doc_name: action.employee.doc_name || '',
+                post: action.employee.post || '',
+                deleted: action.employee.deleted,
+                avatar: action.employee.avatar
+            }
+        }
 
-      case 'RESET_EMPLOYEE': {
-         return {
-            ...state, 
-            edit: 0,
-            first_name: '',
-            last_name: '',
-            email: '',
-            notes: '',
-            phone: '',
-            login: '',
-            password: '',
-            role_title: '',
-            role_id: 0,
-            permissions: [],
-            inn: '',
-            doc_name: '',
-            post: '',
-            deleted: false
-         }
-      }
+        case 'RESET_EMPLOYEE': {
+            return {
+                ...state,
+                edit: 0,
+                first_name: '',
+                last_name: '',
+                email: '',
+                notes: '',
+                phone: '',
+                login: '',
+                password: '',
+                role_title: '',
+                role_id: 0,
+                permissions: [],
+                inn: '',
+                doc_name: '',
+                post: '',
+                deleted: false,
+                avatar: '',
+                img: ''
+            }
+        }
 
-      
-      default: return state
-   }
-   
+
+        default:
+            return state
+    }
+
 }

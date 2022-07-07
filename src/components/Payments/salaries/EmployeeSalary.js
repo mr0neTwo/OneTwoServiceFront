@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useMemo} from 'react'
 import {connect} from 'react-redux'
 
-import {addEmployees, setVisibleFlag} from '../../../Redux/actions';
+import {setVisibleFlag} from '../../../Redux/actions';
 import {addPayrolls, addMonthBalance, changePayrollState} from '../../../Redux/actions/payrollActions'
+import {addEmployees} from '../../../Redux/actions/employeeAction'
 
 import {showName} from '../../general/utils'
 
@@ -119,7 +120,7 @@ const EmployeeSalary = (props) => {
 }
 
 const mapStateToProps = state => ({
-    employees: state.data.employees,
+    employees: state.employee.employees,
     payroll: state.payroll,
     permissions: state.data.user.role.permissions,
     statusPayrollEditor: state.view.statusPayrollEditor

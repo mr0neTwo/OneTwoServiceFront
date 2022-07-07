@@ -161,7 +161,7 @@ const mapStateToProps = (state) => ({
     statusCreateNewFilter: state.view.statusCreateNewFilter,
     filter: state.filter,
     order_type: state.data.order_type,
-    employees: state.data.employees.filter(employee => !employee.deleted),
+    employees: state.employee.employees.filter(employee => !employee.deleted),
     client: state.client,
     user: state.data.user,
     temp_client: state.filter.temp_client

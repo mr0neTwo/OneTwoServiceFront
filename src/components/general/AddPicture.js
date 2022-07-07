@@ -1,5 +1,25 @@
 import React from 'react'
 
+/**
+ *
+ *
+ * className='' // класс оболочки
+ *
+ * title='Добавить изображение'
+ *
+ * url={image_url} // ссылка на загуженную картинку на сервер
+ *
+ * onChange={file => props.someFunction(file)} // функция обработки загруженного изображения
+ *
+ * value={props.part.img} // только что загруженное изображение (хранящееся в state)
+ *
+ * disabled={false}
+ *
+ *
+ * @returns {JSX.Element}
+ *
+ */
+
 const AddPicture = (props) => {
 
     const fileHandler = event => {

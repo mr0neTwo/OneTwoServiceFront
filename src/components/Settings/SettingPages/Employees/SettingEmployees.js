@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 
-import {setVisibleFlag, addDiscountMargin, addRoles, changeShowDeleted, resetEmoloyee} from '../../../../Redux/actions'
+import {setVisibleFlag, addDiscountMargin, addRoles} from '../../../../Redux/actions'
+import {changeEmployeeState, resetEmployee} from '../../../../Redux/actions/employeeAction'
+
 import Checkbox from '../../../general/Checkbox'
 import EmploeeyEditor from './EmploeeyEditor'
 import RoleEditor from './RoleEditor'
@@ -45,13 +47,13 @@ const SettingEmployees = (props) => {
                         className='greenButton'
                         title='+ Сотрудник'
                         onClick={() => {
-                            props.resetEmoloyee()
+                            props.resetEmployee()
                             props.setVisibleFlag('statusEmployeeEditor', true)
                         }}
                     />
                     <Checkbox
                         label='Показать удаленных'
-                        onChange={() => props.changeShowDeleted()}
+                        onChange={event => props.changeEmployeeState({showDeleted: event.target.checked})}
                         checked={props.showDeleted}
                         invisible={!props.permission.includes('setting_see_employees')}
                     />
@@ -79,8 +81,8 @@ const mapDispatchToProps = {
     setVisibleFlag,
     addDiscountMargin,
     addRoles,
-    changeShowDeleted,
-    resetEmoloyee
+    changeEmployeeState,
+    resetEmployee
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingEmployees)

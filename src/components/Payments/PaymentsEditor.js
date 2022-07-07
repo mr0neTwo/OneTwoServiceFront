@@ -70,7 +70,7 @@ const PaymentsEditor = (props) => {
             props.createPayment(props.payment.context)
         } else {
             if (!(props.payment.income || props.payment.outcome))
-                props.changeVisibleState({'in}putPaymentSumChecked': false})
+                props.changeVisibleState({'inputPaymentSumChecked': false})
             if (!(props.payment.cashbox_id && props.payment.direction) || !(props.payment.target_cashbox_id && !props.payment.direction))
                 props.changeVisibleState({'inputPaymentCashboxChecked': false})
             if (!props.payment.description)
@@ -237,7 +237,7 @@ const mapStateToProps = (state) => ({
     cashboxes: state.cashbox.cashboxes,
     current_branch_id: state.branch.current_branch.id,
     item_payments: state.data.item_payments,
-    employees: state.data.employees,
+    employees: state.employee.employees,
     user_id: state.data.user.id,
     current_cashbox: state.cashbox.current_cashbox,
     order_edit: state.order.edit

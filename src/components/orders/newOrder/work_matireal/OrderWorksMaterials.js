@@ -55,7 +55,7 @@ const OrderWorksMaterials = (props) => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees,
+   employees: state.employee.employees,
    order: state.order,
    current_user_id: state.data.user.id,
    current_engineer_id: state.operation.engineer_id

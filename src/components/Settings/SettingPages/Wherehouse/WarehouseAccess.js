@@ -2,16 +2,17 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { changeWarehouseForm, changeWarehousePermission } from '../../../../Redux/actions/warehouseAction'
-import { editEmoloyee, setVisibleFlag} from "../../../../Redux/actions";
+import { setVisibleFlag} from "../../../../Redux/actions";
 
 import Checkbox from "../../../general/Checkbox";
 import WarehouseEmployeeEditor from "./WarehouseEmployeeEditor";
+import {editEmployee} from '../../../../Redux/actions/employeeAction'
 
 const WarehouseAccess = (props) => {
 
     const handleEdit = employee => {
         props.changeWarehouseForm(employee.id, 'permissions_employee')
-        props.editEmoloyee(employee)
+        props.editEmployee(employee)
         props.setVisibleFlag('statusWarehouseEmployeeEditor', true)
     }
 
@@ -60,14 +61,14 @@ const WarehouseAccess = (props) => {
 }
 
 const mapStateToProps = state => ({
-    employees: state.data.employees.filter(employee => !employee.deleted),
+    employees: state.employee.employees.filter(employee => !employee.deleted),
     warehouse: state.warehouse,
     statusWarehouseEmployeeEditor: state.view.statusWarehouseEmployeeEditor
 })
 
 const mapDispatchToProps = {
     changeWarehouseForm,
-    editEmoloyee,
+    editEmployee,
     setVisibleFlag,
     changeWarehousePermission
 }

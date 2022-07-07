@@ -102,7 +102,7 @@ const TablePayments = (props) => {
 
 const mapStateToProps = state => ({
     payments: state.payment.payments,
-    employees: state.data.employees,
+    employees: state.employee.employees,
     user: state.data.user,
     current_cashbox: state.cashbox.current_cashbox,
     permissions: state.data.user.role.permissions

@@ -63,7 +63,7 @@ const AssingEmployee = (props) => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees,
+   employees: state.employee.employees,
    manager_id: state.order.manager_id,
    engineer_id: state.order.engineer_id,
    user: state.data.user,

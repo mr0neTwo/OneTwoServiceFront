@@ -1,6 +1,6 @@
 import React from 'react';
 import MenuGroup from './MenuGroup';
-import LogoUser from './LogoUser';
+import LogoUser from './userSettings/LogoUser';
 import { connect } from 'react-redux'
 import ChooseBranch from './ChooseBranch';
 

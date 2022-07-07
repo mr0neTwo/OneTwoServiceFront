@@ -91,7 +91,7 @@ const CashboxEditor = (props) => {
 
 const mapStateToProps = (state) => ({
     cashbox: state.cashbox,
-    employees: state.data.employees,
+    employees: state.employee.employees,
     view: state.view,
     permissions: state.data.user.role.permissions,
 })

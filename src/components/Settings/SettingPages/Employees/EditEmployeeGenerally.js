@@ -6,7 +6,7 @@ import LableArea from '../../../general/LableInput'
 import ChooseOfList from '../../../general/ChooseOfList'
 import SalaryRule from './SalaryRule'
 
-import { changeEmployeEditorForm, changeEmployeeEditorRoleOptions, setRoleEmployeeEdetor } from '../../../../Redux/actions'
+import {changeEmployeeState} from '../../../../Redux/actions/employeeAction'
 
 
 function EditEmployeeGenerally(props) {
@@ -17,7 +17,7 @@ function EditEmployeeGenerally(props) {
           <LableInput
             className="w250"
             title="Имя"
-            onChange={event => props.changeEmployeEditorForm(event.target.value, 'first_name')}
+            onChange={event => props.changeEmployeeState({first_name: event.target.value})}
             value={props.employee.first_name}
             checkedFlag="inputEmployeeNameChecked"
             checked={props.view.inputEmployeeNameChecked}
@@ -29,7 +29,7 @@ function EditEmployeeGenerally(props) {
           <LableInput
             className="w250"
             title="Фамилия"
-            onChange={event => props.changeEmployeEditorForm(event.target.value, 'last_name') }
+            onChange={event => props.changeEmployeeState({last_name: event.target.value})}
             value={props.employee.last_name}
             disabled={props.employee.deleted}
           />
@@ -39,7 +39,7 @@ function EditEmployeeGenerally(props) {
       <LableInput
         className="w250 mt15"
         title="email"
-        onChange={event => props.changeEmployeEditorForm(event.target.value, 'email')}
+        onChange={event => props.changeEmployeeState({email: event.target.value})}
         value={props.employee.email}
         checkedFlag="inputEmployeeEmailChecked"
         checked={props.view.inputEmployeeEmailChecked}
@@ -52,20 +52,18 @@ function EditEmployeeGenerally(props) {
       <LableInput
         className="w250 mt15"
         title="login"
-        onChange={event => props.changeEmployeEditorForm(event.target.value, 'login') }
+        onChange={event => props.changeEmployeeState({login: event.target.value})}
         value={props.employee.login}
         checkedFlag="inputEmployeeLoginChecked"
         checked={props.view.inputEmployeeLoginChecked}
         redStar={ true }
         disabled={props.employee.deleted}
       />
-      {props.view.errorSameLogin ? (
-        <div className="errorMassageInput">Такой Login уже существует</div>
-      ) : null}
+      {props.view.errorSameLogin ? <div className="errorMassageInput">Такой Login уже существует</div> : null}
       <LableInput
         className="w250 mt15"
         title="Пароль"
-        onChange={event => props.changeEmployeEditorForm(event.target.value, 'password')}
+        onChange={event => props.changeEmployeeState({password: event.target.value})}
         value={props.employee.password}
         checkedFlag={ props.employee.edit ? null : 'inputEmployeePasswordChecked' }
         checked={props.view.inputEmployeePasswordChecked}
@@ -75,7 +73,7 @@ function EditEmployeeGenerally(props) {
        <LableInput
         className="w250 mt15"
         title="Телефон"
-        onChange={value => props.changeEmployeEditorForm(value, 'phone')}
+        onChange={value => props.changeEmployeeState({phone: value})}
         value={props.employee.phone}
         disabled={props.employee.deleted}
         isPhone={true}
@@ -83,30 +81,28 @@ function EditEmployeeGenerally(props) {
       <LableInput
         className="w250 mt15"
         title="ИНН Сотрудника"
-        onChange={event => props.changeEmployeEditorForm(event.target.value, 'inn')}
+        onChange={event => props.changeEmployeeState({inn: event.target.value})}
         value={props.employee.inn}
         disabled={props.employee.deleted}
       />
       <LableInput
         className="w250 mt15"
         title="Имя в печатных документах"
-        onChange={event => props.changeEmployeEditorForm(event.target.value, 'doc_name')}
+        onChange={event => props.changeEmployeeState({doc_name: event.target.value})}
         value={props.employee.doc_name}
         disabled={props.employee.deleted}
       />
       <LableArea
         className="mt15"
         title="Примечание"
-        onChange={event =>
-          props.changeEmployeEditorForm(event.target.value, 'notes')
-        }
+        onChange={event => props.changeEmployeeState({notes: event.target.value})}
         value={props.employee.notes}
         disabled={props.employee.deleted}
       />
       <LableInput
         className="w250 mt15"
         title="Должность"
-        onChange={event => props.changeEmployeEditorForm(event.target.value, 'post')}
+        onChange={event => props.changeEmployeeState({post: event.target.value})}
         value={props.employee.post}
         disabled={props.employee.deleted}
       />
@@ -115,8 +111,7 @@ function EditEmployeeGenerally(props) {
         id={19}
         className="mt15"
         list={props.roles}
-        field="role_id"
-        setElement={props.changeEmployeEditorForm}
+        setElement={id => props.changeEmployeeState({role_id: id})}
         current_id={props.employee.role_id}
         width={'250px'}
         disabled={props.employee.deleted}
@@ -135,9 +130,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  changeEmployeEditorForm,
-  changeEmployeeEditorRoleOptions,
-  setRoleEmployeeEdetor,
+  changeEmployeeState
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )(EditEmployeeGenerally)

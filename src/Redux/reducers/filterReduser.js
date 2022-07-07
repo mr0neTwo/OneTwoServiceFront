@@ -163,15 +163,7 @@ export const filterReducer = (state = initialState, action) => {
 
 
 
-        case 'CHANGE_CLIENT_MAINFILTER': {
-            return {
-                ...state,
-                tempFilter: {
-                    ...state.tempFilter,
-                    client_name: action.word
-                }
-            }
-        }
+
 
         case 'CHANGE_NAME_CLIENTFILTER': {
             return {
@@ -196,15 +188,6 @@ export const filterReducer = (state = initialState, action) => {
             }
         }
 
-        case 'CHANGE_CREATE_AT_MAINFILTER': {
-            return {
-                ...state,
-                tempFilter: {
-                    ...state.tempFilter,
-                    created_at: action.range
-                }
-            }
-        }
 
 
 

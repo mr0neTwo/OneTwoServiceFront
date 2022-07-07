@@ -119,7 +119,7 @@ const mapStateToProps = (state) => ({
     view: state.view,
     payroll: state.payroll,
     permissions: state.data.user.role.permissions,
-    employees: state.data.employees.filter(employee => !employee.deleted)
+    employees: state.employee.employees.filter(employee => !employee.deleted)
 })
 
 const mapDispatchToProps = {

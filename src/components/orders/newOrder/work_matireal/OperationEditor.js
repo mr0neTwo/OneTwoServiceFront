@@ -183,7 +183,7 @@ const OperationEditor = (props) => {
 const mapStateToProps = (state) => ({
    operation: state.operation,
    view: state.view,
-   employees: state.data.employees.filter(employee => !employee.deleted),
+   employees: state.employee.employees.filter(employee => !employee.deleted),
    permissions: state.data.user.role.permissions
 })
 

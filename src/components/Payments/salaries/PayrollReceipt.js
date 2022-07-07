@@ -30,7 +30,7 @@ const PayrollReceipt = (props) => {
 
 const mapStateToProps = state => ({
    payroll: state.payroll,
-   employees: state.data.employees
+   employees: state.employee.employees
 })
 
 const mapDispatchToProps = {

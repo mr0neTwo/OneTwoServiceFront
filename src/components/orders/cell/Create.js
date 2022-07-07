@@ -34,7 +34,7 @@ const Create = props => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees
+   employees: state.employee.employees
    })
   
  export default connect(mapStateToProps)(Create)

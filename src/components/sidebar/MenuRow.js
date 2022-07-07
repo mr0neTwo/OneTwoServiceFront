@@ -1,43 +1,47 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, {useState} from 'react'
+import {Link, useHistory} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {changeDataState} from '../../Redux/actions/dataAction'
 
-import { changeStatusMenuRow } from '../../Redux/actions'
 
 
 function MenuRow(props) {
-  return (
-    <Link 
-      className="menuRow" 
-      to={props.row.url}
-      style={props.menuRows.find(row => row.id === props.row.id).active ? {
-        backgroundColor: '#53585c',
-        borderLeftColor: props.current_branch.color 
-      } : null}
-      onClick={() => props.changeStatusMenuRow(props.row.id)}
-    >
-      {props.row.image === 'task' ? (
-        <div className="taskNumber">
-          <span className="taskNumber1">8</span>
-        </div>
-      ) : (
-        <svg className="sidebarIcon">
-          <path fillRule="evenodd" clipRule="evenodd" d={props.row.image}></path>
-        </svg>
-      )}
-      <span className="didebarItemsText">{props.row.title}</span>
-    </Link>
-  )
+    const history = useHistory()
+    if (history.location.pathname === props.row.url) props.changeDataState({current_menu_row: props.row.url})
+
+    return (
+        <Link
+            className="menuRow"
+            to={props.row.url}
+            style={props.current_menu_row === props.row.url ? {
+                backgroundColor: '#53585c',
+                borderLeftColor: props.current_branch.color
+            } : null}
+            onClick={() => props.changeDataState({current_menu_row: props.row.url})}
+        >
+            {props.row.image === 'task' ? (
+                <div className="taskNumber">
+                    <span className="taskNumber1">8</span>
+                </div>
+            ) : (
+                <svg className="sidebarIcon">
+                    <path fillRule="evenodd" clipRule="evenodd" d={props.row.image}></path>
+                </svg>
+            )}
+            <span className="didebarItemsText">{props.row.title}</span>
+        </Link>
+    )
 }
 
 const mapStateToProps = state => ({
-  menuRows: state.data.menuRows,
-  current_branch: state.branch.current_branch
+    menuRows: state.data.menuRows,
+    current_branch: state.branch.current_branch,
+    current_menu_row: state.data.current_menu_row
 })
 
 const mapDispatchToProps = {
-  changeStatusMenuRow
+    changeDataState
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps) (MenuRow)
+export default connect(mapStateToProps, mapDispatchToProps)(MenuRow)

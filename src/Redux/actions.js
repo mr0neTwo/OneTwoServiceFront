@@ -1,19 +1,5 @@
 import store from "./store"
-
-function getRequestConfig(body = {}) {
-
-    const state = store.getState()
-
-    return {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${state.data.token}`,
-            Accept: 'application/json',
-        },
-        body: JSON.stringify(body)
-    }
-}
+import {getRequestConfig} from './actions/actionUtils'
 
 function bad_request(message = '') {
     sessionStorage.clear()
@@ -56,42 +42,7 @@ export function changeStatusMenuVisible(id_order) {
 }
 
 
-export function changeClientListFilter() {
-    return {
-        type: 'CHANGE_CLIENT_LIST_FILTER'
-    }
-}
 
-export function changeClientMainFilter(word) {
-    return {
-        type: 'CHANGE_CLIENT_MAINFILTER',
-        word
-    }
-}
-
-
-
-export function changeCreateAtMainFilter(range) {
-    return {
-        type: 'CHANGE_CREATE_AT_MAINFILTER',
-        range
-    }
-}
-
-
-export function changeStatusMenuRow(id) {
-    return {
-        type: 'CHANGE_STATUS_MENU_ROW',
-        id
-    }
-}
-
-export function changeStatusSettingRow(id) {
-    return {
-        type: 'CHANGE_STATUS_SETTING_ROW',
-        id
-    }
-}
 
 export function changeTitleCreateRole(title) {
     return {
@@ -153,64 +104,6 @@ export function editRole(role) {
     return {
         type: 'EDIT_ROLE',
         role
-    }
-}
-
-export function changeEmployeeTabs(tab) {
-    return {
-        type: 'CHANGE_EMPLOYEE_TAB',
-        tab
-    }
-}
-
-export function changeEmployeEditorForm(value, field) {
-    return {
-        type: 'CHANGE_EMPLOYEE_EDITOR_FORM',
-        value,
-        field
-    }
-}
-
-export function changeEmployeeSelected(value, field) {
-    return {
-        type: 'CHOOSE_EMPLOYEE_SELECTED',
-        value,
-        field
-    }
-}
-
-
-export function changeEmployeeEditorRoleOptions() {
-    return {
-        type: 'CHANGE_EMPLOYEE_EDITOR_ROLE_OPTIONS'
-    }
-}
-
-
-export function setRoleEmployeeEdetor(role) {
-    return {
-        type: 'SET_ROLE_EMPLOYEE_EDITOR',
-        role
-    }
-}
-
-export function changeShowDeleted() {
-    return {
-        type: 'CHANGE_SHOW_DELETED'
-    }
-}
-
-
-export function editEmoloyee(employee) {
-    return {
-        type: 'EDIT_EMPLOYEE',
-        employee
-    }
-}
-
-export function resetEmoloyee() {
-    return {
-        type: 'RESET_EMPLOYEE'
     }
 }
 
@@ -399,15 +292,6 @@ export function changeMaindataForm(field, value) {
 }
 
 
-
-
-
-
-
-
-
-
-
 export function chooseEquipmentBranches(id) {
     return {
         type: 'CHOOSE_EQUIPMENT_BRANCHES',
@@ -422,9 +306,6 @@ export function editEquipment(equipment) {
         equipment
     }
 }
-
-
-
 
 export function addData(data, field) {
     return {
@@ -521,39 +402,29 @@ export function log_in(login, password) {
 
     const state = store.getState()
 
-    const request_config = getRequestConfig({
-        email: login,
-        password
-    })
-
     return dispatch => {
 
-        fetch(state.data.url_server + '/login', request_config)
-            .then(response => response.json())
+        fetch(state.data.url_server + "/flogin", {
+            method: "POST",
+            headers: {
+                // 'Accept': 'application/json, text/javascript, */*; q=0.01',
+                "Content-Type": "application/json",
+                "X-CSRFToken": state.data.csrfToken
+            },
+            credentials: state.data.credentials,
+            body: JSON.stringify({email: login, password: password}),
+        })
+            .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    sessionStorage.setItem('1xsndt', data.access_token);
-                    sessionStorage.setItem('user', JSON.stringify(data.user))
                     dispatch({
-                        type: 'ADD_DATA',
-                        field: 'user',
-                        data: data.user,
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'login_status',
-                        data: true,
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'token',
-                        data: data.access_token,
+                        type: 'CHANGE_DATA_STATE',
+                        data: {login_status: true}
                     })
                 } else {
                     dispatch({
-                        type: 'ADD_DATA',
-                        field: 'error_message',
-                        data: data.message,
+                        type: 'CHANGE_DATA_STATE',
+                        data: {error_message: data.message, login_status: false},
                     })
                     console.warn(data.message)
                 }
@@ -562,6 +433,37 @@ export function log_in(login, password) {
     }
 }
 
+
+
+export const csrf = () => {
+
+    const state = store.getState()
+
+    if (state.data.credentials === 'include') {
+        return dispatch => {
+
+            fetch(state.data.url_server + "/getcsrf", {credentials: state.data.credentials})
+                .then((res) => {
+                    dispatch({
+                        type: 'CHANGE_DATA_STATE',
+                        data: {csrfToken: res.headers.get(["X-CSRFToken"])}
+                    })
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    } else {
+        return dispatch => {
+            dispatch({
+                type: 'CHANGE_DATA_STATE',
+                data: {csrfToken: document.getElementsByName("csrf-token")[0].content}
+            })
+        }
+    }
+
+
+}
 
 // Client ================================================================================================================
 
@@ -765,27 +667,7 @@ export function deleteClient(flag) {
 
 //===========================================================================================================================
 
-export function addEmployees(filters) {
 
-    const state = store.getState()
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_employee', getRequestConfig(filters))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_EMPLOYEES',
-                        employees: data.data,
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(() => bad_request('Запрос сотрудников не выполнен'))
-    }
-}
 
 export function addAdCampaign() {
 
@@ -809,129 +691,7 @@ export function addAdCampaign() {
     }
 }
 
-export function createEmployee() {
 
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        first_name: state.employee.first_name,
-        last_name: state.employee.last_name,
-        email: state.employee.email,
-        notes: state.employee.notes,
-        phone: state.employee.phone.replace(/[^0-9]/g, ''),
-        password: state.employee.password,
-        role_id: state.employee.role_id,
-        login: state.employee.login,
-        inn: state.employee.inn,
-        doc_name: state.employee.doc_name,
-    })
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/employee', request_config)
-            .catch(() => bad_request('Запрос на создание сотрудника не выполнен'))
-
-        await fetch(state.data.url_server + '/get_employee', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_EMPLOYEES',
-                        employees: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusEmployeeEditor',
-                        value: false
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(() => bad_request('Запрос сотрудников не выполнен'))
-    }
-}
-
-export function seveEditEmployee() {
-
-    const state = store.getState()
-
-    let request_config = getRequestConfig({
-        id: state.employee.edit,
-        first_name: state.employee.first_name,
-        last_name: state.employee.last_name,
-        email: state.employee.email,
-        notes: state.employee.notes,
-        phone: state.employee.phone.replace(/[^0-9]/g, ''),
-        password: state.employee.password,
-        role_id: state.employee.role_id,
-        login: state.employee.login,
-        inn: state.employee.inn,
-        doc_name: state.employee.doc_name,
-    })
-    request_config.method = 'PUT'
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/employee', request_config)
-            .catch(() => bad_request('Запрос на изменение сотрудника не выполнен'))
-
-        await fetch(state.data.url_server + '/get_employee', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_EMPLOYEES',
-                        employees: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusEmployeeEditor',
-                        value: false
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(() => bad_request('Запрос сотрудников не выполнен'))
-    }
-}
-
-export function deleteEmployee(flag) {
-
-    const state = store.getState()
-
-    let request_config = getRequestConfig({
-        id: state.employee.edit,
-        deleted: flag
-    })
-    request_config.method = 'PUT'
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/employee', request_config)
-            .catch(() => bad_request('Запрос удаление/восстановление сотрудника не выполнен'))
-
-        await fetch(state.data.url_server + '/get_employee', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_EMPLOYEES',
-                        employees: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusEmployeeEditor',
-                        value: false
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(() => bad_request('Запрос сотрудников не выполнен'))
-    }
-}
 
 export function addStatus() {
 
@@ -1214,56 +974,25 @@ export function addMainData() {
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'ADD_DATA',
-                        field: 'generally_info',
-                        data: data.generally_info,
-                    })
-                    dispatch({
-                        type: 'ADD_GENERALLY_INFO',
-                        data: data.generally_info,
+                        type: 'CHANGE_DATA_STATE',
+                        data: {
+                            generally_info: data.generally_info,
+                            user: data.user,
+                            order_type: data.order_type,
+                            counters: data.counts,
+                            ad_campaign: data.ad_campaign,
+                            item_payments: data.item_payments,
+                            status_group: data.status_group,
+                            service_prices: data.service_prices
+                        }
                     })
                     dispatch({
                         type: 'CHANGE_BRANCH_STATE',
                         data: {branches: data.branch},
                     })
                     dispatch({
-                        type: 'ADD_DATA',
-                        field: 'order_type',
-                        data: data.order_type,
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'counters',
-                        data: data.counts,
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'ad_campaign',
-                        data: data.ad_campaign,
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'item_payments',
-                        data: data.item_payments,
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'status_group',
-                        data: data.status_group,
-                    })
-                    dispatch({
                         type: 'CHANGE_CASHBOX_STATE',
                         data: {cashboxes: data.cashboxes}
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'item_payments',
-                        data: data.item_payments,
-                    })
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'service_prices',
-                        data: data.service_prices,
                     })
                 } else {
                     console.warn(data.message)

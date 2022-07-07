@@ -195,7 +195,7 @@ const OrderPartEditor = (props) => {
 const mapStateToProps = (state) => ({
     orderPart: state.orderPart,
     view: state.view,
-    employees: state.data.employees.filter(employee => !employee.deleted),
+    employees: state.employee.employees.filter(employee => !employee.deleted),
     permissions: state.data.user.role.permissions
 })
 

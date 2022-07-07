@@ -61,7 +61,7 @@ const OrderPayments = (props) => {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees,
+   employees: state.employee.employees,
    order: state.order,
    view: state.view,
    current_user_id: state.data.user.id

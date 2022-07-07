@@ -61,7 +61,7 @@ const mapStateToProps = state => ({
     statusBranchEditor: state.view.statusBranchEditor,
     showDeleted: state.branch.showDeleted,
     permissions: state.data.user.role.permissions,
-    employees: state.data.employees
+    employees: state.employee.employees
 })
 
 const mapDispatchToProps = {

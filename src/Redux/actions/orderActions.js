@@ -47,11 +47,9 @@ export function reorderOrderField(id, order) {
     }
 }
 
-export function addOrders() {
-
+export function getOrderFilter() {
     const state = store.getState()
-
-    const request_config = getRequestConfig({
+    return {
         sort: state.filter.sort,
         field_sort: state.filter.field_sort,
         page: state.filter.page,
@@ -68,9 +66,19 @@ export function addOrders() {
         brand_id: state.filter.brand,
         subtype_id: state.filter.subtype,
         client_id: state.filter.client_id,
+        branch_id: state.branch.current_branch.id,
 
-        search: state.filter.search
-    })
+        search: state.filter.search,
+
+        update_badges: true
+    }
+}
+
+export function addOrders() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig(getOrderFilter())
 
     return async dispatch => {
 
@@ -129,28 +137,7 @@ export function createOrder() {
         manager_notes: state.order.manager_notes,
         estimated_cost: state.order.estimated_cost,
 
-        filter: {
-            sort: state.filter.sort,
-            field_sort: state.filter.field_sort,
-            page: state.filter.page,
-
-            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-            overdue: state.filter.overdue,
-            status_id: state.filter.status_id,
-            status_overdue: state.filter.status_overdue,
-            urgent: state.filter.urgent,
-            order_type_id: state.filter.order_type_id,
-            manager_id: state.filter.manager_id,
-            created_at: state.filter.created_at,
-            kindof_good_id: state.filter.kindof_good,
-            brand_id: state.filter.brand,
-            subtype_id: state.filter.subtype,
-            client_id: state.filter.client_id,
-
-            search: state.filter.search,
-
-            update_badges: true
-        }
+        filter: getOrderFilter()
     })
 
 
@@ -208,32 +195,13 @@ export function changeStatus(status_id, order_id) {
 
     const state = store.getState()
 
+    let filter = getOrderFilter()
+    filter.update_order = state.order.edit
+
     const request_config = getRequestConfig({
         order_id: order_id,
         status_id: status_id,
-        filter: {
-            sort: state.filter.sort,
-            field_sort: state.filter.field_sort,
-            page: state.filter.page,
-
-            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-            overdue: state.filter.overdue,
-            status_id: state.filter.status_id,
-            status_overdue: state.filter.status_overdue,
-            urgent: state.filter.urgent,
-            order_type_id: state.filter.order_type_id,
-            manager_id: state.filter.manager_id,
-            created_at: state.filter.created_at,
-            kindof_good_id: state.filter.kindof_good,
-            brand_id: state.filter.brand,
-            subtype_id: state.filter.subtype,
-            client_id: state.filter.client_id,
-
-            search: state.filter.search,
-
-            update_order: state.order.edit,
-            update_badges: true
-        }
+        filter
     })
 
 
@@ -312,28 +280,7 @@ export function saveOrder() {
 
         estimated_cost: state.order.estimated_cost,
         urgent: state.order.urgent,
-        filter: {
-            sort: state.filter.sort,
-            field_sort: state.filter.field_sort,
-            page: state.filter.page,
-
-            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-            overdue: state.filter.overdue,
-            status_id: state.filter.status_id,
-            status_overdue: state.filter.status_overdue,
-            urgent: state.filter.urgent,
-            order_type_id: state.filter.order_type_id,
-            manager_id: state.filter.manager_id,
-            created_at: state.filter.created_at,
-            kindof_good_id: state.filter.kindof_good,
-            brand_id: state.filter.brand,
-            subtype_id: state.filter.subtype,
-            client_id: state.filter.client_id,
-
-            search: state.filter.search,
-
-            update_badges: true
-        }
+        filter: getOrderFilter()
     })
     request_config.method = 'PUT'
 

@@ -131,7 +131,7 @@ const TableWorksMaterials = (props) => {
 
 const mapStateToProps = state => ({
    order: state.order,
-   employees: state.data.employees,
+   employees: state.employee.employees,
    permissions: state.data.user.role.permissions
 })
 

@@ -25,7 +25,6 @@ const Settings = (props) => {
   return (
     <div className='settingPage'>
       <SettingMenu/>
-      {/* <div className='settingContent'> */}
           <Switch>
               <Route path = '/settings/generally' component = {Generally}/>
               <Route path = '/settings/employees' component={SettingEmployees}/>
@@ -42,7 +41,6 @@ const Settings = (props) => {
 
               <Redirect from='/settings' to='/settings/generally'/>
             </Switch>
-          {/* </div> */}
     </div>
   )
 }

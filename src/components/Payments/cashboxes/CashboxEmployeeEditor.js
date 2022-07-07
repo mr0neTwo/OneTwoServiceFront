@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag, changeEmployeeSelected } from '../../../Redux/actions'
+import { setVisibleFlag } from '../../../Redux/actions'
 import {changeCashboxPermissions} from '../../../Redux/actions/cashboxAction'
 
 import ChooseBotton from '../../general/ChooseBotton'
@@ -153,7 +153,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setVisibleFlag,
-  changeEmployeeSelected,
   changeCashboxPermissions
 }
 

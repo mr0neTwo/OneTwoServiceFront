@@ -3,7 +3,9 @@ import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux';
 
 
-import {addMainData, addEmployees, addStatus, addData} from '../Redux/actions';
+import {addMainData, addStatus, addData} from '../Redux/actions'
+import {addEmployees} from '../Redux/actions/employeeAction'
+import {changeBranchState} from '../Redux/actions/branchAction'
 
 import Sidebar from './sidebar/Sidebar';
 import Orders from './orders/Orders';
@@ -18,7 +20,7 @@ import Reports from './Reports/Reports';
 import Telephony from './Telephony/Telephony';
 import Settings from './Settings/Settings';
 import OrderEditor from './orders/newOrder/OrderEditor'
-import {changeBranchState} from '../Redux/actions/branchAction'
+import UserSetting from './sidebar/userSettings/UserSetting'
 
 
 function Main(props) {
@@ -52,8 +54,7 @@ function Main(props) {
                     <Route path='/reports' component={Reports}/>
                     <Route path='/telephony' component={Telephony}/>
                     <Route path='/settings' component={Settings}/>
-
-
+                    <Route path='/user' component={UserSetting}/>
 
                     <Redirect from='/' to='/leans'/>
                 </Switch>

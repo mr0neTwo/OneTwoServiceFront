@@ -18,7 +18,7 @@ import CustomPanel from './CustomPanel'
 function Orders(props) {
 
     useEffect(() => {
-        props.addOrders()
+        if (Object.values(props.current_branch).length) props.addOrders()
     }, [
         props.filter.sort,
         props.filter.field_sort,
@@ -35,7 +35,8 @@ function Orders(props) {
         props.filter.brand,
         props.filter.subtype,
         props.filter.client_id,
-        props.filter.search
+        props.filter.search,
+        props.current_branch
     ])
 
 // Загружаем заказы
@@ -95,7 +96,8 @@ const mapStateToProps = state => ({
     filter: state.filter,
     count: state.order.count,
     ordersShow: state.order.ordersShow,
-    statusOrderLoader: state.view.statusOrderLoader
+    statusOrderLoader: state.view.statusOrderLoader,
+    current_branch: state.branch.current_branch
 })
 
 const mapDispatchToProps = {

@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {getOrderFilter} from './orderActions'
 
 
 export function changeOrderPartForm( value, field ) {
@@ -53,24 +54,7 @@ export function createCustomOrderPart() {
 
         order_type_id: state.order.order_type_id,
 
-        filter_order: {
-            sort: state.filter.sort,
-            field_sort: state.filter.field_sort,
-            page: state.filter.page,
-
-            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-            overdue: state.filter.overdue,
-            status_id: state.filter.status_id,
-            status_overdue: state.filter.status_overdue,
-            urgent: state.filter.urgent,
-            order_type_id: state.filter.order_type_id,
-            manager_id: state.filter.manager_id,
-            created_at: state.filter.created_at,
-            kindof_good_id: state.filter.kindof_good,
-            brand_id: state.filter.brand,
-            subtype_id: state.filter.subtype,
-            client_id: state.filter.client_id
-        }
+        filter_order: getOrderFilter()
     })
 
     return async dispatch => {
@@ -124,24 +108,7 @@ export function saveOrderPart() {
         warranty_period: state.orderPart.warranty_period,
         order_id: state.order.edit,
 
-        filter_order: {
-            sort: state.filter.sort,
-            field_sort: state.filter.field_sort,
-            page: state.filter.page,
-
-            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-            overdue: state.filter.overdue,
-            status_id: state.filter.status_id,
-            status_overdue: state.filter.status_overdue,
-            urgent: state.filter.urgent,
-            order_type_id: state.filter.order_type_id,
-            manager_id: state.filter.manager_id,
-            created_at: state.filter.created_at,
-            kindof_good_id: state.filter.kindof_good,
-            brand_id: state.filter.brand,
-            subtype_id: state.filter.subtype,
-            client_id: state.filter.client_id
-        }
+        filter_order: getOrderFilter()
     })
     request_config.method = 'PUT'
 
@@ -186,24 +153,7 @@ export function deleteOrderPart(flag) {
         order_id: state.order.edit,
         deleted: flag,
 
-        filter_order: {
-            sort: state.filter.sort,
-            field_sort: state.filter.field_sort,
-            page: state.filter.page,
-
-            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-            overdue: state.filter.overdue,
-            status_id: state.filter.status_id,
-            status_overdue: state.filter.status_overdue,
-            urgent: state.filter.urgent,
-            order_type_id: state.filter.order_type_id,
-            manager_id: state.filter.manager_id,
-            created_at: state.filter.created_at,
-            kindof_good_id: state.filter.kindof_good,
-            brand_id: state.filter.brand,
-            subtype_id: state.filter.subtype,
-            client_id: state.filter.client_id
-        }
+        filter_order: getOrderFilter()
     })
     request_config.method = 'PUT'
 

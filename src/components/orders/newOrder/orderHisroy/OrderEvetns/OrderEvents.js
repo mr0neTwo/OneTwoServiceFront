@@ -87,7 +87,7 @@ const OrderEvents = props => {
 const mapStateToProps = state => ({
     events: state.order.events,
     event_filter: state.order.event_filter,
-    employees: state.data.employees
+    employees: state.employee.employees
 })
 
 const mapDispatchToProps = {}

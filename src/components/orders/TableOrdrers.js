@@ -151,7 +151,7 @@ const TableOrders = props => {
 
 const mapStateToProps = state => ({
     order: state.order,
-    employees: state.data.employees,
+    employees: state.employee.employees,
     user: state.data.user,
     view: state.view,
     mainFilter: state.filter.mainFilter

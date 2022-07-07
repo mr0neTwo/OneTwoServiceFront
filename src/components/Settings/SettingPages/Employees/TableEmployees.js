@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { editEmoloyee, setVisibleFlag } from '../../../../Redux/actions'
+import { setVisibleFlag } from '../../../../Redux/actions'
 import { showPhone } from '../../../general/utils'
+import {editEmployee} from '../../../../Redux/actions/employeeAction'
 
 function TableEmployees (props) {
    return (
@@ -23,7 +24,7 @@ function TableEmployees (props) {
               key={employee.id}
               className={employee.deleted ? 'rowDeleted' : null}
               onDoubleClick={() => {
-                props.editEmoloyee(employee)
+                props.editEmployee(employee)
                 props.setVisibleFlag('statusEmployeeEditor', true)
               }} 
             >
@@ -41,12 +42,12 @@ function TableEmployees (props) {
 }
 
 const mapStateToProps = state => ({
-   employees: state.data.employees,
+   employees: state.employee.employees,
    showDeleted: state.employee.showDeleted
  })
 
 const mapDispatchToProps = {
-   editEmoloyee,
+    editEmployee,
    setVisibleFlag
 }
 

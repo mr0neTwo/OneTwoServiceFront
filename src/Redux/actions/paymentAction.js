@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {getOrderFilter} from './orderActions'
 
 
 export function changePaymentState( data ) {
@@ -43,8 +44,8 @@ export function createPayment(context) {
         cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
         description: state.payment.direction ? state.payment.description : disc + state.payment.description,
         deposit: state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
-        income: state.payment.income,
-        outcome: -state.payment.outcome,
+        income: parseFloat(state.payment.income),
+        outcome: -parseFloat(state.payment.outcome),
         direction: state.payment.direction,
         deleted: false,
         can_print_fiscal: state.payment.can_print_fiscal,
@@ -70,53 +71,12 @@ export function createPayment(context) {
             deleted: null
         }
     }
-    if (context.type === 'order') request_body.filter_order = {
-        sort: state.filter.sort,
-        field_sort: state.filter.field_sort,
-        page: state.filter.page,
-
-        engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-        overdue: state.filter.overdue,
-        status_id: state.filter.status_id,
-        status_overdue: state.filter.status_overdue,
-        urgent: state.filter.urgent,
-        order_type_id: state.filter.order_type_id,
-        manager_id: state.filter.manager_id,
-        created_at: state.filter.created_at,
-        kindof_good_id: state.filter.kindof_good,
-        brand_id: state.filter.brand,
-        subtype_id: state.filter.subtype,
-        client_id: state.filter.client_id,
-
-        update_order: state.order.edit,
-    }
+    if (context.type === 'order') request_body.filter_order = getOrderFilter()
     if (context.type === 'closed_order') {
         request_body.closed_order = {
             order_id: context.order_id,
             status_id: context.status_id,
-            filter: {
-                sort: state.filter.sort,
-                field_sort: state.filter.field_sort,
-                page: state.filter.page,
-
-                engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-                overdue: state.filter.overdue,
-                status_id: state.filter.status_id,
-                status_overdue: state.filter.status_overdue,
-                urgent: state.filter.urgent,
-                order_type_id: state.filter.order_type_id,
-                manager_id: state.filter.manager_id,
-                created_at: state.filter.created_at,
-                kindof_good_id: state.filter.kindof_good,
-                brand_id: state.filter.brand,
-                subtype_id: state.filter.subtype,
-                client_id: state.filter.client_id,
-
-                search: state.filter.search,
-
-                update_order: state.order.edit,
-                update_badges: true
-            }
+            filter: getOrderFilter()
         }
     }
     const request_config = getRequestConfig(request_body)
@@ -239,26 +199,7 @@ export function deletePayment(flag) {
         deleted: flag
     }
     if (state.order.edit) {
-        request_body.filter_order = {
-            sort: state.filter.sort,
-            field_sort: state.filter.field_sort,
-            page: state.filter.page,
-
-            engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
-            overdue: state.filter.overdue,
-            status_id: state.filter.status_id,
-            status_overdue: state.filter.status_overdue,
-            urgent: state.filter.urgent,
-            order_type_id: state.filter.order_type_id,
-            manager_id: state.filter.manager_id,
-            created_at: state.filter.created_at,
-            kindof_good_id: state.filter.kindof_good,
-            brand_id: state.filter.brand,
-            subtype_id: state.filter.subtype,
-            client_id: state.filter.client_id,
-
-            update_order: state.order.edit
-        }
+        request_body.filter_order = getOrderFilter()
     } else {
         request_body.filter_cashboxes = {
             deleted: null

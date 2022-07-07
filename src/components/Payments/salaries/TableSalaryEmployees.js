@@ -46,7 +46,7 @@ const TableSalaryEmployees = (props) => {
 }
 
 const mapStateToProps = state => ({
-    employees: state.data.employees.filter(employee => !employee.deleted && employee.id !== 0),
+    employees: state.employee.employees.filter(employee => !employee.deleted && employee.id !== 0),
     payroll: state.payroll
 })
 

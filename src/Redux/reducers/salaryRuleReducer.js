@@ -67,20 +67,6 @@ export const salaryRuleReducer = (state = initialState, action) => {
             [action.field]: action.value
          }
       }
-       
-      //  case 'CHOOSE_EMPLOYEE_SELECTED': {
-      //     if (action.value.every(val => state[action.field].includes(val))) {
-      //        return {
-      //           ...state, 
-      //           [action.field]: state[action.field].filter(val => !action.value.includes(val)),
-      //        }
-      //     } else {
-      //        return {
-      //           ...state, 
-      //           [action.field]: state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
-      //        }
-      //     }
-      //  }
 
       case 'CHANGE_SALARY_COEF_FORM': {
 

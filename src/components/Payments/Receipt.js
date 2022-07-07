@@ -31,7 +31,7 @@ const Receipt = (props) => {
                                  className='w70'
                                  style={ props.inputPaymentSumChecked ? null : {borderColor: 'red'} }
                                  onChange={event => props.changePaymentState({
-                                    [props.payment.direction === 2 ? 'income' : 'outcome']: parseFloat(event.target.value.replace(/[^0-9.]/g, ''))
+                                    [props.payment.direction === 2 ? 'income' : 'outcome']: event.target.value.replace(/[^0-9.]/g, '')
                                  })}
                                  value={ sum }
                                  onBlur={() => props.setVisibleFlag('inputPaymentSumChecked', props.payment.direction === 2 ? !!props.payment.income : !!props.payment.outcome)}
