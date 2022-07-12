@@ -61,7 +61,15 @@ export function addPayrolls() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос начислений не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос начислений не выполнен')
+            })
     }
 }
 
@@ -88,7 +96,15 @@ export function addMonthBalance() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос баланса не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос баланса не выполнен')
+            })
     }
 }
 
@@ -139,8 +155,15 @@ export function createPayroll() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на создание начисления не выполнен'))
-
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на создание начисления не выполнен')
+            })
     }
 }
 
@@ -176,7 +199,15 @@ export function deletePayroll(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на удаление/восстановления начисления не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на удаление/восстановления начисления не выполнен')
+            })
 
     }
 }

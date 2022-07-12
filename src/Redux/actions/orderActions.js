@@ -97,15 +97,20 @@ export function addOrders() {
                         data: {ordersShow: data.data, count: data.count}
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusOrderLoader',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusOrderLoader: false}
                     })
-                } else {
-                    console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                    })
+                }
+                bad_request('Запрос заказов не выполнен')
+            })
     }
 }
 
@@ -171,7 +176,15 @@ export function createOrder() {
                 })
 
             })
-            .catch(() => bad_request('Запрос на создание заказов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                    })
+                }
+                bad_request('Запрос на создание заказов не выполнен')
+            })
 
         if (state.view.checkOrderSticker) {
              await dispatch({
@@ -235,7 +248,15 @@ export function changeStatus(status_id, order_id) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                    })
+                }
+                bad_request('Запрос заказов не выполнен')
+            })
 
 
         await dispatch({
@@ -308,7 +329,15 @@ export function saveOrder() {
                     data: {badges: data.badges}
                 })
             })
-            .catch(() => bad_request('Запрос на создание заказов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                    })
+                }
+                bad_request('Запрос на создание заказов не выполнен')
+            })
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -341,7 +370,15 @@ export function getOrder(order_id) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                    })
+                }
+                bad_request('Запрос заказов не выполнен')
+            })
     }
 }
 
@@ -370,7 +407,15 @@ export function addEventComment() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на создание коментариев не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                    })
+                }
+                bad_request('Запрос на создание коментариев не выполнен')
+            })
     }
 
 }

@@ -14,8 +14,7 @@ function LogoUser(props) {
             >
 
                 <img
-                    src={`${process.env.REACT_APP_URL_SERVER}/data/avatars/ava${props.user.id}.jpeg`}
-                    // src={`/data/avatars/ava${props.user.id}.jpeg`}
+                    src={`${process.env.REACT_APP_LOCAL_SOURCE}/${props.user.avatar}`}
                     className='imgAvatar'
                     alt='User avatar'
                 />

@@ -66,7 +66,15 @@ export function addPayrules() {
          console.warn(data.message)
        }
      })
-     .catch(() => bad_request('Запрос правил не выполнен'))  
+     .catch(error => {
+       if (error.message === 'Unexpected token < in JSON at position 0') {
+         dispatch({
+           type: 'CHANGE_VISIBLE_STATE',
+           data: {statusRefreshPage: true}
+         })
+       }
+       bad_request('Запрос правил не выполнен')
+     })
    }
  }
 
@@ -90,7 +98,15 @@ export function createSalaryRule() {
    return async dispatch => {
  
      await fetch(state.data.url_server + '/payrule', request_config)
-     .catch(() => bad_request('Запрос на создание правила не выполнен'))
+     .catch(error => {
+       if (error.message === 'Unexpected token < in JSON at position 0') {
+         dispatch({
+           type: 'CHANGE_VISIBLE_STATE',
+           data: {statusRefreshPage: true}
+         })
+       }
+       bad_request('Запрос на создание правила не выполнен')
+     })
  
      await fetch(state.data.url_server + '/get_payrules', getRequestConfig({}))
      .then(response => response.json())
@@ -113,7 +129,15 @@ export function createSalaryRule() {
          console.warn(data.message)
        }
      })
-     .catch(() => bad_request('Запрос правил не выполнен'))  
+     .catch(error => {
+       if (error.message === 'Unexpected token < in JSON at position 0') {
+         dispatch({
+           type: 'CHANGE_VISIBLE_STATE',
+           data: {statusRefreshPage: true}
+         })
+       }
+       bad_request('Запрос правил не выполнен')
+     })
    }
  }
 
@@ -139,7 +163,15 @@ export function createSalaryRule() {
    return async dispatch => {
  
      await fetch(state.data.url_server + '/payrule', request_config)
-     .catch(() => bad_request('Запрос на изменение правила не выполнен'))
+     .catch(error => {
+       if (error.message === 'Unexpected token < in JSON at position 0') {
+         dispatch({
+           type: 'CHANGE_VISIBLE_STATE',
+           data: {statusRefreshPage: true}
+         })
+       }
+       bad_request('Запрос на изменение правила не выполнен')
+     })
  
      await fetch(state.data.url_server + '/get_payrules', getRequestConfig({}))
      .then(response => response.json())
@@ -162,7 +194,15 @@ export function createSalaryRule() {
          console.warn(data.message)
        }
      })
-     .catch(() => bad_request('Запрос правил не выполнен'))  
+     .catch(error => {
+       if (error.message === 'Unexpected token < in JSON at position 0') {
+         dispatch({
+           type: 'CHANGE_VISIBLE_STATE',
+           data: {statusRefreshPage: true}
+         })
+       }
+       bad_request('Запрос правил не выполнен')
+     })
    }
  }
  
@@ -180,7 +220,15 @@ export function createSalaryRule() {
    return async dispatch => {
  
      await fetch(state.data.url_server + '/payrule', request_config)
-     .catch(() => bad_request('Запрос на удаление правила не выполнен'))
+     .catch(error => {
+       if (error.message === 'Unexpected token < in JSON at position 0') {
+         dispatch({
+           type: 'CHANGE_VISIBLE_STATE',
+           data: {statusRefreshPage: true}
+         })
+       }
+       bad_request('Запрос на удаление правила не выполнен')
+     })
  
      await fetch(state.data.url_server + '/get_payrules', getRequestConfig({}))
      .then(response => response.json())
@@ -203,6 +251,14 @@ export function createSalaryRule() {
          console.warn(data.message)
        }
      })
-     .catch(() => bad_request('Запрос правил не выполнен'))  
+     .catch(error => {
+       if (error.message === 'Unexpected token < in JSON at position 0') {
+         dispatch({
+           type: 'CHANGE_VISIBLE_STATE',
+           data: {statusRefreshPage: true}
+         })
+       }
+       bad_request('Запрос правил не выполнен')
+     })
    }
  }

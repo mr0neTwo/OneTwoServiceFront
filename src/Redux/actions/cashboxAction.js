@@ -32,14 +32,21 @@ export function editCashbox(cashbox) {
     }
 }
 
+export function get_cashbox_filter() {
+
+    const state = store.getState()
+
+    return {
+        deleted: state.cashbox.showDeleted,
+        branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
+    }
+}
+
 export function addCashboxes() {
 
     const state = store.getState()
 
-    const request_config = getRequestConfig({
-        deleted: state.cashbox.showDeleted,
-        branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
-    })
+    const request_config = getRequestConfig(get_cashbox_filter())
 
     return dispatch => {
 
@@ -74,10 +81,7 @@ export function createCashbox() {
         permissions: state.cashbox.permissions,
         employees: state.cashbox.employees,
         branch_id: state.branch.current_branch.id,
-        filter: {
-            deleted: state.cashbox.showDeleted,
-            branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
-        }
+        filter: get_cashbox_filter()
     })
 
     return async dispatch => {
@@ -122,10 +126,7 @@ export function saveEditCashbox() {
         permissions: state.cashbox.permissions,
         employees: state.cashbox.employees,
         branch_id: state.branch.current_branch.id,
-        filter: {
-            deleted: state.cashbox.showDeleted,
-            branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
-        }
+        filter: get_cashbox_filter()
     })
     request_config.method = 'PUT'
 
@@ -161,10 +162,7 @@ export function deleteCashbox(flag) {
     let request_config = getRequestConfig({
         id: state.cashbox.edit,
         deleted: flag,
-        filter: {
-            deleted: state.cashbox.showDeleted,
-            branch_id: Object.values(state.branch.current_branch).length ? state.branch.current_branch.id : null
-        }
+        filter: get_cashbox_filter()
     })
     request_config.method = 'PUT'
 

@@ -5,7 +5,6 @@ import {changeDataState} from '../../../Redux/actions/dataAction'
 
 const Logout = (props) => {
 
-
     useEffect(() => {
         props.logout()
         props.changeDataState({login_status: false})

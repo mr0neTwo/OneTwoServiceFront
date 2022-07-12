@@ -13,10 +13,15 @@ const RangeSlider = (props) => {
                 max="100"
                 value={props.value}
                 onChange={event => props.onChange(event.target.value)}
+                disabled={props.disabled}
             />
             <span
                 className="rangeslider"
-                style={{top: '-8px', left: `${props.value - 0.15*props.value}%`}}
+                style={{
+                    top: '-8px',
+                    left: `${props.value - 0.15*props.value}%`,
+                    display: props.disabled ? 'none': 'flex'
+                }}
             >
                 {props.value}
             </span>

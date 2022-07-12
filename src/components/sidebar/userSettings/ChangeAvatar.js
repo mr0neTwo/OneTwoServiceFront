@@ -42,20 +42,24 @@ const ChangeAvatar = (props) => {
     }
 
     const fileHandler = event => {
-        img.current.style.width = 'initial'
-        clear()
-        let reader = new FileReader()
-        reader.onload = function (e) {
-            props.changeEmployeeState({img: e.target.result})
+        if (event.target.files[0]) {
+            img.current.style.width = 'initial'
+            clear()
+            let reader = new FileReader()
+            reader.onload = function (e) {
+                props.changeEmployeeState({img: e.target.result})
+            }
+            reader.readAsDataURL(event.target.files[0])
         }
-        reader.readAsDataURL(event.target.files[0])
     }
 
 
     const handleDragStart = event => {
-        props.changeEmployeeState({avaStartPosition: [event.pageX, event.pageY]})
-        window.addEventListener('mousemove', mouseMove)
-        window.addEventListener('mouseup', mouseUp)
+        if (props.employee.img) {
+            props.changeEmployeeState({avaStartPosition: [event.pageX, event.pageY]})
+            window.addEventListener('mousemove', mouseMove)
+            window.addEventListener('mouseup', mouseUp)
+        }
     }
 
     useEffect(() => {
@@ -71,7 +75,7 @@ const ChangeAvatar = (props) => {
     }, [props.employee.scale_img])
 
     const clear = () => {
-        props.changeEmployeeState({img: ''})
+        props.changeEmployeeState({img: '', avatar: ''})
         setAvaPosition([0, 0])
         props.changeEmployeeState({scale_img: 100})
     }
@@ -100,7 +104,7 @@ const ChangeAvatar = (props) => {
                         left: avaPosition[0],
                         top: avaPosition[1],
                     }}
-                    src={props.employee.img || `${process.env.PUBLIC_URL}/${props.employee.avatar}`}
+                    src={props.employee.img || `${process.env.REACT_APP_LOCAL_SOURCE}/${props.employee.avatar}`}
                     ref={img}
                     className='editAvaImg'
                 />
@@ -110,6 +114,7 @@ const ChangeAvatar = (props) => {
                 className='mt15'
                 onChange={value => props.changeEmployeeState({scale_img: value})}
                 value={props.employee.scale_img}
+                disabled={!props.employee.img }
             />
 
             <div className='row mt15'>
@@ -118,7 +123,7 @@ const ChangeAvatar = (props) => {
                     <input
                         className='addAva'
                         type='file'
-                        accept="image/*"
+                        accept=".jpg,.jpeg"
                         onChange={fileHandler}
                         disabled={props.disabled}
                     />

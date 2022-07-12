@@ -1,4 +1,5 @@
 import store from '../store'
+import {csrf} from '../actions'
 
 export function getRequestConfig(body = {}) {
 
@@ -18,6 +19,4 @@ export function getRequestConfig(body = {}) {
 export function bad_request(message = '') {
     sessionStorage.clear()
     console.warn(message)
-    return {type: 'LOGUOT'}
 }
-// 'Authorization': `Bearer ${state.data.token}`,

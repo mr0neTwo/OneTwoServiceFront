@@ -94,7 +94,8 @@ const initialState = {
    inputFilterTitleChecked: true,
 
    errorSameMail: false,
-   errorSameLogin: false
+   errorSameLogin: false,
+   statusRefreshPage: false
 }
 
 // todo: переписать ненужные функции

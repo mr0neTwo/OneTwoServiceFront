@@ -60,20 +60,9 @@ export const dataReducer = (state = initialState, action) => {
             return {...Object.assign(state, action.data)}
         }
 
-        case 'LOGIN': {
-            return {
-                ...state,
-                token: action.token
-            }
-        }
 
-        case 'LOGUOT': {
-            return {
-                ...state,
-                token: '',
-                login_status: false
-            }
-        }
+
+
 
         case 'ADD_MENU_ROWS': {
             return {

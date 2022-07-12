@@ -27,7 +27,6 @@ function Main(props) {
 
     useEffect(() => {
         props.addMainData()
-        props.addEmployees()
         props.addStatus()
     }, [])
 

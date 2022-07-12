@@ -68,7 +68,15 @@ export function addBranches() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос филиалов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос филиалов не выполнен')
+            })
     }
 }
 

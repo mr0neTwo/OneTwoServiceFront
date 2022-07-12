@@ -270,8 +270,8 @@ sidebarBranch:hover {
 .imgAvatar {
   display: flex;
   margin: 20px;
-  height: 60px;
-  width: 60px;
+  height: 80px;
+  width: 80px;
   border-radius: 50%;
   color: #c9cbcc;
 }
@@ -3055,7 +3055,7 @@ div.ssm > div:hover {
   appearance: none;
   width: 35px; /* Set a specific slider handle width */
   height: 35px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
+  /*background: #4CAF50; !* Green background *!*/
   cursor: pointer; /* Cursor on hover */
   border-radius: 35px;
 }
@@ -3131,6 +3131,7 @@ div.ssm > div:hover {
 
 .m4 { margin: 4px }
 .m10 { margin: 10px }
+.m30 { margin: 30px }
 
 .pd05 {padding: 0 5px }
 
@@ -3206,7 +3207,7 @@ div.ssm > div:hover {
 .al-itm-fe { align-items: flex-end }
 .al-itm-ct { align-items: center; display: flex;}
 
-.jc-c { justify-content: center }
+.jc-c { justify-content: center; display: flex; }
 .jc-sb { justify-content:space-between }
 .jc-end { justify-content: end }
 

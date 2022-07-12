@@ -71,7 +71,7 @@ const PaymentsEditor = (props) => {
         } else {
             if (!(props.payment.income || props.payment.outcome))
                 props.changeVisibleState({'inputPaymentSumChecked': false})
-            if (!(props.payment.cashbox_id && props.payment.direction) || !(props.payment.target_cashbox_id && !props.payment.direction))
+            if (!(props.payment.cashbox_id && props.payment.direction || props.payment.target_cashbox_id && !props.payment.direction))
                 props.changeVisibleState({'inputPaymentCashboxChecked': false})
             if (!props.payment.description)
                 props.changeVisibleState({'inputPaymentDescChecked': false})

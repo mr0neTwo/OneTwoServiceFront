@@ -40,8 +40,8 @@ export function addEmployees(filters) {
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'ADD_EMPLOYEES',
-                        employees: data.data,
+                        type: 'CHANGE_EMPLOYEE_STATE',
+                        data: {employees: data.data},
                     })
                 } else {
                     console.warn(data.message)

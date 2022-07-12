@@ -18,8 +18,8 @@ const CustomPanel = (props) => {
         const days_to_add = 4   // Количество дней, которое прибавляем
         let estimated_done_at = new Date()
         for (let i = 0; i < days_to_add; ) {
-            let week_day = estimated_done_at.getDay() || 7 // вычеслим текущий день недели
             estimated_done_at.setDate(estimated_done_at.getDate() + 1) // прибавим день
+            let week_day = estimated_done_at.getDay() || 7 // вычеслим текущий день недели
             if (props.schedule.find(day => day.week_day === week_day).work_day) i++ // Если день рабочий, довим шаг цикла
         }
 

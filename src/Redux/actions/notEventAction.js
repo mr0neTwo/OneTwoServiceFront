@@ -57,7 +57,15 @@ export function addNotEvent() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос событий не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос событий не выполнен')
+            })
 
     }
 }
@@ -83,7 +91,15 @@ export function createNotEvent() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/notification_events', request_config1)
-            .catch(() => bad_request('Запрос на создание события не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на создание события не выполнен')
+            })
 
         await fetch(state.data.url_server + '/get_notification_events', request_config2)
             .then(response =>  response.json())
@@ -106,7 +122,15 @@ export function createNotEvent() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос событий не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос событий не выполнен')
+            })
 
     }
 }
@@ -134,7 +158,15 @@ export function saveNotEvent() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/notification_events', request_config1)
-            .catch(() => bad_request('Запрос на изменение события не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на изменение события не выполнен')
+            })
 
         await fetch(state.data.url_server + '/get_notification_events', request_config2)
             .then(response =>  response.json())
@@ -157,7 +189,15 @@ export function saveNotEvent() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос событий не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос событий не выполнен')
+            })
 
     }
 }
@@ -180,7 +220,15 @@ export function deleteNotEvent(flag) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/notification_events', request_config1)
-            .catch(() => bad_request('Запрос на удаление/восстановление события не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на удаление/восстановление события не выполнен')
+            })
 
         await fetch(state.data.url_server + '/get_notification_events', request_config2)
             .then(response =>  response.json())
@@ -203,7 +251,15 @@ export function deleteNotEvent(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос событий не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос событий не выполнен')
+            })
 
     }
 }

@@ -12,8 +12,8 @@ const initialState = {
     description: '',
 
     deposit: 0,
-    income: 0,
-    outcome: 0,
+    income: '',
+    outcome: '',
     direction: 0,
 
     can_print_fiscal: false,
@@ -101,8 +101,8 @@ export const paymentReducer = (state = initialState, action) => {
                 description: '',
 
                 deposit: 0,
-                income: 0,
-                outcome: 0,
+                income: '',
+                outcome: '',
                 direction: 0,
 
                 can_print_fiscal: true,

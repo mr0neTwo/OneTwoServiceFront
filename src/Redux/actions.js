@@ -7,18 +7,9 @@ function bad_request(message = '') {
     return {type: 'LOGUOT'}
 }
 
-export function loginAction(token) {
-    return {
-        type: 'LOGIN',
-        token,
-    }
-}
 
-export function loguotAction() {
-    return {
-        type: 'LOGUOT'
-    }
-}
+
+
 
 export function addUserAction(user) {
     return {
@@ -429,7 +420,15 @@ export function log_in(login, password) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос авторизации не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос авторизации не выполнен')
+            })
     }
 }
 
@@ -533,7 +532,15 @@ export function createNewClient() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на создание клиента не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на создание клиента не выполнен')
+            })
     }
 }
 
@@ -601,7 +608,15 @@ export function saveChangeClient() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на изменение данных клиента не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на изменение данных клиента не выполнен')
+            })
     }
 }
 
@@ -623,7 +638,15 @@ export function editClient(id) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос данных клиента не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос данных клиента не выполнен')
+            })
     }
 }
 
@@ -661,7 +684,15 @@ export function deleteClient(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на изменение клиента не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на изменение клиента не выполнен')
+            })
     }
 }
 
@@ -687,7 +718,15 @@ export function addAdCampaign() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос рекламных компаний не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос рекламных компаний не выполнен')
+            })
     }
 }
 
@@ -711,7 +750,15 @@ export function addStatus() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос статусов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос статусов не выполнен')
+            })
     }
 }
 
@@ -737,7 +784,15 @@ export function refreshDataOrder(order_id) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на обновление заказа не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос на обновление заказа не выполнен')
+            })
     }
 }
 
@@ -759,7 +814,15 @@ export function addStatusGroupAction() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос групп статусов не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос групп статусов не выполнен')
+            })
     }
 }
 
@@ -781,7 +844,15 @@ export function addEquipment() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос типов изделий не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос типов изделий не выполнен')
+            })
     }
 }
 
@@ -814,7 +885,15 @@ export function addDiscountMargin() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос наценок не выполнен'))
+            .catch(error => {
+                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRefreshPage: true}
+                    })
+                }
+                bad_request('Запрос наценок не выполнен')
+            })
     }
 }
 
@@ -993,6 +1072,10 @@ export function addMainData() {
                     dispatch({
                         type: 'CHANGE_CASHBOX_STATE',
                         data: {cashboxes: data.cashboxes}
+                    })
+                    dispatch({
+                        type: 'CHANGE_EMPLOYEE_STATE',
+                        data: {employees: data.employees}
                     })
                 } else {
                     console.warn(data.message)
