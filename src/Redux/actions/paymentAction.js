@@ -45,8 +45,8 @@ export function createPayment(context) {
         cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
         description: state.payment.direction ? state.payment.description : disc + state.payment.description,
         deposit: state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
-        income: parseFloat(state.payment.income.replace(',', '.')),
-        outcome: -parseFloat(state.payment.outcome.replace(',', '.')),
+        income: parseFloat(state.payment.income.toString().replace(',', '.')) || 0,
+        outcome: -parseFloat(state.payment.outcome.toString().replace(',', '.')) || 0,
         direction: state.payment.direction,
         deleted: false,
         can_print_fiscal: state.payment.can_print_fiscal,
@@ -72,10 +72,12 @@ export function createPayment(context) {
     }
     if (context.type === 'order') request_body.filter_order = getOrderFilter()
     if (context.type === 'closed_order') {
+        let r_filter = getOrderFilter()
+        r_filter.update_order = state.order.edit
         request_body.closed_order = {
             order_id: context.order_id,
             status_id: context.status_id,
-            filter: getOrderFilter()
+            filter: r_filter
         }
     }
     const request_config = getRequestConfig(request_body)
