@@ -2,6 +2,7 @@ import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
 import {getOrderFilter} from './orderActions'
 import {get_cashbox_filter} from './cashboxAction'
+import {showAlert} from '../actions'
 
 
 export function changePaymentState( data ) {
@@ -70,7 +71,11 @@ export function createPayment(context) {
             deleted: null
         }
     }
-    if (context.type === 'order') request_body.filter_order = getOrderFilter()
+    if (context.type === 'order') {
+        let r_filter = getOrderFilter()
+        r_filter.update_order = state.order.edit
+        request_body.filter_order = r_filter
+    }
     if (context.type === 'closed_order') {
         let r_filter = getOrderFilter()
         r_filter.update_order = state.order.edit
@@ -133,19 +138,12 @@ export function createPayment(context) {
                             data: {badges: data.badges}
                         })
                     }
+                    showAlert(dispatch, 'alert-success', 'Платеж успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на создание платежа не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание платежа не выполнен'))
 
         await dispatch({
             type: 'RESET_PAYMENTS'
@@ -183,19 +181,9 @@ export function addPayments() {
                         type: 'CHANGE_PAYMENT_STATE',
                         data: {payments: data.data}
                     })
-                } else {
-                    console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос платежей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос платежей не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -216,7 +204,9 @@ export function deletePayment(flag) {
         deleted: flag
     }
     if (state.order.edit) {
-        request_body.filter_order = getOrderFilter()
+        let r_filter = getOrderFilter()
+        r_filter.update_order = state.order.edit
+        request_body.filter_order = r_filter
     } else {
         request_body.filter_cashboxes = {
             deleted: null
@@ -268,19 +258,11 @@ export function deletePayment(flag) {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusPaymentsCard: false}
                     })
-                } else {
-                    console.warn(data.message)
                 }
+                const text = flag ? 'Платеж успешно удален' : 'Платеж упешно восстановлен'
+                showAlert(dispatch, 'alert-success', text)
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос удаление платежа не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос удаление платежа не выполнен'))
 
         await dispatch({
             type: 'RESET_PAYMENTS'

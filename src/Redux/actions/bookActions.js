@@ -1,5 +1,6 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
+import {showAlert} from '../actions'
 
 export function changeBookForm(value, field) {
     return {
@@ -71,19 +72,12 @@ export function createEType() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Тип успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание типа тихеники не выполнен'))
     }
 }
 
@@ -130,19 +124,12 @@ export function createEbrand() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Бренд успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос брендов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание бренда не выполнен'))
     }
 }
 
@@ -190,19 +177,12 @@ export function createESubtype() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Модуль/серия успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос модулей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание модуля/серии не выполнен'))
     }
 }
 
@@ -249,19 +229,12 @@ export function createEModel() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Модель успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос моделей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание модели не выполнен'))
     }
 }
 
@@ -297,19 +270,12 @@ export function createEquipmentType(title) {
                         field: 'equipment_type_count',
                         value: data.count,
                     })
+                    showAlert(dispatch, 'alert-success', 'Тип успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание типа не выполнен'))
     }
 }
 
@@ -342,15 +308,7 @@ export function addEquipmentType() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос типов тихеники не выполнен'))
     }
 }
 
@@ -386,19 +344,12 @@ export function createEquipmentBrand(title) {
                         field: 'equipment_brand_count',
                         value: data.count,
                     })
+                    showAlert(dispatch, 'alert-success', 'Бренд успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос брендов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание бренда не выполнен'))
     }
 }
 
@@ -431,15 +382,7 @@ export function addEquipmentBrand() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос брендов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос брендов не выполнен'))
     }
 }
 
@@ -474,19 +417,12 @@ export function cteateEquipmentSubtype(title) {
                         field: 'equipment_subtype_count',
                         value: data.count,
                     })
+                    showAlert(dispatch, 'alert-success', 'Модуль/серия успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос модулей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создания модуля/серии не выполнен'))
     }
 }
 
@@ -519,15 +455,7 @@ export function addEquipmentSubtype() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос модулей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос модулей не выполнен'))
     }
 }
 
@@ -562,19 +490,12 @@ export function createEquipmentModel(title) {
                         field: 'equipment_models_count',
                         value: data.count,
                     })
+                    showAlert(dispatch, 'alert-success', 'Модель успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос моделей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание модели не выполнен'))
     }
 }
 
@@ -607,15 +528,7 @@ export function addEquipmentModel() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос моделей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос моделей не выполнен'))
     }
 }
 
@@ -661,19 +574,12 @@ export function seveEquipmentType() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Тип успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение типа не выполнен'))
     }
 }
 
@@ -721,19 +627,12 @@ export function seveEquipmentBrand() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Бренд успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error =>  bad_request(dispatch, error, 'Запрос на изменение бренда не выполнен'))
     }
 }
 
@@ -783,19 +682,12 @@ export function seveEquipmentSubtype() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Модуль/серия успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение модуля/серии не выполнен'))
     }
 }
 
@@ -844,19 +736,12 @@ export function seveEquipmentModel() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    showAlert(dispatch, 'alert-success', 'Модель успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение модели не выполнен'))
     }
 }
 
@@ -898,19 +783,13 @@ export function deleteEquipmentType(flag) {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    const text = flag ? 'Тип успешно удален' : 'Тип упешно восстановлен'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановления типов тихеники не выполнен'))
     }
 }
 
@@ -931,7 +810,7 @@ export function deleteEquipmentBrand(flag) {
 
     return async (dispatch) => {
 
-        await fetch(state.data.url_server + '/get_equipment_brand', request_config)
+        await fetch(state.data.url_server + '/equipment_brand', request_config)
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
@@ -953,19 +832,13 @@ export function deleteEquipmentBrand(flag) {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    const text = flag ? 'Бренд успешно удален' : 'Бренд упешно восстановлен'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление бренда не выполнен'))
     }
 }
 
@@ -1008,19 +881,13 @@ export function deleteEquipmentSubtype(flag) {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    const text = flag ? 'Модуль/серия успешно удалена' : 'Модуль/серия упешно восстановлена'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановления модуля/серии не выполнен'))
     }
 }
 
@@ -1064,18 +931,12 @@ export function deleteEquipmentModel(flag) {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
+                    const text = flag ? 'Модель успешно удалена' : 'Модель упешно восстановлена'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов тихеники не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление модели не выполнен'))
     }
 }

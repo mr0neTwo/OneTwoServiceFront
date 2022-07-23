@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {showAlert} from '../actions'
 
 export function changeBranchState( data ) {
     return {
@@ -68,15 +69,7 @@ export function addBranches() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос филиалов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос филиалов не выполнен'))
     }
 }
 
@@ -119,11 +112,12 @@ export function createBranch() {
                     dispatch({
                         type: 'RESET_BRANCH'
                     })
+                    showAlert(dispatch, 'alert-success', 'Филиал успешно создан')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на создание филиалов не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание филиалов не выполнен'))
     }
 }
 
@@ -167,11 +161,12 @@ export function saveBranch() {
                     dispatch({
                         type: 'RESET_BRANCH'
                     })
+                    showAlert(dispatch, 'alert-success', 'Филиал успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на изменение филиала не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение филиала не выполнен'))
     }
 }
 
@@ -204,10 +199,12 @@ export function deleteBranch(flag) {
                     dispatch({
                         type: 'RESET_BRANCH'
                     })
+                    const text = flag ? 'Филиал успешно удален' : 'Филиал упешно восстановлен'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на удаление/восстановление филиала не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление филиала не выполнен'))
     }
 }

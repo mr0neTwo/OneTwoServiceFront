@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {showAlert} from '../actions'
 
 
 export function changeFilterForm( value, field ) {
@@ -69,16 +70,7 @@ export function addBadges() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос temple не выполнен')
-            })
-
+            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
     }
 }
 
@@ -102,15 +94,7 @@ export function addCustomFilters() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос пользовательских фильтров не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос пользовательских фильтров не выполнен'))
     }
 }
 
@@ -156,19 +140,12 @@ export function createCustomFilter() {
                     dispatch({
                         type: 'RESET_DATA_FILTER'
                     })
+                    showAlert(dispatch, 'alert-success', 'Фильтр успешно создан')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос пользовательских фильтров не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание  фильтра не выполнен'))
 
     }
 }
@@ -205,18 +182,11 @@ export function deleteFilter() {
                     dispatch({
                         type: 'RESET_DATA_FILTER'
                     })
+                    showAlert(dispatch, 'alert-success', 'Фильтр успешно удален')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос пользовательских фильтров не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление фильтра не выполнен'))
     }
 }

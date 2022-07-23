@@ -64,7 +64,7 @@ export function addTemple() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
 
     }
 }
@@ -86,7 +86,7 @@ export function createTemple() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/temple', request_config1)
-            .catch(() => bad_request('Запрос на создание temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание temple не выполнен'))
 
         await fetch(state.data.url_server + '/get_temple', request_config2)
             .then(response =>  response.json())
@@ -109,7 +109,7 @@ export function createTemple() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
 
     }
 }
@@ -134,7 +134,7 @@ export function saveTemple() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/temple', request_config1)
-            .catch(() => bad_request('Запрос на изменение temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение temple не выполнен'))
 
         await fetch(state.data.url_server + '/get_temple', request_config2)
             .then(response =>  response.json())
@@ -157,7 +157,7 @@ export function saveTemple() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
 
     }
 }
@@ -180,7 +180,7 @@ export function deleteOperation(flag) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/temple', request_config1)
-            .catch(() => bad_request('Запрос на удаление/восстановление temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление temple не выполнен'))
 
         await fetch(state.data.url_server + '/get_temple', request_config2)
             .then(response =>  response.json())
@@ -203,7 +203,7 @@ export function deleteOperation(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
 
     }
 }

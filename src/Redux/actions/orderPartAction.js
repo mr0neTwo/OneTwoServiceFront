@@ -1,6 +1,8 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
 import {getOrderFilter} from './orderActions'
+import {showAlert} from '../actions'
+import {text} from 'react-table/src/filterTypes'
 
 
 export function changeOrderPartForm( value, field ) {
@@ -76,11 +78,12 @@ export function createCustomOrderPart() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
+                    showAlert(dispatch, 'alert-success', 'Запчасть успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на добавление зачасти не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -131,11 +134,12 @@ export function saveOrderPart() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
+                    showAlert(dispatch, 'alert-success', 'Запчасть успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на измененеие запчасти не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -176,11 +180,13 @@ export function deleteOrderPart(flag) {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
+                    const text = flag ? 'Запчасть успешно удалена' : 'Запчасть успешно восстановлена'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос заказов не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос заказов не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',

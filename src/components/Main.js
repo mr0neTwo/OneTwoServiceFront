@@ -21,6 +21,7 @@ import Telephony from './Telephony/Telephony';
 import Settings from './Settings/Settings';
 import OrderEditor from './orders/newOrder/OrderEditor'
 import UserSetting from './sidebar/userSettings/UserSetting'
+import Alerts from './Alerts/Alerts'
 
 
 function Main(props) {
@@ -41,6 +42,7 @@ function Main(props) {
         <div>
             <Sidebar/>
             <div className='contentMain'>
+                <Alerts/>
                 <Switch>
                     <Route path='/tasks' component={TaskManager}/>
                     <Route path='/leans' component={Leads}/>

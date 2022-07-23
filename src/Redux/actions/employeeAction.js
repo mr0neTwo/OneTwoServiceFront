@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {showAlert} from '../actions'
 
 export function changeEmployeeState(data) {
     return {
@@ -47,7 +48,7 @@ export function addEmployees(filters) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос сотрудников не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос сотрудников не выполнен'))
     }
 }
 
@@ -85,11 +86,12 @@ export function createEmployee() {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusEmployeeEditor: false}
                     })
+                    showAlert(dispatch, 'alert-success', 'Сотрудник успешно создан')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на создание сотрудника не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание сотрудника не выполнен'))
     }
 }
 
@@ -129,11 +131,12 @@ export function saveEditEmployee() {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusEmployeeEditor: false}
                     })
+                    showAlert(dispatch, 'alert-success', 'Сотрудник успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на изменение сотрудника не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение сотрудника не выполнен'))
     }
 }
 
@@ -162,11 +165,13 @@ export function deleteEmployee(flag) {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusEmployeeEditor: false}
                     })
+                    const text = flag ? 'Сотрудник упешно удален' : 'Сотрудник успешно восстановлен'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос удаление/восстановление сотрудника не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос удаление/восстановление сотрудника не выполнен'))
     }
 }
 
@@ -193,11 +198,12 @@ export function saveAvatar(data) {
                         type: 'CHANGE_DATA_STATE',
                         data: {user: data.user},
                     })
+                    showAlert(dispatch, 'alert-success', 'Аватарка успшно изменена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на изменение аватара не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение аватара не выполнен'))
     }
 }
 

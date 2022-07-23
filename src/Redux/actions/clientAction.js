@@ -42,15 +42,7 @@ export function addClients() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос клиентов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос клиентов не выполнен'))
     }
 }
 
@@ -75,15 +67,7 @@ export function addClientToTempFilter(id) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос клиентa не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос клиентa не выполнен'))
 
     }
 }

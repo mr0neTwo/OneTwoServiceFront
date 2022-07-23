@@ -86,7 +86,7 @@ export function addParts() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос товаров не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
     }
 }
 
@@ -117,7 +117,7 @@ export function createPart() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/parts', request_config1)
-            .catch(() => bad_request('Запрос на создание товара не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание товара не выполнен'))
 
         await fetch(state.data.url_server + '/get_parts', request_config2)
             .then(response => response.json())
@@ -140,7 +140,7 @@ export function createPart() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос товаров не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
     }
 }
 
@@ -172,7 +172,7 @@ export function savePart() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/parts', request_config1)
-            .catch(() => bad_request('Запрос на иземенение товара не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на иземенение товара не выполнен'))
 
         await fetch(state.data.url_server + '/get_parts', request_config2)
             .then(response => response.json())
@@ -195,7 +195,7 @@ export function savePart() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос товаров не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
     }
 }
 
@@ -218,7 +218,7 @@ export function deletePart( flag ) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/parts', request_config1)
-            .catch(() => bad_request('Запрос на удаление/восстановление товара не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление товара не выполнен'))
 
         await fetch(state.data.url_server + '/get_parts', request_config2)
             .then(response => response.json())
@@ -241,6 +241,6 @@ export function deletePart( flag ) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос товаров не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
     }
 }

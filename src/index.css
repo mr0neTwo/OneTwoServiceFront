@@ -3093,6 +3093,39 @@ div.ssm > div:hover {
   margin: 4px 4px 11px 4px;
 }
 
+.alert {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin: 2px 10px;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+.alertAria {
+  position: absolute;
+  width: 100%;
+  z-index: 9999999;
+}
+
 .fsz12 { font-size: 12px }
 .fsz16 { font-size: 16px }
 .fsz20 { font-size: 20px }
@@ -3112,7 +3145,7 @@ div.ssm > div:hover {
 .mt0 { margin-top: 0 }
 
 .mr-rg-20 { margin-right: 20px }
-.mr-rg-5 { margin-right: 5px }
+.mr5 {margin-right: 5px}
 
 .mr-lf-0 { margin-left: 0 }
 .ml2 { margin-left: 2px }

@@ -3,6 +3,8 @@ import {data_menu_rows} from '../../data/dataSidebarRows'
 
 const initialState = {
 
+    alerts: [],
+
     menuRows: data_menu_rows,
     current_menu_row: '',
     settingMenu: data_setting_menu,
@@ -59,6 +61,23 @@ export const dataReducer = (state = initialState, action) => {
             })
             return {...Object.assign(state, action.data)}
         }
+
+        case 'SHOW_ALERT': {
+            let alerts = state.alerts
+            if (alerts.length >= 3) alerts.shift()
+            return {
+                ...state,
+                alerts: alerts.concat([action.alert])
+            }
+        }
+        case 'CLOSE_ALERT': {
+            return {
+                ...state,
+                alerts: state.alerts.filter(alert => alert.id !== action.id)
+            }
+
+        }
+
 
 
 

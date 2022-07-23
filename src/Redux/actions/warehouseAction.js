@@ -64,15 +64,7 @@ export function addWarehouse() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос складов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос складов не выполнен'))
     }
 }
 
@@ -94,15 +86,7 @@ export function createWarehouse() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/warehouse', request_config)
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на создание склада не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание склада не выполнен'))
 
         await fetch(state.data.url_server + '/get_warehouse', getRequestConfig({}))
             .then(response => response.json())
@@ -125,15 +109,7 @@ export function createWarehouse() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос складов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос складов не выполнен'))
     }
 }
 
@@ -157,15 +133,7 @@ export function saveWarehouse() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/warehouse', request_config)
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на изменение склада не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение склада не выполнен'))
 
         await fetch(state.data.url_server + '/get_warehouse', getRequestConfig({}))
             .then(response => response.json())
@@ -188,15 +156,7 @@ export function saveWarehouse() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос складов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос складов не выполнен'))
     }
 }
 
@@ -214,15 +174,7 @@ export function deleteWarehouse(flag) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/warehouse', request_config)
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на удаление/восстановление склада не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление склада не выполнен'))
 
         await fetch(state.data.url_server + '/get_warehouse', getRequestConfig({}))
             .then(response => response.json())
@@ -245,15 +197,7 @@ export function deleteWarehouse(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос складов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос складов не выполнен'))
     }
 }
 
@@ -282,15 +226,7 @@ export function addWarehouseCategories() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос категорий запчастей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий запчастей не выполнен'))
     }
 }
 
@@ -313,15 +249,7 @@ export function createWarehouseCategory() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/warehouse_category', request_config1)
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на создание категории запчастей не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание категории запчастей не выполнен'))
 
         await fetch(state.data.url_server + '/get_warehouse_category', request_config2)
             .then(response => response.json())
@@ -344,7 +272,7 @@ export function createWarehouseCategory() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий запчастей не выполнен'))
     }
 }
 
@@ -368,7 +296,7 @@ export function saveWarehouseCategory() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/warehouse_category', request_config1)
-            .catch(() => bad_request('Запрос на изменение категории запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение категории запчастей не выполнен'))
 
         await fetch(state.data.url_server + '/get_warehouse_category', request_config2)
             .then(response => response.json())
@@ -391,7 +319,7 @@ export function saveWarehouseCategory() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий запчастей не выполнен'))
     }
 }
 
@@ -413,7 +341,7 @@ export function deleteWarehouseCategory( flag ) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/warehouse_category', request_config1)
-            .catch(() => bad_request('Запрос на изменение категории запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение категории запчастей не выполнен'))
 
         await fetch(state.data.url_server + '/get_warehouse_category', request_config2)
             .then(response => response.json())
@@ -436,6 +364,6 @@ export function deleteWarehouseCategory( flag ) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос категорий запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий запчастей не выполнен'))
     }
 }

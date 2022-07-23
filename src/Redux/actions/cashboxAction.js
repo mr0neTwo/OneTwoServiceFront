@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {showAlert} from '../actions'
 
 
 export function changeCashboxState( data ) {
@@ -62,7 +63,7 @@ export function addCashboxes() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос касс не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос касс не выполнен'))
 
     }
 }
@@ -101,11 +102,12 @@ export function createCashbox() {
                     dispatch({
                         type: 'RESET_CASHBOX'
                     })
+                    showAlert(dispatch, 'alert-success', 'Касса успешно создана')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на создание кассы не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание кассы не выполнен'))
     }
 }
 
@@ -147,11 +149,12 @@ export function saveEditCashbox() {
                     dispatch({
                         type: 'RESET_CASHBOX'
                     })
+                    showAlert(dispatch, 'alert-success', 'Касса успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на изменение кассы не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение кассы не выполнен'))
     }
 }
 
@@ -183,10 +186,12 @@ export function deleteCashbox(flag) {
                     dispatch({
                         type: 'RESET_CASHBOX'
                     })
+                    const text = flag ? 'Касса успешно удалена' : 'Касса успешно восстановлена'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на удаление/восстановление кассы не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление кассы не выполнен'))
     }
 }

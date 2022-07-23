@@ -56,16 +56,7 @@ export function addNotTemplate() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос шаблонов не выполнен')
-            })
-
+            .catch(error => bad_request(dispatch, error, 'Запрос шаблонов не выполнен'))
     }
 }
 
@@ -86,15 +77,7 @@ export function createNotTemplate() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/notification_template', request_config1)
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на создание шаблона не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание шаблона не выполнен'))
 
         await fetch(state.data.url_server + '/get_notification_template', request_config2)
             .then(response =>  response.json())
@@ -117,16 +100,7 @@ export function createNotTemplate() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос шаблонов не выполнен')
-            })
-
+            .catch(error => bad_request(dispatch, error, 'Запрос шаблонов не выполнен'))
     }
 }
 
@@ -151,15 +125,7 @@ export function saveNotTemplate() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/notification_template', request_config1)
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на изменение шаблона не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение шаблона не выполнен'))
 
         await fetch(state.data.url_server + '/get_notification_template', request_config2)
             .then(response =>  response.json())
@@ -182,16 +148,7 @@ export function saveNotTemplate() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос шаблонов не выполнен')
-            })
-
+            .catch(error => bad_request(dispatch, error, 'Запрос шаблонов не выполнен'))
     }
 }
 
@@ -212,15 +169,7 @@ export function deleteNotTemplate(flag) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/notification_template', request_config1)
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на удаление/восстановление шаблона не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление шаблона не выполнен'))
 
         await fetch(state.data.url_server + '/get_notification_template', request_config2)
             .then(response =>  response.json())
@@ -243,15 +192,6 @@ export function deleteNotTemplate(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос шиблонов не выполнен')
-            })
-
+            .catch(error => bad_request(dispatch, error, 'Запрос шиблонов не выполнен'))
     }
 }

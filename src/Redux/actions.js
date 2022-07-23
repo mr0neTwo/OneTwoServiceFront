@@ -1,15 +1,5 @@
 import store from "./store"
-import {getRequestConfig} from './actions/actionUtils'
-
-function bad_request(message = '') {
-    sessionStorage.clear()
-    console.warn(message)
-    return {type: 'LOGUOT'}
-}
-
-
-
-
+import {bad_request, getRequestConfig} from './actions/actionUtils'
 
 export function addUserAction(user) {
     return {
@@ -389,6 +379,24 @@ export function editDictService(service) {
     }
 }
 
+export function showAlert(dispatch, type, text) {
+    const alert = {
+        id: parseInt(Date.now() / 1000),
+        type,
+        text
+    }
+    dispatch({
+        type: 'SHOW_ALERT',
+        alert
+    })
+    setTimeout(() => {
+        dispatch({
+            type: 'CLOSE_ALERT',
+            id: alert.id
+        })
+    }, 3000)
+}
+
 export function log_in(login, password) {
 
     const state = store.getState()
@@ -420,15 +428,7 @@ export function log_in(login, password) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос авторизации не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error,'Запрос авторизации не выполнен'))
     }
 }
 
@@ -532,15 +532,7 @@ export function createNewClient() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на создание клиента не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание клиента не выполнен'))
     }
 }
 
@@ -608,15 +600,7 @@ export function saveChangeClient() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на изменение данных клиента не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error,'Запрос на изменение данных клиента не выполнен'))
     }
 }
 
@@ -638,15 +622,7 @@ export function editClient(id) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос данных клиента не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error,'Запрос данных клиента не выполнен'))
     }
 }
 
@@ -684,15 +660,7 @@ export function deleteClient(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на изменение клиента не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error,'Запрос на изменение клиента не выполнен'))
     }
 }
 
@@ -718,15 +686,7 @@ export function addAdCampaign() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос рекламных компаний не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error,'Запрос рекламных компаний не выполнен'))
     }
 }
 
@@ -750,15 +710,7 @@ export function addStatus() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос статусов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос статусов не выполнен'))
     }
 }
 
@@ -784,15 +736,7 @@ export function refreshDataOrder(order_id) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на обновление заказа не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на обновление заказа не выполнен'))
     }
 }
 
@@ -814,15 +758,7 @@ export function addStatusGroupAction() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос групп статусов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос групп статусов не выполнен'))
     }
 }
 
@@ -844,15 +780,7 @@ export function addEquipment() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос типов изделий не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос типов изделий не выполнен'))
     }
 }
 
@@ -885,15 +813,7 @@ export function addDiscountMargin() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос наценок не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
     }
 }
 
@@ -916,7 +836,7 @@ export function createRole() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/roles', request_config)
-            .catch(() => bad_request('Запрос на создание роли не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание роли не выполнен'))
 
         await fetch(state.data.url_server + '/get_roles', getRequestConfig())
             .then(response => response.json())
@@ -935,7 +855,7 @@ export function createRole() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос ролей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос ролей не выполнен'))
     }
 }
 
@@ -957,7 +877,7 @@ export function addRoles() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос ролей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос ролей не выполнен'))
     }
 }
 
@@ -982,7 +902,7 @@ export function seveEditRole() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/roles', request_config)
-            .catch(() => bad_request('Запрос на изменение роли не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение роли не выполнен'))
 
         await fetch(state.data.url_server + '/get_roles', getRequestConfig())
             .then(response => response.json())
@@ -1001,7 +921,7 @@ export function seveEditRole() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос ролей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос ролей не выполнен'))
     }
 }
 
@@ -1016,7 +936,8 @@ export function deleteRole() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/roles', request_config)
-            .catch(() => bad_request('Запрос на удаление роли не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление роли не выполнен'))
+
 
         await fetch(state.data.url_server + '/get_roles', getRequestConfig())
             .then(response => response.json())
@@ -1035,7 +956,7 @@ export function deleteRole() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос ролей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос ролей не выполнен'))
     }
 }
 
@@ -1081,7 +1002,7 @@ export function addMainData() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос основных данных не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос основных данных не выполнен'))
     }
 }
 
@@ -1116,7 +1037,7 @@ export function saveGenerallyInfo() {
 
 
         await fetch(state.data.url_server + '/generally_info', request_config)
-            .catch(() => bad_request('Запрос изменение основных данных компании не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос изменение основных данных компании не выполнен'))
 
         await fetch(state.data.url_server + '/get_generally_info', getRequestConfig())
             .then(response => response.json())
@@ -1130,7 +1051,7 @@ export function saveGenerallyInfo() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос основных данных компании не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос основных данных компании не выполнен'))
     }
 }
 
@@ -1154,7 +1075,7 @@ export function addCounters() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос счетчиков не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос счетчиков не выполнен'))
     }
 }
 
@@ -1189,7 +1110,7 @@ export function addDictMalfunction() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос словарая неисправностей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос словарая неисправностей не выполнен'))
     }
 }
 
@@ -1208,7 +1129,7 @@ export function createBookElement() {
     return async dispatch => {
 
         await fetch(state.data.url_server + `/${url_list[state.book.type]}`, request_config)
-            .catch(() => bad_request('Запрос на создание записи в словарь не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание записи в словарь не выполнен'))
 
         await fetch(state.data.url_server + `/get_${url_list[state.book.type]}`, getRequestConfig())
             .then(response => response.json())
@@ -1228,7 +1149,7 @@ export function createBookElement() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос данных словаря не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос данных словаря не выполнен'))
     }
 }
 
@@ -1247,7 +1168,7 @@ export function deleteBookElements() {
     return async dispatch => {
 
         await fetch(state.data.url_server + `/${url_list[state.book.type]}`, request_config)
-            .catch(() => bad_request('Запрос на удаление записи соваря не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление записи соваря не выполнен'))
 
         await fetch(state.data.url_server + `/get_${url_list[state.book.type]}`, getRequestConfig())
             .then(response => response.json())
@@ -1267,7 +1188,7 @@ export function deleteBookElements() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос данных словаря не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос данных словаря не выполнен'))
     }
 }
 
@@ -1299,7 +1220,7 @@ export function addDictPackagelist() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос списка комплектаций не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос списка комплектаций не выполнен'))
     }
 }
 
@@ -1331,16 +1252,9 @@ export function addItemPayments() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос статей плтатежей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос статей плтатежей не выполнен'))
     }
 }
-
-
-
-
-
-
-
 
 
 export function createPrice() {
@@ -1357,7 +1271,7 @@ export function createPrice() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(() => bad_request('Запрос на создание наценки не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание наценки не выполнен'))
 
         await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
             .then(response => response.json())
@@ -1380,7 +1294,7 @@ export function createPrice() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос наценок не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
     }
 }
 
@@ -1400,7 +1314,7 @@ export function savePrice() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(() => bad_request('Запрос на изменение ыены не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение цены не выполнен'))
 
         await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
             .then(response => response.json())
@@ -1423,7 +1337,7 @@ export function savePrice() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос наценок не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
     }
 }
 
@@ -1440,7 +1354,7 @@ export function deletePrice(flag) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(() => bad_request('Запрос на удаление ыены не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление ыены не выполнен'))
 
         await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
             .then(response => response.json())
@@ -1463,7 +1377,7 @@ export function deletePrice(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос наценок не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
     }
 }
 
@@ -1486,7 +1400,7 @@ export function addGroupeService() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос категорий не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий не выполнен'))
     }
 }
 
@@ -1502,7 +1416,7 @@ export function createGroupDictService() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/group_dict_service', request_config)
-            .catch(() => bad_request('Запрос на создание категории не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание категории не выполнен'))
 
         await fetch(state.data.url_server + '/get_group_dict_service', getRequestConfig({}))
             .then(response => response.json())
@@ -1525,7 +1439,7 @@ export function createGroupDictService() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос категорий не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий не выполнен'))
     }
 }
 
@@ -1542,7 +1456,7 @@ export function saveGroupDictService() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/group_dict_service', request_config)
-            .catch(() => bad_request('Запрос на создание категории не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание категории не выполнен'))
 
         await fetch(state.data.url_server + '/get_group_dict_service', getRequestConfig({}))
             .then(response => response.json())
@@ -1565,7 +1479,7 @@ export function saveGroupDictService() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос категорий не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий не выполнен'))
     }
 }
 
@@ -1582,7 +1496,7 @@ export function deleteGroupDictService(flag) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/group_dict_service', request_config)
-            .catch(() => bad_request('Запрос на создание категории не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание категории не выполнен'))
 
         await fetch(state.data.url_server + '/get_group_dict_service', getRequestConfig({}))
             .then(response => response.json())
@@ -1605,7 +1519,7 @@ export function deleteGroupDictService(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос категорий не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос категорий не выполнен'))
     }
 }
 
@@ -1632,7 +1546,7 @@ export function addDictService() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос услуг не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос услуг не выполнен'))
     }
 }
 
@@ -1655,7 +1569,7 @@ export function createDictService() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/dict_service', request_config)
-            .catch(() => bad_request('Запрос на создание услуги не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание услуги не выполнен'))
 
         await fetch(state.data.url_server + '/get_dict_service', getRequestConfig({}))
             .then(response => response.json())
@@ -1678,7 +1592,7 @@ export function createDictService() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос услуг не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос услуг не выполнен'))
     }
 }
 
@@ -1703,7 +1617,7 @@ export function saveDictService() {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/dict_service', request_config)
-            .catch(() => bad_request('Запрос на изменение услуги не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение услуги не выполнен'))
 
         await fetch(state.data.url_server + '/get_dict_service', getRequestConfig({}))
             .then(response => response.json())
@@ -1726,7 +1640,7 @@ export function saveDictService() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос услуг не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос услуг не выполнен'))
     }
 }
 
@@ -1743,7 +1657,7 @@ export function deleteDictService(flag) {
     return async dispatch => {
 
         await fetch(state.data.url_server + '/dict_service', request_config)
-            .catch(() => bad_request('Запрос на удалене/восстановление услуги не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удалене/восстановление услуги не выполнен'))
 
         await fetch(state.data.url_server + '/get_dict_service', getRequestConfig({}))
             .then(response => response.json())
@@ -1766,7 +1680,7 @@ export function deleteDictService(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос услуг не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос услуг не выполнен'))
     }
 }
 
@@ -1789,7 +1703,7 @@ export function addServicePrices() {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос цен на услуги не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос цен на услуги не выполнен'))
     }
 }
 
@@ -1807,7 +1721,7 @@ export function createSaveServicePrice(id, cost, discount_margin_id, service_id)
     return async dispatch => {
 
         await fetch(state.data.url_server + '/service_prices', request_config)
-            .catch(() => bad_request('Запрос на создание услуги не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание услуги не выполнен'))
 
         await fetch(state.data.url_server + '/get_service_prices', getRequestConfig({}))
             .then(response => response.json())
@@ -1822,6 +1736,6 @@ export function createSaveServicePrice(id, cost, discount_margin_id, service_id)
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос услуг не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос услуг не выполнен'))
     }
 }

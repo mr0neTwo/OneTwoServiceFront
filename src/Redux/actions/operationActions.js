@@ -1,6 +1,7 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
 import {getOrderFilter} from './orderActions'
+import {showAlert} from '../actions'
 
 
 export function changeOperationForm(value, field) {
@@ -97,11 +98,12 @@ export function createOperation(service) {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
+                    showAlert(dispatch, 'alert-success', 'Операция успешно добалена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос создание операции не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос добавления операции не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -152,11 +154,12 @@ export function createCustomOperation() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
+                    showAlert(dispatch, 'alert-success', 'Операция успешно добалена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос создание операции не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос добавления операции не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -207,11 +210,12 @@ export function saveOperation() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
+                    showAlert(dispatch, 'alert-success', 'Операция успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на изменение операции не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение операции не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -250,11 +254,13 @@ export function deleteOperation(flag) {
                         type: 'CHANGE_ORDER_STATE',
                         data: {events: data.events || []}
                     })
+                    const text = flag ? 'Операция успешно удалена' : 'Операция успшно восстановлена'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(() => bad_request('Запрос на удаление/восстановление операции не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление операции не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',

@@ -1,5 +1,6 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
+import {showAlert} from '../actions'
 
 export function changeOrderState(data) {
     return {
@@ -100,17 +101,11 @@ export function addOrders() {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusOrderLoader: false}
                     })
+                } else {
+                    console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true, statusOrderLoader: false}
-                    })
-                }
-                bad_request('Запрос заказов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос заказов не выполнен'))
     }
 }
 
@@ -156,35 +151,31 @@ export function createOrder() {
         await fetch(state.data.url_server + '/orders', request_config)
             .then(response => response.json())
             .then(data => {
-                dispatch({
-                    type: 'EDIT_ORDER',
-                    order: data.order
-                })
-                if (state.view.checkOrderSticker) {
+                if (data.success) {
                     dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusOrderSticker: true, needToResetOrder: true}
+                        type: 'EDIT_ORDER',
+                        order: data.order
                     })
-                }
-                dispatch({
-                    type: 'CHANGE_ORDER_STATE',
-                    data: {ordersShow: data.data, count: data.count, events: data.events || []}
-                })
-                dispatch({
-                    type: 'CHANGE_FILTER_STATE',
-                    data: {badges: data.badges}
-                })
-
-            })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
+                    if (state.view.checkOrderSticker) {
+                        dispatch({
+                            type: 'CHANGE_VISIBLE_STATE',
+                            data: {statusOrderSticker: true, needToResetOrder: true}
+                        })
+                    }
                     dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.data, count: data.count, events: data.events || []}
                     })
+                    dispatch({
+                        type: 'CHANGE_FILTER_STATE',
+                        data: {badges: data.badges}
+                    })
+                    showAlert(dispatch, 'alert-success', 'Заказ успешно создан')
+                } else {
+                    console.warn(data.message)
                 }
-                bad_request('Запрос на создание заказов не выполнен')
             })
+            .catch(error => bad_request(dispatch, error,'Запрос на создание заказа не выполнен'))
 
         if (state.view.checkOrderSticker) {
              await dispatch({
@@ -244,20 +235,30 @@ export function changeStatus(status_id, order_id) {
                         type: 'CHANGE_FILTER_STATE',
                         data: {badges: data.badges}
                     })
+                    dispatch({
+                        type: 'EDIT_ORDER',
+                        order: data.order
+                    })
+                    if (state.view.checkOrderSticker) {
+                        dispatch({
+                            type: 'CHANGE_VISIBLE_STATE',
+                            data: {statusOrderSticker: true, needToResetOrder: true}
+                        })
+                    }
+                    dispatch({
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.data, count: data.count, events: data.events || []}
+                    })
+                    dispatch({
+                        type: 'CHANGE_FILTER_STATE',
+                        data: {badges: data.badges}
+                    })
+                    showAlert(dispatch, 'alert-success', 'Статус успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true, statusOrderLoader: false}
-                    })
-                }
-                bad_request('Запрос заказов не выполнен')
-            })
-
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение статуса не выполнен'))
 
         await dispatch({
             type: 'SET_VISIBLE_FLAG',
@@ -316,28 +317,25 @@ export function saveOrder() {
         await fetch(state.data.url_server + '/orders', request_config)
             .then(response => response.json())
             .then(data => {
-                dispatch({
-                    type: 'EDIT_ORDER',
-                    order: data.order
-                })
-                dispatch({
-                    type: 'CHANGE_ORDER_STATE',
-                    data: {ordersShow: data.data, count: data.count, events: data.events || []}
-                })
-                dispatch({
-                    type: 'CHANGE_FILTER_STATE',
-                    data: {badges: data.badges}
-                })
-            })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
+                if (data.success) {
                     dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true, statusOrderLoader: false}
+                        type: 'EDIT_ORDER',
+                        order: data.order
                     })
+                    dispatch({
+                        type: 'CHANGE_ORDER_STATE',
+                        data: {ordersShow: data.data, count: data.count, events: data.events || []}
+                    })
+                    dispatch({
+                        type: 'CHANGE_FILTER_STATE',
+                        data: {badges: data.badges}
+                    })
+                    showAlert(dispatch, 'alert-success', 'Заказ успешно изменен')
+                } else {
+                    console.warn(data.message)
                 }
-                bad_request('Запрос на создание заказов не выполнен')
             })
+            .catch(error => bad_request(dispatch, error, 'Запрос на именение заказа не выполнен'))
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
@@ -370,15 +368,7 @@ export function getOrder(order_id) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true, statusOrderLoader: false}
-                    })
-                }
-                bad_request('Запрос заказов не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос заказа не выполнен'))
     }
 }
 
@@ -403,19 +393,12 @@ export function addEventComment() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {events: data.events || [], event_comment: ''}
                     })
+                    showAlert(dispatch, 'alert-success', 'Комментарий успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true, statusOrderLoader: false}
-                    })
-                }
-                bad_request('Запрос на создание коментариев не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание коментариев не выполнен'))
     }
 
 }

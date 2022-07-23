@@ -1,6 +1,7 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
 import {currentMonth} from '../../components/general/utils'
+import {showAlert} from '../actions'
 
 
 export function changePayrollState(data) {
@@ -61,15 +62,7 @@ export function addPayrolls() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос начислений не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос начислений не выполнен'))
     }
 }
 
@@ -96,15 +89,7 @@ export function addMonthBalance() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос баланса не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос баланса не выполнен'))
     }
 }
 
@@ -151,19 +136,12 @@ export function createPayroll() {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusPayrollEditor: false}
                     })
+                    showAlert(dispatch, 'alert-success', 'Начисление успешно создано')
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на создание начисления не выполнен')
-            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание начисления не выполнен'))
     }
 }
 
@@ -195,19 +173,12 @@ export function deletePayroll(flag) {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusPayrollEditor: false}
                     })
+                    const text = flag ? 'Начисление успешно удалено' : 'Начисление успешно восстановленно'
+                    showAlert(dispatch, 'alert-success', text)
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => {
-                if (error.message === 'Unexpected token < in JSON at position 0') {
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRefreshPage: true}
-                    })
-                }
-                bad_request('Запрос на удаление/восстановления начисления не выполнен')
-            })
-
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление начисления не выполнен'))
     }
 }
