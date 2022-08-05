@@ -361,6 +361,15 @@ export function getOrder(order_id) {
                         order: data.data
                     })
                     dispatch({
+                        type: 'CHANGE_BOOK_STATE',
+                        data: {
+                            equipment_type: data.data.kindof_good,
+                            equipment_brand: data.data.brand,
+                            equipment_subtype: data.data.subtype,
+                            equipment_model: data.data.model
+                        }
+                    })
+                    dispatch({
                         type: 'CHANGE_ORDER_STATE',
                         data: {events: data.events || []}
                     })

@@ -6,7 +6,7 @@ import {addDiscountMargin, addDictService, changeVisibleState} from '../../../Re
 import {createOrder, resetOrder, saveOrder, addOrders, getOrder} from '../../../Redux/actions/orderActions'
 import {changeOrderState} from '../../../Redux/actions/orderActions'
 
-import {resetBookEquipment} from "../../../Redux/actions/bookActions";
+import {changeBookState, resetBookEquipment} from "../../../Redux/actions/bookActions";
 import {addClients} from '../../../Redux/actions/clientAction'
 
 import BottomButtons from '../../general/BottomButtons'
@@ -42,6 +42,12 @@ const OrderEditor = (props) => {
             checkedOrderKindofGood: true,
             checkedOrderBrand: true,
             checkedOrderSubtype: true
+        })
+        props.changeBookState({
+            equipment_type: {},
+            equipment_brand: {},
+            equipment_subtype: {},
+            equipment_model: {}
         })
         props.resetOrder()
         if (edit) history.goBack()
@@ -112,7 +118,7 @@ const OrderEditor = (props) => {
             <div className="rightBlockWindow" id="createNewOrder">
                 <div className="cteateNewOrderContent">
 
-                    <div className="createOrderForm">
+                    <div className="createOrderForm mt20">
 
                         <TitleOrderEditor/>
                         {props.order.edit ?
@@ -153,10 +159,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     changeVisibleState,
+    changeOrderState,
+    changeBookState,
     addClients,
     addDiscountMargin,
     createOrder,
-    changeOrderState,
     resetOrder,
     addDictService,
     saveOrder,
