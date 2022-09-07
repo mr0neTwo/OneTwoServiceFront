@@ -44,6 +44,7 @@ export function createPayment(context) {
 
     let request_body = {
         cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
+        cashflow_category_id: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).id : null,
         description: state.payment.direction ? state.payment.description : disc + state.payment.description,
         deposit: state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
         income: parseFloat(state.payment.income.toString().replace(',', '.')) || 0,
