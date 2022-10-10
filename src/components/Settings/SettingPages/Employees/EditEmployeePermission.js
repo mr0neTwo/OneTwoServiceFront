@@ -1,16 +1,14 @@
-
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
+import TableCashboxes from './TableCashboxes'
 
-function EditEmployeePermission (props) {
-   return (
-      <div className = 'tempPage'>
-         <div className = 'tempContainer'>
-            <h1 className = 'tempTitle'>Настройки доступа</h1>
-            <p className = 'tempDescription'>Страница на стадии разработки</p>
-         </div>
-      </div>
-   )
+function EditEmployeePermission(props) {
+    return (
+        <div className='contentEditor'>
+            <h3>Кассы</h3>
+            <TableCashboxes/>
+        </div>
+    )
 }
 
-export default connect () (EditEmployeePermission)
+export default connect()(EditEmployeePermission)

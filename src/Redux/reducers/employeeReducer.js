@@ -22,6 +22,8 @@ const initialState = {
     post: '',
     deleted: false,
 
+    cashbox_permission: [],
+
     avaStartPosition: [0, 0],
     scale_img: 100
 }

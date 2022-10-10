@@ -27,8 +27,7 @@ const CashboxAccess = (props) => {
          <table className='mt15'>
             <thead>
                <tr>
-                  <th className='w15'>
-                  </th>
+                  <th className='w15'></th>
                   <th>Сотрудник</th>
                   <th>Права</th>
                </tr>
