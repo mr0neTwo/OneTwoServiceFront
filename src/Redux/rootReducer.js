@@ -22,6 +22,7 @@ import {partReducer} from './reducers/partReducer';
 import {orderPartReducer} from './reducers/orderPartReducer'
 import {notTemplateReducer} from './reducers/notTemplateReducer'
 import {notEventReducer} from './reducers/notEventReducer'
+import {registrationReducer} from './reducers/registrationReducer'
 
 
 
@@ -47,5 +48,6 @@ export const rootReducer = combineReducers({
    part: partReducer,
    orderPart: orderPartReducer,
    notTemplate: notTemplateReducer,
-   notEvent: notEventReducer
+   notEvent: notEventReducer,
+   registration: registrationReducer
 })

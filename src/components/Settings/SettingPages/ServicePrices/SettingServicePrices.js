@@ -9,11 +9,11 @@ import {
   changeDictServiceForm,
   selectedService,
   addDiscountMargin,
-  addServicePrices,
   editDictService
 } from '../../../../Redux/actions'
-import Button from '../../../general/Button'
+import {addServicePrices} from '../../../../Redux/actions/priceAction'
 
+import Button from '../../../general/Button'
 import Checkbox from '../../../general/Checkbox'
 import TableFields from '../../../general/TableFields'
 import GroupServiceEditor from './GroupServiceEditor'

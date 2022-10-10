@@ -44,6 +44,8 @@ const initialState = {
    statusNotTemplateEditor: false,
    statusNotEventEditor: false,
    needToResetOrder: false,
+   statusRegistrationEditor: false,
+   statusRegistrationPartEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -92,6 +94,10 @@ const initialState = {
    inputNotEventEventChecked: true,
    inputNotEventTemplateChecked: true,
    inputFilterTitleChecked: true,
+   inputRegistrationLabelChecked: true,
+   inputRegistrationWarehouseChecked: true,
+   inputRegistrationCountChecked: true,
+   inputRegistrationBuyCostChecked: true,
 
    errorSameMail: false,
    errorSameLogin: false,

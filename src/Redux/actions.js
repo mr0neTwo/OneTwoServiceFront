@@ -312,26 +312,7 @@ export function setPayment(payment) {
 }
 
 
-export function changePriceForm(value, field) {
-    return {
-        type: 'CHANGE_PRICE_FORM',
-        field,
-        value
-    }
-}
 
-export function editPrice(price) {
-    return {
-        type: 'EDIT_PRICE',
-        price
-    }
-}
-
-export function resetPrice() {
-    return {
-        type: 'RESET_PRICE'
-    }
-}
 
 
 export function changeDictServiceForm(value, field) {
@@ -794,28 +775,7 @@ export function addEquipment() {
 
 
 
-export function addDiscountMargin() {
 
-    const state = store.getState()
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_discount_margin', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
 
 
 export function createRole() {
@@ -982,9 +942,12 @@ export function addMainData() {
                             counters: data.counts,
                             ad_campaign: data.ad_campaign,
                             item_payments: data.item_payments,
-                            status_group: data.status_group,
-                            service_prices: data.service_prices
+                            status_group: data.status_group
                         }
+                    })
+                    dispatch({
+                        type: 'CHANGE_PRICE_STATE',
+                        data: {service_prices: data.service_prices}
                     })
                     dispatch({
                         type: 'CHANGE_BRANCH_STATE',
@@ -1257,129 +1220,6 @@ export function addItemPayments() {
 }
 
 
-export function createPrice() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        title: state.price.title,
-        margin: state.price.margin,
-        margin_type: state.price.margin_type,
-        deleted: state.price.deleted
-    })
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание наценки не выполнен'))
-
-        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPriceEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PRICE'
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
-
-export function savePrice() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        id: state.price.edit,
-        title: state.price.title,
-        margin: state.price.margin,
-        margin_type: state.price.margin_type,
-        deleted: state.price.deleted
-    })
-    request_config.method = 'PUT'
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на изменение цены не выполнен'))
-
-        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPriceEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PRICE'
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
-
-export function deletePrice(flag) {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        id: state.price.edit,
-        deleted: flag
-    })
-    request_config.method = 'PUT'
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на удаление ыены не выполнен'))
-
-        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPriceEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PRICE'
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
 
 export function addGroupeService() {
 
@@ -1684,58 +1524,154 @@ export function deleteDictService(flag) {
     }
 }
 
-export function addServicePrices() {
+
+
+export function addDiscountMargin() {
 
     const state = store.getState()
 
     return dispatch => {
 
-        fetch(state.data.url_server + '/get_service_prices', getRequestConfig())
+        fetch(state.data.url_server + '/get_discount_margin', getRequestConfig())
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'ADD_DATA',
-                        field: 'service_prices',
+                        field: 'discount_margin',
                         data: data.data,
                     })
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос цен на услуги не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
     }
 }
 
-export function createSaveServicePrice(id, cost, discount_margin_id, service_id) {
+export function createPrice() {
 
     const state = store.getState()
 
     const request_config = getRequestConfig({
-        id,
-        cost,
-        discount_margin_id,
-        service_id
+        title: state.price.title,
+        margin: state.price.margin,
+        margin_type: state.price.margin_type,
+        deleted: state.price.deleted
     })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/service_prices', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание услуги не выполнен'))
+        await fetch(state.data.url_server + '/discount_margin', request_config)
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание наценки не выполнен'))
 
-        await fetch(state.data.url_server + '/get_service_prices', getRequestConfig({}))
+        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'ADD_DATA',
-                        field: 'service_prices',
+                        field: 'discount_margin',
                         data: data.data,
+                    })
+                    dispatch({
+                        type: 'SET_VISIBLE_FLAG',
+                        field: 'statusPriceEditor',
+                        value: false
+                    })
+                    dispatch({
+                        type: 'RESET_PRICE'
                     })
                 } else {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос услуг не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
+    }
+}
+
+
+
+
+export function savePrice() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        id: state.price.edit,
+        title: state.price.title,
+        margin: state.price.margin,
+        margin_type: state.price.margin_type,
+        deleted: state.price.deleted
+    })
+    request_config.method = 'PUT'
+
+    return async dispatch => {
+
+        await fetch(state.data.url_server + '/discount_margin', request_config)
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение цены не выполнен'))
+
+        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'ADD_DATA',
+                        field: 'discount_margin',
+                        data: data.data,
+                    })
+                    dispatch({
+                        type: 'SET_VISIBLE_FLAG',
+                        field: 'statusPriceEditor',
+                        value: false
+                    })
+                    dispatch({
+                        type: 'RESET_PRICE'
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
+    }
+}
+
+export function deletePrice(flag) {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        id: state.price.edit,
+        deleted: flag
+    })
+    request_config.method = 'PUT'
+
+    return async dispatch => {
+
+        await fetch(state.data.url_server + '/discount_margin', request_config)
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление ыены не выполнен'))
+
+        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'ADD_DATA',
+                        field: 'discount_margin',
+                        data: data.data,
+                    })
+                    dispatch({
+                        type: 'SET_VISIBLE_FLAG',
+                        field: 'statusPriceEditor',
+                        value: false
+                    })
+                    dispatch({
+                        type: 'RESET_PRICE'
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
     }
 }

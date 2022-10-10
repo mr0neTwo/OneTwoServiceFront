@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
+import {changePriceState} from '../../../../Redux/actions/priceAction'
+import { addDiscountMargin, setVisibleFlag } from '../../../../Redux/actions'
+
 import TablePrice from './TablePrice'
-import { addDiscountMargin, setVisibleFlag, changePriceForm } from '../../../../Redux/actions'
 import PriceEditor from './PriceEditor'
 import Checkbox from '../../../general/Checkbox'
 import Button from '../../../general/Button'
+
 
 const SettingMargin = (props) => {
 
@@ -34,7 +37,7 @@ const SettingMargin = (props) => {
           title='+ Цена'
           onClick={() => {
             props.setVisibleFlag('statusPriceEditor', true)
-            props.changePriceForm(2, 'margin_type')
+            props.changePriceState({margin_type: 2})
           }}
           invisible={!props.permissions.includes('setting_create_price')}
         />
@@ -58,7 +61,7 @@ const SettingMargin = (props) => {
           title='+ Цена'
           onClick={() => {
             props.setVisibleFlag('statusPriceEditor', true)
-            props.changePriceForm(1, 'margin_type')
+            props.changePriceState({ margin_type: 1 })
           }}
           invisible={!props.permissions.includes('setting_create_price')}
         />
@@ -85,7 +88,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   addDiscountMargin,
   setVisibleFlag,
-  changePriceForm
+  changePriceState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingMargin)

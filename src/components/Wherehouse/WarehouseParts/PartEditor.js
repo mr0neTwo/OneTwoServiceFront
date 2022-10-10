@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 
 import {setVisibleFlag} from '../../../Redux/actions';
-import {changePartForm, resetPart, createPart, savePart, deletePart} from '../../../Redux/actions/partAction';
+import {changePartState, resetPart, createPart, savePart, deletePart} from '../../../Redux/actions/partAction';
 
 import LableInput from '../../general/LableInput'
 import BottomButtons from '../../general/BottomButtons'
@@ -68,7 +68,7 @@ const PartEditor = props => {
                                 className='mt15'
                                 title='Добавить изображение'
                                 url={props.part.image_url}
-                                onChange={file => props.changePartForm(file, 'img')}
+                                onChange={file => props.changePartState({img: file})}
                                 value={props.part.img}
                                 disabled={props.part.deleted}
                             />
@@ -76,7 +76,7 @@ const PartEditor = props => {
                                 className='mt15'
                                 title='Добавить документ'
                                 url={props.part.doc_url}
-                                onChange={file => props.changePartForm(file, 'doc')}
+                                onChange={file => props.changePartState({doc: file})}
                                 value={props.part.doc}
                                 disabled={props.part.deleted}
                             />
@@ -85,7 +85,7 @@ const PartEditor = props => {
                             <LableInput
                                 className='w250 mt15'
                                 title='Название'
-                                onChange={event => props.changePartForm(event.target.value, 'title')}
+                                onChange={event => props.changePartState({title: event.target.value})}
                                 value={props.part.title}
                                 checkedFlag='inputWPartTitleChecked'
                                 checked={props.inputWPartTitleChecked}
@@ -98,35 +98,35 @@ const PartEditor = props => {
                             <LableArea
                                 className='w250 mt15'
                                 title='Описание'
-                                onChange={event => props.changePartForm(event.target.value, 'description')}
+                                onChange={event => props.changePartState({description: event.target.value})}
                                 value={props.part.description}
                                 disabled={props.part.deleted}
                             />
                             <LableInput
                                 className='w250 mt15'
                                 title='Маркировка'
-                                onChange={event => props.changePartForm(event.target.value, 'marking')}
+                                onChange={event => props.changePartState({marking: event.target.value})}
                                 value={props.part.marking}
                                 disabled={props.part.deleted}
                             />
                             <LableInput
                                 className='w250 mt15'
                                 title='Артикул'
-                                onChange={event => props.changePartForm(event.target.value, 'article')}
+                                onChange={event => props.changePartState({article: event.target.value})}
                                 value={props.part.article}
                                 disabled={props.part.deleted}
                             />
                             <LableInput
                                 className='w250 mt15'
                                 title='Штрих код'
-                                onChange={event => props.changePartForm(event.target.value, 'barcode')}
+                                onChange={event => props.changePartState({barcode: event.target.value})}
                                 value={props.part.barcode}
                                 disabled={props.part.deleted}
                             />
                             <LableInput
                                 className='w250 mt15'
                                 title='Код'
-                                onChange={event => props.changePartForm(event.target.value, 'code')}
+                                onChange={event => props.changePartState({code: event.target.value})}
                                 value={props.part.code}
                                 disabled={props.part.deleted}
                             />
@@ -159,7 +159,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     setVisibleFlag,
-    changePartForm,
+    changePartState,
     resetPart,
     createPart,
     savePart,

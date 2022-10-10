@@ -2,7 +2,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { editPrice, setVisibleFlag } from '../../../../Redux/actions'
+import { setVisibleFlag } from '../../../../Redux/actions'
+import { editPrice } from '../../../../Redux/actions/priceAction'
 
 
 function TablePrice(props) {

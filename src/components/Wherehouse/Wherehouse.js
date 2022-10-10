@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
-import { changeWarehouseForm } from '../../Redux/actions/warehouseAction'
+import {addWarehouse, changeWarehouseForm} from '../../Redux/actions/warehouseAction'
 
 import Tabs from '../general/Tabs'
 import WarehouseParts from './WarehouseParts/WarehouseParts';
@@ -13,7 +13,12 @@ import WarehouseRemains from './WarehouseRemains/WarehouseRemains';
 import WarehouseBacks from './WarehouseBacks/WarehouseBacks';
 
 
-const Wherehouse = (props) => {
+const Warehouse = (props) => {
+
+    useEffect(() => {
+        props.addWarehouse()
+    }, [props.showDeleted])
+    
   return (
       <div className='pageContent'>
 
@@ -41,11 +46,13 @@ const Wherehouse = (props) => {
 }
 
 const mapStateToProps = state => ({
-  tabs: state.warehouse.tabs,
+    tabs: state.warehouse.tabs,
+    showDeleted: state.warehouse.showDeleted
 })
 
 const mapDispatchToProps = {
-    changeWarehouseForm
+    changeWarehouseForm,
+    addWarehouse
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wherehouse)
+export default connect(mapStateToProps, mapDispatchToProps)(Warehouse)

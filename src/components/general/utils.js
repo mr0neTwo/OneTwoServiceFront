@@ -1,11 +1,20 @@
-const optionsShowDate = {
+const optionsShowDateTime = {
    year: 'numeric',
    month: 'long',
    day: 'numeric',
    hour: 'numeric',
    minute: 'numeric',
    // second: 'numeric'
- }
+}
+
+const optionsShowDate = {
+   year: 'numeric',
+   month: 'long',
+   day: 'numeric',
+   // hour: 'numeric',
+   // minute: 'numeric',
+   // second: 'numeric'
+}
 
 const optionsShowRangeDate = {
    year: 'numeric',
@@ -35,8 +44,9 @@ export function showName (employee) {
    return `${employee.last_name} ${employee.first_name}`
 }
 
-export function showDate (date) {
-   return new Date(date * 1000).toLocaleString('ru', optionsShowDate).replace('г.,', '')
+export function showDate (date, showTime=true) {
+   const options = showTime ? optionsShowDateTime : optionsShowDate
+   return new Date(date * 1000).toLocaleString('ru', options).replace('г.,', '')
 }
 
 export function showRangeDate (range_date) {

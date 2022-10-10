@@ -8,7 +8,6 @@ import {  } from '../../Redux/actions'
 import Generally from './SettingPages/Generally/Generally'
 import SettingEmployees from './SettingPages/Employees/SettingEmployees'
 import SettingBranches from './SettingPages/Branches/SettingBranches'
-import SettingWherehouse from './SettingPages/Wherehouse/SettingWherehouse'
 import SettingStatus from './SettingPages/SettingStatus'
 import SettingTags from './SettingPages/SettingTags'
 import SettingAlerts from './SettingPages/Notification/SettingNotification'
@@ -17,6 +16,7 @@ import SettingBooks from './SettingPages/Books/SettingBooks'
 import SettingTemplates from './SettingPages/SettingTemplates'
 import SettingMargin from './SettingPages/Margin/SettingMargin'
 import SettingMarkening from './SettingPages/SettingMarkening'
+import SettingWarehouse from './SettingPages/Wherehouse/SettingWarehouse'
 
 
 const Settings = (props) => {
@@ -29,7 +29,7 @@ const Settings = (props) => {
               <Route path = '/settings/generally' component = {Generally}/>
               <Route path = '/settings/employees' component={SettingEmployees}/>
               <Route path = '/settings/branches' component = {SettingBranches}/>
-              <Route path = '/settings/wherehouse' component = {SettingWherehouse}/>
+              <Route path = '/settings/wherehouse' component = {SettingWarehouse}/>
               <Route path = '/settings/status' component = {SettingStatus}/>
               <Route path = '/settings/tags' component = {SettingTags}/>
               <Route path = '/settings/alerts' component = {SettingAlerts}/>

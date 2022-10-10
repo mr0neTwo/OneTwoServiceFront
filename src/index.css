@@ -3126,6 +3126,10 @@ div.ssm > div:hover {
   z-index: 9999999;
 }
 
+.rBorder {
+  border-right: 1px solid #c9cbcc;
+}
+
 .fsz12 { font-size: 12px }
 .fsz16 { font-size: 16px }
 .fsz20 { font-size: 20px }
@@ -3139,6 +3143,7 @@ div.ssm > div:hover {
 .br200 { border-radius: 200px}
 
 .m0 {margin: 0}
+.m5 {margin: 5px}
 .mt15 { margin-top: 15px }
 .mt20 { margin-top: 20px }
 .mt35 { margin-top: 35px }
@@ -3173,6 +3178,7 @@ div.ssm > div:hover {
 .h20 { height: 20px }
 .h24 { height: 24px }
 .h27 { height: 27px }
+.h29 { height: 29px }
 .h31 { height: 31px }
 .h52 { height: 52px }
 .h90 { height: 90px }
@@ -3209,8 +3215,9 @@ div.ssm > div:hover {
 .wmn300 { min-width: 300px }
 .wm50 { max-width: 50px }
 .mwp { max-width: 30% }
-.wmx700 {max-width: 700px }
-.wmx750 {max-width: 750px }
+юwmx500 { max-width: 500px }
+.wmx700 { max-width: 700px }
+.wmx750 { max-width: 750px }
 .mwmc { max-width: max-content }
 
 .wsp {
@@ -3224,6 +3231,7 @@ div.ssm > div:hover {
 .pd-lf-5 { padding: 5px }
 .pd-tb-5 { padding: 5px 0 }
 .pd-lr-5 { padding: 0px 5px }
+.pr15 {padding-right: 15px}
 
 .pd11-20 {padding: 11px 20px}
 

@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import Button from '../../../general/Button'
-import TableWherehouse from './TableWherehouse'
 import {addWarehouse} from "../../../../Redux/actions/warehouseAction"
 import {setVisibleFlag} from "../../../../Redux/actions"
 import WarehouseEditor from "./WarehouseEditor"
 import Checkbox from "../../../general/Checkbox";
+import TableWarehouse from './TableWarehouse'
 
-const SettingWherehouse = (props) => {
+const SettingWarehouse = (props) => {
 
     const [showDeleted, setShowDeleted] = useState(false)
 
@@ -43,7 +43,7 @@ const SettingWherehouse = (props) => {
                 </div>
                 {props.statusWarehouseEditor ? <WarehouseEditor/> : null}
 
-                <TableWherehouse showDeleted={showDeleted}/>
+                <TableWarehouse showDeleted={showDeleted}/>
             </div>
         </div>
     )
@@ -59,4 +59,4 @@ const mapDispatchToProps = {
     setVisibleFlag
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingWherehouse)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingWarehouse)

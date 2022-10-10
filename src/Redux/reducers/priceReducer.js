@@ -1,5 +1,7 @@
 const initialState = {
 
+   service_prices: [],
+
    edit: 0,
 
    margin: 0,
@@ -20,14 +22,9 @@ const initialState = {
  
 export const priceReducer = (state = initialState, action) => {
    switch (action.type){
- 
 
- 
-      case 'CHANGE_PRICE_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value
-         }
+      case 'CHANGE_PRICE_STATE': {
+         return {...Object.assign(state, action.data)}
       }
  
 

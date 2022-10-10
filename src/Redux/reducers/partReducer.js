@@ -23,6 +23,8 @@ const initialState = {
 
     page: 0,
     showDeleted: false,
+    filter_name: '',
+    filter_warehouse_category_id: null,
 
     choosed_headers: JSON.parse(localStorage.getItem('choosed_headers')) || part_table_headers.map(header => header.id)
 }
@@ -30,11 +32,8 @@ const initialState = {
 export const partReducer = (state = initialState, action) => {
     switch (action.type){
 
-        case 'CHANGE_PART_FORM': {
-            return {
-                ...state,
-                [action.field]: action.value
-            }
+        case 'CHANGE_PART_STATE': {
+            return {...Object.assign(state, action.data)}
         }
 
         case 'EDIT_PART': {

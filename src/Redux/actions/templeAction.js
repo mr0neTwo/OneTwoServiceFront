@@ -1,15 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
 
-
-export function changeTempleForm( value, field ) {
-    return {
-        type: 'CHANGE_TEMPLE_FORM',
-        field,
-        value
-    }
-}
-
 export function changeTempleState( data ) {
     return {
         type: 'CHANGE_FILTER_STATE',
@@ -40,6 +31,15 @@ export function selectedTemple( value, field, saveToApp=false ) {
     }
 }
 
+function getFilter() {
+    const state = store.getState()
+    return {
+        ability1: state.temple.ability1,
+        ability2: state.temple.ability2,
+        page: 0
+    }
+}
+
 export function addTemple() {
 
     const state = store.getState()
@@ -56,9 +56,8 @@ export function addTemple() {
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_TEMPLE_FORM',
-                        field: 'temple',
-                        value: data.data
+                        type: 'CHANGE_TEMPLE_STATE',
+                        data: {},
                     })
                 } else {
                     console.warn(data.message)
@@ -73,34 +72,25 @@ export function createTemple() {
 
     const state = store.getState()
 
-    const request_config1 = getRequestConfig({
+    const request_config = getRequestConfig({
         ability1: 0,
-        ability2: 0
-    })
-
-    const request_config2 = getRequestConfig({
-        ability1: 0,
-        ability2: 0
+        ability2: 0,
+        filter: getFilter()
     })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/temple', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание temple не выполнен'))
-
-        await fetch(state.data.url_server + '/get_temple', request_config2)
+        await fetch(state.data.url_server + '/temple', request_config)
             .then(response =>  response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_TEMPLE_FORM',
-                        field: 'temple',
-                        value: data.data
+                        type: 'CHANGE_TEMPLE_STATE',
+                        data: {},
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusTempleEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusTempleEditor: false},
                     })
                     dispatch({
                         type: 'RESET_TEMPLE'
@@ -109,7 +99,7 @@ export function createTemple() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание temple не выполнен'))
 
     }
 }
@@ -120,35 +110,27 @@ export function saveTemple() {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
+    const request_config = getRequestConfig({
         ability1: 0,
-        ability2: 0
+        ability2: 0,
+        filter: getFilter()
     })
-    request_config1.method = 'PUT'
+    request_config.method = 'PUT'
 
-    const request_config2 = getRequestConfig({
-        ability1: 0,
-        ability2: 0
-    })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/temple', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на изменение temple не выполнен'))
-
-        await fetch(state.data.url_server + '/get_temple', request_config2)
+        await fetch(state.data.url_server + '/temple', request_config)
             .then(response =>  response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_TEMPLE_FORM',
-                        field: 'temple',
-                        value: data.data
+                        type: 'CHANGE_TEMPLE_STATE',
+                        data: {},
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusTempleEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusTempleEditor: false},
                     })
                     dispatch({
                         type: 'RESET_TEMPLE'
@@ -157,44 +139,36 @@ export function saveTemple() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение temple не выполнен'))
 
     }
 }
 
-export function deleteOperation(flag) {
+export function deleteTemple(flag) {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
+    let request_config = getRequestConfig({
         id: state.temple.edit,
-        deleted: flag
+        deleted: flag,
+        filter: getFilter()
     })
-    request_config1.method = 'PUT'
+    request_config.method = 'PUT'
 
-    const request_config2 = getRequestConfig({
-        ability1: 0,
-        ability2: 0
-    })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/temple', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление temple не выполнен'))
-
-        await fetch(state.data.url_server + '/get_temple', request_config2)
+        await fetch(state.data.url_server + '/temple', request_config)
             .then(response =>  response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_TEMPLE_FORM',
-                        field: 'temple',
-                        value: data.data
+                        type: 'CHANGE_TEMPLE_STATE',
+                        data: {},
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusTempleEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusTempleEditor: false},
                     })
                     dispatch({
                         type: 'RESET_TEMPLE'
@@ -203,7 +177,7 @@ export function deleteOperation(flag) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос temple не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление temple не выполнен'))
 
     }
 }

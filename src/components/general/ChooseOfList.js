@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
+import Icon from './Icon'
 import { setVisibleFlag } from '../../Redux/actions'
 import PropTypes from "prop-types";
+import {icon_down, icon_left} from '../../data/icons'
+
 
 /**
  * id='idElement'
@@ -86,7 +89,10 @@ const ChooseOfList = (props) => {
                (current ? `${current.last_name} ${current.first_name}` : 'не назначен') :
                (current ? (current.title || current.name) : noChoosed)}
             </div>
-            <span>&#6662;</span>
+            <Icon
+                className='icon-s4'
+                icon={listVisible ? icon_left : icon_down}
+            />
          </div>
          {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо выбрать'}</div> : null}
          {listVisible ?

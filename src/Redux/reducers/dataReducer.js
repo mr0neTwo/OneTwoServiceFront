@@ -22,7 +22,6 @@ const initialState = {
     payrules: [],
     group_dict_service: [],
     dict_service: [],
-    service_prices: [],
 
     counters: [],
     dictMalfunction: [],

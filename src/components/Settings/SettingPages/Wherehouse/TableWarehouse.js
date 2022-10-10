@@ -5,7 +5,7 @@ import Icon from "../../../general/Icon";
 import {editWarehouse} from "../../../../Redux/actions/warehouseAction"
 import { setVisibleFlag } from "../../../../Redux/actions";
 
-const TableWherehouse = (props) => {
+const TableWarehouse = (props) => {
 
     const handleEdit = (warehouse) => {
         if (props.permissions.includes('setting_edit_warehouse')) {
@@ -52,4 +52,4 @@ const mapDispatchToProps = {
     setVisibleFlag
 }
   
- export default connect(mapStateToProps, mapDispatchToProps)(TableWherehouse)
+ export default connect(mapStateToProps, mapDispatchToProps)(TableWarehouse)

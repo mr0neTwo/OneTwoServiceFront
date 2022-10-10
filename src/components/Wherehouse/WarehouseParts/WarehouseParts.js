@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import { addWarehouseCategories, changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
-import {addParts, changePartForm, choosePartSelected} from '../../../Redux/actions/partAction'
+import {addParts, changePartState, choosePartSelected} from '../../../Redux/actions/partAction'
 import {setVisibleFlag} from '../../../Redux/actions';
 
 import Button from '../../general/Button';
@@ -70,7 +70,7 @@ const WarehouseParts = props => {
                             <Checkbox
                                 className='ml10'
                                 label='Показать удаленные'
-                                onChange={event => props.changePartForm(event.target.checked, 'showDeleted')}
+                                onChange={event => props.changePartState({showDeleted: event.target.checked})}
                                 checked={props.part.showDeleted}
                                 invisible={!props.permissions.includes('see_delete_parts')}
                             />
@@ -109,7 +109,7 @@ const mapDispatchToProps = {
     changeWarehouseForm,
     addParts,
     choosePartSelected,
-    changePartForm
+    changePartState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WarehouseParts)

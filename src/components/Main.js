@@ -13,7 +13,6 @@ import TaskManager from './TaskManager/TaskManager';
 import Leads from './Leads/Leads';
 import Shops from './Shops/Shops';
 import Payments from './Payments/Payments';
-import Wherehouse from './Wherehouse/Wherehouse';
 import Clients from './Clients/Clients';
 import Analytics from './Analytics/Analytics';
 import Reports from './Reports/Reports';
@@ -22,6 +21,7 @@ import Settings from './Settings/Settings';
 import OrderEditor from './orders/newOrder/OrderEditor'
 import UserSetting from './sidebar/userSettings/UserSetting'
 import Alerts from './Alerts/Alerts'
+import Warehouse from './Wherehouse/Wherehouse'
 
 
 function Main(props) {
@@ -49,7 +49,7 @@ function Main(props) {
                     <Route path='/orders' component={Orders}/>
                     <Route path='/shops' component={Shops}/>
                     <Route path='/payments' component={Payments}/>
-                    <Route path='/wherehouse' component={Wherehouse}/>
+                    <Route path='/wherehouse' component={Warehouse}/>
                     <Route path='/clients' component={Clients}/>
                     <Route path='/analytics' component={Analytics}/>
                     <Route path='/reports' component={Reports}/>

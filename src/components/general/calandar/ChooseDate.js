@@ -24,6 +24,8 @@ import CalendarOption from './CalendarOption'
  *
  * allDate={false}
  *
+ * time={false} // отображать время
+ *
  * func={date => console.log(date)}
  *
  * current_date={props.current_date}
@@ -209,7 +211,7 @@ const ChooseDate = (props) => {
 
     const title = props.range ?
         (props.current_date && props.current_date.some(date => date) ? showRangeDate(props.current_date) : 'Любая')
-        : showDate(props.current_date / 1000)
+        : showDate(props.current_date / 1000, props.time)
 
     const handleChangeDate = () => {
         if (props.range) {
@@ -282,12 +284,13 @@ const ChooseDate = (props) => {
                             </div>
                         ))}
                     </div>
-
-                    <CalendarTime
-                        func={data => props.func(data)}
-                        current_date={props.current_date}
-                        invisible={props.range}
-                    />
+                    {props.time ?
+                        <CalendarTime
+                            func={data => props.func(data)}
+                            current_date={props.current_date}
+                            invisible={props.range}
+                        /> : null
+                    }
                 </div> : null}
 
         </div>

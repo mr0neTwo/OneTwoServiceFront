@@ -7,13 +7,6 @@ const initialState = {
  
 export const templeReducer = (state = initialState, action) => {
    switch (action.type){
- 
-      case 'CHANGE_TEMPLE_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value
-         }
-      }
 
       case 'CHANGE_TEMPLE_STATE': {
          return Object.assign(state, action.data)

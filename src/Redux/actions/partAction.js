@@ -1,11 +1,10 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
 
-export function changePartForm(value, field) {
+export function changePartState( data ) {
     return {
-        type: 'CHANGE_PART_FORM',
-        field,
-        value,
+        type: 'CHANGE_PART_STATE',
+        data
     }
 }
 
@@ -53,6 +52,16 @@ export function deletePartProperty(idx) {
     }
 }
 
+function getFilter() {
+    const state = store.getState()
+    return {
+        title: state.part.filter_name,
+        deleted: state.part.showDeleted,
+        warehouse_category_id: state.part.filter_warehouse_category_id,
+        page: state.part.page
+    }
+}
+
 export function addParts() {
 
     const state = store.getState()
@@ -60,6 +69,7 @@ export function addParts() {
     const request_config = getRequestConfig({
         page: state.part.page,
         deleted: state.part.showDeleted,
+        title: state.part.filter_name,
         warehouse_category_id: state.warehouse.current_category.id
     })
 
@@ -70,17 +80,8 @@ export function addParts() {
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_PART_FORM',
-                        field: 'parts',
-                        value: data.data
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPartEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PART'
+                        type: 'CHANGE_PART_STATE',
+                        data: {parts: data.parts, count_parts: data.count}
                     })
                 } else {
                     console.warn(data.message)
@@ -94,7 +95,7 @@ export function createPart() {
 
     const state = store.getState()
 
-    const request_config1 = getRequestConfig({
+    const request_config = getRequestConfig({
         title: state.part.title,
         description: state.part.description,
         marking: state.part.marking,
@@ -105,33 +106,24 @@ export function createPart() {
         deleted: false,
         warehouse_category_id: state.warehouse.current_parent_category.id,
         img: state.part.img,
-        doc: state.part.doc
+        doc: state.part.doc,
+        filter: getFilter()
     })
 
-    const request_config2 = getRequestConfig({
-        page: state.part.page,
-        deleted: state.part.showDeleted,
-        warehouse_category_id: state.warehouse.current_category.id
-    })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/parts', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание товара не выполнен'))
-
-        await fetch(state.data.url_server + '/get_parts', request_config2)
+        await fetch(state.data.url_server + '/parts', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_PART_FORM',
-                        field: 'parts',
-                        value: data.data
+                        type: 'CHANGE_PART_STATE',
+                        data: {parts: data.parts, count_parts: data.count}
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPartEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPartEditor: false}
                     })
                     dispatch({
                         type: 'RESET_PART'
@@ -140,7 +132,7 @@ export function createPart() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание товара не выполнен'))
     }
 }
 
@@ -148,7 +140,7 @@ export function savePart() {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
+    let request_config = getRequestConfig({
         id: state.part.edit,
         title: state.part.title,
         description: state.part.description,
@@ -159,34 +151,24 @@ export function savePart() {
         specifications: state.part.specifications,
         warehouse_category_id: state.warehouse.current_parent_category.id,
         img: state.part.img,
-        doc: state.part.doc
+        doc: state.part.doc,
+        filter: getFilter()
     })
-    request_config1.method = 'PUT'
-
-    const request_config2 = getRequestConfig({
-        page: state.part.page,
-        deleted: state.part.showDeleted,
-        warehouse_category_id: state.warehouse.current_category.id
-    })
+    request_config.method = 'PUT'
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/parts', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на иземенение товара не выполнен'))
-
-        await fetch(state.data.url_server + '/get_parts', request_config2)
+        await fetch(state.data.url_server + '/parts', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_PART_FORM',
-                        field: 'parts',
-                        value: data.data
+                        type: 'CHANGE_PART_STATE',
+                        data: {parts: data.parts, count_parts: data.count}
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPartEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPartEditor: false}
                     })
                     dispatch({
                         type: 'RESET_PART'
@@ -195,7 +177,7 @@ export function savePart() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на иземенение товара не выполнен'))
     }
 }
 
@@ -203,36 +185,26 @@ export function deletePart( flag ) {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
+    let request_config = getRequestConfig({
         id: state.part.edit,
-        deleted: flag
+        deleted: flag,
+        filter: getFilter()
     })
-    request_config1.method = 'PUT'
-
-    const request_config2 = getRequestConfig({
-        page: state.part.page,
-        deleted: state.part.showDeleted,
-        warehouse_category_id: state.warehouse.current_category.id
-    })
+    request_config.method = 'PUT'
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/parts', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление товара не выполнен'))
-
-        await fetch(state.data.url_server + '/get_parts', request_config2)
+        await fetch(state.data.url_server + '/parts', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_PART_FORM',
-                        field: 'parts',
-                        value: data.data
+                        type: 'CHANGE_PART_STATE',
+                        data: {parts: data.parts, count_parts: data.count}
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPartEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPartEditor: false}
                     })
                     dispatch({
                         type: 'RESET_PART'
@@ -241,6 +213,6 @@ export function deletePart( flag ) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление товара не выполнен'))
     }
 }
