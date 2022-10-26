@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -8,7 +7,7 @@ import { editPrice } from '../../../../Redux/actions/priceAction'
 
 function TablePrice(props) {
 
-   const list_margin = props.discount_margin.filter(margin => (!margin.deleted | props.showDeleted) && margin.margin_type === props.type)
+   const list_margin = props.discount_margin.filter(margin => margin.margin_type === props.type)
 
    return (
       <>
@@ -42,8 +41,9 @@ function TablePrice(props) {
    )}
 
 const mapStateToProps = state => ({
-   discount_margin: state.data.discount_margin,
-   permissions: state.data.user.role.permissions
+   discount_margin: state.price.discount_margin,
+   permissions: state.data.user.role.permissions,
+   showDeleted: state.price.showDeleted
 })
 
 const mapDispatchToProps = {

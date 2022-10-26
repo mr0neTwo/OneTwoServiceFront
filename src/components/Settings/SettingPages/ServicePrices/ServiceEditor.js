@@ -13,7 +13,7 @@ import {
 import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
-import ChooseBotton from '../../../general/ChooseBotton'
+import ChooseButton from '../../../general/ChooseButton'
 import WarningOrange from '../../../general/WarningOrange'
 
 const ServiceEditor = (props) => {
@@ -117,7 +117,7 @@ const ServiceEditor = (props) => {
                   unit=' '
                   disabled={props.dictService.deleted}
                />
-               <ChooseBotton
+               <ChooseButton
                   className='ml30'
                   name={['Дни', 'Мес']}
                   func1 = {() => props.changeDictServiceForm(1*24*60*60, 'warranty_value')}

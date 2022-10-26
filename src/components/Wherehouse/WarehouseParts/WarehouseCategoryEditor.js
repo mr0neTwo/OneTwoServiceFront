@@ -2,7 +2,12 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import {setVisibleFlag} from '../../../Redux/actions';
-import {changeWarehouseForm, createWarehouseCategory, resetWarehouse} from '../../../Redux/actions/warehouseAction';
+import {
+    changeWarehouseForm,
+    changeWarehouseState,
+    createWarehouseCategory,
+    resetWarehouse
+} from '../../../Redux/actions/warehouseAction';
 import {saveWarehouseCategory, deleteWarehouseCategory} from '../../../Redux/actions/warehouseAction';
 
 import LableInput from '../../general/LableInput'
@@ -68,7 +73,12 @@ const WarehouseCategoryEditor = props => {
                         redStar={ true }
                         disabled={props.warehouse.category_deleted}
                     />
-                    <ChooseCategory/>
+                    <ChooseCategory
+                        className='mt15'
+                        setCategory={category => props.changeWarehouseState({current_parent_category: category})}
+                        current_category={props.warehouse.current_parent_category}
+                        disabled={props.warehouse.category_deleted}
+                    />
                 </div>
 
 
@@ -98,7 +108,8 @@ const mapDispatchToProps = {
     createWarehouseCategory,
     resetWarehouse,
     saveWarehouseCategory,
-    deleteWarehouseCategory
+    deleteWarehouseCategory,
+    changeWarehouseState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WarehouseCategoryEditor)

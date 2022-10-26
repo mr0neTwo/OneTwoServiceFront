@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import {setVisibleFlag, createPrice, savePrice, deletePrice} from '../../../../Redux/actions'
-import {changePriceState, resetPrice} from '../../../../Redux/actions/priceAction'
+import {setVisibleFlag} from '../../../../Redux/actions'
+import {changePriceState, createDiscountMargin, deleteDiscountMargin} from '../../../../Redux/actions/priceAction'
+import {resetPrice, saveDiscountMargin} from '../../../../Redux/actions/priceAction'
 
 
 import BottomButtons from '../../../general/BottomButtons'
@@ -26,7 +27,7 @@ const PriceEditor = (props) => {
 
   const handleCreate = () => {
     if(props.price.title) {
-      props.createPrice()
+      props.createDiscountMargin()
     } else {
       props.setVisibleFlag('inputPriceTitleChecked', false)
     }
@@ -34,7 +35,7 @@ const PriceEditor = (props) => {
 
   const handleSave = () => {
     if(props.price.title) {
-      props.savePrice()
+      props.saveDiscountMargin()
     } else {
       props.setVisibleFlag('inputPriceTitleChecked', false)
     }
@@ -86,8 +87,8 @@ const PriceEditor = (props) => {
             deleted={props.price.deleted}
             create={handleCreate}
             save={handleSave}
-            delete={props.permissions.includes('setting_price_delete') ? () => props.deletePrice(true) : null}
-            recover={props.permissions.includes('setting_price_recover_deleted') ? () => props.deletePrice(false) : null}
+            delete={props.permissions.includes('setting_price_delete') ? () => props.deleteDiscountMargin(true) : null}
+            recover={props.permissions.includes('setting_price_recover_deleted') ? () => props.deleteDiscountMargin(false) : null}
             close={() => {
               props.setVisibleFlag('statusPriceEditor', false)
               props.resetPrice()
@@ -105,12 +106,12 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  setVisibleFlag,
-  changePriceState,
-  createPrice,
-  resetPrice,
-  savePrice,
-  deletePrice
+    setVisibleFlag,
+    changePriceState,
+    createDiscountMargin,
+    resetPrice,
+    saveDiscountMargin,
+    deleteDiscountMargin
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PriceEditor)

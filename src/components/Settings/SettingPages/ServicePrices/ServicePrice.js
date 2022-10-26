@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {createSaveServicePrice} from '../../../../Redux/actions/priceAction'
 
-
 const ServicePrice = (props) => {
 
     const price = props.service_prices.find(price => price.discount_margin_id === props.margin_id && price.service_id === props.service_id)
@@ -38,11 +37,7 @@ const ServicePrice = (props) => {
                     value={cost}
                     autoFocus={true}
                     onBlur={handelChange}
-                    onKeyPress={event => {
-                        if (event.key === 'Enter') {
-                            handelChange()
-                        }
-                    }}
+                    onKeyPress={event => {if (event.key === 'Enter') {handelChange()}}}
                 />
                 :
                 <div>{price ? price.cost : 0}</div>

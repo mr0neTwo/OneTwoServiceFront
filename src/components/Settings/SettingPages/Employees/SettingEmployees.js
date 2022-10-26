@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 
-import {setVisibleFlag, addDiscountMargin, addRoles} from '../../../../Redux/actions'
+import {setVisibleFlag, addRoles} from '../../../../Redux/actions'
 import {changeEmployeeState, resetEmployee} from '../../../../Redux/actions/employeeAction'
+import {addDiscountMargin} from '../../../../Redux/actions/priceAction'
 
 import Checkbox from '../../../general/Checkbox'
 import EmploeeyEditor from './EmploeeyEditor'

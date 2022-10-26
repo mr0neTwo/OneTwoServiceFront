@@ -118,7 +118,6 @@ export const orderReducer = (state = initialState, action) => {
             localStorage.setItem('tableFields', JSON.stringify(tableFields))
 
             return {...state, tableFields}
-
         }
 
         case 'REORDER_ORDER_FIELD': {

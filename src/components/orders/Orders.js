@@ -4,14 +4,13 @@ import {connect} from 'react-redux'
 
 import {addStatusGroupAction, addAdCampaign, addEquipment} from '../../Redux/actions'
 import {addBadges, changeFilterForm, changeFilterState, addCustomFilters} from '../../Redux/actions/filterAction'
+import {addOrders} from '../../Redux/actions/orderActions'
+
 
 import Header from './Header'
 import Filters from './Filters'
 import TableOrders from './TableOrdrers'
 import Loader from '../Loader/Loader'
-import OrderEditor from './newOrder/OrderEditor'
-import {addOrders} from '../../Redux/actions/orderActions'
-
 import CustomPanel from './CustomPanel'
 
 
@@ -46,15 +45,10 @@ function Orders(props) {
         props.addAdCampaign()
     }, [])
 
-
-
-
     const pageChangeHandler = page => {
         const curent_page = page.selected ? page.selected : 0
         props.changeFilterState({page: curent_page})
-        // props.changeFilterForm(curent_page, 'page')
     }
-
 
     useEffect(() => {
         props.addBadges()

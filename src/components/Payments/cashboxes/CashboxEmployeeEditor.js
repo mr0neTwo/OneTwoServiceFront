@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { setVisibleFlag } from '../../../Redux/actions'
 import {changeCashboxPermissions} from '../../../Redux/actions/cashboxAction'
 
-import ChooseBotton from '../../general/ChooseBotton'
+import ChooseButton from '../../general/ChooseButton'
 import WarningOrange from '../../general/WarningOrange'
 import Checkbox from '../../general/Checkbox'
 
@@ -36,7 +36,7 @@ const CashboxEmployeeEditor = (props) => {
           text="Сотрудник сможет выполнять только те действия, которые разрешены в настройках его роли"
           width="500px"
         />
-        <ChooseBotton
+        <ChooseButton
           className='mt15'
           title='Выберите права'
           name={['Доступные для кассы', 'Персональные']}

@@ -1,26 +1,43 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-
 import {changeVisibleState} from '../../../Redux/actions'
-import {changeRegistrationState, resetRegistrationPart} from '../../../Redux/actions/registrationAction'
+import {resetRegistrationPart, saveRegistrationPart} from '../../../Redux/actions/registrationAction'
+import {addRegistrationPart, changeRegistrationState, deleteRegistrationPart} from '../../../Redux/actions/registrationAction'
+import {addDiscountMargin, changePriceState} from '../../../Redux/actions/priceAction'
 
 import BottomButtons from '../../general/BottomButtons'
 import LableInput from '../../general/LableInput'
-import ChooseBotton from '../../general/ChooseBotton'
+import TablePartPrices from './TablePartPrices'
 
 
 const RegistrationPartEditor = (props) => {
 
+    useEffect(() => {
+        if (!props.registration.edit_part) {
+            props.changeRegistrationState({
+                part_margin: props.discount_margin.map(margin => ({
+                    cost: 0,
+                    discount_margin_id: margin.id,
+                    part_id: props.registration.part.id,
+                }))
+            })
+        }
+    }, [])
+
     const handleClose = () => {
-        props.changeVisibleState({statusRegistrationPartEditor: false})
+        props.changeVisibleState({
+            statusRegistrationPartEditor: false,
+            inputRegistrationCountChecked: true
+        })
         props.resetRegistrationPart()
     }
 
     const clickHandel = (event) => {
         if (
             !event.path.map((el) => el.id).includes('registrationPartEditor') &&
-            !event.path.map((el) => el.id).includes('listWarehousePart')
+            !event.path.map((el) => el.id).includes('listWarehousePart') &&
+            !event.path.map((el) => el.id).includes('registrationTableParts')
         ) {
             handleClose()
         }
@@ -33,18 +50,42 @@ const RegistrationPartEditor = (props) => {
         }
     })
 
+    const handleCreate = () => {
+        if (props.registration.count) {
+            props.addRegistrationPart()
+            handleClose()
+        } else {
+            props.changeVisibleState({inputRegistrationCountChecked: false})
+        }
+
+    }
+
+    const handleSave = (idx) => {
+        if (props.registration.count) {
+            props.saveRegistrationPart(idx)
+            handleClose()
+        } else {
+            props.changeVisibleState({inputRegistrationCountChecked: false})
+        }
+    }
+
+    const handleDelete = (idx) => {
+        props.deleteRegistrationPart(idx)
+        handleClose()
+    }
+
     return (
         <div className='centerBlockFix'>
-            <div className='blockWindowFix wmx500 wmn500' id='registrationPartEditor'>
+            <div className='blockWindowFix wmn500' id='registrationPartEditor'>
                 <div className='createNewTitle'>{props.registration.part.title}</div>
 
                 <div className='row'>
-                    <div className='rBorder pr15'>
+                    <div className='rBorder pr15 w250'>
                         <LableInput
                             className='mt15'
                             width='70px'
                             title='Количество'
-                            onChange={event => props.changeRegistrationState({count: event.target.value})}
+                            onChange={event => props.changeRegistrationState({count: parseInt(event.target.value.replace(/[^0-9]/g, '')) || 0})}
                             value={props.registration.count}
                             unit=' '
                             checkedFlag='inputRegistrationCountChecked'
@@ -55,36 +96,12 @@ const RegistrationPartEditor = (props) => {
                             className='mt15'
                             width='70px'
                             title='Закупочная цена'
-                            onChange={event => props.changeRegistrationState({buy_cost: event.target.value})}
+                            onChange={event => props.changeRegistrationState({buy_cost: event.target.value.replace(/[^0-9.,]/g, '')})}
                             value={props.registration.buy_cost}
                             unit='Руб.'
-                            checkedFlag='inputRegistrationBuyCostChecked'
-                            checked={props.view.inputRegistrationBuyCostChecked}
-                            redStar={true}
-                        />
-                        <LableInput
-                            className='mt15 w250'
-                            title='Ячейка'
-                            onChange={event => props.changeRegistrationState({cell: event.target.value})}
-                            value={props.registration.cell}
                         />
                     </div>
                     <div className='ml15'>
-                        <div className='row al-itm-fe'>
-                            <LableInput
-                                className='w70 mt15'
-                                title='Гарантия'
-                                onChange={event => props.changeRegistrationState({warranty_period: event.target.value.replace(/[^0-9]/g, '') * props.registration.warranty_value})}
-                                value={parseInt(props.registration.warranty_period / props.registration.warranty_value)}
-                                unit=' '
-                            />
-                            <ChooseBotton
-                                className='ml30'
-                                name={['Дни', 'Мес']}
-                                func1 = {() => props.changeRegistrationState({warranty_value: 1*24*60*60})}
-                                func2 = {() => props.changeRegistrationState({warranty_value: 30*24*60*60})}
-                            />
-                        </div>
                         <LableInput
                             className='mt15 w250'
                             title='Продавец'
@@ -99,14 +116,27 @@ const RegistrationPartEditor = (props) => {
                         />
                     </div>
                 </div>
-                <div className=''>Цены</div>
+                <div className='row'>
+                    <LableInput
+                        className='mt15 w250'
+                        title='Место хранения'
+                        onChange={event => props.changeRegistrationState({cell: event.target.value})}
+                        value={props.registration.cell}
+                        disabled={!Object.values(props.registration.warehouse).length}
+                    />
+                    {!Object.values(props.registration.warehouse).length ?
+                        <div className='errorMassageInput mt35 ml10'>{'<= Необходимо выбрать склад'}</div>
+                        : null}
+                </div>
+                <h3 className='mt15'>Цены</h3>
+                <TablePartPrices/>
 
 
                 <BottomButtons
-                    edit={false}
-                    // create={() => props.createSalaryRule()}
-                    // save={() => props.saveSalaryRule()}
-                    // delete={() => props.deleteSalaryRule(true)}
+                    edit={props.registration.edit_part}
+                    create={handleCreate}
+                    save={() => handleSave(props.registration.edit_part)}
+                    delete={() => handleDelete(props.registration.edit_part - 1)}
                     close={handleClose}
                 />
             </div>
@@ -115,6 +145,7 @@ const RegistrationPartEditor = (props) => {
 }
 
 const mapStateToProps = state => ({
+    discount_margin: state.price.discount_margin,
     registration: state.registration,
     view: state.view
 })
@@ -122,7 +153,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     changeVisibleState,
     resetRegistrationPart,
-    changeRegistrationState
+    changeRegistrationState,
+    changePriceState,
+    addDiscountMargin,
+    addRegistrationPart,
+    saveRegistrationPart,
+    deleteRegistrationPart
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationPartEditor)

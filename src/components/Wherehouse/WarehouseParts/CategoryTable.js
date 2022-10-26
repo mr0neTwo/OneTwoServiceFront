@@ -13,11 +13,10 @@ const CategoryTable = props => {
 
     const [visibleList, setVisibleList] = useState(false)
 
-    const mainCategory = props.warehouse.warehouses_categories[0] || {id: 1, title: 'Все категории', categories: []}
+    const mainCategory = props.warehouse.warehouse_categories || {id: 1, title: 'Все категории', categories: []}
 
     const handleChoose = () => {
         props.changeWarehouseForm(mainCategory, 'current_category')
-        // props.changeWarehouseForm(props.warehouse.warehouses_categories, 'choose_parents_category')
         setVisibleList(!visibleList)
     }
 
@@ -47,7 +46,7 @@ const CategoryTable = props => {
                         <Icon className='icon-s1' icon={visibleList ? icon_down : icon_right}/>
                         <div className='noWr'>{mainCategory.title}</div>
                     </td>
-                    <td className='w70 pd5 tac'>{mainCategory.categories.length}</td>
+                    <td className='w70 pd5 tac'>{mainCategory.count}</td>
                 </tr>
                 {visibleList ?
                     <div className='ml10'>

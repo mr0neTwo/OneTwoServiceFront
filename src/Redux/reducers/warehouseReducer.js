@@ -3,7 +3,7 @@ import {permission_warehouse} from "../../data/permissions";
 const initialState = {
 
     warehouses: [],
-    warehouses_categories: [],
+    warehouse_categories: [],
 
     tabs: 0,
 
@@ -35,6 +35,10 @@ const initialState = {
 
 export const warehouseReducer = (state = initialState, action) => {
     switch (action.type){
+
+        case 'CHANGE_WAREHOUSE_STATE': {
+            return {...Object.assign(state, action.data)}
+        }
 
         case 'CHANGE_WAREHOUSE_FORM': {
             return {

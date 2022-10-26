@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import {changeCashboxState, chooseCashboxSelected} from '../../../Redux/actions/cashboxAction'
 
-import ChooseBotton from '../../general/ChooseBotton'
+import ChooseButton from '../../general/ChooseButton'
 import Checkbox from '../../general/Checkbox'
 import LableInput from '../../general/LableInput'
 
@@ -21,7 +21,7 @@ const DataCashbox = (props) => {
             redStar={ true }
             disabled={props.cashbox.deleted}
           />
-          <ChooseBotton
+          <ChooseButton
             className='mt15'
             title='Тип'
             name={['Касса компании', 'Касса локации']}
@@ -37,7 +37,7 @@ const DataCashbox = (props) => {
             checked={props.cashbox.isVirtual}
             disabled={props.cashbox.deleted}
           />
-          <ChooseBotton
+          <ChooseButton
             className='mt15'
             title='Способ расчета'
             name={['Наличный', 'Безналичный']}

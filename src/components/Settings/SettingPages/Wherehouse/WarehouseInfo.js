@@ -7,7 +7,7 @@ import {changeWarehouseForm, chooseWarehouseSelected} from "../../../../Redux/ac
 
 import LableInput from "../../../general/LableInput";
 import LableArea from "../../../general/LableArea";
-import ChooseBotton from "../../../general/ChooseBotton";
+import ChooseButton from "../../../general/ChooseButton";
 import ChooseOfList from "../../../general/ChooseOfList";
 import Checkbox from "../../../general/Checkbox";
 
@@ -33,7 +33,7 @@ const WarehouseInfo = props => {
                 value={props.warehouse.description}
                 disabled={props.warehouse.deleted}
             />
-            <ChooseBotton
+            <ChooseButton
                 className='mt15'
                 title='Выберите тип'
                 name={['Склад компании', 'Склад локации']}

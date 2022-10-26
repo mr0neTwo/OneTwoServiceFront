@@ -1,3 +1,5 @@
+import {service_table_headers} from '../../data/tableHeaders'
+import {includesObject} from '../../components/general/utils'
 
 const initialState = {
 
@@ -20,31 +22,8 @@ const initialState = {
 
    seted_categiry: null,
 
-   fields: [
-      {
-         id: 1,
-         title: 'Наименование',
-         field: 'title'
-      },{
-         id: 2,
-         title: 'Гаранития',
-         field: 'werranty'
-      },{
-         id: 3,
-         title: 'Себестоимость',
-         field: 'cost'
-      },{
-         id: 4,
-         title: 'Цена',
-         field: 'price'
-      },{
-         id: 5,
-         title: 'Код',
-         field: 'code'
-      },
-   ],
-   // По умалчанию сделаем поле 1 и 4 (наименование и цена) видимыми + десять типов цен, которые возможно будут
-   chosed_fields: Array(10).fill().map((e, i) => i + 6).concat([1, 4])
+
+   chosed_fields: JSON.parse(localStorage.getItem('chosed_fields')) || service_table_headers
 }
  
 export const dictServiceReducer = (state = initialState, action) => {
@@ -114,12 +93,12 @@ export const dictServiceReducer = (state = initialState, action) => {
          // Обявим переменную для изменных данных
          let new_data
          // Проверим если значения value в списке уже существующих
-         if (action.value.every(val => state[action.field].includes(val))) {
+         if (action.value.every(val => includesObject(val, state[action.field]))) {
             // Если есть удалим эти значения
-            new_data = state[action.field].filter(val => !action.value.includes(val))
+            new_data = state[action.field].filter(val => !includesObject(val, action.value))
          } else {
             // Если нет добавим эти значения
-            new_data = state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
+            new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
          }
          // Если флаг saveToApp установлен сохраним данные на локальном хранилище
          if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))

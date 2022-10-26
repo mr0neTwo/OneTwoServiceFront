@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { showPhone } from '../general/utils'
-import { editClient } from '../../Redux/actions'
 import ClientEditor from './ClientEditor/ClientEditor'
+import {editClient} from '../../Redux/actions/clientAction'
 
 const ClientCard = (props) => {
 

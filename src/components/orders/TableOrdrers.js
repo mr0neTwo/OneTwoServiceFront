@@ -115,24 +115,6 @@ const TableOrders = props => {
                             onDoubleClick={() => handleEdit(order)}
                         >
                             {tFields.map(header => chooseCell(header, order))}
-                            {/*{props.order.tableFields.find(header => header.id === 1).visible ? <Lable order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 2).visible ? <Create order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 3).visible ? <EstimatedDone order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 4).visible ? <Status order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 5).visible ? <Equipment order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 6).visible ? <KindOfGood order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 7).visible ? <Brand order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 8).visible ? <Subtype order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 9).visible ? <Malfunction order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 10).visible ? <Engineer order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 11).visible ? <Manager order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 12).visible ? <Client order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 13).visible ? <Price order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 14).visible ? <MissedPayments order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 15).visible ? <EngineerNotes order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 16).visible ? <ManagerNotes order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 17).visible ? <Cell order={order}/> : null}*/}
-                            {/*{props.order.tableFields.find(header => header.id === 18).visible ? <AdCampaign order={order}/> : null}*/}
                         </tr>
                     ))}
                     </tbody>

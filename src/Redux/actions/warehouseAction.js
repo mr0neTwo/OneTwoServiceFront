@@ -1,6 +1,13 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
 
+export function changeWarehouseState(data) {
+    return {
+        type: 'CHANGE_WAREHOUSE_STATE',
+        data
+    }
+}
+
 export function changeWarehouseForm(value, field) {
     return {
         type: 'CHANGE_WAREHOUSE_FORM',
@@ -80,7 +87,7 @@ export function createWarehouse() {
         isGlobal: state.warehouse.isGlobal,
         permissions: state.warehouse.permissions,
         employees: state.warehouse.employees,
-        branch_id: state.warehouse.branch_id
+        branch_id: state.warehouse.branch_id || null
     })
 
     return async dispatch => {
@@ -126,7 +133,7 @@ export function saveWarehouse() {
         isGlobal: state.warehouse.isGlobal,
         permissions: state.warehouse.permissions,
         employees: state.warehouse.employees,
-        branch_id: state.warehouse.branch_id
+        branch_id: state.warehouse.branch_id || null
     })
     request_config.method = 'PUT'
 
@@ -207,7 +214,6 @@ export function addWarehouseCategories() {
     const state = store.getState()
 
     const request_config = getRequestConfig({
-        id: 1,
         deleted: state.warehouse.showDeleted
     })
 
@@ -218,9 +224,12 @@ export function addWarehouseCategories() {
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_WAREHOUSE_FORM',
-                        field: 'warehouses_categories',
-                        value: data.data
+                        type: 'CHANGE_WAREHOUSE_STATE',
+                        data: {warehouse_categories: data.warehouse_categories, current_parent_category: data.warehouse_categories}
+                    })
+                    dispatch({
+                        type: 'CHANGE_REMAIN_STATE',
+                        data: {filter_category: data.warehouse_categories}
                     })
                 } else {
                     console.warn(data.message)
@@ -230,40 +239,37 @@ export function addWarehouseCategories() {
     }
 }
 
+function getCategoryFilter() {
+    const state = store.getState()
+    return {
+        deleted: state.warehouse.showDeleted,
+    }
+}
 
 export function createWarehouseCategory() {
 
     const state = store.getState()
 
-    const request_config1 = getRequestConfig({
+    const request_config = getRequestConfig({
         title: state.warehouse.title_category,
         parent_category_id: state.warehouse.current_parent_category.id,
-        deleted: state.warehouse.category_deleted
-    })
-
-    const request_config2 = getRequestConfig({
-        id: 1,
-        deleted: state.warehouse.showDeleted
+        deleted: state.warehouse.category_deleted,
+        filter: getCategoryFilter()
     })
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/warehouse_category', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание категории запчастей не выполнен'))
-
-        await fetch(state.data.url_server + '/get_warehouse_category', request_config2)
+        await fetch(state.data.url_server + '/warehouse_category', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_WAREHOUSE_FORM',
-                        field: 'warehouses_categories',
-                        value: data.data
+                        type: 'CHANGE_WAREHOUSE_STATE',
+                        data: {warehouse_categories: data.warehouse_categories }
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusWarehouseCategoryEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusWarehouseCategoryEditor: false}
                     })
                     dispatch({
                         type: 'RESET_WAREHOUSE'
@@ -272,7 +278,7 @@ export function createWarehouseCategory() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос категорий запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание категории запчастей не выполнен'))
     }
 }
 
@@ -281,36 +287,27 @@ export function saveWarehouseCategory() {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
+    let request_config = getRequestConfig({
         id: state.warehouse.edit,
         title: state.warehouse.title_category,
         parent_category_id: state.warehouse.current_parent_category.id,
+        filter: getCategoryFilter()
     })
-    request_config1.method = 'PUT'
-
-    const request_config2 = getRequestConfig({
-        id: 1,
-        deleted: state.warehouse.showDeleted
-    })
+    request_config.method = 'PUT'
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/warehouse_category', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на изменение категории запчастей не выполнен'))
-
-        await fetch(state.data.url_server + '/get_warehouse_category', request_config2)
+        await fetch(state.data.url_server + '/warehouse_category', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
-                        type: 'CHANGE_WAREHOUSE_FORM',
-                        field: 'warehouses_categories',
-                        value: data.data
+                        type: 'CHANGE_WAREHOUSE_STATE',
+                        data: {warehouse_categories: data.warehouse_categories }
                     })
                     dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusWarehouseCategoryEditor',
-                        value: false
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusWarehouseCategoryEditor: false}
                     })
                     dispatch({
                         type: 'RESET_WAREHOUSE'
@@ -319,7 +316,7 @@ export function saveWarehouseCategory() {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос категорий запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение категории запчастей не выполнен'))
     }
 }
 
@@ -327,29 +324,22 @@ export function deleteWarehouseCategory( flag ) {
 
     const state = store.getState()
 
-    let request_config1 = getRequestConfig({
+    let request_config = getRequestConfig({
         id: state.warehouse.edit,
-        deleted: flag
+        deleted: flag,
+        filter: getCategoryFilter()
     })
-    request_config1.method = 'PUT'
-
-    const request_config2 = getRequestConfig({
-        id: 1,
-        deleted: state.warehouse.showDeleted
-    })
+    request_config.method = 'PUT'
 
     return async dispatch => {
 
-        await fetch(state.data.url_server + '/warehouse_category', request_config1)
-            .catch(error => bad_request(dispatch, error, 'Запрос на изменение категории запчастей не выполнен'))
-
-        await fetch(state.data.url_server + '/get_warehouse_category', request_config2)
+        await fetch(state.data.url_server + '/warehouse_category', request_config)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     dispatch({
                         type: 'CHANGE_WAREHOUSE_FORM',
-                        field: 'warehouses_categories',
+                        field: 'warehouse_categories',
                         value: data.data
                     })
                     dispatch({
@@ -364,6 +354,6 @@ export function deleteWarehouseCategory( flag ) {
                     console.warn(data.message)
                 }
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос категорий запчастей не выполнен'))
+            .catch(error => bad_request(dispatch, error, 'Запрос на изменение категории запчастей не выполнен'))
     }
 }

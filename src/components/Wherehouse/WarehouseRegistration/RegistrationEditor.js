@@ -1,37 +1,50 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
+
+import {changeRegistrationState, createRegistration, deleteRegistration} from '../../../Redux/actions/registrationAction'
+import {resetRegistration, saveRegistration} from '../../../Redux/actions/registrationAction'
+import {changeVisibleState} from '../../../Redux/actions'
+import {addDiscountMargin, changePriceState} from '../../../Redux/actions/priceAction'
 
 import ChooseDate from '../../general/calandar/ChooseDate'
 import LableInput from '../../general/LableInput'
-import ChooseOfList from '../../general/ChooseOfList'
 import BottomButtons from '../../general/BottomButtons'
-
-import {
-    changeRegistrationState,
-    createRegistration,
-    deleteRegistration,
-    resetRegistration,
-    saveRegistration
-} from '../../../Redux/actions/registrationAction'
-import {changeVisibleState} from '../../../Redux/actions'
 import LableArea from '../../general/LableArea'
 import SetClient from '../../general/SetClient'
 import AddParts from './AddParts'
 import RegistrationPartEditor from './RegistrationPartEditor'
+import TableRegistrationPart from './TableRegistrationPart'
+import SelectFromList from '../../general/SelectFromList'
+import {checkObject} from '../../general/utils'
+import WarningChangeWarehouse from './WarningChangeWarehouse'
 
 
 const RegistrationEditor = (props) => {
 
+    const [messageWarning, setMessageWarning] = useState(false)
+    const [warehouse, setWarehouse] = useState({})
+
+    useEffect(() => {
+        props.changePriceState({showDeleted: false, filter_type: 2})
+        props.addDiscountMargin()
+    }, [])
+
     const handleClose = () => {
         props.changeVisibleState({
             statusRegistrationEditor: false,
-            inputRegistrationLabelChecked: true
+            inputRegistrationLabelChecked: true,
+            inputRegistrationClientChecked: true,
+            inputRegistrationWarehouseChecked: true,
+            inputRegistrationPartChecked: true
         })
         props.resetRegistration()
     }
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('registrationEditorWindow')) {
+        if (
+            !event.path.map((el) => el.id).includes('registrationEditorWindow') &&
+            !event.path.map((el) => el.id).includes('changeWarehouseMessage')
+        ) {
             handleClose()
         }
     }
@@ -45,45 +58,61 @@ const RegistrationEditor = (props) => {
 
     const handleCreate = () => {
         if (
-            props.registration.label &&
-            props.registration.warehouse_id
+            props.registration.number &&
+            checkObject(props.registration.warehouse) &&
+            checkObject(props.registration.client) &&
+            props.registration.parts.length
+
         ) {
             props.createRegistration()
         } else {
-            if (!props.registration.label) {
+            if (!props.registration.number) {
                 props.changeVisibleState({inputRegistrationLabelChecked: false})
             }
-            if (!props.registration.warehouse_id) {
+            if (!checkObject(props.registration.warehouse)) {
                 props.changeVisibleState({inputRegistrationWarehouseChecked: false})
+            }
+            if (!checkObject(props.registration.client)) {
+                props.changeVisibleState({inputRegistrationClientChecked: false})
+            }
+            if (!props.registration.parts.length) {
+                props.changeVisibleState({inputRegistrationPartChecked: false})
             }
         }
     }
 
     const handleSave = () => {
         if (
-            props.registration.label &&
-            props.registration.warehouse_id
+            props.registration.number &&
+            checkObject(props.registration.warehouse) &&
+            checkObject(props.registration.client) &&
+            props.registration.parts.length
         ) {
             props.saveRegistration()
         } else {
-            if (!props.registration.label) {
+            if (!props.registration.number) {
                 props.changeVisibleState({inputRegistrationLabelChecked: false})
             }
-            if (!props.registration.warehouse_id) {
+            if (!checkObject(props.registration.warehouse)) {
                 props.changeVisibleState({inputRegistrationWarehouseChecked: false})
+            }
+            if (!checkObject(props.registration.client)) {
+                props.changeVisibleState({inputRegistrationClientChecked: false})
+            }
+            if (!props.registration.parts.length) {
+                props.changeVisibleState({inputRegistrationPartChecked: false})
             }
         }
     }
-    const handleRecover = () => {
-        if (props.permissions.includes(''))
-            props.deleteRegistration(false)
-    }
 
-    const handleDelete = () => {
-        if (props.permissions.includes(''))
-            props.deleteRegistration(true)
+    const handleChange = (warehouse) => {
+        if (props.registration.parts.length) {
+            setWarehouse(warehouse)
+            setMessageWarning(true)
+        } else {
+            props.changeRegistrationState({warehouse})
+        }
     }
-
 
     return (
         <div className='rightBlock'>
@@ -97,17 +126,20 @@ const RegistrationEditor = (props) => {
                         title='Имя поставщика'
                         setClient={client => props.changeRegistrationState({client})}
                         client={props.registration.client}
+                        checkedFlag='inputRegistrationClientChecked'
+                        checked={props.view.inputRegistrationClientChecked}
+                        redStar={true}
+                        disabled={!!props.registration.edit}
                     />
                     <div className='row al-itm-fe'>
                         <LableInput
                             className='w250 mt15'
                             title='Накладная №'
-                            onChange={event => props.changeRegistrationState({label: event.target.value})}
-                            value={props.registration.label}
+                            onChange={event => props.changeRegistrationState({number: event.target.value})}
+                            value={props.registration.number}
                             checkedFlag='inputRegistrationLabelChecked'
                             checked={props.view.inputRegistrationLabelChecked}
                             redStar={true}
-                            disabled={props.registration.deleted}
                         />
                         <div className='m5 jc-c'>от</div>
                         <ChooseDate
@@ -116,24 +148,25 @@ const RegistrationEditor = (props) => {
                             time={false}
                             func={date => props.changeRegistrationState({custom_created_at: parseInt(date / 1000)})}
                             current_date={props.registration.custom_created_at * 1000}
+                            disabled={!!props.registration.edit}
                         />
                     </div>
-
-
-                    <ChooseOfList
-                        id={'WarehousesWR'}
+                    <SelectFromList
+                        id='WarehousesWR'
                         className='mt15 h52'
                         title='Склад'
                         list={props.warehouses}
-                        setElement={warehouse_id => props.changeRegistrationState({warehouse_id: warehouse_id})}
-                        current_id={props.registration.warehouse_id}
+                        setElement={warehouse => handleChange( warehouse)}
+                        current_object={props.registration.warehouse}
                         width={'250px'}
                         checkedFlag='inputRegistrationWarehouseChecked'
                         checked={props.view.inputRegistrationWarehouseChecked}
                         noChoosed='Выберете склад'
-                        disabled={props.registration.deleted}
+                        disabled={!!props.registration.edit}
                     />
                     <AddParts/>
+                    {props.view.inputRegistrationPartChecked ? null : <div className='errorMassageInput'>Добавьте хотябы одну запчасть</div>}
+                    <TableRegistrationPart/>
                     <LableArea
                         title='Комментарий'
                         className='mt15'
@@ -148,12 +181,17 @@ const RegistrationEditor = (props) => {
                     edit={props.registration.edit}
                     create={handleCreate}
                     save={handleSave}
-                    recover={handleRecover}
-                    delete={handleDelete}
+                    // recover={handleRecover}
+                    // delete={handleDelete}
                     close={handleClose}
-                    deleted={props.registration.deleted}
+                    // deleted={props.registration.deleted}
                 />
             </div>
+            {messageWarning ?
+                <WarningChangeWarehouse
+                    setMessageWarning={setMessageWarning}
+                    warehouse={warehouse}
+                /> : null}
         </div>
     )
 }
@@ -171,7 +209,9 @@ const mapDispatchToProps = {
     createRegistration,
     saveRegistration,
     deleteRegistration,
-    resetRegistration
+    resetRegistration,
+    addDiscountMargin,
+    changePriceState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationEditor)

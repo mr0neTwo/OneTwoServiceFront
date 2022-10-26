@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import Checkbox from './Checkbox'
 import {icon_down, icon_table} from '../../data/icons'
 import Icon from './Icon'
+import {includesObject} from './utils'
 
 
 /**
@@ -21,7 +22,7 @@ import Icon from './Icon'
  *
  * func={() => console.log('choose element')} // функция выбора элементов
  *
- * field='field' // имя поля в редюссере списка выбраных полей таблицы
+ * field='table_headers' // имя поля в редюссере списка выбраных полей таблицы
  *
  * @returns {JSX.Element}
  */
@@ -46,21 +47,25 @@ const TableFields = (props) => {
    const mainCheckbox = useRef()
   
    useEffect(() => {
-      const values = props.list.filter(el => props.checked_list.includes(el.id))
-      if (values.length === props.list.length) {
-         mainCheckbox.current.indeterminate = false
-         mainCheckbox.current.checked = true
-      } else if (!values.length) {
-         mainCheckbox.current.indeterminate = false
-         mainCheckbox.current.checked = false
-      } else {
-         mainCheckbox.current.indeterminate = true
+      const values = props.list.filter(el => includesObject(el, props.checked_list))
+      if (mainCheckbox.current) {
+         if (values.length === props.list.length) {
+            mainCheckbox.current.indeterminate = false
+            mainCheckbox.current.checked = true
+         } else if (!values.length) {
+            mainCheckbox.current.indeterminate = false
+            mainCheckbox.current.checked = false
+         } else {
+            mainCheckbox.current.indeterminate = true
+         }
       }
+
    }, [props.checked_list])
 
    useEffect(() => {
       setListVisible(false)
    }, [])
+
  
 
    return (
@@ -78,7 +83,6 @@ const TableFields = (props) => {
             </div>
             <div className='cl12'>
                   <Icon icon={icon_down} className='icon-table'/>
-               {/*<span className="fieldSeparate">&#6662;</span>*/}
             </div>
          </div>
 
@@ -92,7 +96,7 @@ const TableFields = (props) => {
                      <input 
                         ref={ mainCheckbox }
                         type='checkbox' 
-                        onChange={() => props.func(props.list.map(el => el.id), props.field)}
+                        onChange={() => props.func(props.list, props.field || 'table_headers')}
                         disabled={props.disabled}
                      />
                      <label>Все</label>
@@ -107,8 +111,8 @@ const TableFields = (props) => {
                   <Checkbox
                      className='ml10'
                      label={field.title}
-                     onChange={() => props.func([field.id], props.field, true)}
-                     checked={props.checked_list.includes(field.id)}
+                     onChange={() => props.func([field], props.field || 'table_headers', true)}
+                     checked={includesObject(field, props.checked_list)}
                   />
                   
                </div>

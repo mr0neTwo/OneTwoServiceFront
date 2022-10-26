@@ -23,7 +23,7 @@ const Warehouse = (props) => {
       <div className='pageContent'>
 
           <div className='Header'>
-              <span className='headerTitle'>Слады</span>
+              <span className='headerTitle'>Склады</span>
           </div>
           <div className='settingPageBody'>
           </div>

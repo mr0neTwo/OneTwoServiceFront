@@ -1,87 +1,94 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React, {useEffect, useState} from 'react'
+import {connect} from 'react-redux'
 
-import {
-  changeStatusPhoneList,
-  setPhoneTitle,
-  changeStatusAddTitle,
-} from '../../../Redux/actions'
+import {changeClientEditorPhone} from '../../../Redux/actions/clientAction'
+import {icon_down, icon_left} from '../../../data/icons'
+
+import Icon from '../../general/Icon'
 
 const PhoneTitle = (props) => {
-  const clickHandel = (event) => {
-    if (
-      !event.path.map((el) => el.id).includes(`listOptionsOfPhones${props.idx}`)
-    ) {
-      if (props.client.statusPhoneList[props.idx]) {
-        props.changeStatusPhoneList(props.idx)
-      }
+
+    const [listVisible, setListVisible] = useState(false)
+    const [titleStatus, setTitleStatus] = useState(false)
+
+    const clickHandel = (event) => {
+        if (!event.path.map((el) => el.id).includes(`listOptionsOfPhones${props.idx}`)) {
+            setListVisible(false)
+        }
     }
-  }
 
-  useEffect(() => {
-    window.addEventListener('click', clickHandel)
-    return () => {
-      window.removeEventListener('click', clickHandel)
-    }
-  })
+    useEffect(() => {
+        window.addEventListener('click', clickHandel)
+        return () => {
+            window.removeEventListener('click', clickHandel)
+        }
+    })
 
-  return (
-    <div id={`listOptionsOfPhones${props.idx}`}>
-      <div
-        className="lableImput mt15 curP"
-        onClick={() => props.changeStatusPhoneList(props.idx)}
-      >
-        {props.title}
-        {props.idx === 0 ? <span className="redStar">*</span> : null}
-        <span className="smallIcon">&#6662;</span>
-      </div>
+    return (
+        <div id={`listOptionsOfPhones${props.idx}`}>
+            <div
+                className="lableImput mt15 curP"
+                onClick={() => setListVisible(!listVisible)}
+            >
+                {props.title}
+                {props.idx === 0 ? <span className="redStar">*</span> : null}
+                <Icon
+                    className='icon-s1'
+                    icon={listVisible ? icon_down : icon_left}
+                />
+            </div>
 
-      {props.client.statusPhoneList[props.idx] ? (
-        <div className="listOptionsPhones">
-          {props.client.phone_titles.map((title) => {
-            return (
-              <div
-                key={title}
-                className="options"
-                onClick={() => {
-                  props.setPhoneTitle(props.idx, title)
-                }}
-              >
-                {title}
-              </div>
-            )
-          })}
-          <div className="btmsts">
-            {props.client.statusAddTitle[props.idx] ? (
-              <input
-                className="optionFilterInput"
-                autoFocus
-                onKeyPress={event => { if (event.key === 'Enter') props.setPhoneTitle(props.idx, event.target.value)} }
-                placeholder="Введите и нажмиете Enter"
-              />
-            ) : (
-              <div
-                className="btnstsTitle"
-                onClick={() => props.changeStatusAddTitle(props.idx)}
-              >
-                Задать поле
-              </div>
-            )}
-          </div>
+            {listVisible ? (
+                <div className="listOptionsPhones">
+                    {props.client.phone_titles.map(title => {
+                        return (
+                            <div
+                                key={title}
+                                className="options"
+                                onClick={() => {
+                                    props.changeClientEditorPhone(props.idx, 'title', title)
+                                    setListVisible(false)
+                                }}
+                            >
+                                {title}
+                            </div>
+                        )
+                    })}
+                    <div className="btmsts">
+                        {titleStatus ? (
+                            <input
+                                className="optionFilterInput"
+                                autoFocus
+                                onKeyPress={event => {
+                                    if (event.key === 'Enter') {
+                                        props.changeClientEditorPhone(props.idx, 'title', event.target.value)
+                                        setTitleStatus(false)
+                                        setListVisible(false)
+                                    }
+                                }}
+                                placeholder="Введите и нажмиете Enter"
+                            />
+                        ) : (
+                            <div
+                                className="btnstsTitle"
+                                onClick={() => setTitleStatus(true)}
+                            >
+                                Задать поле
+                            </div>
+                        )}
+                    </div>
+                </div>
+            ) : null}
         </div>
-      ) : null}
-    </div>
-  )
+    )
 }
 
 const mapStateToProps = (state) => ({
-  client: state.client,
+    client: state.client,
 })
 
 const mapDispatchToProps = {
-  changeStatusPhoneList,
-  setPhoneTitle,
-  changeStatusAddTitle,
+    changeClientEditorPhone
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhoneTitle)

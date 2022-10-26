@@ -9,7 +9,7 @@ import LableInput from '../../../general/LableInput'
 import LableArea from '../../../general/LableArea'
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
-import ChooseBotton from '../../../general/ChooseBotton'
+import ChooseButton from '../../../general/ChooseButton'
 
 const OperationEditor = (props) => {
 
@@ -113,7 +113,7 @@ const OperationEditor = (props) => {
                   unit=' '
                   disabled={props.operation.deleted}
                />
-               <ChooseBotton
+               <ChooseButton
                   className='ml30'
                   name={['руб.', '%']}
                   func1 = {() => props.changeOperationForm(false, 'percent')}
@@ -130,7 +130,7 @@ const OperationEditor = (props) => {
                   unit=' '
                   disabled={props.operation.deleted}
                />
-               <ChooseBotton
+               <ChooseButton
                   className='ml30'
                   name={['Дни', 'Мес']}
                   func1 = {() => props.changeOperationForm(1*24*60*60, 'warranty_value')}

@@ -60,7 +60,6 @@ export const roleReducer = (state = initialState, action) => {
 
       case 'CHANGE_VISIBLE_STATUSES': {
          if (action.id.every(id => state.visible_statuses.includes(id))) {
-            console.log('true')
             return {
                ...state, 
                visible_statuses: state.visible_statuses.filter(id => !action.id.includes(id)),

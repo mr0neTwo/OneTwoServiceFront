@@ -19,6 +19,14 @@ import {icon_client, icon_down, icon_left} from '../../data/icons'
  *
  * client={props.client} // объект клиента в state
  *
+ * checkedFlag='flagName'
+ *
+ * checked={props.view.flagName}
+ *
+ * redStar={false}
+ *
+ * errorMassage='errorMassage'
+ *
  * @returns {JSX.Element}
  *
  */
@@ -64,7 +72,7 @@ const SetClient = (props) => {
                             />
                             <span
                                 className='clientCardName'
-                                onClick={() => editClient(props.client)}
+                                onClick={props.disabled ? null : () => editClient(props.client)}
                             >
                                 {props.client.name}
                             </span>
@@ -80,7 +88,7 @@ const SetClient = (props) => {
                     </div>
                     <div
                         className='crossButtom'
-                        onClick={() => props.setClient({})}
+                        onClick={props.disabled ? null : () => props.setClient({})}
                     >
                         &#9587;
                     </div>
@@ -93,21 +101,23 @@ const SetClient = (props) => {
     return (
         <div className='w400 h52'>
 
-            <div className='lableImput mt15'>{props.title || 'Имя клиента'}</div>
+            <div className='lableImput mt15'>{props.title || 'Имя клиента'}{props.redStar ? <span className='redStar'>*</span> : null}</div>
 
             <div className='blockImput'>
                 <div
                     id={props.id}
                     className='orderInputBox'
+                    style={{borderColor: props.checkedFlag && !props.checked  ? 'red' : null}}
                     onClick={() => setShowList(true)}
                 >
                     <input
                         className='optionFilterInput'
                         onChange={event => props.changeClientState({filter_name: event.target.value})}
+                        disabled={props.disabled}
                     />
                     <div
                         className='simbolButton'
-                        onClick={() => props.changeVisibleState({'statusCreateNewClient': true})}
+                        onClick={props.disabled ? null : () => props.changeVisibleState({'statusCreateNewClient': true})}
                     >
                         +
                     </div>
@@ -116,6 +126,7 @@ const SetClient = (props) => {
                         icon={showList ? icon_left : icon_down}
                     />
                 </div>
+                {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо выбрать'}</div> : null}
 
                 {showList ?
                     <div className='listFilter' id={`list${props.id}`}>
@@ -123,10 +134,11 @@ const SetClient = (props) => {
                             <div
                                 className='rowGropList'
                                 key={client.id}
-                                onClick={() => {
+                                onClick={event => {
                                     setShowList(false)
-                                    props.editCurrentClient(client)
+                                    // props.editCurrentClient(client)
                                     props.setClient(client)
+                                    if (props.checkedFlag) props.changeVisibleState({[props.checkedFlag]: !!event.target.value})
                                 }}
                             >
                                 <div>{client.name}</div>

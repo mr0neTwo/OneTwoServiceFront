@@ -169,7 +169,6 @@ tbody > tr.ss:hover {
   border-left-style: solid;
   font-size: 13px;
   line-height: 16px;
-  padding: 16px 0 16px 12px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -177,6 +176,11 @@ tbody > tr.ss:hover {
   text-decoration: none;
   color: #c9cbcc;
   fill: #c9cbcc;
+}
+.menuRowActive {
+  background-color: #53585c;
+  color: white;
+  fill: white;
 }
 
 .menuBranch {
@@ -946,9 +950,14 @@ div.tableOrders td {
 .orderLink:hover {
   text-decoration: underline;
 }
-/*.orderLink:visited {*/
-/*  color: #afd7fa;*/
-/*}*/
+.partLink {
+  text-decoration: none;
+  color: var(--color-black);
+  text-align: center;
+}
+.partLink:hover {
+  text-decoration: underline;
+}
 
 .mainCustomPanel {
   width: 100%;
@@ -1425,7 +1434,7 @@ div.tableOrders td {
   box-sizing: border-box;
 }
 
-#createNewClient {
+#createClient {
   z-index: 99999;
 }
 
@@ -1528,6 +1537,11 @@ div.tableOrders td {
   position: relative;
   text-decoration: none;
   color: #c9cbcc;
+  background-color: #53585c;
+}
+.settingRowActive {
+  background-color: #939699;
+  color: #fff
 }
 
 .settingRow:hover {
@@ -1734,7 +1748,7 @@ checkboxLable {
 .listOptionsPhones {
   display: block;
   flex-direction: column;
-  position: fixed;
+  position: relative;
   background-color: white;
   border: 1px solid #aaaaaa;
   border-bottom-left-radius: 4px;
@@ -1751,6 +1765,17 @@ checkboxLable {
   display: block;
   flex-direction: column;
   position: relative;
+  background-color: white;
+  border: 1px solid #aaaaaa;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 4px 0px;
+  overflow: scroll;
+  max-height: 200px;
+  z-index: 10;
+}
+
+.listOption {
   background-color: white;
   border: 1px solid #aaaaaa;
   border-bottom-left-radius: 4px;
@@ -3130,6 +3155,42 @@ div.ssm > div:hover {
   border-right: 1px solid #c9cbcc;
 }
 
+.ibot {
+  text-align: center;
+  cursor: pointer;
+  padding-top: 5px;
+}
+.btmst {
+  margin: 10px 0 0 0;
+  padding: 13px 15px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #e6e5e5;
+  color: #4791d1;
+}
+
+.tsip {
+  border-collapse: separate; /* Способ отображения границы */
+  border-spacing: 2px; /* Расстояние между ячейками */
+}
+
+.sip_line {
+  border-bottom: 1px solid #acacac;
+  width: 100%;
+}
+
+.remainBox {
+  width: 92%;
+  border: 1px solid #acacac;
+  border-radius: 4px;
+  padding: 10px 18px;
+  color: #939699;
+}
+
+.remTabImg {
+  height: 50px;
+}
+
 .fsz12 { font-size: 12px }
 .fsz16 { font-size: 16px }
 .fsz20 { font-size: 20px }
@@ -3185,7 +3246,9 @@ div.ssm > div:hover {
 .h100 { height: 100% }
 .mh { max-height: min-content }
 
+.w700 { width: 700px }
 .w515 { width: 515px }
+.w600 { width: 600px }
 .w500 { width: 500px }
 .w400 { width: 400px }
 .w300 { width: 300px }
@@ -3195,6 +3258,7 @@ div.ssm > div:hover {
 .w150 { width: 150px }
 .w135 { width: 135px }
 .w130 { width: 130px }
+.w120 { width: 120px }
 .w91 { width: 91px }
 .w80 { width: 80px }
 .w70 { width: 70px }
@@ -3204,6 +3268,9 @@ div.ssm > div:hover {
 .w10 { width: 10px }
 .w100 { width: 100% }
 .w90 { width: 90% }
+
+.wp75 {width: 75% }
+.wp25 {width: 25% }
 
 .mw50 { min-width: 50% }
 .mw40 { min-width: 40% }
@@ -3215,7 +3282,7 @@ div.ssm > div:hover {
 .wmn300 { min-width: 300px }
 .wm50 { max-width: 50px }
 .mwp { max-width: 30% }
-юwmx500 { max-width: 500px }
+.wmx500 { max-width: 500px }
 .wmx700 { max-width: 700px }
 .wmx750 { max-width: 750px }
 .mwmc { max-width: max-content }
@@ -3224,6 +3291,7 @@ div.ssm > div:hover {
   width: 500px;
   max-width: none;
 }
+.mxc { width: max-content}
 .pd1 { padding: 1px }
 .pd2 { padding: 2px }
 .pd5 { padding: 5px }
@@ -3256,10 +3324,13 @@ div.ssm > div:hover {
 .tac { text-align: center }
 .tae { text-align: end }
 
+.wsn { white-space: normal}
+
+.bcbl { background-color: #cae1f5 }
 .bcb { background-color: #282e32 }
 .bcr { background-color: #ee5047 }
 .bcg { background-color: #fbfbfb }
 .fw {fill: white }
 
-
-.cgr{ color: #acacac}
+.clb { color: var(--color-black)}
+.cgr { color: #acacac}

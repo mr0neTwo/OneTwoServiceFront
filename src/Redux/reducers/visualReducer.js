@@ -46,6 +46,9 @@ const initialState = {
    needToResetOrder: false,
    statusRegistrationEditor: false,
    statusRegistrationPartEditor: false,
+   statusRemainEditor: false,
+   statusResidueRuleEditor: false,
+   statusOrderNotFound: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -97,7 +100,9 @@ const initialState = {
    inputRegistrationLabelChecked: true,
    inputRegistrationWarehouseChecked: true,
    inputRegistrationCountChecked: true,
-   inputRegistrationBuyCostChecked: true,
+   inputRegistrationClientChecked: true,
+   inputRegistrationPartChecked: true,
+   inputResRulWarehouse: true,
 
    errorSameMail: false,
    errorSameLogin: false,
@@ -150,22 +155,6 @@ export const visualReducer = (state = initialState, action) => {
          }
       }
 
-
-
-      case 'CHANGE_STATUS_AD_CAMPAIGN_CLIENT': {
-         return {
-            ...state, 
-            statusAdCampaignClient: !state.statusAdCampaignClient,
-         }
-      }
-      
-      case 'SET_AD_CANMPAIGN_CLIENT': {
-         return {
-            ...state, 
-            statusAdCampaignClient: !state.statusAdCampaignClient,
-         }
-      }
-
       case 'SET_VISIBLE_FLAG': {
 
          if (action.value === 'change') {
@@ -213,14 +202,6 @@ export const visualReducer = (state = initialState, action) => {
          return {
             ...state,
             [action.field]: state[action.field].concat([true])
-         }
-      }
-
-      
-      case 'EDIT_CLIENT': {
-         return {
-            ...state, 
-            statusCreateNewClient: true
          }
       }
 

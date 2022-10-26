@@ -122,6 +122,8 @@ export const paymentReducer = (state = initialState, action) => {
                 order_id: 0,
                 target_cashbox_id: 0,
 
+                client: {},
+
                 context: {}
             }
         }

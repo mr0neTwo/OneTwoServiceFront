@@ -7,13 +7,14 @@ import {addParts, changePartState} from '../../../Redux/actions/partAction'
 import {icon_down, icon_left} from '../../../data/icons'
 import {changeRegistrationState} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
+import Button from '../../general/Button'
+import PartEditor from '../WarehouseParts/PartEditor/PartEditor'
 
 
 
 const AddParts = (props) => {
 
     useEffect(() => {
-        console.log(props.part.filter_name)
         props.addParts()
     }, [props.part.filter_name])
 
@@ -37,6 +38,20 @@ const AddParts = (props) => {
         }
     })
 
+    const handleSet = (part) => {
+        setShowList(false)
+        let cell = ''
+        if (Object.values(props.registration.warehouse).length) {
+            const rule = part.residue_rules.find(rule => rule.warehouse.id === props.registration.warehouse.id)
+            cell = rule ? rule.cell : ''
+        }
+        props.changeRegistrationState({part, cell, prices: part.prices})
+        props.changeVisibleState({
+            statusRegistrationPartEditor: true,
+            inputRegistrationPartChecked: true
+        })
+    }
+
 
     return (
         <div className='w400 h52'>
@@ -47,46 +62,51 @@ const AddParts = (props) => {
                 <div
                     id='warehousePart'
                     className='orderInputBox'
-                    onClick={() => setShowList(true)}
+                    style={{borderColor: props.view.inputRegistrationPartChecked  ?  null : 'red'}}
+                    onClick={props.registration.edit ? null : () => setShowList(true)}
                 >
                     <input
                         className='optionFilterInput'
                         onChange={event => props.changePartState({filter_name: event.target.value})}
+                        disabled={props.registration.edit}
                     />
                     <Icon
                         className='icon-s4'
                         icon={showList ? icon_left : icon_down}
                     />
                 </div>
-
                 {showList ?
                     <div className='listFilter' id='listWarehousePart'>
                         {props.part.parts.map(part => (
                             <div
                                 className='rowGropList'
                                 key={part.id}
-                                onClick={() => {
-                                    setShowList(false)
-                                    // props.addRegistrationPart(part)
-                                    props.changeRegistrationState({part})
-                                    props.changeVisibleState({statusRegistrationPartEditor: true})
-                                }}
+                                onClick={() => handleSet(part)}
                             >
-                                <div>{part.marking !== part.title ? `${part.title } (${part.marking})`: part.title}</div>
+                                <div>{(part.marking !== part.title) && !!part.marking ? `${part.title } (${part.marking})`: part.title}</div>
                                 <div className='orderDate ml30 noWr'>
                                     {part.description}
                                 </div>
                             </div>
                         ))}
+                        <div className='btmst'>
+                            <Button
+                                title='+ Запчасть'
+                                className='whiteButton'
+                                onClick={() => props.changeVisibleState({statusPartEditor: true})}
+                            />
+                        </div>
                     </div> : null}
             </div>
+            {props.view.statusPartEditor ? <PartEditor/> : null}
         </div>
     )
 }
 
 const mapStateToProps = state => ({
     part: state.part,
-    view: state.view
+    view: state.view,
+    registration: state.registration
 })
 
 const mapDispatchToProps = {

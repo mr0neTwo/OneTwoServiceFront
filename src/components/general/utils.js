@@ -63,6 +63,24 @@ export function currentMonth() {
    return [parseInt(start_date / 1000), parseInt(today / 1000)]
 }
 
+export function includesObject(obj, list) {
+   for (let i = 0; i < list.length; i++) {
+      if (list[i].id === obj.id) {
+         return true
+      }
+   }
+   return false
+}
+
+export function checkObject (object) {
+   if (!object) return false
+   if (Object.values(object).length) {
+      return true
+   } else {
+      return false
+   }
+}
+
 export function valueOfPhoneInput(number) {
    if (number) {
       switch (number.length) {

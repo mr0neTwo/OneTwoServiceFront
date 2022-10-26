@@ -27,7 +27,7 @@ export function resetRegistrationPart() {
     }
 }
 
-export function selectedRegistration( value, field, saveToApp=false ) {
+export function selectedRegistration( value, field, saveToApp=true ) {
     return {
         type: 'SELECTED_REGISTRATION',
         field,
@@ -36,19 +36,35 @@ export function selectedRegistration( value, field, saveToApp=false ) {
     }
 }
 
-export function addRegistrationPart ( value ) {
+
+export function addRegistrationPart ( ) {
     return {
-        type: 'ADD_REGISTRATION_PART',
-        value
+        type: 'ADD_REGISTRATION_PART'
     }
 }
 
-export function removeRegistrationPart ( id ) {
+export function saveRegistrationPart ( idx ) {
     return {
-        type: 'REMOVE_REGISTRATION_PART',
-        id
+        type: 'SAVE_REGISTRATION_PART',
+        idx
     }
 }
+
+export function editRegistrationPart ( idx, part ) {
+    return {
+        type: 'EDIT_REGISTRATION_PART',
+        idx,
+        part
+    }
+}
+
+export function deleteRegistrationPart ( idx ) {
+    return {
+        type: 'DELETE_REGISTRATION_PART',
+        idx
+    }
+}
+
 
 function getFilter() {
     const state = store.getState()
@@ -90,17 +106,19 @@ export function addRegistration() {
 export function createRegistration() {
 
     const state = store.getState()
+    const now = Math.round(Date.now() / 1000)
 
     const request_config = getRequestConfig({
-        label: state.registration.label,
-        created_at: state.registration.created_at,
-        custom_created_at: state.registration.custom_created_at,
+        number: state.registration.number,
+        created_at: state.registration.created_at || now,
+        custom_created_at: parseInt(state.registration.custom_created_at) || now,
         deleted: state.registration.deleted,
         description: state.registration.description,
         parts: state.registration.parts,
         client_id: state.registration.client.id,
         warehouse_id: state.registration.warehouse.id,
-        employee_id: state.registration.employee.id,
+        employee_id: state.data.user.id,
+        price: state.registration.price,
         filter: getFilter()
     })
 
@@ -135,7 +153,8 @@ export function saveRegistration() {
     const state = store.getState()
 
     const request_config = getRequestConfig({
-        label: state.registration.label,
+        id: state.registration.edit,
+        number: state.registration.number,
         created_at: state.registration.created_at,
         custom_created_at: state.registration.custom_created_at,
         deleted: state.registration.deleted,

@@ -7,7 +7,7 @@ import { resetNotEvent, saveNotEvent, selectedNotEvent} from '../../../../Redux/
 
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
-import ChooseButton from '../../../general/ChooseBotton'
+import ChooseButton from '../../../general/ChooseButton'
 import ChooseStatuses from './ChooseStatuses'
 import {eventsClients} from '../../../../data/events'
 

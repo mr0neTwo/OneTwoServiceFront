@@ -208,7 +208,6 @@ export function changeStatus(status_id, order_id) {
         filter
     })
 
-
     return async dispatch => {
 
         await  dispatch({
@@ -235,20 +234,12 @@ export function changeStatus(status_id, order_id) {
                         type: 'CHANGE_FILTER_STATE',
                         data: {badges: data.badges}
                     })
-                    dispatch({
-                        type: 'EDIT_ORDER',
-                        order: data.order
-                    })
                     if (state.view.checkOrderSticker) {
                         dispatch({
                             type: 'CHANGE_VISIBLE_STATE',
                             data: {statusOrderSticker: true, needToResetOrder: true}
                         })
                     }
-                    dispatch({
-                        type: 'CHANGE_ORDER_STATE',
-                        data: {ordersShow: data.data, count: data.count, events: data.events || []}
-                    })
                     dispatch({
                         type: 'CHANGE_FILTER_STATE',
                         data: {badges: data.badges}
@@ -351,6 +342,11 @@ export function getOrder(order_id) {
     const request_config = getRequestConfig({id: order_id})
 
     return async dispatch => {
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
         
         await fetch(state.data.url_server + '/get_order', request_config)
             .then(response => response.json())
@@ -373,11 +369,21 @@ export function getOrder(order_id) {
                         type: 'CHANGE_ORDER_STATE',
                         data: {events: data.events || []}
                     })
+
                 } else {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {'statusOrderNotFound': true}
+                    })
                     console.warn(data.message)
                 }
             })
             .catch(error => bad_request(dispatch, error, 'Запрос заказа не выполнен'))
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }
 

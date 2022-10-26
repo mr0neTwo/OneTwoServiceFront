@@ -22,6 +22,9 @@ import OrderEditor from './orders/newOrder/OrderEditor'
 import UserSetting from './sidebar/userSettings/UserSetting'
 import Alerts from './Alerts/Alerts'
 import Warehouse from './Wherehouse/Wherehouse'
+import PartEditor from './Wherehouse/WarehouseParts/PartEditor/PartEditor'
+import ClientEditor from './Clients/ClientEditor/ClientEditor'
+import RegistrationEditor from './Wherehouse/WarehouseRegistration/RegistrationEditor'
 
 
 function Main(props) {
@@ -44,12 +47,14 @@ function Main(props) {
             <div className='contentMain'>
                 <Alerts/>
                 <Switch>
+
+
                     <Route path='/tasks' component={TaskManager}/>
                     <Route path='/leans' component={Leads}/>
                     <Route path='/orders' component={Orders}/>
                     <Route path='/shops' component={Shops}/>
                     <Route path='/payments' component={Payments}/>
-                    <Route path='/wherehouse' component={Warehouse}/>
+                    <Route path='/warehouse' component={Warehouse}/>
                     <Route path='/clients' component={Clients}/>
                     <Route path='/analytics' component={Analytics}/>
                     <Route path='/reports' component={Reports}/>
@@ -59,14 +64,13 @@ function Main(props) {
 
                     <Redirect from='/' to='/leans'/>
                 </Switch>
+                <Switch>
+                    <Route exact path="/orders/:id"  component={OrderEditor}/>
+                    <Route exact path="/warehouse/part:id"  component={PartEditor}/>
+                    <Route exact path="/warehouse/client:id"  component={ClientEditor}/>
+                    <Route exact path="/warehouse/registration:id"  component={RegistrationEditor}/>
+                </Switch>
             </div>
-            <Switch>
-                <Route
-                    exact path="/orders/:id"
-                    // loadData={() => props.getOrder(id)}
-                    component={OrderEditor}
-                />
-            </Switch>
         </div>
     )
 }

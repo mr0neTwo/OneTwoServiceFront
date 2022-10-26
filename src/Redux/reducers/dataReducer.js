@@ -1,4 +1,3 @@
-import {data_setting_menu} from '../../data/dataSettingRows'
 import {data_menu_rows} from '../../data/dataSidebarRows'
 
 const initialState = {
@@ -7,15 +6,12 @@ const initialState = {
 
     menuRows: data_menu_rows,
     current_menu_row: '',
-    settingMenu: data_setting_menu,
-    current_setting_menu_row: '',
 
     user: JSON.parse(sessionStorage.getItem('user')) || {},
     status: [],
     status_group: [],
     order_type: [],
     equipment: [],
-    discount_margin: [],
     roles: [],
     ad_campaign: [],
     generally_info: {},
@@ -31,21 +27,15 @@ const initialState = {
     item_payments: [],
     count_item_payments: 0,
 
+    // для изменения размера столбцов колонок
+    position_cursor: 0,
+    position_over: null,
+
     csrfToken: '',
     credentials: process.env.REACT_APP_CREDENTIALS,
     login_status: JSON.parse(sessionStorage.getItem('login_status')) || false,
     error_message: '',
     url_server: process.env.REACT_APP_URL_SERVER
-    // url_server: process.env.PUBLIC_URL
-    // url_server: 'http://192.168.1.48:80' // Домашний
-    // url_server: 'http://192.168.43.224:80' // Мобильный
-    // url_server: 'http://10.6.1.26:80/' // VPN
-
-    // url_server: 'http://172.16.6.218:5005' // КЕХУ
-    // url_server: 'http://192.168.1.49:80' // рабочий WiFI
-    // url_server: 'http://5.53.124.252:80'
-    // url_server: 'http://onetwonline.ru'
-
 }
 
 export const dataReducer = (state = initialState, action) => {
@@ -76,11 +66,6 @@ export const dataReducer = (state = initialState, action) => {
             }
 
         }
-
-
-
-
-
 
         case 'ADD_MENU_ROWS': {
             return {

@@ -17,12 +17,13 @@ import { priceReducer } from './reducers/priceReducer'
 import { dictServiceReducer } from './reducers/dictServiceReducer'
 import { operationReducer } from './reducers/operationReducer'
 import { payrollReducer } from './reducers/payrollReducer'
-import {warehouseReducer} from "./reducers/wherehouseReducer";
+import {warehouseReducer} from "./reducers/warehouseReducer";
 import {partReducer} from './reducers/partReducer';
 import {orderPartReducer} from './reducers/orderPartReducer'
 import {notTemplateReducer} from './reducers/notTemplateReducer'
 import {notEventReducer} from './reducers/notEventReducer'
 import {registrationReducer} from './reducers/registrationReducer'
+import {remainReducer} from './reducers/remainReducer'
 
 
 
@@ -49,5 +50,6 @@ export const rootReducer = combineReducers({
    orderPart: orderPartReducer,
    notTemplate: notTemplateReducer,
    notEvent: notEventReducer,
-   registration: registrationReducer
+   registration: registrationReducer,
+   remain: remainReducer
 })

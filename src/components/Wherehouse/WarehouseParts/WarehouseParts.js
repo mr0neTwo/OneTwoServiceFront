@@ -9,7 +9,7 @@ import Button from '../../general/Button';
 import WarehouseCategoryEditor from './WarehouseCategoryEditor';
 import CategoryTable from './CategoryTable';
 import Checkbox from '../../general/Checkbox';
-import PartEditor from './PartEditor';
+import PartEditor from './PartEditor/PartEditor';
 import PartTable from './PartTable'
 import TableFields from '../../general/TableFields'
 import {part_table_headers} from '../../../data/tableHeaders'
@@ -37,7 +37,7 @@ const WarehouseParts = props => {
     return (
         <div className = 'contentTab'>
             <div className='row al-itm-bl'>
-                <div className='wmn300 overv'>
+                <div className='wp25 overv'>
                     <div className='row al-itm-ct'>
                         <Button
                             id='btaddWC'
@@ -57,7 +57,7 @@ const WarehouseParts = props => {
                     {props.statusWarehouseCategoryEditor ? <WarehouseCategoryEditor/> : null}
                     <CategoryTable/>
                 </div>
-                <div className='ml10 w100'>
+                <div className='ml10 wp75'>
                     <div className='row jc-sb'>
                         <div className='row al-itm-ct'>
                             <Button

@@ -29,7 +29,7 @@ const Settings = (props) => {
               <Route path = '/settings/generally' component = {Generally}/>
               <Route path = '/settings/employees' component={SettingEmployees}/>
               <Route path = '/settings/branches' component = {SettingBranches}/>
-              <Route path = '/settings/wherehouse' component = {SettingWarehouse}/>
+              <Route path = '/settings/warehouse' component = {SettingWarehouse}/>
               <Route path = '/settings/status' component = {SettingStatus}/>
               <Route path = '/settings/tags' component = {SettingTags}/>
               <Route path = '/settings/alerts' component = {SettingAlerts}/>

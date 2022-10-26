@@ -52,6 +52,19 @@ export function deletePartProperty(idx) {
     }
 }
 
+export function resetResidueRule() {
+    return {
+        type: 'RESET_RESIDUE_RULE',
+    }
+}
+
+export function editResidueRule(residue_rule) {
+    return {
+        type: 'EDIT_RESIDUE_RULE',
+        residue_rule
+    }
+}
+
 function getFilter() {
     const state = store.getState()
     return {
@@ -59,6 +72,44 @@ function getFilter() {
         deleted: state.part.showDeleted,
         warehouse_category_id: state.part.filter_warehouse_category_id,
         page: state.part.page
+    }
+}
+
+export function getPart(part_id) {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({id: part_id})
+
+    return async dispatch => {
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
+
+        await fetch(state.data.url_server + '/get_part', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'EDIT_PART',
+                        part:  data.part
+                    })
+                } else {
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {'statusOrderNotFound': true}
+                    })
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос товаров не выполнен'))
+
+        await dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
     }
 }
 
@@ -102,9 +153,12 @@ export function createPart() {
         article: state.part.article,
         barcode: state.part.barcode,
         code: state.part.code,
+        earnings_percent: state.part.visible_option ? state.part.earnings_percent : 0,
+        earnings_sum: state.part.visible_option ? state.part.earnings_sum : 0,
         specifications: state.part.specifications,
+        prices: state.part.prices,
         deleted: false,
-        warehouse_category_id: state.warehouse.current_parent_category.id,
+        warehouse_category_id: state.part.warehouse_category.id,
         img: state.part.img,
         doc: state.part.doc,
         filter: getFilter()
@@ -128,6 +182,17 @@ export function createPart() {
                     dispatch({
                         type: 'RESET_PART'
                     })
+                    // Если создаем запчать при оприходовании
+                    if(state.view.statusRegistrationEditor) {
+                        dispatch({
+                            type: 'CHANGE_REGISTRATION_STATE',
+                            data: {part: data.new_part}
+                        })
+                        dispatch({
+                            type: 'CHANGE_VISIBLE_STATE',
+                            data: {statusRegistrationPartEditor: true, inputRegistrationPartChecked: true}
+                        })
+                    }
                 } else {
                     console.warn(data.message)
                 }
@@ -148,8 +213,11 @@ export function savePart() {
         article: state.part.article,
         barcode: state.part.barcode,
         code: state.part.code,
+        earnings_percent: state.part.visible_option ? state.part.earnings_percent : 0,
+        earnings_sum: state.part.visible_option ? state.part.earnings_sum : 0,
         specifications: state.part.specifications,
-        warehouse_category_id: state.warehouse.current_parent_category.id,
+        prices: state.part.prices,
+        warehouse_category_id: state.part.warehouse_category.id,
         img: state.part.img,
         doc: state.part.doc,
         filter: getFilter()
@@ -214,5 +282,117 @@ export function deletePart( flag ) {
                 }
             })
             .catch(error => bad_request(dispatch, error, 'Запрос на удаление/восстановление товара не выполнен'))
+    }
+}
+
+export function createResidueRule() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        part_id: state.part.edit,
+        warehouse_id: state.part.warehouse.id,
+        min_residue: parseInt(state.part.min_residue),
+        necessary_amount: parseInt(state.part.necessary_amount)
+    })
+
+
+    return async dispatch => {
+
+        await fetch(state.data.url_server + '/residue_rule', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_PART_STATE',
+                        data: {residue_rules: data.residue_rules}
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusResidueRuleEditor: false}
+                    })
+                    dispatch({
+                        type: 'RESET_RESIDUE_RULE'
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание товара не выполнен'))
+    }
+}
+
+export function saveResidueRule() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        id: state.part.edit_residue_rules,
+        part_id: state.part.edit,
+        warehouse_id: state.part.warehouse.id,
+        min_residue: parseInt(state.part.min_residue),
+        necessary_amount: parseInt(state.part.necessary_amount)
+    })
+    request_config.method = 'PUT'
+
+
+    return async dispatch => {
+
+        await fetch(state.data.url_server + '/residue_rule', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_PART_STATE',
+                        data: {residue_rules: data.residue_rules}
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusResidueRuleEditor: false}
+                    })
+                    dispatch({
+                        type: 'RESET_RESIDUE_RULE'
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание товара не выполнен'))
+    }
+}
+
+export function deleteResidueRule() {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({
+        id: state.part.edit_residue_rules,
+        part_id: state.part.edit
+    })
+    request_config.method = 'DELETE'
+
+
+    return async dispatch => {
+
+        await fetch(state.data.url_server + '/residue_rule', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'CHANGE_PART_STATE',
+                        data: {residue_rules: data.residue_rules}
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusResidueRuleEditor: false}
+                    })
+                    dispatch({
+                        type: 'RESET_RESIDUE_RULE'
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос на создание товара не выполнен'))
     }
 }

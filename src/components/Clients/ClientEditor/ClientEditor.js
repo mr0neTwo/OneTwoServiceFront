@@ -3,13 +3,15 @@ import {connect} from 'react-redux'
 
 import {
     setVisibleFlag,
-    resetDataClient,
     setVisibleListFlag,
-    createNewClient,
-    saveChangeClient,
-    deleteClient,
 } from '../../../Redux/actions'
-import {changeClientState} from '../../../Redux/actions/clientAction'
+import {
+    changeClientState,
+    createClient,
+    deleteClient,
+    resetClient,
+    saveChangeClient
+} from '../../../Redux/actions/clientAction'
 
 import BottomButtons from '../../general/BottomButtons'
 
@@ -26,10 +28,10 @@ import Tabs from '../../general/Tabs'
 
 const ClientEditor = (props) => {
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('createNewClient')) {
+        if (!event.path.map((el) => el.id).includes('createClient')) {
             if (props.view.statusCreateNewClient) {
                 //  props.setVisibleFlag('statusCreateNewClient', false)
-                props.resetDataClient()
+                props.resetClient()
             }
         }
     }
@@ -49,7 +51,7 @@ const ClientEditor = (props) => {
             check0_100(props.client.discount_goods) &&
             check0_100(props.client.discount_services)
         ) {
-            props.createNewClient()
+            props.createClient()
         } else {
             if (!props.client.name) {
                 props.setVisibleFlag('inputClientNameChecked', false)
@@ -103,7 +105,7 @@ const ClientEditor = (props) => {
 
     return (
         <div className="rightBlock">
-            <div className="rightBlockWindow mw50" id="createNewClient">
+            <div className="rightBlockWindow mw50" id="createClient">
                 <div className="createNewTitle">
                     {props.client.edit ? props.client.name : 'Новый клиент'}
                 </div>
@@ -153,9 +155,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     setVisibleFlag,
-    resetDataClient,
+    resetClient,
     setVisibleListFlag,
-    createNewClient,
+    createClient,
     saveChangeClient,
     deleteClient,
     changeClientState

@@ -1,6 +1,8 @@
 const initialState = {
 
+   discount_margin: [],
    service_prices: [],
+   part_prices: [],
 
    edit: 0,
 
@@ -17,7 +19,11 @@ const initialState = {
          id: 1,
          title: 'Скидка на работы'
       }
-   ]
+   ],
+
+   showDeleted: false,
+   filter_type: null,
+   page: 0
 }
  
 export const priceReducer = (state = initialState, action) => {
@@ -51,8 +57,7 @@ export const priceReducer = (state = initialState, action) => {
             deleted: false
          }
       }
- 
-       
+
       default: return state
    }
     
