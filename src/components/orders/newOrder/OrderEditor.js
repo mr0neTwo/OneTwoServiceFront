@@ -22,19 +22,6 @@ import ResNotFound from '../../general/ResNotFound'
 
 const OrderEditor = (props) => {
 
-    const history = useHistory()
-
-    let location = useLocation()
-    const order_id = useMemo(() => parseInt(location.pathname.split('/').pop()), [location])
-
-    useEffect(() => {
-        if (order_id) {
-            props.getOrder(order_id)
-        } else {
-            props.changeVisibleState({statusOrderNotFound: true})
-        }
-    }, [order_id])
-
     useEffect(() => {
         props.addClients()
     }, [props.client.filter_name, props.client.filter_phone])
@@ -60,7 +47,6 @@ const OrderEditor = (props) => {
             equipment_model: {}
         })
         props.resetOrder()
-        history.push('/orders')
     }
 
     const clickHandel = (event) => {
@@ -68,7 +54,7 @@ const OrderEditor = (props) => {
             !event.path.map((el) => el.id).includes('addOrder') &&
             !event.path.map((el) => el.id).includes('createNewOrder') &&
             !event.path.map((el) => el.id).includes('paymentsEditorWiondow') &&
-            !event.path.map((el) => el.id).includes('resNotFound')
+            !event.path.map((el) => el.id).includes('writeOfEditor')
         ) {
             handleClose()
         }
@@ -118,12 +104,8 @@ const OrderEditor = (props) => {
     }
 
 
-    return !order_id || (order_id && !props.order.edit) ?
-        <div>
-            {props.statusOrderNotFound ? <ResNotFound/> : null}
-        </div>
-        : (
-        <div className="rightBlock">
+    return (
+        <div className="rightBlock z99">
             <div className="rightBlockWindow" id="createNewOrder">
                 <div className="cteateNewOrderContent">
 

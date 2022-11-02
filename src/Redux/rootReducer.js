@@ -24,6 +24,7 @@ import {notTemplateReducer} from './reducers/notTemplateReducer'
 import {notEventReducer} from './reducers/notEventReducer'
 import {registrationReducer} from './reducers/registrationReducer'
 import {remainReducer} from './reducers/remainReducer'
+import {writeOfReducer} from './reducers/writeOfReducer'
 
 
 
@@ -51,5 +52,6 @@ export const rootReducer = combineReducers({
    notTemplate: notTemplateReducer,
    notEvent: notEventReducer,
    registration: registrationReducer,
-   remain: remainReducer
+   remain: remainReducer,
+   writeof: writeOfReducer
 })

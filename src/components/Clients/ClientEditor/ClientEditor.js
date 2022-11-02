@@ -1,17 +1,8 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 
-import {
-    setVisibleFlag,
-    setVisibleListFlag,
-} from '../../../Redux/actions'
-import {
-    changeClientState,
-    createClient,
-    deleteClient,
-    resetClient,
-    saveChangeClient
-} from '../../../Redux/actions/clientAction'
+import {changeVisibleState, setVisibleListFlag,} from '../../../Redux/actions'
+import {changeClientState, createClient, deleteClient, resetClient, saveChangeClient} from '../../../Redux/actions/clientAction'
 
 import BottomButtons from '../../general/BottomButtons'
 
@@ -27,12 +18,22 @@ import ClientTask from './ClientTask'
 import Tabs from '../../general/Tabs'
 
 const ClientEditor = (props) => {
+
+    const handleClose = () => {
+        props.resetClient()
+        props.changeVisibleState({
+            statusClientEditor: false,
+            inputClientNameChecked: true,
+            inputClientDiscMatChecked: true,
+            inputClientDiscGoodChecked: true,
+            inputClientDiscServChecked: true,
+            inputClientPhoneChecked: [true]
+        })
+    }
+    
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('createClient')) {
-            if (props.view.statusCreateNewClient) {
-                //  props.setVisibleFlag('statusCreateNewClient', false)
-                props.resetClient()
-            }
+        if (!event.path.map((el) => el.id).includes('clientEditor')) {
+            handleClose()
         }
     }
 
@@ -54,16 +55,16 @@ const ClientEditor = (props) => {
             props.createClient()
         } else {
             if (!props.client.name) {
-                props.setVisibleFlag('inputClientNameChecked', false)
+                props.changeVisibleState({inputClientNameChecked: false})
             }
             if (!check0_100(props.client.discount_materials)) {
-                props.setVisibleFlag('inputClientDiscMatChecked', false)
+                props.changeVisibleState({inputClientDiscMatChecked: false})
             }
             if (!check0_100(props.client.discount_goods)) {
-                props.setVisibleFlag('inputClientDiscGoodChecked', false)
+                props.changeVisibleState({inputClientDiscGoodChecked: false})
             }
             if (!check0_100(props.client.discount_services)) {
-                props.setVisibleFlag('inputClientDiscServChecked', false)
+                props.changeVisibleState({inputClientDiscServChecked: false})
             }
             props.client.phone.forEach((phone, idx) => {
                 if (phone.number.replace(/[^0-9]/g, '').length !== 11) {
@@ -84,16 +85,16 @@ const ClientEditor = (props) => {
             props.saveChangeClient()
         } else {
             if (!props.client.name) {
-                props.setVisibleFlag('inputClientNameChecked', false)
+                props.changeVisibleState({inputClientNameChecked: false})
             }
             if (!check0_100(props.client.discount_materials)) {
-                props.setVisibleFlag('inputClientDiscMatChecked', false)
+                props.changeVisibleState({inputClientDiscMatChecked: false})
             }
             if (!check0_100(props.client.discount_goods)) {
-                props.setVisibleFlag('inputClientDiscGoodChecked', false)
+                props.changeVisibleState({inputClientDiscGoodChecked: false})
             }
             if (!check0_100(props.client.discount_services)) {
-                props.setVisibleFlag('inputClientDiscServChecked', false)
+                props.changeVisibleState({inputClientDiscServChecked: false})
             }
             props.client.phone.forEach((phone, idx) => {
                 if (phone.number.replace(/[^0-9]/g, '').length !== 11) {
@@ -105,7 +106,7 @@ const ClientEditor = (props) => {
 
     return (
         <div className="rightBlock">
-            <div className="rightBlockWindow mw50" id="createClient">
+            <div className="rightBlockWindow mw50" id="clientEditor">
                 <div className="createNewTitle">
                     {props.client.edit ? props.client.name : 'Новый клиент'}
                 </div>
@@ -139,7 +140,7 @@ const ClientEditor = (props) => {
                     save={handelSaveClient}
                     delete={props.permissions.includes('delete_client') ? () => props.deleteClient(true) : null}
                     recover={props.permissions.includes('recover_client') ? () => props.deleteClient(false) : null}
-                    close={() => props.setVisibleFlag('statusCreateNewClient', false)}
+                    close={() => props.changeVisibleState({statusClientEditor: false})}
                     deleted={props.client.deleted}
                 />
             </div>
@@ -154,7 +155,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    setVisibleFlag,
+    changeVisibleState,
     resetClient,
     setVisibleListFlag,
     createClient,

@@ -14,7 +14,7 @@ const initialState = {
    statusEmployeeEditor: false,
    employeeEditorRoleOptions: false,
    statusOrderEditor: false,
-   statusCreateNewClient: false,
+   statusClientEditor: false,
    statusAdCampaignClient: false,
    checkedOrderClient: false,
    statusBranchEditor: false,
@@ -36,7 +36,6 @@ const initialState = {
    statusWarehouseEditor: false,
    statusWarehouseEmployeeEditor: false,
    statusWarehouseCategoryEditor: false,
-   statusPartEditor: false,
    statusOrderPartEditor: false,
    statusOrderSticker: false,
    statusOrderLoader: false,
@@ -49,6 +48,8 @@ const initialState = {
    statusRemainEditor: false,
    statusResidueRuleEditor: false,
    statusOrderNotFound: false,
+   statusWriteOfEditor: false,
+   statusPartEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -103,6 +104,7 @@ const initialState = {
    inputRegistrationClientChecked: true,
    inputRegistrationPartChecked: true,
    inputResRulWarehouse: true,
+   inputEngineerWriteOf: true,
 
    errorSameMail: false,
    errorSameLogin: false,

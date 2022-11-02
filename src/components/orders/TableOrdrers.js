@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useRef} from 'react'
 import {connect} from 'react-redux'
 
 
-import {addOrders, editOrder, resetOrder} from '../../Redux/actions/orderActions'
+import {addOrders, editOrder, getOrder, resetOrder} from '../../Redux/actions/orderActions'
 import {changeVisibleState, initStatusMenuVisibleAction} from '../../Redux/actions'
 import {changeBookState} from '../../Redux/actions/bookActions'
 
@@ -23,7 +23,6 @@ import Equipment from './cell/Equipment'
 import OrderEditor from './newOrder/OrderEditor'
 import PaymentsEditor from '../Payments/PaymentsEditor'
 import StikerToPrint from './newOrder/orderHisroy/StikerToPrint'
-import {useHistory} from 'react-router-dom'
 import Subtype from './cell/Subtype'
 import Manager from './cell/Manager'
 import MissedPayments from './cell/MissedPayments'
@@ -33,8 +32,6 @@ import AdCampaign from './cell/AdCampaign'
 
 
 const TableOrders = props => {
-
-    const history = useHistory()
 
     useEffect(() => {
         let statusVis = {}
@@ -51,7 +48,7 @@ const TableOrders = props => {
             equipment_subtype: order.subtype,
             equipment_model: order.model
         })
-        history.push(`/orders/${order.id}`, {order_id: order.id })
+        props.getOrder(order.id)
     }
 
     const afterPrint = () => {
@@ -65,7 +62,6 @@ const TableOrders = props => {
     const tFields = useMemo(() => props.order.tableFields.filter(header => header.visible), [props.order, props.order.tableFields])
 
     const table_order = useRef(null)
-    // console.log(table_order.current)
 
     const chooseCell = (field, order) => {
         switch (field.id) {
@@ -119,10 +115,8 @@ const TableOrders = props => {
                     ))}
                     </tbody>
                 </table>
-                {props.view.statusOrderEditor ? <OrderEditor/> : null}
                 {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
-                {props.view.statusOrderSticker ?
-                    <StikerToPrint onAfterPrint={afterPrint}/> : null}
+                {props.view.statusOrderSticker ? <StikerToPrint onAfterPrint={afterPrint}/> : null}
 
             </div>
         )
@@ -145,7 +139,8 @@ const mapDispatchToProps = {
     changeVisibleState,
     editOrder,
     changeBookState,
-    resetOrder
+    resetOrder,
+    getOrder
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrders)

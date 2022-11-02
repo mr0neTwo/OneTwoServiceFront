@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import { setVisibleFlag} from '../../Redux/actions'
+import {changeVisibleState, setVisibleFlag} from '../../Redux/actions'
 import {changeFilterState} from '../../Redux/actions/filterAction'
 import {changeOrderState} from '../../Redux/actions/orderActions'
 import {icon_filter} from '../../data/icons'
@@ -22,9 +22,8 @@ const CustomPanel = (props) => {
             let week_day = estimated_done_at.getDay() || 7 // вычеслим текущий день недели
             if (props.schedule.find(day => day.week_day === week_day).work_day) i++ // Если день рабочий, довим шаг цикла
         }
-
-        props.changeOrderState({manager_id: props.user.id, estimated_done_at: parseInt(estimated_done_at / 1000)})
-        props.setVisibleFlag('statusOrderEditor', true)
+        props.changeOrderState({manager: props.user, estimated_done_at: parseInt(estimated_done_at / 1000)})
+        props.changeVisibleState({statusOrderEditor: true})
     }
 
     const handleEditFilter = () => {
@@ -62,9 +61,7 @@ const CustomPanel = (props) => {
                 </div>
                 <TableOrderFields/>
             </div>
-
             {props.statusSetCustomFilter ? <SetFilter/> : null}
-
         </div>
     )
 }
@@ -82,7 +79,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     setVisibleFlag,
     changeOrderState,
-    changeFilterState
+    changeFilterState,
+    changeVisibleState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomPanel)

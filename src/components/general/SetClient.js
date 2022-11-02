@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
-import ClientEditor from '../Clients/ClientEditor/ClientEditor'
-
 import { editCurrentClient, changeVisibleState} from '../../Redux/actions'
 import {addClients, changeClientState} from '../../Redux/actions/clientAction'
 import {showPhone} from './utils'
@@ -26,6 +24,8 @@ import {icon_client, icon_down, icon_left} from '../../data/icons'
  * redStar={false}
  *
  * errorMassage='errorMassage'
+ *
+ * disabled={false}
  *
  * @returns {JSX.Element}
  *
@@ -56,8 +56,10 @@ const SetClient = (props) => {
     })
 
     const editClient = (client) => {
-        props.editCurrentClient(client)
-        props.changeVisibleState({'statusCreateNewClient': true})
+        if (!props.disabled) {
+            props.editCurrentClient(client)
+            props.changeVisibleState({'statusClientEditor': true})
+        }
     }
 
     if (Object.values(props.client).length) {
@@ -72,7 +74,7 @@ const SetClient = (props) => {
                             />
                             <span
                                 className='clientCardName'
-                                onClick={props.disabled ? null : () => editClient(props.client)}
+                                onClick={() => editClient(props.client)}
                             >
                                 {props.client.name}
                             </span>
@@ -93,7 +95,6 @@ const SetClient = (props) => {
                         &#9587;
                     </div>
                 </div>
-                {props.view.statusCreateNewClient ? <ClientEditor/> : null }
             </div>
         )
     }
@@ -103,7 +104,7 @@ const SetClient = (props) => {
 
             <div className='lableImput mt15'>{props.title || 'Имя клиента'}{props.redStar ? <span className='redStar'>*</span> : null}</div>
 
-            <div className='blockImput'>
+            <div className='blockInput'>
                 <div
                     id={props.id}
                     className='orderInputBox'
@@ -117,7 +118,7 @@ const SetClient = (props) => {
                     />
                     <div
                         className='simbolButton'
-                        onClick={props.disabled ? null : () => props.changeVisibleState({'statusCreateNewClient': true})}
+                        onClick={props.disabled ? null : () => props.changeVisibleState({'statusClientEditor': true})}
                     >
                         +
                     </div>
@@ -134,11 +135,11 @@ const SetClient = (props) => {
                             <div
                                 className='rowGropList'
                                 key={client.id}
-                                onClick={event => {
+                                onClick={() => {
                                     setShowList(false)
                                     // props.editCurrentClient(client)
                                     props.setClient(client)
-                                    if (props.checkedFlag) props.changeVisibleState({[props.checkedFlag]: !!event.target.value})
+                                    if (props.checkedFlag) props.changeVisibleState({[props.checkedFlag]: true})
                                 }}
                             >
                                 <div>{client.name}</div>
@@ -150,9 +151,6 @@ const SetClient = (props) => {
                     </div> : null}
 
             </div>
-
-
-            {props.view.statusCreateNewClient ? <ClientEditor/> : null}
         </div>
     )
 }

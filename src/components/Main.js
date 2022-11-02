@@ -23,8 +23,10 @@ import UserSetting from './sidebar/userSettings/UserSetting'
 import Alerts from './Alerts/Alerts'
 import Warehouse from './Wherehouse/Wherehouse'
 import PartEditor from './Wherehouse/WarehouseParts/PartEditor/PartEditor'
-import ClientEditor from './Clients/ClientEditor/ClientEditor'
+import WriteOfEditor from './Wherehouse/WarehouseWriteOf/WriteOfEditor'
 import RegistrationEditor from './Wherehouse/WarehouseRegistration/RegistrationEditor'
+import ClientEditor from './Clients/ClientEditor/ClientEditor'
+
 
 
 function Main(props) {
@@ -47,8 +49,6 @@ function Main(props) {
             <div className='contentMain'>
                 <Alerts/>
                 <Switch>
-
-
                     <Route path='/tasks' component={TaskManager}/>
                     <Route path='/leans' component={Leads}/>
                     <Route path='/orders' component={Orders}/>
@@ -64,21 +64,21 @@ function Main(props) {
 
                     <Redirect from='/' to='/leans'/>
                 </Switch>
-                <Switch>
-                    <Route exact path="/orders/:id"  component={OrderEditor}/>
-                    <Route exact path="/warehouse/part:id"  component={PartEditor}/>
-                    <Route exact path="/warehouse/client:id"  component={ClientEditor}/>
-                    <Route exact path="/warehouse/registration:id"  component={RegistrationEditor}/>
-                </Switch>
             </div>
+            {props.view.statusWriteOfEditor ? <WriteOfEditor/> : null}
+            {props.view.statusRegistrationEditor ? <RegistrationEditor/> : null}
+            {props.view.statusClientEditor ? <ClientEditor/> : null}
+            {props.view.statusPartEditor ? <PartEditor/> : null}
+            {props.view.statusOrderEditor ? <OrderEditor/> : null}
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    statusCreateNewClient: state.view.statusCreateNewClient,
+    statusClientEditor: state.view.statusClientEditor,
     user_id: state.data.user.id,
-    branches: state.branch.branches
+    branches: state.branch.branches,
+    view: state.view
 })
 
 const mapDispatchToProps = {

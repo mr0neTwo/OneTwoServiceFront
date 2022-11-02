@@ -24,7 +24,7 @@ const ChooseSingleEquipment = (props) => {
                     <div className='optionsTitle'>
                         Тип устройства<span className='redStar'>*</span>
                     </div>
-                    <div className='blockImput'>
+                    <div className='blockInput'>
                         <SetOrderGroup idx={0}/>
                     </div>
                 </div>
@@ -33,7 +33,7 @@ const ChooseSingleEquipment = (props) => {
                     <div className='optionsTitle'>
                         Бренд<span className='redStar'>*</span>
                     </div>
-                    <div className='blockImput'>
+                    <div className='blockInput'>
                         <SetOrderBrand idx={0}/>
                     </div>
                 </div>
@@ -42,14 +42,14 @@ const ChooseSingleEquipment = (props) => {
                     <div className='optionsTitle'>
                         Модуль / Серия<span className='redStar'>*</span>
                     </div>
-                    <div className='blockImput'>
+                    <div className='blockInput'>
                         <SetOrderSubtype idx={0}/>
                     </div>
                 </div>
 
                 <div className='formRow'>
                     <div className='optionsTitle'>Модель</div>
-                    <div className='blockImput'>
+                    <div className='blockInput'>
                         <SetOrderModel idx={0}/>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ const ChooseSingleEquipment = (props) => {
                 />
                 <div className='formRow'>
                     <div className='optionsTitle'>Срочно</div>
-                    <div className='blockImput'>
+                    <div className='blockInput'>
                         <div className='checkbox pd-tb-5 al-itm-fs'>
                             <input
                                 type='checkbox'

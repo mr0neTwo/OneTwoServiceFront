@@ -1,20 +1,35 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
-import {Link, useLocation} from 'react-router-dom'
 
 import {showDate} from '../../../general/utils'
-import ChooseButton from '../../../general/ChooseButton'
 import MultyButton from '../../../general/MultyButton'
+import {getWriteOf} from '../../../../Redux/actions/writeOfAction'
+import {getRegistration} from '../../../../Redux/actions/registrationAction'
+
+import WriteOfEditor from '../../WarehouseWriteOf/WriteOfEditor'
+import RegistrationEditor from '../../WarehouseRegistration/RegistrationEditor'
 
 
 const PartMovement = (props) => {
 
     const [direction, setDirection] = useState(0)
 
-    const location = useLocation()
-    const list_type = ['registration']
+    const list_type = ['registration', 'writeof', 'order']
 
     const part_movements = props.part.part_movements.filter(movement => !direction || movement.direction === direction)
+
+    const handleClick = (movement) => {
+        if (movement.relatedObject.type === 1) props.getWriteOf(movement.relatedObject.doc_id)
+        switch (movement.relatedObject.type) {
+            case 0:
+                props.getRegistration(movement.relatedObject.doc_id)
+                break
+            case 1:
+                props.getWriteOf(movement.relatedObject.doc_id)
+                break
+            default: console.log(movement)
+        }
+    }
 
     return (
         <div className=''>
@@ -29,7 +44,6 @@ const PartMovement = (props) => {
             <table className='mt15'>
                 <thead>
                     <tr>
-                        {/*<th>Создан</th>*/}
                         <th className='w150'>Документ</th>
                         <th className='w300'>Описание</th>
                         <th className='w70'>Приход</th>
@@ -40,23 +54,15 @@ const PartMovement = (props) => {
                 {part_movements.map(movement => (
                     <tr key={movement.id}>
 
-                        {/*<td>*/}
-                        {/*    <div>{movement.employee.name}</div>*/}
-                        {/*    <div>{showDate(movement.created_at)}</div>*/}
-                        {/*</td>*/}
-
                         <td>
                             <div>
                                 <span>{`${movement.relatedObject.title} №`}</span>
-                                <Link
-                                    className='orderLink'
-                                    to={{
-                                        pathname: `/warehouse/${list_type[movement.relatedObject.type]}${movement.relatedObject.doc_id}`,
-                                        state: { prevPath: location.pathname }
-                                    }}
+                                <span
+                                    className='link'
+                                    onClick={() => handleClick(movement)}
                                 >
                                     {movement.relatedObject.label}
-                                </Link>
+                                </span>
                             </div>
                             <div className='orderDate'>{showDate(movement.created_at)}</div>
                         </td>
@@ -73,11 +79,13 @@ const PartMovement = (props) => {
 }
 
 const mapStateToProps = state => ({
-    part: state.part
+    part: state.part,
+    view: state.view
 })
 
 const mapDispatchToProps = {
-
+    getWriteOf,
+    getRegistration
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PartMovement)

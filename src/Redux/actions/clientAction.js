@@ -64,6 +64,36 @@ function getFilter () {
     }
 }
 
+export function getClient(client_id) {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({id: client_id})
+
+    return dispatch => {
+
+        fetch(state.data.url_server + '/get_client', request_config)
+            .then(response =>  response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'EDIT_CLIENT',
+                        client: data.client,
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusClientEditor: true}
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос Списаний не выполнен'))
+
+    }
+}
+
+
 
 export function addClients() {
 
@@ -176,7 +206,7 @@ export function createClient() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusCreateNewClient: false}
+                        data: {statusClientEditor: false}
                     })
                     dispatch({
                         type: 'RESET_CLIENT'
@@ -264,7 +294,7 @@ export function saveChangeClient() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusCreateNewClient: false}
+                        data: {statusClientEditor: false}
                     })
                     dispatch({
                         type: 'RESET_CLIENT'
@@ -321,7 +351,7 @@ export function deleteClient(flag) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusCreateNewClient: false}
+                        data: {statusClientEditor: false}
                     })
                     dispatch({
                         type: 'RESET_CLIENT'

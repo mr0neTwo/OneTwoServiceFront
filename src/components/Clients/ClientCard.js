@@ -39,14 +39,13 @@ const ClientCard = (props) => {
             &#9587;
          </div>
          </div>
-         {props.statusCreateNewClient ? <ClientEditor/> : null }
       </div>
    )
 }
 
 const mapStateToProps = state => ({
    client: state.client,
-   statusCreateNewClient: state.view.statusCreateNewClient
+   statusClientEditor: state.view.statusClientEditor
    })
 
 const mapDispatchToProps = {

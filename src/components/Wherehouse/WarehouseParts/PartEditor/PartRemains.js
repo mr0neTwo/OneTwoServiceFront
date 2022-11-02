@@ -5,7 +5,7 @@ import Remain from './Remain'
 
 const PartRemains = (props) => {
 
-    const [show, setShow] = useState(0)
+    const [show, setShow] = useState(1)
 
     const remains = useMemo(() => {
         if (show === 1) {
@@ -21,8 +21,8 @@ const PartRemains = (props) => {
                 className='mt15'
                 title= 'Подпись'
                 name={['В наличии', 'Все']}
-                func1 = {() => setShow(0)}
-                func2 = {() => setShow(1)}
+                func1 = {() => setShow(1)}
+                func2 = {() => setShow(0)}
                 checked = { true }
             />
 

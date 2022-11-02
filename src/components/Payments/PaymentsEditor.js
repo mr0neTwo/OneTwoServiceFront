@@ -130,6 +130,7 @@ const PaymentsEditor = (props) => {
                         title='Имя поставщика'
                         setClient={client => props.changePaymentState({client})}
                         client={props.payment.client}
+                        disabled={!!props.order_edit}
                     />
                     <Receipt/>
 

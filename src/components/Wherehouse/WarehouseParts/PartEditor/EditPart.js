@@ -9,7 +9,8 @@ import AddDocument from '../../../general/AddDocument'
 import LableInput from '../../../general/LableInput'
 import ChooseCategory from '../ChooseCategory'
 import LableArea from '../../../general/LableArea'
-import Specifications from '../Specifications'
+import Specifications from './Specifications'
+import ChooseButton from '../../../general/ChooseButton'
 
 const EditPart = (props) => {
     return (
@@ -86,6 +87,23 @@ const EditPart = (props) => {
                         disabled={props.part.deleted}
                     />
                 </div>
+            </div>
+            <div className='row al-itm-fe'>
+                <LableInput
+                    className='w70 mt15'
+                    title='Гарантия'
+                    onChange={event => props.changePartState({warranty_period: event.target.value.replace(/[^0-9]/g, '') * props.part.warranty_value})}
+                    value={parseInt(props.part.warranty_period / props.part.warranty_value)}
+                    unit=' '
+                    disabled={props.part.deleted}
+                />
+                <ChooseButton
+                    className='ml30'
+                    name={['Дни', 'Мес']}
+                    func1 = {() => props.changePartState({warranty_value: 24*60*60})}
+                    func2 = {() => props.changePartState({warranty_value: 30*24*60*60})}
+                    disabled={props.part.deleted}
+                />
             </div>
             <Specifications/>
             <div className='sip_line'/>

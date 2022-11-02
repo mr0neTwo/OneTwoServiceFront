@@ -10,10 +10,9 @@ import PartPrice from './cell/PartPrice'
 import PartImag from './cell/PartImag'
 import PartDoc from './cell/PartDoc'
 import PartCount from './cell/PartCount'
+import {getPart} from '../../../Redux/actions/partAction'
 
 const TableRemains = (props) => {
-
-    const history = useHistory()
 
     const chooseCell = (header, remain) => {
 
@@ -26,13 +25,6 @@ const TableRemains = (props) => {
             case 9: return <PartCount key={header.id} header={header} remain={remain}/>
             default: return <td key={header.id}>{remain[header.field]}</td>
         }
-    }
-
-    const handleEdit = (remain) => {
-        history.push({
-            pathname: `/warehouse/part${remain.part_id}`,
-            state: {remain, prevPath: history.location.pathname}
-        })
     }
 
     return (
@@ -56,7 +48,7 @@ const TableRemains = (props) => {
                     {props.remain.warehouse_remains.map((remain, idx) => (
                         <tr
                             key={idx}
-                            onDoubleClick={() => handleEdit(remain)}
+                            onDoubleClick={() => props.getPart(remain.part_id)}
                         >
                             {props.remain.table_headers.map(header => chooseCell(header, remain))}
                         </tr>
@@ -74,7 +66,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changeRemainState
+    changeRemainState,
+    getPart
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableRemains)

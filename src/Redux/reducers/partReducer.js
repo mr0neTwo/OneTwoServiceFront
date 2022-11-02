@@ -25,6 +25,7 @@ const initialState = {
     warehouse_category: {},
     img: '',
     doc: '',
+    warranty_period: 0,
     prices: [],
     residue_rules: [],
     remains: [],
@@ -37,6 +38,7 @@ const initialState = {
     necessary_amount: 0,
 
     visible_option: false,
+    warranty_value: 30*24*60*60,
 
     page: 0,
     showDeleted: false,
@@ -70,6 +72,7 @@ export const partReducer = (state = initialState, action) => {
                 doc_url: action.part.doc_url,
                 specifications: action.part.specifications,
                 deleted: action.part.deleted,
+                warranty_period: action.part.warranty_period,
                 warehouse_category: action.part.warehouse_category,
                 prices: action.part.prices,
                 residue_rules: action.part.residue_rules,
@@ -98,12 +101,14 @@ export const partReducer = (state = initialState, action) => {
                 deleted: false,
                 img: '',
                 doc: '',
+                warranty_period: 0,
                 prices: [],
                 residue_rules: [],
                 remains: [],
                 part_movements: [],
                 warehouse_remains: [],
-                visible_option: false
+                visible_option: false,
+                warranty_value: 30*24*60*60,
             }
         }
 

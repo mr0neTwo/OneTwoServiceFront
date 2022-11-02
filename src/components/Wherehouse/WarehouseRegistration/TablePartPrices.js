@@ -16,14 +16,23 @@ const TablePartPrices = (props) => {
     }
 
     const handleChange = (discount_margin_id, value) => {
-        const prices = props.registration.prices.map(price => {
-            if (price.margin.id === discount_margin_id) {
-                price.cost = value
-                return price
-            } else {
-                return price
-            }
-        })
+        let prices = props.registration.prices
+        if (prices.find(price => price.margin.id === discount_margin_id)) {
+            prices = prices.map(price => {
+                if (price.margin.id === discount_margin_id) {
+                    price.cost = value
+                    return price
+                } else {
+                    return price
+                }
+            })
+        } else {
+            prices = prices.concat([{
+                cost: value,
+                margin: {id: discount_margin_id},
+            }])
+        }
+
         props.changeRegistrationState({prices})
     }
 

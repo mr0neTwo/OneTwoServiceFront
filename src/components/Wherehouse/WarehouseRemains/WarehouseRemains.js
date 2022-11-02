@@ -9,7 +9,7 @@ import ChooseCategory from '../WarehouseParts/ChooseCategory'
 import TableFields from '../../general/TableFields'
 import {remain_headers} from '../../../data/tableHeaders'
 import TableRemains from './TableRemains'
-import {includesObject} from '../../general/utils'
+import {checkObject, includesObject} from '../../general/utils'
 import {addDiscountMargin} from '../../../Redux/actions/priceAction'
 
 
@@ -29,9 +29,6 @@ const WarehouseRemains = (props) => {
         props.remain.showDeleted
     ])
 
-    useEffect(() => {
-        props.addWarehouseCategories()
-    }, [props.warehouse.showDeleted])
 
     const tableMarginHeaders = props.discount_margin.filter(margin => margin.margin_type === 2).map((margin, idx) => {
         return  {
@@ -43,10 +40,6 @@ const WarehouseRemains = (props) => {
             order: idx + 15
         }
     })
-
-    // console.log(props.discount_margin)
-    // console.log(tableMarginHeaders)
-    // console.log(remain_headers.concat(tableMarginHeaders))
 
     return (
         <div className='contentTab'>
@@ -88,7 +81,8 @@ const WarehouseRemains = (props) => {
                     func={props.selectedRemain}
                 />
             </div>
-            <TableRemains/>
+
+            {checkObject(props.remain.filter_warehouse) ? <TableRemains/> : <div className='makeChoice'>Выбирете склад</div>}
 
         </div>
     )

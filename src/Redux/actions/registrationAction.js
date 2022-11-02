@@ -75,6 +75,44 @@ function getFilter() {
     }
 }
 
+export function getRegistration(registration_id) {
+
+    const state = store.getState()
+
+    const request_config = getRequestConfig({id: registration_id})
+
+    return async dispatch => {
+
+        await  dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': true}
+        })
+
+        await fetch(state.data.url_server + '/get_warehouse_registration', request_config)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    dispatch({
+                        type: 'EDIT_REGISTRATION',
+                        registration:  data.registration
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusRegistrationEditor: true}
+                    })
+                } else {
+                    console.warn(data.message)
+                }
+            })
+            .catch(error => bad_request(dispatch, error, 'Запрос оприходования не выполнен'))
+
+        await dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {'statusOrderLoader': false}
+        })
+    }
+}
+
 export function addRegistration() {
 
     const state = store.getState()

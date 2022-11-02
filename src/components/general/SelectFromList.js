@@ -79,7 +79,7 @@ const SelectFromList = (props) => {
     return props.invisible ? <div/> :
         <div
             className={`h52 ${props.className}`}
-            style={{width: props.width ? props.width : '250px'}}
+            style={{width: props.width || '250px'}}
             id={`selectFromList${props.id}`}
         >
             <div className='lableImput'>{props.title}{props.checkedFlag ? <span className='redStar'>*</span> : null}</div>

@@ -8,11 +8,13 @@ import {icon_down, icon_left} from '../../../data/icons'
 import {changeRegistrationState} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 import Button from '../../general/Button'
-import PartEditor from '../WarehouseParts/PartEditor/PartEditor'
+import {useHistory} from 'react-router-dom'
 
 
 
 const AddParts = (props) => {
+
+    const history = useHistory()
 
     useEffect(() => {
         props.addParts()
@@ -29,8 +31,7 @@ const AddParts = (props) => {
             setShowList(false)
         }
     }
-
-
+    
     useEffect(() => {
         window.addEventListener('click', clickHandel)
         return () => {
@@ -58,7 +59,7 @@ const AddParts = (props) => {
 
             <div className='lableImput mt15'>Наименование товара</div>
 
-            <div className='blockImput'>
+            <div className='blockInput'>
                 <div
                     id='warehousePart'
                     className='orderInputBox'
@@ -93,12 +94,14 @@ const AddParts = (props) => {
                             <Button
                                 title='+ Запчасть'
                                 className='whiteButton'
-                                onClick={() => props.changeVisibleState({statusPartEditor: true})}
+                                onClick={() => history.push({
+                                    pathname: `/warehouse/part1`,
+                                    state: {new_part: true}
+                                })}
                             />
                         </div>
                     </div> : null}
             </div>
-            {props.view.statusPartEditor ? <PartEditor/> : null}
         </div>
     )
 }

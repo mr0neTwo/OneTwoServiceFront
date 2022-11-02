@@ -19,6 +19,7 @@ const initialState = {
     warehouse_id: 0,                     // Склад
 
     page: 0,
+    filter_title: '',
     filter_warehouse: {},
     filter_category: {},
     filter_type:  {id: 0, title: 'Все'},

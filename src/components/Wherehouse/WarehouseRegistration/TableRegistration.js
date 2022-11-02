@@ -1,22 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {showDate, showName} from '../../general/utils'
 
-import {changeRegistrationState, editRegistration} from '../../../Redux/actions/registrationAction'
+import {showDate, showName} from '../../general/utils'
+import {changeRegistrationState, getRegistration} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 
 import TableHeader from '../../general/TableHeader'
 
 const TableRegistration = (props) => {
 
-    const handleEdit = (registration) => {
-        props.editRegistration(registration)
-        props.changeVisibleState({statusRegistrationEditor: true})
-    }
 
     const chooseCell = (header, registration) => {
         switch (header.id) {
 
+            case 1: return <td key={header.id}>
+                <span
+                    className='link'
+                    onClick={() => props.getRegistration(registration.id)}
+                >
+                    {registration.label}
+                </span>
+            </td>
             case 3: return (
                 <td key={header.id}>
                    <div>{showName(registration.employee)}</div>
@@ -48,7 +52,7 @@ const TableRegistration = (props) => {
                 {props.registration.registrations.map(registration => (
                     <tr
                         key={registration.id}
-                        onDoubleClick={() => handleEdit(registration)}
+                        onDoubleClick={() => props.getRegistration(registration.id)}
                     >
                         {props.registration.table_headers.map(header => chooseCell(header, registration))}
                     </tr>
@@ -63,7 +67,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    editRegistration,
+    getRegistration,
     changeVisibleState,
     changeRegistrationState
 }

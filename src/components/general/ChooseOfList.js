@@ -75,7 +75,7 @@ const ChooseOfList = (props) => {
 
     return props.invisible ? <div/> :
         <div
-            className={props.className}
+            className={`h52 ${props.className}`}
             style={{width: props.width ? props.width : '250px'}}
             id={`chooseOfList${props.id}`}
         >

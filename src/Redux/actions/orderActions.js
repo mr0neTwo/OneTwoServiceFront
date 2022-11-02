@@ -119,8 +119,8 @@ export function createOrder() {
         order_type_id: state.order.order_type_id,
         client_id: state.order.client.id,
         ad_campaign_id: state.order.ad_campaign_id,
-        manager_id: state.order.manager_id,
-        engineer_id: state.order.engineer_id,
+        manager_id: state.order.manager.id,
+        engineer_id: state.order.engineer.id,
         created_by_id: state.data.user.id,
         branch_id: state.branch.current_branch.id,
         status_id: 1,
@@ -275,8 +275,8 @@ export function saveOrder() {
         ad_campaign_id: state.order.ad_campaign_id,
         client_id: state.order.client.id,
         order_type_id: state.order_type_id,
-        manager_id: state.order.manager_id,
-        engineer_id: state.order.engineer_id,
+        manager_id: state.order.manager.id,
+        engineer_id: state.order.engineer.id,
         kindof_good_id: state.order.kindof_good.id,
         brand_id: state.order.brand.id,
         subtype_id: state.order.subtype.id,
@@ -369,12 +369,11 @@ export function getOrder(order_id) {
                         type: 'CHANGE_ORDER_STATE',
                         data: {events: data.events || []}
                     })
-
-                } else {
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {'statusOrderNotFound': true}
+                        data: {statusOrderEditor: true}
                     })
+                } else {
                     console.warn(data.message)
                 }
             })

@@ -1,18 +1,17 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
-import { addWarehouseCategories, changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
+import {addWarehouseCategories, changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
 import {addParts, changePartState, choosePartSelected} from '../../../Redux/actions/partAction'
 import {setVisibleFlag} from '../../../Redux/actions';
+import {part_table_headers} from '../../../data/tableHeaders'
 
 import Button from '../../general/Button';
 import WarehouseCategoryEditor from './WarehouseCategoryEditor';
 import CategoryTable from './CategoryTable';
 import Checkbox from '../../general/Checkbox';
-import PartEditor from './PartEditor/PartEditor';
 import PartTable from './PartTable'
 import TableFields from '../../general/TableFields'
-import {part_table_headers} from '../../../data/tableHeaders'
 
 const WarehouseParts = props => {
 
@@ -31,7 +30,7 @@ const WarehouseParts = props => {
 
     const handleAddPart = () => {
         props.changeWarehouseForm(props.warehouse.current_category, 'current_parent_category')
-        props.setVisibleFlag('statusPartEditor', true)
+        props.changeVisibleState({statusPartEditor: true})
     }
 
     return (
@@ -85,19 +84,15 @@ const WarehouseParts = props => {
                             field='choosed_headers'
                         />
                     </div>
-                    {props.statusPartEditor ? <PartEditor/> : null}
                     <PartTable/>
                 </div>
-
             </div>
-
         </div>
     )
 }
 
 const mapStateToProps = state => ({
     statusWarehouseCategoryEditor: state.view.statusWarehouseCategoryEditor,
-    statusPartEditor: state.view.statusPartEditor,
     warehouse: state.warehouse,
     part: state.part,
     permissions: state.data.user.role.permissions

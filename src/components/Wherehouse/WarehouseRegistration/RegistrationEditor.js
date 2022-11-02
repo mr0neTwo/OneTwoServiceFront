@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
-import {changeRegistrationState, createRegistration, deleteRegistration} from '../../../Redux/actions/registrationAction'
+import {changeRegistrationState, createRegistration, deleteRegistration, getRegistration} from '../../../Redux/actions/registrationAction'
 import {resetRegistration, saveRegistration} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 import {addDiscountMargin, changePriceState} from '../../../Redux/actions/priceAction'
+import {checkObject} from '../../general/utils'
 
 import ChooseDate from '../../general/calandar/ChooseDate'
 import LableInput from '../../general/LableInput'
@@ -15,7 +16,6 @@ import AddParts from './AddParts'
 import RegistrationPartEditor from './RegistrationPartEditor'
 import TableRegistrationPart from './TableRegistrationPart'
 import SelectFromList from '../../general/SelectFromList'
-import {checkObject} from '../../general/utils'
 import WarningChangeWarehouse from './WarningChangeWarehouse'
 
 
@@ -23,11 +23,6 @@ const RegistrationEditor = (props) => {
 
     const [messageWarning, setMessageWarning] = useState(false)
     const [warehouse, setWarehouse] = useState({})
-
-    useEffect(() => {
-        props.changePriceState({showDeleted: false, filter_type: 2})
-        props.addDiscountMargin()
-    }, [])
 
     const handleClose = () => {
         props.changeVisibleState({
@@ -38,11 +33,19 @@ const RegistrationEditor = (props) => {
             inputRegistrationPartChecked: true
         })
         props.resetRegistration()
+        props.changeVisibleState({statusRegistrationEditor: false})
     }
+
+    useEffect(() => {
+        props.changePriceState({showDeleted: false, filter_type: 2})
+        props.addDiscountMargin()
+    }, [])
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('registrationEditorWindow') &&
+            !event.path.map((el) => el.id).includes('registrationEditor') &&
+            !event.path.map((el) => el.id).includes('wpartEditorWindow') &&
+            !event.path.map((el) => el.id).includes('newRegistration') &&
             !event.path.map((el) => el.id).includes('changeWarehouseMessage')
         ) {
             handleClose()
@@ -62,7 +65,6 @@ const RegistrationEditor = (props) => {
             checkObject(props.registration.warehouse) &&
             checkObject(props.registration.client) &&
             props.registration.parts.length
-
         ) {
             props.createRegistration()
         } else {
@@ -116,7 +118,7 @@ const RegistrationEditor = (props) => {
 
     return (
         <div className='rightBlock'>
-            <div className='rightBlockWindow' id='registrationEditorWindow'>
+            <div className='rightBlockWindow' id='registrationEditor'>
                 <div className='createNewTitle'>
                     {props.registration.edit ? props.registration.label : ' Новое оприходование'}
                 </div>
@@ -211,7 +213,8 @@ const mapDispatchToProps = {
     deleteRegistration,
     resetRegistration,
     addDiscountMargin,
-    changePriceState
+    changePriceState,
+    getRegistration
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationEditor)

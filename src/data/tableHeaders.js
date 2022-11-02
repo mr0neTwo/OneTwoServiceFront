@@ -187,23 +187,39 @@ export const remain_headers = [
         field: 'warranty_period',
         width: 100,
         order: 11
-    },{
+    }, {
         id: 12,
         title: 'Адрес хранения',
         field: 'cell',
         width: 100,
         order: 12
-    // },{
-    //     id: 13,
-    //     title: 'Продавец',
-    //     field: 'seller',
-    //     width: 100,
-    //     order: 13
-    // },{
-    //     id: 14,
-    //     title: 'Ссылка на поставщика',
-    //     field: 'where_to_buy',
-    //     width: 100,
-    //     order: 14
+    }
+]
+
+export const write_of_headers = [
+    {
+        id: 1,
+        title: 'Списание №',
+        field: 'label',
+        width: 70,
+        order: 1
+    },{
+        id: 2,
+        title: 'Создано',
+        field: 'created_at',
+        width: 100,
+        order: 2
+    },{
+        id: 3,
+        title: 'Склад',
+        field: 'warehouse.title',
+        width: 140,
+        order: 3
+    },{
+        id: 4,
+        title: 'Описание',
+        field: 'description',
+        width: 140,
+        order: 4
     }
 ]

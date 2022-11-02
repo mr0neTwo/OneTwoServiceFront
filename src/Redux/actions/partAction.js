@@ -85,7 +85,7 @@ export function getPart(part_id) {
 
         await  dispatch({
             type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': true}
+            data: {statusOrderLoader: true}
         })
 
         await fetch(state.data.url_server + '/get_part', request_config)
@@ -96,11 +96,11 @@ export function getPart(part_id) {
                         type: 'EDIT_PART',
                         part:  data.part
                     })
-                } else {
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {'statusOrderNotFound': true}
+                        data: {statusPartEditor: true}
                     })
+                } else {
                     console.warn(data.message)
                 }
             })
@@ -108,7 +108,7 @@ export function getPart(part_id) {
 
         await dispatch({
             type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': false}
+            data: {statusOrderLoader: false}
         })
     }
 }
@@ -158,6 +158,7 @@ export function createPart() {
         specifications: state.part.specifications,
         prices: state.part.prices,
         deleted: false,
+        warranty_period: state.part.warranty_period,
         warehouse_category_id: state.part.warehouse_category.id,
         img: state.part.img,
         doc: state.part.doc,
@@ -176,17 +177,13 @@ export function createPart() {
                         data: {parts: data.parts, count_parts: data.count}
                     })
                     dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusPartEditor: false}
-                    })
-                    dispatch({
                         type: 'RESET_PART'
                     })
                     // Если создаем запчать при оприходовании
                     if(state.view.statusRegistrationEditor) {
                         dispatch({
                             type: 'CHANGE_REGISTRATION_STATE',
-                            data: {part: data.new_part}
+                            data: {part: data.new_part, prices: data.new_part.prices}
                         })
                         dispatch({
                             type: 'CHANGE_VISIBLE_STATE',
@@ -216,6 +213,7 @@ export function savePart() {
         earnings_percent: state.part.visible_option ? state.part.earnings_percent : 0,
         earnings_sum: state.part.visible_option ? state.part.earnings_sum : 0,
         specifications: state.part.specifications,
+        warranty_period: state.part.warranty_period,
         prices: state.part.prices,
         warehouse_category_id: state.part.warehouse_category.id,
         img: state.part.img,
@@ -233,10 +231,6 @@ export function savePart() {
                     dispatch({
                         type: 'CHANGE_PART_STATE',
                         data: {parts: data.parts, count_parts: data.count}
-                    })
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusPartEditor: false}
                     })
                     dispatch({
                         type: 'RESET_PART'
@@ -269,10 +263,6 @@ export function deletePart( flag ) {
                     dispatch({
                         type: 'CHANGE_PART_STATE',
                         data: {parts: data.parts, count_parts: data.count}
-                    })
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusPartEditor: false}
                     })
                     dispatch({
                         type: 'RESET_PART'

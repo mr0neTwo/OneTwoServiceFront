@@ -3,17 +3,20 @@ import { connect } from 'react-redux'
 
 import ChooseDate from '../../general/calandar/ChooseDate'
 import Button from '../../general/Button'
-import Checkbox from '../../general/Checkbox'
-import RegistrationEditor from './RegistrationEditor'
 
 import {changeVisibleState} from '../../../Redux/actions'
 import {addRegistration, changeRegistrationState, selectedRegistration} from '../../../Redux/actions/registrationAction'
+import {registrations_table_headers} from '../../../data/tableHeaders'
+
 import TableRegistration from './TableRegistration'
 import TableFields from '../../general/TableFields'
-import {registrations_table_headers} from '../../../data/tableHeaders'
 
 
 const WarehouseRegistration = props => {
+
+    const handleNewRegistration = () => {
+        props.changeVisibleState({statusRegistrationEditor: true})
+    }
 
     useEffect(() => {
         props.addRegistration()
@@ -24,10 +27,10 @@ const WarehouseRegistration = props => {
             <div className='row jc-sb'>
                 <div className='row'>
                     <Button
+                        id='newRegistration'
                         title='+ Оприходование'
                         className='greenButton h31'
-                        onClick={() => props.changeVisibleState({statusRegistrationEditor: true})}
-                        // invisible={!props.permissions.includes('')}
+                        onClick={handleNewRegistration}
                     />
                     <ChooseDate
                         className='ml10 h27'
@@ -35,13 +38,11 @@ const WarehouseRegistration = props => {
                         range={true}
                         func={date => props.changeRegistrationState({filter_created_at: date.map(date => parseInt(date / 1000))})}
                         current_date={props.registration.filter_created_at}
-                        // ivisible={!props.permissions.includes('see_moving_money_all_time')}
                     />
                     <Button
                         title='Применить'
                         className='blueButton'
                         onClick={() => props.addRegistration()}
-                        // invisible={!props.permissions.includes('see_moving_money_all_time')}
                     />
                 </div>
                 <TableFields
@@ -54,7 +55,6 @@ const WarehouseRegistration = props => {
                 />
             </div>
             <TableRegistration/>
-            {props.statusRegistrationEditor ? <RegistrationEditor/> : null}
         </div>
     )
 }

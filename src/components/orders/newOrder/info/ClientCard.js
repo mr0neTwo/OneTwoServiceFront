@@ -11,7 +11,7 @@ const ClientCard = (props) => {
 
     const handleEdit = (client_id) => {
         props.editClient(client_id)
-        props.changeVisibleState({statusCreateNewClient: true})
+        props.changeVisibleState({statusClientEditor: true})
     }
 
    return (
@@ -46,14 +46,13 @@ const ClientCard = (props) => {
             &#9587;
          </div>
          </div>
-         {props.statusCreateNewClient ? <ClientEditor/> : null }
       </div>
    )
 }
 
 const mapStateToProps = state => ({
    client: state.order.client,
-   statusCreateNewClient: state.view.statusCreateNewClient
+   statusClientEditor: state.view.statusClientEditor
    })
 
 const mapDispatchToProps = {

@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {showDate} from '../../../general/utils'
-import {Link, useLocation} from 'react-router-dom'
+import {getRegistration} from '../../../../Redux/actions/registrationAction'
+import {getClient} from '../../../../Redux/actions/clientAction'
 
 const Remain = (props) => {
 
-    const location = useLocation()
     const start_count = props.remain.registration.parts.find(part => part.part.id === props.part.edit).count
 
     return (
@@ -13,30 +13,24 @@ const Remain = (props) => {
 
             <div className='fs14'>
                 <span className='clb'>Оприходование №</span>
-                <Link
-                    className='orderLink'
-                    to={{
-                        pathname: `/warehouse/registration${props.remain.registration.id}`,
-                        state: { prevPath: location.pathname }
-                    }}
+                <span
+                    className='link'
+                    onClick={() => props.getRegistration(props.remain.registration.id)}
                 >
                     {props.remain.registration.label}
-                </Link>
+                </span>
                 <span> от </span>
                 <span>{showDate(props.remain.registration.custom_created_at, false)}</span>
             </div>
 
             <div className='mt5'>
                 <span>Поставщик: </span>
-                <Link
-                    className='orderLink'
-                    to={{
-                        pathname: `/warehouse/client${props.remain.registration.client.id}`,
-                        state: { prevPath: location.pathname }
-                    }}
+                <span
+                    className='link'
+                    onClick={() => props.getClient(props.remain.registration.client.id)}
                 >
                     {props.remain.registration.client.name}
-                </Link>
+                </span>
             </div>
 
             <div>
@@ -61,7 +55,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-
+    getRegistration,
+    getClient
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Remain)

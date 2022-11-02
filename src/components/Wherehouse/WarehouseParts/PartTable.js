@@ -5,26 +5,19 @@ import {useHistory} from 'react-router-dom'
 import PartName from '../WarehouseRemains/cell/PartName'
 import PartImag from '../WarehouseRemains/cell/PartImag'
 import PartDoc from '../WarehouseRemains/cell/PartDoc'
+import {getPart} from '../../../Redux/actions/partAction'
 
 
 function PartTable(props) {
 
-    const history = useHistory()
-
-    const handleEdit = (part) => {
-        history.push({
-            pathname: `/warehouse/part${part.id}`,
-            state: {prevPath: history.location.pathname}
-        })
-    }
 
     const chooseCell = (header, part) => {
 
         switch (header.id) {
-            case 1: return <PartName header={header} part={part}/>
-            case 7: return <PartImag header={header} part={part}/>
+            case 1: return <PartName key={header.id} header={header} part={part}/>
+            case 7: return <PartImag key={header.id} header={header} part={part}/>
             case 8: return <td key={header.id}>{part.warehouse_category.title}</td>
-            case 9: return <PartDoc header={header} part={part}/>
+            case 9: return <PartDoc key={header.id} header={header} part={part}/>
             default: return <td key={header.id}>{part[header.field]}</td>
         }
     }
@@ -44,7 +37,7 @@ function PartTable(props) {
                         <tr
                             key={part.id}
                             className={part.deleted ? 'rowDeleted' : null}
-                            onDoubleClick={() => handleEdit(part)}
+                            onDoubleClick={() => props.getPart(part.id)}
 
                         >
                             {props.part.choosed_headers.map(header => chooseCell(header, part))}
@@ -61,7 +54,9 @@ const mapStateToProps = state => ({
     part: state.part
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    getPart
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(PartTable)

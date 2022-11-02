@@ -12,7 +12,7 @@ import SetCell from './SetCell'
 
 const OrderWorksMaterials = (props) => {
 
-   const list_ingineers = props.employees.filter(employee => !employee.deleted && employee.role.permissions.includes('in_list_engineers'))
+   const list_ingineers = props.employees.filter(employee => employee.id !== 0 && !employee.deleted && employee.role.permissions.includes('in_list_engineers'))
 
    const isExist = list_ingineers.some(employee => employee.id === props.current_engineer_id)
 
@@ -23,7 +23,7 @@ const OrderWorksMaterials = (props) => {
 
    return (
       <div className = 'contentTab'>
-          <div className='blockImput'>
+          <div className='blockInput'>
             <ChooseOfList
               id={18}
               title='Исполнитель'

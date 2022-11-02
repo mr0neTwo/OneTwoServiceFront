@@ -1,6 +1,5 @@
-import React, {useEffect, useMemo} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
-import {useHistory, useLocation} from 'react-router-dom'
 
 import {changePartState, resetPart, createPart, savePart, deletePart, getPart} from '../../../../Redux/actions/partAction';
 import {changeVisibleState} from '../../../../Redux/actions'
@@ -12,7 +11,6 @@ import TempPage from '../../../general/TempPage'
 import EditPrices from './EditPrices'
 import EditResidueRules from './EditResidueRules'
 import EditPartSalary from './EditPartSalary'
-import ResNotFound from '../../../general/ResNotFound'
 import PartRemains from './PartRemains'
 import PartMovement from './PartMovement'
 import WarehouseRemains from './WarehouseRemains'
@@ -20,32 +18,20 @@ import WarehouseRemains from './WarehouseRemains'
 
 const PartEditor = props => {
 
-    const history = useHistory()
-
-    let location = useLocation()
-    const part_id = useMemo(() => parseInt(location.pathname.split('/').pop().substr(4)), [location])
-
-    useEffect(() => {
-        if (part_id) {
-            props.getPart(part_id)
-        } else {
-            props.changeVisibleState({statusOrderNotFound: true})
-        }
-    }, [part_id])
-
     const handleClose = () => {
-        props.changeVisibleState({inputWPartTitleChecked: true})
+        props.changeVisibleState({
+            statusPartEditor: false,
+            inputWPartTitleChecked: true
+        })
         props.resetPart()
-        if (location.state && location.state.prevPath) {
-            history.push(location.state.prevPath)
-        } else {
-            history.goBack()
-        }
     }
 
     const clickHandel = event => {
         if (
             !event.path.map((el) => el.id).includes('wpartEditorWindow') &&
+            !event.path.map((el) => el.id).includes('writeOfEditor') &&
+            !event.path.map((el) => el.id).includes('registrationEditor') &&
+            !event.path.map((el) => el.id).includes('clientEditor') &&
             !event.path.map((el) => el.id).includes('btaddWP')
         ) {
             handleClose()
@@ -62,6 +48,7 @@ const PartEditor = props => {
     const handleCreate = () => {
         if (props.part.title) {
             props.createPart()
+            handleClose()
         } else {
             props.changeVisibleState({inputWPartTitleChecked: false})
         }
@@ -70,6 +57,7 @@ const PartEditor = props => {
     const handleSave = () => {
         if (props.part.title) {
             props.savePart()
+            handleClose()
         } else {
             props.changeVisibleState({inputWPartTitleChecked: false})
         }
@@ -90,32 +78,35 @@ const PartEditor = props => {
                         <EditPartSalary/>
                     </div>
                 )
-            case 1: return <PartRemains/>
-            case 2: return <PartMovement/>
-            case 3: return <WarehouseRemains/>
-            default: return <TempPage title='Редактор запчатей'/>
+            case 1:
+                return <PartRemains/>
+            case 2:
+                return <PartMovement/>
+            case 3:
+                return <WarehouseRemains/>
+            default:
+                return <TempPage title='Редактор запчатей'/>
         }
     }
 
-    return !part_id ?
-        <div>
-            {props.statusOrderNotFound ? <ResNotFound/> : null}
-        </div>
-        :(
-        <div className='rightBlock'>
+    return (
+        <div className='rightBlock z99'>
             <div className='rightBlockWindow' id='wpartEditorWindow'>
                 <div className='createNewTitle'>{props.part.edit ? props.part.title : 'Новый товар'}</div>
 
                 <div className='contentEditor w600'>
 
-                    <Tabs
-                        list={['Общие', 'Паритии', 'История', 'Остатки']}
-                        tab={props.part.tabs}
-                        func={tab => props.changePartState({tabs: tab})}
-                    />
+                    {!props.part.edit ? getContent(0) :
+                        <div>
+                            <Tabs
+                                list={['Общие', 'Паритии', 'История', 'Остатки']}
+                                tab={props.part.tabs}
+                                func={tab => props.changePartState({tabs: tab})}
+                            />
 
-                    {getContent(props.part.tabs)}
-
+                            {getContent(props.part.tabs)}
+                        </div>
+                    }
                 </div>
 
                 <BottomButtons

@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Button from '../../general/Button'
-import {addPartProperty} from '../../../Redux/actions/partAction'
-import Property from './Property'
+import Button from '../../../general/Button'
+import {addPartProperty} from '../../../../Redux/actions/partAction'
+import Property from '../Property'
 
 const Specifications = (props) => {
     return (
-        <div className = ''>
+        <div className = 'mt15'>
             <div className='lableImput'>Характеристики</div>
             <div className='mwmc'>
                 <table>

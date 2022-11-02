@@ -1,30 +1,34 @@
 import React from 'react'
-import {Link, useLocation} from 'react-router-dom'
+import { connect } from 'react-redux'
+import {setVisibleFlag} from '../../../../Redux/actions'
+import {addWarehouseCategories, changeWarehouseForm} from '../../../../Redux/actions/warehouseAction'
+import {addParts, changePartState, choosePartSelected, getPart} from '../../../../Redux/actions/partAction'
 
 const PartName = (props) => {
 
-    const location = useLocation()
 
     const part_id = props.remain ? props.remain.part_id : props.part.id
     const title = props.remain ?props.remain[props.header.field] : props.part.title
 
     return (
         <td>
-            <Link
+            <span
                 className='partLink'
-                to={{
-                    pathname: `/warehouse/part${part_id}`,
-                    state: {
-                        remain: props.remain,
-                        prevPath: location.pathname
-                    }
-                }}
+                onClick={() => props.getPart(part_id)}
             >
                 <span>{title}</span>
-            </Link>
+            </span>
         </td>
 
     )
 }
 
-export default PartName
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = {
+    getPart
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PartName)

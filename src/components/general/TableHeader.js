@@ -89,13 +89,14 @@ const TableHeader = (props) => {
     return (
         <th
             className='tableColumnHeader'
-            style={{minWidth: `${columnWidth}px`}}
+            // style={{minWidth: `${columnWidth}px`}}
+            style={{width: `${columnWidth}px`}}
         >
             <div className='row'>
                 <div
-                    className='ml5 w100 '
+                    className='ml5 w100'
                     draggable
-                    onClick={() => props.changeState({
+                    onClick={!props.changeState ? null : () => props.changeState({
                         [props.title_sort_field || 'sort_field']: props.header.field,
                         [props.title_sort || 'sort']: props.sort === 'asc' ? 'desc' : 'asc'
                     })}

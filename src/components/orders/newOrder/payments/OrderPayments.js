@@ -12,7 +12,7 @@ const OrderPayments = (props) => {
    const handleIncome = () => {
       props.changePaymentState({
          direction: 2,
-         client_id: props.order.client.id,
+         client: props.order.client,
          description: `Оплата по заказу № ${props.order.id_label}`,
          cashflow_category: 2,
          employee_id: props.current_user_id,
@@ -26,7 +26,7 @@ const OrderPayments = (props) => {
    const handleOutcome = () => {
       props.changePaymentState({
          direction: 1,
-         client_id: props.order.client.id,
+         client: props.order.client,
          description: `Выплата по заказу № ${props.order.id_label}`,
          cashflow_category: 8,
          employee_id: props.current_user_id,

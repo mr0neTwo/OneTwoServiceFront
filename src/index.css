@@ -950,10 +950,22 @@ div.tableOrders td {
 .orderLink:hover {
   text-decoration: underline;
 }
+
+.link {
+  text-decoration: none;
+  color: #4791d1;
+  text-align: center;
+  cursor: pointer;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
 .partLink {
   text-decoration: none;
   color: var(--color-black);
   text-align: center;
+  cursor: pointer;
 }
 .partLink:hover {
   text-decoration: underline;
@@ -1599,7 +1611,7 @@ checkboxLable {
   margin-top: 10px;
 }
 
-.blockImput {
+.blockInput {
   display: block;
   flex-direction: column;
   max-height: 40px;
@@ -2905,9 +2917,10 @@ div.ssm > div:hover {
   background-color: var(--color-gray);
 }
 .dateEvent {
-  font-weight: bold;
+  font-weight: 800;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
+  padding: 5px;
 }
 
 .orderSticker{
@@ -3191,6 +3204,38 @@ div.ssm > div:hover {
   height: 50px;
 }
 
+.tipWriteOfMessage {
+  position: absolute;
+  display: block;
+  border: 1px solid #acacac;
+  border-radius: 5px;
+  top: 25px;
+  padding: 5px;
+  background-color: aliceblue;
+  width: 300px;
+}
+
+.makeChoice {
+  font-size: 16px;
+  color: var(--color-black);
+  padding-top: 150px;
+  width: 100%;
+  text-align: center;
+}
+
+.tipWriteOfMessage:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  bottom: -5px;
+  right: 196px;
+  box-shadow: 0px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 0px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
+  transform: rotate(-45deg);
+  background: linear-gradient(45deg, aliceblue 50%, rgba(255, 255, 255, 0) 50%);
+}
+
 .fsz12 { font-size: 12px }
 .fsz16 { font-size: 16px }
 .fsz20 { font-size: 20px }
@@ -3334,3 +3379,9 @@ div.ssm > div:hover {
 
 .clb { color: var(--color-black)}
 .cgr { color: #acacac}
+
+.z9 { z-index: 9}
+.z99 { z-index: 99}
+.z999 { z-index: 999}
+.z9999 { z-index: 9999}
+.z99999 { z-index: 99999}
