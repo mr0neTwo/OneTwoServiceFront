@@ -32,7 +32,10 @@ const ClientEditor = (props) => {
     }
     
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('clientEditor')) {
+        if (
+            !event.path.map((el) => el.id).includes('clientEditor') &&
+            !event.path.map((el) => el.id).includes('newClient')
+        ) {
             handleClose()
         }
     }

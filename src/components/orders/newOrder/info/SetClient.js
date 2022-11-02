@@ -63,6 +63,7 @@ const SetClient = (props) => {
                             value={props.name}
                         />
                         <div
+                            id='newClient'
                             className='simbolButton'
                             onClick={() => props.changeVisibleState({'statusClientEditor': true})}
                         >
@@ -113,6 +114,7 @@ const SetClient = (props) => {
                             isPhone={true}
                         />
                         <div
+                            id='newClient'
                             className='simbolButton'
                             onClick={() => props.changeVisibleState({'statusClientEditor': true})}
                         >
