@@ -1,7 +1,20 @@
-import { isNull } from 'lodash'
 import React, { useState } from 'react'
 
-
+/**
+ *
+ * allItems={props.list}
+ *
+ * onPage={50}
+ *
+ * count={2}
+ *
+ * count_start_end={2}
+ *
+ * navigation={true}
+ *
+ * func={page => console.loge(page)}
+ *
+ */
 
 const Paginate = (props) => {
 

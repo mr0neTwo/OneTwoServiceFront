@@ -117,7 +117,7 @@ const RegistrationEditor = (props) => {
     }
 
     return (
-        <div className='rightBlock'>
+        <div className={`rightBlock ${props.registration.edit ? 'z9999' : 'z99'}`}>
             <div className='rightBlockWindow' id='registrationEditor'>
                 <div className='createNewTitle'>
                     {props.registration.edit ? props.registration.label : ' Новое оприходование'}

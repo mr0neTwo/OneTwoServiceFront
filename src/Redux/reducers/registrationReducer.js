@@ -6,6 +6,7 @@ const now = new Date()
 const initialState = {
 
     registrations: [],
+    registrations_count: 0,
 
     edit: 0,
 
@@ -31,10 +32,10 @@ const initialState = {
     where_to_buy: '',
     prices: [],
 
-    table_headers: JSON.parse(localStorage.getItem('registrations_table_headers')) || registrations_table_headers,
+    table_headers: JSON.parse(localStorage.getItem('registration_table_headers')) || registrations_table_headers,
 
     showDeleted: false,
-    filter_created_at: [
+    filter_created_at: JSON.parse(localStorage.getItem('registration_filter_created_at')) ||  [
         parseInt(now.setHours(0, 0, 0, 0) / 1000),
         parseInt(now.setHours(23, 59, 59, 999) / 1000)
     ],
@@ -46,6 +47,10 @@ export const registrationReducer = (state=initialState, action) => {
     switch (action.type){
 
         case 'CHANGE_REGISTRATION_STATE': {
+            const local_save = ['filter_created_at', 'table_headers']
+            Object.keys(action.data).forEach(field => {
+                if (local_save.includes(field)) localStorage.setItem(`registration_${field}`, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 
@@ -114,8 +119,9 @@ export const registrationReducer = (state=initialState, action) => {
                 // Если нет добавим эти значения
                 new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
+            console.log(action.saveToApp)
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem('registrations_' + action.field, JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem('registration_' + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
             return {
                 ...state,

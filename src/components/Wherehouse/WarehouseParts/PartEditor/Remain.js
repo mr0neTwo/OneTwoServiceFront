@@ -32,7 +32,7 @@ const Remain = (props) => {
                     {props.remain.registration.client.name}
                 </span>
             </div>
-
+            {props.permissions.includes('see_buy_cost') ?
             <div>
                 <span>Поступило: </span>
                 <span>{start_count}</span>
@@ -40,7 +40,18 @@ const Remain = (props) => {
                 <span>{props.remain.buy_cost} руб.</span>
                 <span> на сумму </span>
                 <span>{props.remain.buy_cost * start_count} руб.</span>
-            </div>
+            </div> : null }
+
+            {props.remain.seller ?
+            <div>
+                <span>Продавец: </span>
+                <span>{props.remain.seller}</span>
+            </div> : null}
+            {props.remain.where_to_buy ?
+            <div>
+                <span>Ссылка: </span>
+                <span>{props.remain.where_to_buy}</span>
+            </div>: null}
 
             <div>
                 <span>Остаток: </span>
@@ -51,7 +62,8 @@ const Remain = (props) => {
 }
 
 const mapStateToProps = state => ({
-    part: state.part
+    part: state.part,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

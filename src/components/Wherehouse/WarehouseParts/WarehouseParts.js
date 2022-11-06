@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import {addWarehouseCategories, changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
 import {addParts, changePartState, choosePartSelected} from '../../../Redux/actions/partAction'
-import {setVisibleFlag} from '../../../Redux/actions';
+import {changeVisibleState, setVisibleFlag} from '../../../Redux/actions';
 import {part_table_headers} from '../../../data/tableHeaders'
 
 import Button from '../../general/Button';
@@ -12,6 +12,7 @@ import CategoryTable from './CategoryTable';
 import Checkbox from '../../general/Checkbox';
 import PartTable from './PartTable'
 import TableFields from '../../general/TableFields'
+import Paginate from '../../general/Paginate'
 
 const WarehouseParts = props => {
 
@@ -56,7 +57,7 @@ const WarehouseParts = props => {
                     {props.statusWarehouseCategoryEditor ? <WarehouseCategoryEditor/> : null}
                     <CategoryTable/>
                 </div>
-                <div className='ml10 wp75'>
+                <div className='ml10 wp75 overv'>
                     <div className='row jc-sb'>
                         <div className='row al-itm-ct'>
                             <Button
@@ -85,6 +86,17 @@ const WarehouseParts = props => {
                         />
                     </div>
                     <PartTable/>
+                    <div className='row'>
+                        <Paginate
+                            allItems={props.part.count_parts}
+                            onPage={50}
+                            count={2}
+                            count_start_end={0}
+                            navigation={true}
+                            func={page => props.changePartState({page})}
+                        />
+                        <div className='ml10'>Всего - {props.part.count_parts}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,7 +116,8 @@ const mapDispatchToProps = {
     changeWarehouseForm,
     addParts,
     choosePartSelected,
-    changePartState
+    changePartState,
+    changeVisibleState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WarehouseParts)

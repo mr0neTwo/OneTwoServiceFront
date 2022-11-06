@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import { connect } from 'react-redux'
 
 import {addWarehouse, changeWarehouseForm} from '../../Redux/actions/warehouseAction'
@@ -18,6 +18,38 @@ const Warehouse = (props) => {
     useEffect(() => {
         props.addWarehouse()
     }, [props.showDeleted])
+
+    const tabs = useMemo(() => {
+        let current_tabs = []
+        if (props.permissions.includes('see_remaining_warehouse')) {
+            current_tabs.push((<WarehouseRemains/>))
+        }
+        if (props.permissions.includes('see_registrations') || props.permissions.includes('create_registrations')) {
+            current_tabs.push((<WarehouseRegistration/>))
+        }
+        if (props.permissions.includes('write_of_warehouse')) {
+            current_tabs.push((<WarehouseWriteOf/>))
+        }
+        current_tabs = current_tabs.concat([(<WarehouseMoves/>), (<WarehouseInventories/>), (<WarehouseBacks/>), (<WarehouseParts/>)])
+        return current_tabs
+    }, [props.permissions])
+
+    const list = useMemo(() => {
+        let current_list = []
+        if (props.permissions.includes('see_remaining_warehouse')) {
+            current_list.push('Остатки')
+        }
+        if (props.permissions.includes('see_registrations') || props.permissions.includes('create_registrations')) {
+            current_list.push('Оприходования')
+        }
+        if (props.permissions.includes('write_of_warehouse')) {
+            current_list.push('Списания')
+        }
+        current_list = current_list.concat(['Пермещения', 'Инвентаризации', 'Возвраты поставщику', 'Товары и категории'])
+        return current_list
+    }, [props.permissions])
+
+
     
   return (
       <div className='pageContent'>
@@ -25,21 +57,15 @@ const Warehouse = (props) => {
           <div className='Header'>
               <span className='headerTitle'>Склады</span>
           </div>
-          <div className='settingPageBody'>
-          </div>
 
           <Tabs
-              list={ ['Остатки', 'Оприходования', 'Списания', 'Пермещения', 'Инвентаризации', 'Возвраты поставщику', 'Товары и категории'] }
+              className='mt15'
+              list={list}
               func={idx => props.changeWarehouseForm(idx, 'tabs')}
               tab={props.tabs}
           />
-          {props.tabs === 0 ? <WarehouseRemains/> : null}
-          {props.tabs === 1 ? <WarehouseRegistration/> : null}
-          {props.tabs === 2 ? <WarehouseWriteOf/> : null}
-          {props.tabs === 3 ? <WarehouseMoves/> : null}
-          {props.tabs === 4 ? <WarehouseInventories/> : null}
-          {props.tabs === 5 ? <WarehouseBacks/> : null}
-          {props.tabs === 6 ? <WarehouseParts/> : null}
+          {tabs[props.tabs]}
+
 
       </div>
   )
@@ -47,7 +73,8 @@ const Warehouse = (props) => {
 
 const mapStateToProps = state => ({
     tabs: state.warehouse.tabs,
-    showDeleted: state.warehouse.showDeleted
+    showDeleted: state.warehouse.showDeleted,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

@@ -28,9 +28,9 @@ const TableRemains = (props) => {
     }
 
     return (
-        <div className="tableOrdersBox">
-            <table className='mt15'>
-                <thead>
+        <div className="tableWarehouseBox mt15">
+            <table id="tableWarehouse">
+                <thead className="tableThead">
                     <tr>
                         {props.remain.table_headers.map(header => (
                             <TableHeader

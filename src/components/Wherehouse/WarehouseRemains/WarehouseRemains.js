@@ -9,8 +9,9 @@ import ChooseCategory from '../WarehouseParts/ChooseCategory'
 import TableFields from '../../general/TableFields'
 import {remain_headers} from '../../../data/tableHeaders'
 import TableRemains from './TableRemains'
-import {checkObject, includesObject} from '../../general/utils'
+import {checkObject} from '../../general/utils'
 import {addDiscountMargin} from '../../../Redux/actions/priceAction'
+import Paginate from '../../general/Paginate'
 
 
 const WarehouseRemains = (props) => {
@@ -20,7 +21,7 @@ const WarehouseRemains = (props) => {
     }, [props.warehouse.showDeleted])
 
     useEffect(() => {
-        props.addRemain()
+        if (checkObject(props.remain.filter_warehouse))  props.addRemain()
     }, [
         props.remain.page,
         props.remain.filter_warehouse,
@@ -83,7 +84,17 @@ const WarehouseRemains = (props) => {
             </div>
 
             {checkObject(props.remain.filter_warehouse) ? <TableRemains/> : <div className='makeChoice'>Выбирете склад</div>}
-
+            <div className='row'>
+                <Paginate
+                    allItems={props.remain.remains_count}
+                    onPage={50}
+                    count={2}
+                    count_start_end={2}
+                    navigation={true}
+                    func={page => props.changeRemainState({page})}
+                />
+                <div className='ml10'>Всего - {props.remain.remains_count}</div>
+            </div>
         </div>
     )
 }

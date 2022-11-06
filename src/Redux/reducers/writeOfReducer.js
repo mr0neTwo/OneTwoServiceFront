@@ -18,7 +18,7 @@ const initialState = {
     discount_margin: {},
     write_of_type: {},
 
-    filter_created_at: [
+    filter_created_at: JSON.parse(localStorage.getItem('write_of_filter_created_at')) || [
         parseInt(now.setHours(0, 0, 0, 0) / 1000),
         parseInt(now.setHours(23, 59, 59, 999) / 1000)
     ],
@@ -31,6 +31,10 @@ export const writeOfReducer = (state = initialState, action) => {
     switch (action.type){
 
         case 'CHANGE_WRITE_OF_STATE': {
+            const local_save = ['filter_created_at', 'table_headers']
+            Object.keys(action.data).forEach(field => {
+                if (local_save.includes(field)) localStorage.setItem(`write_of_${field}`, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 

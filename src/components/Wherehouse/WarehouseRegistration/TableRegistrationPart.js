@@ -24,6 +24,8 @@ const TableRegistrationPart = (props) => {
         props.changeRegistrationState({price})
     }, [props.registration.parts])
 
+    const see_buy_cost = props.permissions.includes('see_buy_cost')
+
     return (
         <table id='registrationTableParts'>
             <thead>
@@ -31,9 +33,9 @@ const TableRegistrationPart = (props) => {
                     <th className='w15'>№</th>
                     <th className='w300'>Наименование</th>
                     <th className='w50'>Количество</th>
-                    <th className='w50'>Стоимость</th>
+                    {see_buy_cost ? <th className='w50'>Стоимость</th> : null}
                     <th className='w120'>Место храненеия</th>
-                    {disabled ? null : <th className='w15'/>}
+                    <th className='w15'/>
                 </tr>
             </thead>
             <tbody>
@@ -41,29 +43,29 @@ const TableRegistrationPart = (props) => {
                     <tr
                         key={idx}
                         className='fillcol'
-                        onDoubleClick={disabled ? null : () => handleEdit(idx, part)}
+                        onDoubleClick={() => handleEdit(idx, part)}
                     >
                         <td>{idx + 1}</td>
                         <td>{part.part.title}</td>
                         <td className='tac'>{part.count}</td>
-                        <td className='tac'>{part.count * part.buy_cost}</td>
+                        {see_buy_cost ? <td className='tac'>{part.count * part.buy_cost}</td> : null}
                         <td>{part.cell}</td>
 
-                            {!disabled ?
                                 <td>
                                     <div className='row'>
                                         <div onClick={() => handleEdit(idx, part)}>
                                             <Icon className='icon-s2 curP ml5' icon={icon_pencil}/>
                                         </div>
-                                        <div onClick={() => props.deleteRegistrationPart(idx)}>
-                                            <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
-                                        </div>
+                                        {!disabled ?
+                                            <div onClick={() => props.deleteRegistrationPart(idx)}>
+                                                <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                            </div> : null}
                                     </div>
-                                </td>: null}
+                                </td>
 
                     </tr>
                 ))}
-                {props.registration.parts.length ? <tr className='ss'>
+                {props.registration.parts.length && see_buy_cost ? <tr className='ss'>
                     <td className='tae' colSpan={disabled ? '2' : '3'}>Итого сумма:</td>
                     <td className='tae'>{props.registration.price}</td>
                     <td>руб.</td>
@@ -74,7 +76,8 @@ const TableRegistrationPart = (props) => {
 }
 
 const mapStateToProps = state => ({
-    registration: state.registration
+    registration: state.registration,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

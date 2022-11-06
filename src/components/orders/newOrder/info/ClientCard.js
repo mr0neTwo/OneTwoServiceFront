@@ -3,16 +3,10 @@ import { connect } from 'react-redux'
 
 import { showPhone } from '../../../general/utils'
 import {changeOrderFormS, changeVisibleState} from '../../../../Redux/actions'
-import ClientEditor from '../../../Clients/ClientEditor/ClientEditor'
-import {editClient} from '../../../../Redux/actions/clientAction'
+import {getClient} from '../../../../Redux/actions/clientAction'
 
 const ClientCard = (props) => {
 
-
-    const handleEdit = (client_id) => {
-        props.editClient(client_id)
-        props.changeVisibleState({statusClientEditor: true})
-    }
 
    return (
       <div className = 'formRow'>
@@ -25,7 +19,7 @@ const ClientCard = (props) => {
                </svg>
                <span 
                   className='clientCardName'
-                  onClick={() => handleEdit(props.client.id)}
+                  onClick={() => props.getClient(props.client.id)}
                   >
                   {props.client.name}
                </span>
@@ -56,9 +50,9 @@ const mapStateToProps = state => ({
    })
 
 const mapDispatchToProps = {
-   editClient,
-   changeOrderFormS,
-    changeVisibleState
+    changeOrderFormS,
+    changeVisibleState,
+    getClient
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(ClientCard)

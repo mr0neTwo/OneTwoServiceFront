@@ -111,6 +111,13 @@ table#tableOrders td {
   max-width: 0;
 }
 
+table#tableWarehouse {
+  min-width: max-content;
+}
+table#tableWarehouse td {
+  max-width: 0;
+}
+
 tr.ss > td {
   border: none;
   font-weight: 700;
@@ -187,7 +194,6 @@ tbody > tr.ss:hover {
   padding: 16px 0 16px 12px;
   font-size: 13px;
   line-height: 16px;
-  padding: 16px 0 16px 12px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -509,7 +515,11 @@ textarea:focus {
   color: #373737;
   max-height: 80vh;
 }
-
+.tableWarehouseBox {
+  overflow: auto;
+  color: #373737;
+  max-height: 72vh;
+}
 
 
 
@@ -2272,6 +2282,7 @@ checkboxLable {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
 
 .tableEquipment {
@@ -3290,6 +3301,7 @@ div.ssm > div:hover {
 .h90 { height: 90px }
 .h100 { height: 100% }
 .mh { max-height: min-content }
+.mh72 { max-height: 72vh }
 
 .w700 { width: 700px }
 .w515 { width: 515px }

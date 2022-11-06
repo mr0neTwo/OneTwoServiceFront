@@ -114,7 +114,8 @@ const OrderPartEditor = (props) => {
                         onChange={event => props.changeOrderPartForm(event.target.value.replace(/[^0-9.]/g, ''), 'cost')}
                         value={props.orderPart.cost}
                         unit='руб.'
-                        disabled={props.orderPart.deleted}
+                        disabled={props.orderPart.deleted || !props.permissions.includes('edit_buy_cost')}
+                        invisible={!props.permissions.includes('see_buy_cost')}
                     />
                     <div className='row al-itm-fe'>
                         <LableInput

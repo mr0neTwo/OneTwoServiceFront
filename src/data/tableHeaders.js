@@ -2,27 +2,39 @@ export const part_table_headers = [
     {
         id: 1,
         title: 'Наименование',
-        field: 'title'
+        field: 'title',
+        width: 120,
+        order: 1
     },{
         id: 2,
         title: 'Описание',
-        field: 'description'
+        field: 'description',
+        width: 150,
+        order: 2
     },{
         id: 3,
         title: 'Маркировка',
-        field: 'marking'
+        field: 'marking',
+        width: 100,
+        order: 3
     },{
         id: 4,
         title: 'Артикул',
-        field: 'article'
+        field: 'article',
+        width: 80,
+        order: 4
     },{
         id: 5,
         title: 'Штрихкод',
-        field: 'barcode'
+        field: 'barcode',
+        width: 80,
+        order: 5
     },{
         id: 6,
         title: 'Код',
-        field: 'code'
+        field: 'code',
+        width: 80,
+        order: 6
     },{
         id: 7,
         title: 'Изображение',
@@ -32,11 +44,15 @@ export const part_table_headers = [
     },{
         id: 8,
         title: 'Категория',
-        field: 'warehouse_category'
+        field: 'warehouse_category',
+        width: 100,
+        order: 8
     },{
         id: 9,
         title: 'Документация',
-        field: 'doc_url'
+        field: 'doc_url',
+        width: 100,
+        order: 9
     }
 ]
 

@@ -71,7 +71,7 @@ function getFilter() {
     return {
         deleted: state.registration.showDeleted,
         custom_created_at: state.registration.filter_created_at,
-        page: state.registration.page
+        page: state.registration.page ? state.registration.page - 1 : 0
     }
 }
 
@@ -82,34 +82,36 @@ export function getRegistration(registration_id) {
     const request_config = getRequestConfig({id: registration_id})
 
     return async dispatch => {
+        if (state.data.user.role.permissions.includes('edit_registrations')) {
 
-        await  dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': true}
-        })
-
-        await fetch(state.data.url_server + '/get_warehouse_registration', request_config)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'EDIT_REGISTRATION',
-                        registration:  data.registration
-                    })
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRegistrationEditor: true}
-                    })
-                } else {
-                    console.warn(data.message)
-                }
+            await  dispatch({
+                type: 'CHANGE_VISIBLE_STATE',
+                data: {'statusOrderLoader': true}
             })
-            .catch(error => bad_request(dispatch, error, 'Запрос оприходования не выполнен'))
 
-        await dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': false}
-        })
+            await fetch(state.data.url_server + '/get_warehouse_registration', request_config)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        dispatch({
+                            type: 'EDIT_REGISTRATION',
+                            registration:  data.registration
+                        })
+                        dispatch({
+                            type: 'CHANGE_VISIBLE_STATE',
+                            data: {statusRegistrationEditor: true}
+                        })
+                    } else {
+                        console.warn(data.message)
+                    }
+                })
+                .catch(error => bad_request(dispatch, error, 'Запрос оприходования не выполнен'))
+
+            await dispatch({
+                type: 'CHANGE_VISIBLE_STATE',
+                data: {'statusOrderLoader': false}
+            })
+        }
     }
 }
 
@@ -117,11 +119,8 @@ export function addRegistration() {
 
     const state = store.getState()
 
-    const request_config = getRequestConfig({
-        deleted: state.registration.showDeleted,
-        custom_created_at: state.registration.filter_created_at,
-        page: state.registration.page
-    })
+
+    const request_config = getRequestConfig({...getFilter()})
 
     return dispatch => {
 
@@ -131,7 +130,7 @@ export function addRegistration() {
                 if (data.success) {
                     dispatch({
                         type: 'CHANGE_REGISTRATION_STATE',
-                        data: {registrations: data.warehouse_registrations},
+                        data: {registrations: data.warehouse_registrations, registrations_count: data.count},
                     })
                 } else {
                     console.warn(data.message)
@@ -168,7 +167,7 @@ export function createRegistration() {
                 if (data.success) {
                     dispatch({
                         type: 'CHANGE_REGISTRATION_STATE',
-                        data: {registrations: data.warehouse_registrations},
+                        data: {registrations: data.warehouse_registrations, registrations_count: data.count},
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
@@ -193,14 +192,8 @@ export function saveRegistration() {
     const request_config = getRequestConfig({
         id: state.registration.edit,
         number: state.registration.number,
-        created_at: state.registration.created_at,
-        custom_created_at: state.registration.custom_created_at,
-        deleted: state.registration.deleted,
         description: state.registration.description,
         parts: state.registration.parts,
-        client_id: state.registration.client.id,
-        warehouse_id: state.registration.warehouse.id,
-        employee_id: state.registration.employee.id,
         filter: getFilter()
     })
     request_config.method = 'PUT'
@@ -214,7 +207,7 @@ export function saveRegistration() {
                 if (data.success) {
                     dispatch({
                         type: 'CHANGE_REGISTRATION_STATE',
-                        data: {registrations: data.warehouse_registrations},
+                        data: {registrations: data.warehouse_registrations, registrations_count: data.count},
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
@@ -252,7 +245,7 @@ export function deleteRegistration(flag) {
                 if (data.success) {
                     dispatch({
                         type: 'CHANGE_REGISTRATION_STATE',
-                        data: {registrations: data.warehouse_registrations},
+                        data: {registrations: data.warehouse_registrations, registrations_count: data.count},
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',

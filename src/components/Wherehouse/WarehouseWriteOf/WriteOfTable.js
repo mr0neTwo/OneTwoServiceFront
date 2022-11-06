@@ -28,16 +28,16 @@ const WriteOfTable = (props) => {
     }
 
     return (
-        <div className='tableOrdersBox'>
-            <table className='mt15'>
+        <div className='tableOrdersBox mt15'>
+            <table id='tableWarehouse'>
                 <thead>
                     <tr>
                         {props.writeof.table_headers.map(header => (
                             <TableHeader
                                 key={header.id}
                                 header={header}
-                                // changeState={props.changeWriteOfState}
-                                // headers={props.writeof.table_headers}
+                                changeState={props.changeWriteOfState}
+                                headers={props.writeof.table_headers}
                                 // sort_field={props.writeof.sort_field}
                                 // sort={props.writeof.sort}
                             />

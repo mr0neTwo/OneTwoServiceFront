@@ -102,7 +102,8 @@ const OperationEditor = (props) => {
                onChange={event => props.changeOperationForm(event.target.value.replace(/[^0-9.]/g, ''), 'cost')}
                value={props.operation.cost}
                unit='руб.'
-               disabled={props.operation.deleted}
+               disabled={props.operation.deleted || !props.permissions.includes('edit_buy_cost')}
+               invisible={!props.permissions.includes('see_buy_cost')}
             />
             <div className='row al-itm-fe'>
                <LableInput

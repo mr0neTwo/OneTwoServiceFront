@@ -34,36 +34,43 @@ const TableRegistration = (props) => {
         }
     }
 
+    if (!props.permissions.includes('see_registrations')) return <div/>
+
+    const table_headers = props.registration.table_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 7)
+
     return (
-        <table id="tableOrders">
-            <thead className="tableThead">
-                <tr>
-                    {props.registration.table_headers.map(header => (
-                        <TableHeader
-                            key={header.id}
-                            header={header}
-                            changeState={props.changeRegistrationState}
-                            headers={props.registration.table_headers}
-                        />
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {props.registration.registrations.map(registration => (
-                    <tr
-                        key={registration.id}
-                        onDoubleClick={() => props.getRegistration(registration.id)}
-                    >
-                        {props.registration.table_headers.map(header => chooseCell(header, registration))}
+        <div className='tableWarehouseBox'>
+            <table id="tableWarehouse">
+                <thead className="tableThead">
+                    <tr>
+                        {table_headers.map(header => (
+                            <TableHeader
+                                key={header.id}
+                                header={header}
+                                changeState={props.changeRegistrationState}
+                                headers={props.registration.table_headers}
+                            />
+                        ))}
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {props.registration.registrations.map(registration => (
+                        <tr
+                            key={registration.id}
+                            onDoubleClick={() => props.getRegistration(registration.id)}
+                        >
+                            {table_headers.map(header => chooseCell(header, registration))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     )
 }
 
 const mapStateToProps = state => ({
-    registration: state.registration
+    registration: state.registration,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

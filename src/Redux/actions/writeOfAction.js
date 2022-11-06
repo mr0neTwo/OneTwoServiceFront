@@ -35,7 +35,7 @@ function getFilter() {
     const state = store.getState()
     return {
         created_at: state.writeof.filter_created_at,
-        page: 0
+        page: state.writeof.page ? state.writeof.page - 1 : 0
     }
 }
 

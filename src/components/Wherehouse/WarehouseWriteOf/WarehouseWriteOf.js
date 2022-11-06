@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 
 import {addWriteOf, changeWriteOfState, selectedWriteOf} from '../../../Redux/actions/writeOfAction'
 import {write_of_headers} from '../../../data/tableHeaders'
+import {changeVisibleState} from '../../../Redux/actions'
 
 import TableFields from '../../general/TableFields'
 import Button from '../../general/Button'
 import ChooseDate from '../../general/calandar/ChooseDate'
 import WriteOfTable from './WriteOfTable'
-import WriteOfEditor from './WriteOfEditor'
-import {changeVisibleState} from '../../../Redux/actions'
+import Paginate from '../../general/Paginate'
 
 const WarehouseWriteOf = props => {
 
@@ -56,6 +56,17 @@ const WarehouseWriteOf = props => {
                 />
             </div>
             <WriteOfTable/>
+            <div className='row'>
+                <Paginate
+                    allItems={props.writeof.count}
+                    onPage={50}
+                    count={2}
+                    count_start_end={2}
+                    navigation={true}
+                    func={page => props.changeWriteOfState({page})}
+                />
+                <div className='ml10'>Всего - {props.writeof.count}</div>
+            </div>
         </div>
     )
 }

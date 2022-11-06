@@ -75,6 +75,7 @@ const AddWriteOf = (props) => {
                             <thead>
                                 <tr>
                                     <th>Наименование</th>
+                                    <th className='w70'>Адрес</th>
                                     <th className='w70 tac'>Количество</th>
                                 </tr>
                             </thead>
@@ -88,6 +89,7 @@ const AddWriteOf = (props) => {
                                         <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
                                         <div className='orderDate noWr'>{remain.description}</div>
                                     </td>
+                                    <td className='tac'>{remain.cell}</td>
                                     <td className='tac'>{remain.count}</td>
                                 </tr>
                             ))}

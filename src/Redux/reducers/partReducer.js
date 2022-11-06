@@ -45,14 +45,17 @@ const initialState = {
     filter_name: '',
     filter_warehouse_category_id: null,
 
-    choosed_headers: JSON.parse(localStorage.getItem('choosed_headers')) || part_table_headers
+    choosed_headers: JSON.parse(localStorage.getItem('part_choosed_headers')) || part_table_headers
 }
 
 export const partReducer = (state = initialState, action) => {
     switch (action.type){
 
         case 'CHANGE_PART_STATE': {
-
+            const local_save = ['choosed_headers']
+            Object.keys(action.data).forEach(field => {
+                if (local_save.includes(field)) localStorage.setItem(`part_${field}`, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 
@@ -124,7 +127,7 @@ export const partReducer = (state = initialState, action) => {
                 new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem('part_' + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
             return {
                 ...state,

@@ -13,6 +13,8 @@ import TablePartPrices from './TablePartPrices'
 
 const RegistrationPartEditor = (props) => {
 
+    const disabled = props.registration.edit
+
     useEffect(() => {
         if (!props.registration.edit_part) {
             props.changeRegistrationState({
@@ -91,6 +93,7 @@ const RegistrationPartEditor = (props) => {
                             checkedFlag='inputRegistrationCountChecked'
                             checked={props.view.inputRegistrationCountChecked}
                             redStar={true}
+                            disabled={disabled}
                         />
                         <LableInput
                             className='mt15'
@@ -99,7 +102,22 @@ const RegistrationPartEditor = (props) => {
                             onChange={event => props.changeRegistrationState({buy_cost: event.target.value.replace(/[^0-9.,]/g, '')})}
                             value={props.registration.buy_cost}
                             unit='Руб.'
+                            disabled={!props.permissions.includes('see_buy_cost')}
+                            invisible={!props.permissions.includes('edit_buy_cost')}
                         />
+                        {props.permissions.includes('edit_buy_cost') ? null :
+                        <div className='row'>
+                            <LableInput
+                                className='mt15 w250'
+                                title='Место хранения'
+                                onChange={event => props.changeRegistrationState({cell: event.target.value})}
+                                value={props.registration.cell}
+                                disabled={!Object.values(props.registration.warehouse).length}
+                            />
+                            {!Object.values(props.registration.warehouse).length ?
+                                <div className='errorMassageInput mt35 ml10'>{'<= Необходимо выбрать склад'}</div>
+                                : null}
+                        </div>}
                     </div>
                     <div className='ml15'>
                         <LableInput
@@ -116,6 +134,7 @@ const RegistrationPartEditor = (props) => {
                         />
                     </div>
                 </div>
+                {props.permissions.includes('edit_buy_cost') ?
                 <div className='row'>
                     <LableInput
                         className='mt15 w250'
@@ -127,7 +146,7 @@ const RegistrationPartEditor = (props) => {
                     {!Object.values(props.registration.warehouse).length ?
                         <div className='errorMassageInput mt35 ml10'>{'<= Необходимо выбрать склад'}</div>
                         : null}
-                </div>
+                </div> : null}
                 <h3 className='mt15'>Цены</h3>
                 <TablePartPrices/>
 
@@ -136,7 +155,7 @@ const RegistrationPartEditor = (props) => {
                     edit={props.registration.edit_part}
                     create={handleCreate}
                     save={() => handleSave(props.registration.edit_part)}
-                    delete={() => handleDelete(props.registration.edit_part - 1)}
+                    delete={disabled ? null : () => handleDelete(props.registration.edit_part - 1)}
                     close={handleClose}
                 />
             </div>
@@ -147,7 +166,9 @@ const RegistrationPartEditor = (props) => {
 const mapStateToProps = state => ({
     discount_margin: state.price.discount_margin,
     registration: state.registration,
-    view: state.view
+    view: state.view,
+    permissions: state.data.user.role.permissions
+
 })
 
 const mapDispatchToProps = {

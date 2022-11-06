@@ -40,7 +40,7 @@ export function addRemain() {
         warehouse_id: checkObject(state.remain.filter_warehouse) ? state.remain.filter_warehouse.id : null,
         warehouse_category_id: checkObject(state.remain.filter_category) ? state.remain.filter_category.id : null,
         filter_type: state.remain.filter_type.id,
-        page: state.remain.page
+        page: state.remain.page ? state.remain.page - 1 : 0
     })
 
     return dispatch => {
@@ -51,7 +51,7 @@ export function addRemain() {
                 if (data.success) {
                     dispatch({
                         type: 'CHANGE_REMAIN_STATE',
-                        data: {warehouse_remains: data.warehouse_remains},
+                        data: {warehouse_remains: data.warehouse_remains, remains_count: data.count},
                     })
                 } else {
                     console.warn(data.message)

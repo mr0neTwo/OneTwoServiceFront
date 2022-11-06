@@ -22,7 +22,11 @@ const CustomPanel = (props) => {
             let week_day = estimated_done_at.getDay() || 7 // вычеслим текущий день недели
             if (props.schedule.find(day => day.week_day === week_day).work_day) i++ // Если день рабочий, довим шаг цикла
         }
-        props.changeOrderState({manager: props.user, estimated_done_at: parseInt(estimated_done_at / 1000)})
+        props.changeOrderState({
+            manager: props.user,
+            engineer: {id: 0, first_name: 'назначен', last_name: 'Не'},
+            estimated_done_at: parseInt(estimated_done_at / 1000)
+        })
         props.changeVisibleState({statusOrderEditor: true})
     }
 

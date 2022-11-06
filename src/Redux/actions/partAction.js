@@ -71,7 +71,7 @@ function getFilter() {
         title: state.part.filter_name,
         deleted: state.part.showDeleted,
         warehouse_category_id: state.part.filter_warehouse_category_id,
-        page: state.part.page
+        page: state.part.page ? state.part.page - 1 : 0
     }
 }
 
@@ -117,12 +117,7 @@ export function addParts() {
 
     const state = store.getState()
 
-    const request_config = getRequestConfig({
-        page: state.part.page,
-        deleted: state.part.showDeleted,
-        title: state.part.filter_name,
-        warehouse_category_id: state.warehouse.current_category.id
-    })
+    const request_config = getRequestConfig({...getFilter()})
 
     return dispatch => {
 
@@ -178,6 +173,10 @@ export function createPart() {
                     })
                     dispatch({
                         type: 'RESET_PART'
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPartEditor: false}
                     })
                     // Если создаем запчать при оприходовании
                     if(state.view.statusRegistrationEditor) {
@@ -235,6 +234,10 @@ export function savePart() {
                     dispatch({
                         type: 'RESET_PART'
                     })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPartEditor: false}
+                    })
                 } else {
                     console.warn(data.message)
                 }
@@ -266,6 +269,10 @@ export function deletePart( flag ) {
                     })
                     dispatch({
                         type: 'RESET_PART'
+                    })
+                    dispatch({
+                        type: 'CHANGE_VISIBLE_STATE',
+                        data: {statusPartEditor: false}
                     })
                 } else {
                     console.warn(data.message)

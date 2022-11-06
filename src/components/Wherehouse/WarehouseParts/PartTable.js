@@ -1,11 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {useHistory} from 'react-router-dom'
 
 import PartName from '../WarehouseRemains/cell/PartName'
 import PartImag from '../WarehouseRemains/cell/PartImag'
 import PartDoc from '../WarehouseRemains/cell/PartDoc'
-import {getPart} from '../../../Redux/actions/partAction'
+import {changePartState, getPart} from '../../../Redux/actions/partAction'
+import TableHeader from '../../general/TableHeader'
 
 
 function PartTable(props) {
@@ -23,14 +23,21 @@ function PartTable(props) {
     }
 
     return (
-        <div className="tableOrdersBox">
-            <table className='mt15'>
+        <div className="tableWarehouseBox mt15">
+            <table id='tableWarehouse'>
                 <thead>
-                <tr>
-                    {props.part.choosed_headers.map(header => (
-                        <th key={header.id}>{header.title}</th>
-                    ))}
-                </tr>
+                    <tr>
+                        {props.part.choosed_headers.map(header => (
+                            <TableHeader
+                                key={header.id}
+                                header={header}
+                                changeState={props.changePartState}
+                                headers={props.part.choosed_headers}
+                                // sort_field={props.part.sort_field}
+                                // sort={props.part.sort}
+                            />
+                        ))}
+                    </tr>
                 </thead>
                 <tbody>
                 {props.part.parts.map(part => (
@@ -55,7 +62,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    getPart
+    getPart,
+    changePartState
 }
 
 

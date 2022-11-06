@@ -94,10 +94,7 @@ const AddParts = (props) => {
                             <Button
                                 title='+ Запчасть'
                                 className='whiteButton'
-                                onClick={() => history.push({
-                                    pathname: `/warehouse/part1`,
-                                    state: {new_part: true}
-                                })}
+                                onClick={() => props.changeVisibleState({statusPartEditor: true})}
                             />
                         </div>
                     </div> : null}

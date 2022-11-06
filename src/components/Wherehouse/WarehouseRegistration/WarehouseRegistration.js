@@ -10,6 +10,7 @@ import {registrations_table_headers} from '../../../data/tableHeaders'
 
 import TableRegistration from './TableRegistration'
 import TableFields from '../../general/TableFields'
+import Paginate from '../../general/Paginate'
 
 
 const WarehouseRegistration = props => {
@@ -23,7 +24,7 @@ const WarehouseRegistration = props => {
     }, [props.registration.showDeleted, props.registration.filter_created_at, props.registration.page])
 
     return (
-        <div className = 'contentTab'>
+        <div className=''>
             <div className='row jc-sb'>
                 <div className='row'>
                     <Button
@@ -31,6 +32,7 @@ const WarehouseRegistration = props => {
                         title='+ Оприходование'
                         className='greenButton h31'
                         onClick={handleNewRegistration}
+                        invisible={!props.permissions.includes('create_registrations')}
                     />
                     <ChooseDate
                         className='ml10 h27'
@@ -38,11 +40,7 @@ const WarehouseRegistration = props => {
                         range={true}
                         func={date => props.changeRegistrationState({filter_created_at: date.map(date => parseInt(date / 1000))})}
                         current_date={props.registration.filter_created_at}
-                    />
-                    <Button
-                        title='Применить'
-                        className='blueButton'
-                        onClick={() => props.addRegistration()}
+                        invisible={!props.permissions.includes('see_registrations')}
                     />
                 </div>
                 <TableFields
@@ -52,16 +50,29 @@ const WarehouseRegistration = props => {
                     list={registrations_table_headers}
                     checked_list={props.registration.table_headers}
                     func={props.selectedRegistration}
+                    invisible={!props.permissions.includes('see_registrations')}
                 />
             </div>
             <TableRegistration/>
+            <div className='row'>
+                <Paginate
+                    allItems={props.registration.registrations_count}
+                    onPage={50}
+                    count={2}
+                    count_start_end={2}
+                    navigation={true}
+                    func={page => changeRegistrationState({page})}
+                />
+                <div className='ml10'>Всего - {props.registration.registrations_count}</div>
+            </div>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
     registration: state.registration,
-    statusRegistrationEditor: state.view.statusRegistrationEditor
+    statusRegistrationEditor: state.view.statusRegistrationEditor,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

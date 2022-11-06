@@ -16,7 +16,6 @@ import OrderInfo from './info/OrderInfo'
 import OrderWorksMaterials from './work_matireal/OrderWorksMaterials'
 import OrderPayments from './payments/OrderPayments'
 import OrderHistory from './orderHisroy/OrderHistory'
-import ResNotFound from '../../general/ResNotFound'
 
 
 

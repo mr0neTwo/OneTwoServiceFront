@@ -4,6 +4,7 @@ import { remain_headers} from '../../data/tableHeaders'
 const initialState = {
 
     warehouse_remains: [],
+    remains_count: 0,
 
     edit: 0,
     where_to_buy: '',                   // Ссылка на поставщиков
@@ -20,9 +21,9 @@ const initialState = {
 
     page: 0,
     filter_title: '',
-    filter_warehouse: {},
-    filter_category: {},
-    filter_type:  {id: 0, title: 'Все'},
+    filter_warehouse: JSON.parse(localStorage.getItem('remain_filter_warehouse')) || {},
+    filter_category: JSON.parse(localStorage.getItem('remain_filter_category')) || {},
+    filter_type:  JSON.parse(localStorage.getItem('remain_filter_type')) || {id: 0, title: 'Все'},
     showDeleted: false,
 
     type_option: [
@@ -31,7 +32,7 @@ const initialState = {
         {id: 2, title: 'Только в наличии'}
     ],
 
-    table_headers:  JSON.parse(localStorage.getItem('table_headers_remain')) || remain_headers,
+    table_headers:  JSON.parse(localStorage.getItem('remain_table_headers')) || remain_headers,
     sort_field: 'id',
     sort: 'asc'
 }
@@ -40,6 +41,10 @@ export const remainReducer = (state = initialState, action) => {
     switch (action.type){
 
         case 'CHANGE_REMAIN_STATE': {
+            const local_save = ['filter_warehouse', 'filter_category', 'filter_type', 'table_headers']
+            Object.keys(action.data).forEach(field => {
+               if (local_save.includes(field)) localStorage.setItem(`remain_${field}`, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 
@@ -91,11 +96,11 @@ export const remainReducer = (state = initialState, action) => {
                 new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem(action.field + '_remain', JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem('remain_' + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
             return {
                 ...state,
-                [action.field]: new_data,
+                [action.field]: new_data
             }
         }
 

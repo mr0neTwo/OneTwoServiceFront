@@ -35,6 +35,7 @@ const WriteOfPartTable = (props) => {
            <thead>
             <tr>
                 <th>Наименование</th>
+                <th className='w70'>Адрес</th>
                 <th className='w70'>Количество</th>
                 {props.writeof.edit ? null : <th/>}
             </tr>
@@ -49,6 +50,7 @@ const WriteOfPartTable = (props) => {
                         <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
                         <div className='orderDate noWr'>{remain.description}</div>
                     </td>
+                    <td>{remain.cell}</td>
                     <td>
                         <div className='row'>
                             <div>
@@ -62,6 +64,7 @@ const WriteOfPartTable = (props) => {
                            <div className='ml5'>{`/ ${remain.count}`}</div>
                         </div>
                     </td>
+
                     {props.writeof.edit ? null :
                     <td>
                         <div className='row'>

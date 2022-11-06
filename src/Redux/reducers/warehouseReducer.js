@@ -5,7 +5,7 @@ const initialState = {
     warehouses: [],
     warehouse_categories: [],
 
-    tabs: 0,
+    tabs: JSON.parse(localStorage.getItem('warehouse_tabs')) || 0,
 
     edit: 0,
     title: '',
@@ -37,6 +37,10 @@ export const warehouseReducer = (state = initialState, action) => {
     switch (action.type){
 
         case 'CHANGE_WAREHOUSE_STATE': {
+            const local_save = ['tabs']
+            Object.keys(action.data).forEach(field => {
+                if (local_save.includes(field)) localStorage.setItem(`warehouse_${field}`, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 

@@ -24,6 +24,8 @@ import {includesObject} from './utils'
  *
  * field='table_headers' // имя поля в редюссере списка выбраных полей таблицы
  *
+ * invisible={false}
+ *
  * @returns {JSX.Element}
  */
 const TableFields = (props) => {
@@ -66,7 +68,7 @@ const TableFields = (props) => {
       setListVisible(false)
    }, [])
 
- 
+   if (props.invisible) return <div/>
 
    return (
       <div 
