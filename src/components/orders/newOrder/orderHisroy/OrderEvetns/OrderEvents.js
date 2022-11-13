@@ -20,7 +20,6 @@ const OrderEvents = props => {
                         return <EventSimple key={event.id} event={event} idx={idx}/>
                     }
                 })}
-
             </div>
         </div>
     )

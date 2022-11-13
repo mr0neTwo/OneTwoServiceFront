@@ -162,7 +162,6 @@ export const clientReducer = (state = initialState, action) => {
                 edit: 0,
                 tabs: 0,
                 statusPhoneList: [false],
-                statusAddTitle: [false]
 
             }
         }
