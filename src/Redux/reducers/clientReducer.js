@@ -78,8 +78,7 @@ export const clientReducer = (state = initialState, action) => {
                     title: 'Мобильный',
                     number: '',
                     notify: false
-                }]),
-                statusPhoneList: state.statusPhoneList.concat([false])
+                }])
             }
         }
 
@@ -87,13 +86,11 @@ export const clientReducer = (state = initialState, action) => {
 
             let phones = state.phone
             phones.splice(action.idx, 1)
-            const statusPhones = state.statusPhoneList
-            statusPhones.splice(action.idx, 1)
+
 
             return {
                 ...state,
-                phone: phones,
-                statusPhoneList: statusPhones
+                phone: phones
             }
         }
 
@@ -161,7 +158,6 @@ export const clientReducer = (state = initialState, action) => {
 
                 edit: 0,
                 tabs: 0,
-                statusPhoneList: [false],
 
             }
         }
@@ -185,9 +181,9 @@ export const clientReducer = (state = initialState, action) => {
                 deleted: action.client.deleted,
 
                 name: action.client.name,
-                name_doc: action.client.name_doc,
-                email: action.client.email,
-                address: action.client.address,
+                name_doc: action.client.name_doc || '',
+                email: action.client.email || '',
+                address: action.client.address || '',
                 phone: action.client.phone,
                 ad_campaign_id: action.client.ad_campaign_id,
                 discount_code: action.client.discount_code,
@@ -214,7 +210,7 @@ export const clientReducer = (state = initialState, action) => {
                 discount_materials_type: action.client.discount_materials_type,
                 discount_service_type: action.client.discount_service_type,
 
-                edit: action.client.id
+                edit: action.client.id,
             }
         }
 

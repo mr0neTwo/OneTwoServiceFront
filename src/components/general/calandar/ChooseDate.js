@@ -157,11 +157,14 @@ const ChooseDate = (props) => {
         // Если задан режим выбора одной даты
         } else {
             // возвращаем выбранную дату
-            props.func(day)
+            let finish_day = new Date(props.current_date)
+            finish_day.setDate(day.getDate())
+            finish_day.setMonth(day.getMonth())
+            finish_day.setFullYear(day.getFullYear())
+            props.func(finish_day)
             // устанавливаем текущую дату в state компонента
-            setCurrent_day(new Date(day))
+            setCurrent_day(finish_day)
         }
-
     }
 
     /**

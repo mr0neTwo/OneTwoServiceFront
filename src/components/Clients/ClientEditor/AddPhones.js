@@ -15,6 +15,8 @@ const AddPhones = (props) => {
         if (out.length < 12) props.changeClientEditorPhone(idx, 'number', out,)
     }
 
+
+
     return (
         <div>
             {props.client.phone.map((phone, idx) => (

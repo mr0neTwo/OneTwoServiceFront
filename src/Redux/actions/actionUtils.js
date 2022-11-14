@@ -1,5 +1,5 @@
 import store from '../store'
-import {csrf, showAlert} from '../actions'
+import {showAlert} from '../actions'
 
 export function getRequestConfig(body = {}) {
 
@@ -18,7 +18,8 @@ export function getRequestConfig(body = {}) {
 
 export function bad_request(dispatch, error, message = '') {
     console.warn(message)
-    if (error.message === 'Unexpected token < in JSON at position 0') {
+    console.log(error)
+    if (error.code === 401) {
         sessionStorage.clear()
         dispatch({
             type: 'CHANGE_VISIBLE_STATE',

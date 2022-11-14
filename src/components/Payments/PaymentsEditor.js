@@ -122,6 +122,7 @@ const PaymentsEditor = (props) => {
                             width='250px'
                             func={date => props.changePaymentState({custom_created_at: parseInt(date / 1000)})}
                             current_date={props.payment.custom_created_at * 1000}
+                            time={true}
                             invisible={!chooseData}
                         />
                     </div>

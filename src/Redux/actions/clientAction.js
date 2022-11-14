@@ -27,9 +27,34 @@ export function addPhoneCounter() {
 
 
 export function deleteCountNumber(idx) {
-    return {
-        type: 'DELETE_COUNT_NUMBER',
-        idx
+    const state = store.getState()
+
+    if (state.client.phone[idx].id) {
+        let request_config = getRequestConfig({id: state.client.phone[idx].id})
+        request_config.method = 'PUT'
+
+        return dispatch => {
+
+            fetch(state.data.url_server + '/phone', request_config)
+                .then(response =>  response.json())
+                .then(data => {
+                    if (data.success) {
+                        dispatch({
+                            type: 'CHANGE_CLIENT_STATE',
+                            data: {phone: data.phones},
+                        })
+                    } else {
+                        console.warn(data.message)
+                    }
+                })
+                .catch(error => bad_request(dispatch, error, 'Запрос на удаление номера не выполнен'))
+
+        }
+    } else {
+        return {
+            type: 'DELETE_COUNT_NUMBER',
+            idx
+        }
     }
 }
 
