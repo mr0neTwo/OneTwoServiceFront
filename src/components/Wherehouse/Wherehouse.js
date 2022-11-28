@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo} from 'react'
-import { connect } from 'react-redux'
+import React, {useEffect, useMemo, useState} from 'react'
+import {connect} from 'react-redux'
 
 import {addWarehouse, changeWarehouseForm} from '../../Redux/actions/warehouseAction'
 
@@ -7,7 +7,7 @@ import Tabs from '../general/Tabs'
 import WarehouseParts from './WarehouseParts/WarehouseParts';
 import WarehouseRegistration from './WarehouseRegistration/WarehouseRegistration';
 import WarehouseWriteOf from './WarehouseWriteOf/WarehouseWriteOf';
-import WarehouseMoves from './WarehouseMoves/WarehouseMoves';
+import WarehouseMoves from './WarehouseMovement/WarehouseMovement';
 import WarehouseInventories from './WarehouseInventories/WarehouseInventories';
 import WarehouseRemains from './WarehouseRemains/WarehouseRemains';
 import WarehouseBacks from './WarehouseBacks/WarehouseBacks';
@@ -30,7 +30,8 @@ const Warehouse = (props) => {
         if (props.permissions.includes('write_of_warehouse')) {
             current_tabs.push((<WarehouseWriteOf/>))
         }
-        current_tabs = current_tabs.concat([(<WarehouseMoves/>), (<WarehouseInventories/>), (<WarehouseBacks/>), (<WarehouseParts/>)])
+        current_tabs = current_tabs.concat([(<WarehouseMoves/>), (<WarehouseInventories/>), (<WarehouseBacks/>), (
+            <WarehouseParts/>)])
         return current_tabs
     }, [props.permissions])
 
@@ -50,25 +51,25 @@ const Warehouse = (props) => {
     }, [props.permissions])
 
 
-    
-  return (
-      <div className='pageContent'>
 
-          <div className='Header'>
-              <span className='headerTitle'>Склады</span>
-          </div>
+    return (
+        <div className='pageContent'>
 
-          <Tabs
-              className='mt15'
-              list={list}
-              func={idx => props.changeWarehouseForm(idx, 'tabs')}
-              tab={props.tabs}
-          />
-          {tabs[props.tabs]}
+            <div className='Header al-itm-ct'>
+                <div className='headerTitle'>Склады</div>
+            </div>
+
+            <Tabs
+                className='mt15'
+                list={list}
+                func={idx => props.changeWarehouseForm(idx, 'tabs')}
+                tab={props.tabs}
+            />
+            {tabs[props.tabs]}
 
 
-      </div>
-  )
+        </div>
+    )
 }
 
 const mapStateToProps = state => ({

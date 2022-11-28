@@ -70,7 +70,7 @@ function getFilter() {
     return {
         title: state.part.filter_name,
         deleted: state.part.showDeleted,
-        warehouse_category_id: state.part.filter_warehouse_category_id,
+        warehouse_category_id: state.part.filter_warehouse_category.id,
         page: state.part.page ? state.part.page - 1 : 0
     }
 }

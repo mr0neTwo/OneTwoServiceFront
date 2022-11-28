@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
 
-import {changeWarehouseForm, editWarehouseCategory} from '../../../Redux/actions/warehouseAction';
-import {setVisibleFlag} from '../../../Redux/actions';
+import {changeWarehouseForm, editWarehouseCategory} from '../../../Redux/actions/warehouseAction'
+import {setVisibleFlag} from '../../../Redux/actions'
+import {changePartState} from '../../../Redux/actions/partAction'
 
-import { icon_down, icon_right} from '../../../data/icons';
+import { icon_down, icon_right} from '../../../data/icons'
 
-import Icon from '../../general/Icon';
-import WarehouseCategory from './WarehouseCategory';
+import Icon from '../../general/Icon'
+import WarehouseCategory from './WarehouseCategory'
 
 const CategoryTable = props => {
 
@@ -15,9 +16,15 @@ const CategoryTable = props => {
 
     const mainCategory = props.warehouse.warehouse_categories || {id: 1, title: 'Все категории', categories: []}
 
-    const handleChoose = () => {
-        props.changeWarehouseForm(mainCategory, 'current_category')
+    const handleChooseMain = (cat) => {
+        props.changeWarehouseForm(cat, 'current_category')
+        props.changePartState({filter_warehouse_category: cat})
         setVisibleList(!visibleList)
+    }
+
+    const handleChoose = (cat) => {
+        props.changeWarehouseForm(cat, 'current_category')
+        props.changePartState({filter_warehouse_category: cat})
     }
 
     const handleEdit = (cat) => {
@@ -40,7 +47,7 @@ const CategoryTable = props => {
                 <tr
                     className='row hovblue'
                     style={mainCategory.id === props.warehouse.current_category.id ? { backgroundColor: '#cae1f5'} : null}
-                    onClick= { handleChoose }
+                    onClick= {() => handleChooseMain(mainCategory) }
                 >
                     <td className='row w100 pd5'>
                         <Icon className='icon-s1' icon={visibleList ? icon_down : icon_right}/>
@@ -54,7 +61,7 @@ const CategoryTable = props => {
                         <WarehouseCategory
                             key={category.id}
                             category={category}
-                            choose={cat => props.changeWarehouseForm(cat, 'current_category')}
+                            choose={cat => handleChoose(cat)}
                             current={props.warehouse.current_category}
                             parent_category={mainCategory}
                             choose_parent_category={cats => props.changeWarehouseForm(cats, 'current_parent_category')}
@@ -77,7 +84,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     changeWarehouseForm,
     editWarehouseCategory,
-    setVisibleFlag
+    setVisibleFlag,
+    changePartState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryTable)

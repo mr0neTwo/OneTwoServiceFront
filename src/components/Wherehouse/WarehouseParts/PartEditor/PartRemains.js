@@ -9,7 +9,7 @@ const PartRemains = (props) => {
 
     const remains = useMemo(() => {
         if (show === 1) {
-            return props.part.remains.filter(remain => remain.count > 0)
+            return props.part.remains.filter(remain => remain.remains.map(remain => remain.count).reduce((partialSum, a) => partialSum + a, 0) > 0)
         } else {
             return props.part.remains
         }
@@ -26,7 +26,7 @@ const PartRemains = (props) => {
                 checked = { true }
             />
 
-            {remains.map(remain => <Remain key={remain.id} remain={remain}/>)}
+            {remains.sort((a, b) => a.id - b.id).map(remain => <Remain key={remain.id} remain={remain}/>)}
 
         </div>
     )

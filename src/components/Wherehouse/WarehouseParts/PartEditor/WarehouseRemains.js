@@ -3,6 +3,16 @@ import { connect } from 'react-redux'
 import Icon from '../../../general/Icon'
 
 const WarehouseRemains = (props) => {
+
+    const getCell = (warehouse_id) => {
+        const rule = props.part.residue_rules.find(rule => rule.warehouse.id === warehouse_id)
+        if (rule) {
+            return rule.cell || ''
+        } else {
+            return ''
+        }
+    }
+
     return (
         <div className=''>
             <table>
@@ -11,6 +21,7 @@ const WarehouseRemains = (props) => {
                         <th className='w30'/>
                         <th className='w100'>Склад</th>
                         <th className='w70'>Количество</th>
+                        <th className='w70'>Адрес</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,6 +32,7 @@ const WarehouseRemains = (props) => {
                         </td>
                         <td>{remain.warehouse.title}</td>
                         <td className='tac'>{remain.count}</td>
+                        <td className='tac'>{getCell(remain.warehouse.id)}</td>
                     </tr>
                 ))}
                 </tbody>

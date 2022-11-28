@@ -12,6 +12,7 @@ import TableRemains from './TableRemains'
 import {checkObject} from '../../general/utils'
 import {addDiscountMargin} from '../../../Redux/actions/priceAction'
 import Paginate from '../../general/Paginate'
+import Search from '../Search'
 
 
 const WarehouseRemains = (props) => {
@@ -27,7 +28,7 @@ const WarehouseRemains = (props) => {
         props.remain.filter_warehouse,
         props.remain.filter_category,
         props.remain.filter_type,
-        props.remain.showDeleted
+        props.remain.filter_title
     ])
 
 
@@ -45,7 +46,7 @@ const WarehouseRemains = (props) => {
     return (
         <div className='contentTab'>
             <div className='row jc-sb'>
-                <div className='row'>
+                <div className='row al-itm-fe'>
                     <SelectFromList
                         id='selWarRem'
                         title='Склад'
@@ -71,6 +72,10 @@ const WarehouseRemains = (props) => {
                         setElement={warehouse => props.changeRemainState({filter_type: warehouse})}
                         current_object={props.remain.filter_type}
                         width={'210px'}
+                    />
+                    <Search
+                        className='ml15 pd2'
+                        func={search => props.changeRemainState({filter_title: search})}
                     />
                 </div>
                 <TableFields

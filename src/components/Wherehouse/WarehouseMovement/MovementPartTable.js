@@ -1,17 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import {changeWriteOfState} from '../../../Redux/actions/writeOfAction'
+import {changeMovementState} from '../../../Redux/actions/warehouseMovementAction'
 import {icon_trush} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 
-const WriteOfPartTable = (props) => {
+const MovementPartTable = (props) => {
 
 
     const handleChange = (value, idx) => {
         value = parseInt(value.replace(/[^0-9]/g, ''))
-        const parts = props.writeof.parts
+        const parts = props.movement.parts
         if (0 < value && value <= parts[idx].count) {
             parts[idx].target_count = value
         } else if (value > parts[idx].count) {
@@ -19,31 +19,31 @@ const WriteOfPartTable = (props) => {
         } else {
             parts[idx].target_count = 1
         }
-        props.changeWriteOfState({parts})
+        props.changeMovementState({parts})
     }
 
     const handleDelete = (idx) => {
-        let parts = props.writeof.parts
+        let parts = props.movement.parts
         parts.splice(idx, 1)
-        props.changeWriteOfState({parts})
+        props.changeMovementState({parts})
     }
 
-    if (!props.writeof.parts.length) {
+    if (!props.movement.parts.length) {
         return <div className='tempPage h90'>Выбере запчасть</div>
     }
 
     return (
         <table className='mt15'>
-           <thead>
+            <thead>
             <tr>
                 <th>Наименование</th>
                 <th className='w70'>Адрес</th>
                 <th className='w70'>Количество</th>
-                {props.writeof.edit ? null : <th/>}
+                {props.movement.edit ? null : <th/>}
             </tr>
-           </thead>
+            </thead>
             <tbody>
-            {props.writeof.parts.map((remain, idx) => (
+            {props.movement.parts.map((remain, idx) => (
                 <tr
                     key={idx}
                     className='fillcol'
@@ -55,24 +55,26 @@ const WriteOfPartTable = (props) => {
                     <td>{remain.cell}</td>
                     <td>
                         <div className='row'>
-                            <input
-                                className='w30'
-                                onChange={event => handleChange(event.target.value, idx)}
-                                value={props.writeof.parts[idx].target_count}
-                                disabled={props.writeof.edit}
-                            />
-                           <div className='ml5'>{`/ ${remain.count}`}</div>
+                            <div>
+                                <input
+                                    className='w30'
+                                    onChange={event => handleChange(event.target.value, idx)}
+                                    value={props.movement.parts[idx].target_count}
+                                    disabled={props.movement.edit}
+                                />
+                            </div>
+                            <div className='ml5'>{`/ ${remain.count}`}</div>
                         </div>
                     </td>
 
-                    {props.writeof.edit ? null :
-                    <td>
-                        <div className='row'>
-                            <div onClick={() => handleDelete(idx)}>
-                                <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                    {props.movement.edit ? null :
+                        <td>
+                            <div className='row'>
+                                <div onClick={() => handleDelete(idx)}>
+                                    <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                </div>
                             </div>
-                        </div>
-                    </td>}
+                        </td>}
                 </tr>
             ))}
             </tbody>
@@ -81,11 +83,11 @@ const WriteOfPartTable = (props) => {
 }
 
 const mapStateToProps = state => ({
-    writeof: state.writeof
+    movement: state.movement
 })
 
 const mapDispatchToProps = {
-    changeWriteOfState
+    changeMovementState
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WriteOfPartTable)
+export default connect(mapStateToProps, mapDispatchToProps)(MovementPartTable)

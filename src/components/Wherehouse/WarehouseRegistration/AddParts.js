@@ -9,6 +9,7 @@ import {changeRegistrationState} from '../../../Redux/actions/registrationAction
 import {changeVisibleState} from '../../../Redux/actions'
 import Button from '../../general/Button'
 import {useHistory} from 'react-router-dom'
+import {includesObject} from '../../general/utils'
 
 
 
@@ -53,6 +54,7 @@ const AddParts = (props) => {
         })
     }
 
+    const parts = props.part.parts.filter(part => !props.registration.parts.map(part => part.part.id).includes(part.id))
 
     return (
         <div className='w400 h52'>
@@ -78,7 +80,7 @@ const AddParts = (props) => {
                 </div>
                 {showList ?
                     <div className='listFilter' id='listWarehousePart'>
-                        {props.part.parts.map(part => (
+                        {parts.map(part => (
                             <div
                                 className='rowGropList'
                                 key={part.id}

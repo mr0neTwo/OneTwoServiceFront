@@ -5,27 +5,26 @@ import {showDate} from '../../../general/utils'
 import MultyButton from '../../../general/MultyButton'
 import {getWriteOf} from '../../../../Redux/actions/writeOfAction'
 import {getRegistration} from '../../../../Redux/actions/registrationAction'
-
-import WriteOfEditor from '../../WarehouseWriteOf/WriteOfEditor'
-import RegistrationEditor from '../../WarehouseRegistration/RegistrationEditor'
+import {getMovement} from '../../../../Redux/actions/warehouseMovementAction'
 
 
 const PartMovement = (props) => {
 
     const [direction, setDirection] = useState(0)
 
-    const list_type = ['registration', 'writeof', 'order']
-
     const part_movements = props.part.part_movements.filter(movement => !direction || movement.direction === direction)
 
     const handleClick = (movement) => {
-        if (movement.relatedObject.type === 1) props.getWriteOf(movement.relatedObject.doc_id)
+
         switch (movement.relatedObject.type) {
             case 0:
                 props.getRegistration(movement.relatedObject.doc_id)
                 break
             case 1:
                 props.getWriteOf(movement.relatedObject.doc_id)
+                break
+            case 3:
+                props.getMovement(movement.relatedObject.doc_id)
                 break
             default: console.log(movement)
         }
@@ -85,7 +84,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     getWriteOf,
-    getRegistration
+    getRegistration,
+    getMovement
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PartMovement)

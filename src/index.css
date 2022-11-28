@@ -1312,16 +1312,16 @@ div.tableOrders td {
 }
 
 .whiteButton {
-  /*margin: 5px 10px;*/
   padding: 4px 10px;
   background-color: white;
   border-radius: 4px;
   justify-content: space-between;
   border: 1px solid #aaaaaa;
-  border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
   max-width: max-content;
+  align-items: center;
+  display: flex;
 }
 
 
@@ -2655,6 +2655,14 @@ thead:hover {
   align-items: center;
 }
 
+.boxSearch {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  align-items: center;
+}
+
 .subtypePicture {
   position: fixed;
   top: 225px;
@@ -2665,7 +2673,7 @@ thead:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  /*background-color: white;*/
   border-radius: 5px;
   box-shadow: 1px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 -1px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
   background-color: #ffffff;

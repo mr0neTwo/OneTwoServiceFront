@@ -43,7 +43,7 @@ const initialState = {
     page: 0,
     showDeleted: false,
     filter_name: '',
-    filter_warehouse_category_id: null,
+    filter_warehouse_category: {},
 
     choosed_headers: JSON.parse(localStorage.getItem('part_choosed_headers')) || part_table_headers
 }

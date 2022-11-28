@@ -23,7 +23,7 @@ const optionsShowRangeDate = {
 }
 
 /**
- * Приодит номер телефона к читабильному виду
+ * Приводит номер телефона к читабильному виду
  *
  * @param {number} phone The phone number in the format 71234567890
  * @return {string} The phone number in the string '+7 (123) 456-78-90'

@@ -50,6 +50,9 @@ const initialState = {
    statusOrderNotFound: false,
    statusWriteOfEditor: false,
    statusPartEditor: false,
+   statusMovementEditor: false,
+   statusBackEditor: false,
+   statusReturnPart: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -105,6 +108,9 @@ const initialState = {
    inputRegistrationPartChecked: true,
    inputResRulWarehouse: true,
    inputEngineerWriteOf: true,
+   inputTargetWarehouseMovement: true,
+   inputWarehouseBack: true,
+   inputWarehouseReturnPart: true,
 
    errorSameMail: false,
    errorSameLogin: false,

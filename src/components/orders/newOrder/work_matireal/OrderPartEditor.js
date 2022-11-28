@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag } from '../../../../Redux/actions'
+import {changeVisibleState} from '../../../../Redux/actions'
 import {changeOrderPartForm, createCustomOrderPart, deleteOrderPart} from '../../../../Redux/actions/orderPartAction'
 import {resetOrderPart, saveOrderPart} from '../../../../Redux/actions/orderPartAction'
 
@@ -11,18 +11,24 @@ import LableArea from '../../../general/LableArea'
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
 import ChooseButton from '../../../general/ChooseButton'
+import ReturnOrderPart from './ReturnOrderPart'
 
 const OrderPartEditor = (props) => {
 
     const handleClose = () => {
-        props.setVisibleFlag('inputOrderPartEngineerChecked', true)
-        props.setVisibleFlag('inputOrderPartTitleChacked', true)
-        props.setVisibleFlag('statusOrderPartEditor', false)
+        props.changeVisibleState({
+            inputOrderPartEngineerChecked: true,
+            inputOrderPartTitleChacked: true,
+            statusOrderPartEditor: false
+        })
         props.resetOrderPart()
     }
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('orderPartEditorWindow')) {
+        if (
+            !event.path.map((el) => el.id).includes('orderPartEditorWindow') &&
+            !event.path.map((el) => el.id).includes('statusReturnPart')
+        ) {
             handleClose()
         }
     }
@@ -60,8 +66,8 @@ const OrderPartEditor = (props) => {
             props.createCustomOrderPart()
             handleClose()
         } else {
-            if (!props.orderPart.title) props.setVisibleFlag('inputOrderPartTitleChacked', false)
-            if (!props.orderPart.engineer_id) props.setVisibleFlag('inputOrderPartEngineerChecked', false)
+            if (!props.orderPart.title) props.changeVisibleState({inputOrderPartTitleChacked: false})
+            if (!props.orderPart.engineer_id) props.changeVisibleState({inputOrderPartEngineerChecked: false})
         }
     }
 
@@ -70,10 +76,18 @@ const OrderPartEditor = (props) => {
             props.saveOrderPart()
             handleClose()
         } else {
-            if (!props.orderPart.title) props.setVisibleFlag('inputOrderPartTitleChacked', false)
-            if (!props.orderPart.engineer_id) props.setVisibleFlag('inputOrderPartEngineerChecked', false)
+            if (!props.orderPart.title) props.changeVisibleState({inputOrderPartTitleChacked: false})
+            if (!props.orderPart.engineer_id) props.changeVisibleState({inputOrderPartEngineerChecked: false})
         }
     }
+
+    const handleDelete = props.permissions.includes('setting_delete_service') ? () => {
+        if(props.orderPart.warehouse_parts_id) {
+            props.changeVisibleState({statusReturnPart: true})
+        } else {
+            props.deleteOrderPart(true)
+        }
+    } : null
 
     return (
         <div className='rightBlock'>
@@ -146,7 +160,7 @@ const OrderPartEditor = (props) => {
                         <ChooseButton
                             className='ml30'
                             name={['Дни', 'Мес']}
-                            func1 = {() => props.changeOrderPartForm(1*24*60*60, 'warranty_value')}
+                            func1 = {() => props.changeOrderPartForm(24*60*60, 'warranty_value')}
                             func2 = {() => props.changeOrderPartForm(30*24*60*60, 'warranty_value')}
                             disabled={props.orderPart.deleted}
                         />
@@ -181,11 +195,9 @@ const OrderPartEditor = (props) => {
 
                 <BottomButtons
                     edit={props.orderPart.edit}
-                    deleted={props.orderPart.deleted}
                     create={handleCreate}
                     save={handleSave}
-                    delete={props.permissions.includes('setting_delete_service') ? () => props.deleteOrderPart(true) : null}
-                    recover={props.permissions.includes('setting_recover_service') ? () => props.deleteOrderPart(false) : null}
+                    delete={handleDelete}
                     close={handleClose}
                 />
             </div>
@@ -201,12 +213,12 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    setVisibleFlag,
     resetOrderPart,
     changeOrderPartForm,
     createCustomOrderPart,
     saveOrderPart,
-    deleteOrderPart
+    deleteOrderPart,
+    changeVisibleState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderPartEditor)

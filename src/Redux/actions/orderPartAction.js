@@ -2,8 +2,13 @@ import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
 import {getOrderFilter} from './orderActions'
 import {showAlert} from '../actions'
-import {text} from 'react-table/src/filterTypes'
 
+export function changeOrderPartState( data ) {
+    return {
+        type: 'CHANGE_ORDER_PART_STATE',
+        data
+    }
+}
 
 export function changeOrderPartForm( value, field ) {
     return {
@@ -93,7 +98,6 @@ export function createCustomOrderPart() {
 }
 
 
-
 export function saveOrderPart() {
 
     const state = store.getState()
@@ -110,6 +114,7 @@ export function saveOrderPart() {
         comment: state.orderPart.comment,
         warranty_period: state.orderPart.warranty_period,
         order_id: state.order.edit,
+        warehouse_parts_id: state.orderPart.warehouse_parts_id || null,
 
         filter_order: getOrderFilter()
     })
@@ -155,6 +160,7 @@ export function deleteOrderPart(flag) {
     let request_config = getRequestConfig({
         id: state.orderPart.edit,
         order_id: state.order.edit,
+        to_warehouse_id: state.orderPart.to_warehouse_id || null,
         deleted: flag,
 
         filter_order: getOrderFilter()

@@ -5,6 +5,7 @@ import {changeRegistrationState, createRegistration, deleteRegistration, getRegi
 import {resetRegistration, saveRegistration} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 import {addDiscountMargin, changePriceState} from '../../../Redux/actions/priceAction'
+import {changeBackState} from '../../../Redux/actions/warehouseBackActions'
 import {checkObject} from '../../general/utils'
 
 import ChooseDate from '../../general/calandar/ChooseDate'
@@ -17,6 +18,7 @@ import RegistrationPartEditor from './RegistrationPartEditor'
 import TableRegistrationPart from './TableRegistrationPart'
 import SelectFromList from '../../general/SelectFromList'
 import WarningChangeWarehouse from './WarningChangeWarehouse'
+import {changeRemainState} from '../../../Redux/actions/remainAction'
 
 
 const RegistrationEditor = (props) => {
@@ -46,6 +48,7 @@ const RegistrationEditor = (props) => {
             !event.path.map((el) => el.id).includes('registrationEditor') &&
             !event.path.map((el) => el.id).includes('wpartEditorWindow') &&
             !event.path.map((el) => el.id).includes('newRegistration') &&
+            !event.path.map((el) => el.id).includes('statusBackEditor') &&
             !event.path.map((el) => el.id).includes('changeWarehouseMessage')
         ) {
             handleClose()
@@ -116,6 +119,18 @@ const RegistrationEditor = (props) => {
         }
     }
 
+    const handleBack = () => {
+        props.changeVisibleState({statusBackEditor: true})
+        props.changeBackState({
+            client: props.registration.client,
+            registration: {
+                id: props.registration.edit,
+                label: props.registration.label
+            }
+        })
+        props.changeRemainState({filter_registration_id: props.registration.edit})
+    }
+
     return (
         <div className={`rightBlock ${props.registration.edit ? 'z9999' : 'z99'}`}>
             <div className='rightBlockWindow' id='registrationEditor'>
@@ -183,10 +198,9 @@ const RegistrationEditor = (props) => {
                     edit={props.registration.edit}
                     create={handleCreate}
                     save={handleSave}
-                    // recover={handleRecover}
-                    // delete={handleDelete}
                     close={handleClose}
-                    // deleted={props.registration.deleted}
+                    extraButton={handleBack}
+                    extraTitle='Сделать возврат'
                 />
             </div>
             {messageWarning ?
@@ -214,7 +228,9 @@ const mapDispatchToProps = {
     resetRegistration,
     addDiscountMargin,
     changePriceState,
-    getRegistration
+    getRegistration,
+    changeBackState,
+    changeRemainState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationEditor)

@@ -13,6 +13,7 @@ import Checkbox from '../../general/Checkbox';
 import PartTable from './PartTable'
 import TableFields from '../../general/TableFields'
 import Paginate from '../../general/Paginate'
+import WarehouseSearch from '../Search'
 
 const WarehouseParts = props => {
 
@@ -22,7 +23,7 @@ const WarehouseParts = props => {
 
     useEffect(() => {
         props.addParts()
-    }, [props.part.showDeleted, props.part.page, props.warehouse.current_category])
+    }, [props.part.showDeleted, props.part.page, props.warehouse.current_category, props.part.filter_name])
 
     const handleAddCategory = () => {
         props.changeWarehouseForm(props.warehouse.current_category, 'current_parent_category')
@@ -73,6 +74,9 @@ const WarehouseParts = props => {
                                 onChange={event => props.changePartState({showDeleted: event.target.checked})}
                                 checked={props.part.showDeleted}
                                 invisible={!props.permissions.includes('see_delete_parts')}
+                            />
+                            <WarehouseSearch
+                                func={search => props.changePartState({filter_name: search})}
                             />
                         </div>
                         <TableFields

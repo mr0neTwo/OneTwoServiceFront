@@ -26,6 +26,8 @@ import PartEditor from './Wherehouse/WarehouseParts/PartEditor/PartEditor'
 import WriteOfEditor from './Wherehouse/WarehouseWriteOf/WriteOfEditor'
 import RegistrationEditor from './Wherehouse/WarehouseRegistration/RegistrationEditor'
 import ClientEditor from './Clients/ClientEditor/ClientEditor'
+import WarehouseMovementEditor from './Wherehouse/WarehouseMovement/WarehouseMovementEditor'
+import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor'
 
 
 
@@ -70,6 +72,8 @@ function Main(props) {
             {props.view.statusClientEditor ? <ClientEditor/> : null}
             {props.view.statusPartEditor ? <PartEditor/> : null}
             {props.view.statusOrderEditor ? <OrderEditor/> : null}
+            {props.view.statusMovementEditor ? <WarehouseMovementEditor/> : null}
+            {props.view.statusBackEditor ? <WarehouseBackEditor/> : null}
         </div>
     )
 }

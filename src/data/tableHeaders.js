@@ -239,3 +239,77 @@ export const write_of_headers = [
         order: 4
     }
 ]
+
+export const movement_headers = [
+    {
+        id: 1,
+        title: 'Перемещение №',
+        field: 'label',
+        width: 70,
+        order: 1
+    },{
+        id: 2,
+        title: 'Создано',
+        field: 'created_at',
+        width: 100,
+        order: 2
+    },{
+        id: 3,
+        title: 'Со склада',
+        field: 'warehouse.title',
+        width: 140,
+        order: 3
+    },{
+        id: 4,
+        title: 'В склад',
+        field: 'target_warehouse.title',
+        width: 140,
+        order: 4
+    },{
+        id: 5,
+        title: 'Описание',
+        field: 'description',
+        width: 140,
+        order: 5
+    }
+]
+
+export const back_headers = [
+    {
+        id: 1,
+        title: 'Возврат №',
+        field: 'label',
+        width: 70,
+        order: 1
+    },{
+        id: 2,
+        title: 'Создано',
+        field: 'created_at',
+        width: 100,
+        order: 2
+    },{
+        id: 3,
+        title: 'Со склада',
+        field: 'warehouse.title',
+        width: 140,
+        order: 3
+    },{
+        id: 4,
+        title: 'Поставщик',
+        field: 'client.name',
+        width: 140,
+        order: 4
+    },{
+        id: 5,
+        title: 'Основание',
+        field: 'registration.label',
+        width: 140,
+        order: 5
+    },{
+        id: 6,
+        title: 'Описание',
+        field: 'description',
+        width: 140,
+        order: 6
+    }
+]

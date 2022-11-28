@@ -11,7 +11,7 @@ export const templeReducer = (state = initialState, action) => {
    switch (action.type){
 
       case 'CHANGE_TEMPLE_STATE': {
-         return Object.assign(state, action.data)
+         return {...Object.assign(state, action.data)}
       }
 
 

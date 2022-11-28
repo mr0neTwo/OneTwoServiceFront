@@ -54,7 +54,8 @@ const OrderEditor = (props) => {
             !event.path.map((el) => el.id).includes('clientEditor') &&
             !event.path.map((el) => el.id).includes('createNewOrder') &&
             !event.path.map((el) => el.id).includes('paymentsEditorWiondow') &&
-            !event.path.map((el) => el.id).includes('writeOfEditor')
+            !event.path.map((el) => el.id).includes('writeOfEditor') &&
+            !event.path.map((el) => el.id).includes('statusReturnPart')
         ) {
             handleClose()
         }

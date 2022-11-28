@@ -24,6 +24,7 @@ const initialState = {
     filter_warehouse: JSON.parse(localStorage.getItem('remain_filter_warehouse')) || {},
     filter_category: JSON.parse(localStorage.getItem('remain_filter_category')) || {},
     filter_type:  JSON.parse(localStorage.getItem('remain_filter_type')) || {id: 0, title: 'Все'},
+    filter_registration_id: 0,
     showDeleted: false,
 
     type_option: [

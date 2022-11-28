@@ -1,17 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {useHistory} from 'react-router-dom'
 
 import TableHeader from '../../general/TableHeader'
 import CreatedAt from './cell/CreatedAt'
 import Label from './cell/Label'
 import {changeWriteOfState, getWriteOf} from '../../../Redux/actions/writeOfAction'
 import Warehouse from './cell/Warehouse'
-import WriteOfEditor from './WriteOfEditor'
-
 
 const WriteOfTable = (props) => {
-
 
     const chooseCell = (header, write_of) => {
 
