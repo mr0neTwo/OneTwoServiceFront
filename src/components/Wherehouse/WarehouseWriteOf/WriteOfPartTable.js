@@ -5,6 +5,7 @@ import {changeWriteOfState} from '../../../Redux/actions/writeOfAction'
 import {icon_trush} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
+import Checkbox from '../../general/Checkbox'
 
 const WriteOfPartTable = (props) => {
 
@@ -27,6 +28,11 @@ const WriteOfPartTable = (props) => {
         parts.splice(idx, 1)
         props.changeWriteOfState({parts})
     }
+    const handleCheck = (idx, value) => {
+        let parts = props.writeof.parts
+        parts[idx].checked = value
+        props.changeWriteOfState({parts})
+    }
 
     if (!props.writeof.parts.length) {
         return <div className='tempPage h90'>Выбере запчасть</div>
@@ -36,10 +42,11 @@ const WriteOfPartTable = (props) => {
         <table className='mt15'>
            <thead>
             <tr>
+                {props.writeof.inventory_id ? <th className='w15'/> : null}
                 <th>Наименование</th>
                 <th className='w70'>Адрес</th>
                 <th className='w70'>Количество</th>
-                {props.writeof.edit ? null : <th/>}
+                {props.writeof.edit || props.writeof.inventory_id ? null : <th/>}
             </tr>
            </thead>
             <tbody>
@@ -48,12 +55,25 @@ const WriteOfPartTable = (props) => {
                     key={idx}
                     className='fillcol'
                 >
+                    {props.writeof.inventory_id ?
+                        <td>
+                            <Checkbox
+                                onChange={event => handleCheck(idx, event.target.checked)}
+                                checked={remain.checked}
+                            />
+                        </td>
+                        : null}
                     <td>
                         <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
                         <div className='orderDate noWr'>{remain.description}</div>
                     </td>
                     <td>{remain.cell}</td>
-                    <td>
+                    {props.writeof.edit || props.writeof.inventory_id ?
+                        <td>
+                            <div className='tac ml5'>{remain.target_count}</div>
+                        </td>
+                        :
+                        <td>
                         <div className='row'>
                             <input
                                 className='w30'
@@ -61,11 +81,11 @@ const WriteOfPartTable = (props) => {
                                 value={props.writeof.parts[idx].target_count}
                                 disabled={props.writeof.edit}
                             />
-                           <div className='ml5'>{`/ ${remain.count}`}</div>
+                            <div className='ml5'>{`/ ${remain.count}`}</div>
                         </div>
-                    </td>
+                    </td>}
 
-                    {props.writeof.edit ? null :
+                    {props.writeof.edit || props.writeof.inventory_id ? null :
                     <td>
                         <div className='row'>
                             <div onClick={() => handleDelete(idx)}>

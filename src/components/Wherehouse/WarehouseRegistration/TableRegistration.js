@@ -29,6 +29,7 @@ const TableRegistration = (props) => {
             )
             case 5: return <td key={header.id}>{registration.client.name}</td>
             case 6: return <td key={header.id}>{registration.warehouse.title}</td>
+            case 7: return <td key={header.id}>{registration.price.toFixed(2) || 0}</td>
 
             default: return <td key={header.id}>{registration[header.field]}</td>
         }

@@ -56,6 +56,8 @@ const AddParts = (props) => {
 
     const parts = props.part.parts.filter(part => !props.registration.parts.map(part => part.part.id).includes(part.id))
 
+    if (props.invisible) return <div/>
+
     return (
         <div className='w400 h52'>
 
@@ -71,7 +73,6 @@ const AddParts = (props) => {
                     <input
                         className='optionFilterInput'
                         onChange={event => props.changePartState({filter_name: event.target.value})}
-                        disabled={props.registration.edit}
                     />
                     <Icon
                         className='icon-s4'

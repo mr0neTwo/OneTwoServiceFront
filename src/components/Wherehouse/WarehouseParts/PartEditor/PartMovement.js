@@ -6,13 +6,26 @@ import MultyButton from '../../../general/MultyButton'
 import {getWriteOf} from '../../../../Redux/actions/writeOfAction'
 import {getRegistration} from '../../../../Redux/actions/registrationAction'
 import {getMovement} from '../../../../Redux/actions/warehouseMovementAction'
+import {getBack} from '../../../../Redux/actions/warehouseBackActions'
 
 
 const PartMovement = (props) => {
 
     const [direction, setDirection] = useState(0)
 
-    const part_movements = props.part.part_movements.filter(movement => !direction || movement.direction === direction)
+    let part_movements = props.part.part_movements.filter(movement => !direction || movement.direction === direction)
+
+    if (!props.permissions.includes('see_registrations'))
+        part_movements = part_movements.filter(movement => movement.relatedObject.type !== 0)
+
+    if (!props.permissions.includes('write_of_warehouse'))
+        part_movements = part_movements.filter(movement => movement.relatedObject.type !== 1)
+
+    if (!props.permissions.includes('see_move_warehouse'))
+        part_movements = part_movements.filter(movement => movement.relatedObject.type !== 3)
+
+    if (!props.permissions.includes('see_refund_to_supplier'))
+        part_movements = part_movements.filter(movement => movement.relatedObject.type !== 4)
 
     const handleClick = (movement) => {
 
@@ -25,6 +38,9 @@ const PartMovement = (props) => {
                 break
             case 3:
                 props.getMovement(movement.relatedObject.doc_id)
+                break
+            case 4:
+                props.getBack(movement.relatedObject.doc_id)
                 break
             default: console.log(movement)
         }
@@ -79,13 +95,15 @@ const PartMovement = (props) => {
 
 const mapStateToProps = state => ({
     part: state.part,
-    view: state.view
+    view: state.view,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {
     getWriteOf,
     getRegistration,
-    getMovement
+    getMovement,
+    getBack
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PartMovement)

@@ -1,92 +1,102 @@
 import {includesObject} from '../../components/general/utils'
-import {write_of_headers} from '../../data/tableHeaders'
+import {inventory_headers} from '../../data/tableHeaders'
+
 const now = new Date()
+const key = 'inventory_'
 
 const initialState = {
 
-    write_offs: [],
+    warehouse_inventories: [],
     count: 0,
 
     edit: 0,
     label: '',
     created_at: 0,
-    description: '',
-    created_by: {},
     parts: [],
+    description: '',
 
-    engineer: {},
-    discount_margin: {},
-    write_of_type: {},
-    inventory_id: 0,
+    created_by: {},
+    warehouse: {},
+    warehouse_category: {},
+    related_docs: [],
 
-    filter_created_at: JSON.parse(localStorage.getItem('write_of_filter_created_at')) || [
+    isZero:  true,
+    filterOption: 0,
+    hideGood: true,
+
+    filter_created_at: JSON.parse(localStorage.getItem(key + 'filter_created_at')) || [
         parseInt(now.setHours(0, 0, 0, 0) / 1000),
         parseInt(now.setHours(23, 59, 59, 999) / 1000)
     ],
     page: 0,
 
-    table_headers: JSON.parse(localStorage.getItem('write_of_table_headers')) || write_of_headers,
+    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || inventory_headers,
 }
 
 /*
 part = {
+    actual_count: 42,
     barcode: "",
-    cell: "BOX1-A1",
+    cell:"BOX-3 H2",
     code: "",
-    count: 43,
-    description: "Микроконтроллер NXP",
-    doc_url: "data/Datasheets/datasheet_MC9S08GB60A_10.pdf",
-    image_url: "data/Parts/part_MC9S08GB60A_10.jpeg",
+    count: 21,
+    description: "",
+    doc_url: null,
+    image_url: null,
+    is_fixed: false,
     marking: "",
     min_residue: null,
-    part_id: 10,
-    price_2: 500,
-    price_3: 600,
-    title: "MC9S08GB60A",
-    target_count: 1
+    part_id: 167,
+    shortage: 0,
+    surplus: 21,
+    title: "KBU8M",
 }
  */
 
-export const writeOfReducer = (state = initialState, action) => {
+export const inventoryReducer = (state = initialState, action) => {
     switch (action.type){
 
-        case 'CHANGE_WRITE_OF_STATE': {
+        case 'CHANGE_INVENTORY_STATE': {
             const local_save = ['filter_created_at', 'table_headers']
             Object.keys(action.data).forEach(field => {
-                if (local_save.includes(field)) localStorage.setItem(`write_of_${field}`, JSON.stringify(action.data[field]))
+                if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
             })
             return {...Object.assign(state, action.data)}
         }
 
 
-        case 'EDIT_WRITE_OF': {
+        case 'EDIT_INVENTORY': {
             return {
                 ...state,
-                edit: action.write_of.id,
-                label: action.write_of.label,
-                created_at: action.write_of.created_at,
-                description: action.write_of.description,
-                created_by: action.write_of.created_by,
-                warehouse: action.write_of.warehouse,
-                parts: action.write_of.parts,
-                inventory_id: action.write_of.inventory_id
+                edit: action.inventory.id,
+                label: action.inventory.label,
+                created_at: action.inventory.created_at,
+                parts: action.inventory.parts,
+                description: action.inventory.description,
+                created_by: action.inventory.created_by,
+                warehouse: action.inventory.warehouse,
+                warehouse_category: action.inventory.warehouse_category,
+                related_docs: action.inventory.related_docs
             }
         }
 
-        case 'RESET_WRITE_OF': {
+        case 'RESET_INVENTORY': {
             return {
                 ...state,
                 edit: 0,
                 label: '',
                 created_at: 0,
-                description: '',
-                created_by: {},
                 parts: [],
-                inventory_id: 0,
+                description: '',
+
+                created_by: {},
+                warehouse: {},
+                warehouse_category: {},
+                related_docs: []
             }
         }
 
-        case 'SELECTED_WRITE_OF': {
+        case 'SELECTED_INVENTORY': {
             // Обявим переменную для изменных данных
             let new_data
             // Проверим если значения value в списке уже существующих
@@ -98,13 +108,14 @@ export const writeOfReducer = (state = initialState, action) => {
                 new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem('write_of_' + action.field, JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem(key + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
             return {
                 ...state,
                 [action.field]: new_data,
             }
         }
+
 
         default: return state
     }

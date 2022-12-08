@@ -98,12 +98,15 @@ export function createWriteOf() {
 
     const state = store.getState()
 
+    const parts = state.writeof.parts.filter(part => !state.writeof.inventory_id || part.checked)
+
     const request_config = getRequestConfig({
         engineer_id: state.writeof.engineer.id,
         discount_margin_id: state.writeof.discount_margin.id,
         write_of_type: state.writeof.write_of_type,
-        parts: state.writeof.parts,
+        parts,
         description: state.writeof.description,
+        inventory_id: state.writeof.inventory_id || null,
         warehouse_id: state.remain.filter_warehouse.id,
         filter: getFilter()
     })
@@ -128,6 +131,12 @@ export function createWriteOf() {
                         dispatch({
                             type: 'CHANGE_ORDER_STATE',
                             data: {events: data.events || []},
+                        })
+                    }
+                    if (state.inventory.edit) {
+                        dispatch({
+                            type: 'EDIT_INVENTORY',
+                            inventory: data.inventory
                         })
                     }
                     dispatch({

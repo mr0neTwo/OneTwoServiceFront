@@ -28,6 +28,8 @@ import RegistrationEditor from './Wherehouse/WarehouseRegistration/RegistrationE
 import ClientEditor from './Clients/ClientEditor/ClientEditor'
 import WarehouseMovementEditor from './Wherehouse/WarehouseMovement/WarehouseMovementEditor'
 import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor'
+import InventoryEditorPreview from './Wherehouse/WarehouseInventories/InventoryEditorPreview'
+import InventoryEditor from './Wherehouse/WarehouseInventories/InventoryEditor'
 
 
 
@@ -74,6 +76,8 @@ function Main(props) {
             {props.view.statusOrderEditor ? <OrderEditor/> : null}
             {props.view.statusMovementEditor ? <WarehouseMovementEditor/> : null}
             {props.view.statusBackEditor ? <WarehouseBackEditor/> : null}
+            {props.view.statusInventoryEditor ? <InventoryEditor/> : null}
+            {props.view.statusInventoryEditorPreview ? <InventoryEditorPreview/> : null}
         </div>
     )
 }

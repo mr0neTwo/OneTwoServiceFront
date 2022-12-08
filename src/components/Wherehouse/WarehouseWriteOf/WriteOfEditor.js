@@ -64,8 +64,8 @@ const WriteOfEditor = (props) => {
     }
 
     return (
-        <div className='rightBlock'>
-            <div className='rightBlockWindow' id='writeOfEditor'>
+        <div className='rightBlock z9999'>
+            <div className='rightBlockWindow wmn700' id='writeOfEditor'>
                 <div className='createNewTitle'>{props.writeof.edit ? `Списание ${props.writeof.label}` : 'Новое списание'}</div>
 
                 <div className='contentEditor'>
@@ -95,7 +95,7 @@ const WriteOfEditor = (props) => {
                                 current_object={props.writeof.edit ? props.writeof.warehouse : props.remain.filter_warehouse}
                                 width={'210px'}
                                 noChoosed='Выберете склад'
-                                disabled={check_parts || !!props.writeof.edit}
+                                disabled={check_parts || !!props.writeof.edit || !!props.writeof.inventory_id}
                             />
                         </div>
                         <ChooseCategory
@@ -103,7 +103,7 @@ const WriteOfEditor = (props) => {
                             width={'210px'}
                             setCategory={category => props.changeRemainState({filter_category: category})}
                             current_category={props.remain.filter_category}
-                            disabled={!!props.writeof.edit}
+                            disabled={!!props.writeof.edit|| !!props.writeof.inventory_id}
                         />
                         <SelectFromList
                             id='idSelectPartWarehouse'

@@ -26,6 +26,7 @@ const WarehouseMovement = props => {
                         title='+ Перемещение'
                         className='greenButton h31'
                         onClick={() => props.changeVisibleState({statusMovementEditor: true})}
+                        invisible={!props.permissions.includes('move_warehouse')}
                     />
                     <ChooseDate
                         className='ml10 h27'
@@ -61,7 +62,8 @@ const WarehouseMovement = props => {
 }
 
 const mapStateToProps = state => ({
-    movement: state.movement
+    movement: state.movement,
+    permissions: state.data.user.role.permissions
 })
 
 const mapDispatchToProps = {

@@ -13,7 +13,6 @@ import PropTypes from "prop-types"
  *
  * func2 = {() => function()}
  *
- *
  * checked = { true }
  *
  * disabled={false}

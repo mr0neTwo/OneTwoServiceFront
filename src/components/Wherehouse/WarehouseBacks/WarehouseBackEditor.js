@@ -73,7 +73,7 @@ const WarehouseBackEditor = (props) => {
     }
 
     return (
-        <div className='rightBlock'>
+        <div className='rightBlock z99999'>
             <div className='rightBlockWindow wmn700' id='statusBackEditor'>
                 <div className='createNewTitle'>{props.back.edit ? `Возврат ${props.back.label}` : 'Новый возврат'}</div>
 

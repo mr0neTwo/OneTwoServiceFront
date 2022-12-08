@@ -22,6 +22,7 @@ const initialState = {
     warehouse: {},
     employee: {},
     employee_id: 0,
+    inventory_id: 0,
 
     edit_part: 0,
     part: {},
@@ -42,6 +43,35 @@ const initialState = {
     page: 0
 
 }
+
+/*
+part = {
+    buy_cost: 0,
+    cell: "BOX-6 A5",
+    count: 49,
+    prices: [],
+    seller: "",
+    where_to_buy: "",
+    part: {
+        article: "",
+        barcode: "",
+        code: "",
+        deleted: false,
+        description: "",
+        doc_url: null,
+        earnings_percent: 0,
+        earnings_sum: 0,
+        id: 283,
+        image_url: null,
+        marking: "",
+        prices: [],
+        specifications: {},
+        title: "IR6004-12",
+        warehouse_category: {},
+        warranty_period: 0
+    }
+}
+ */
 
 export const registrationReducer = (state=initialState, action) => {
     switch (action.type){
@@ -69,6 +99,7 @@ export const registrationReducer = (state=initialState, action) => {
                 client: action.registration.client,
                 warehouse: action.registration.warehouse,
                 employee_id: action.registration.employee_id,
+                inventory_id: action.registration.inventory_id
             }
         }
 
@@ -90,6 +121,7 @@ export const registrationReducer = (state=initialState, action) => {
                 warehouse: {},
                 employee: {},
                 employee_id: 0,
+                inventory_id: 0
             }
         }
 

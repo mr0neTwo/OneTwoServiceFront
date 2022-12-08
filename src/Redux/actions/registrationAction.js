@@ -144,6 +144,7 @@ export function createRegistration() {
 
     const state = store.getState()
     const now = Math.round(Date.now() / 1000)
+    const parts = state.registration.parts.filter(part => !state.registration.inventory_id || part.checked)
 
     const request_config = getRequestConfig({
         number: state.registration.number,
@@ -151,11 +152,12 @@ export function createRegistration() {
         custom_created_at: parseInt(state.registration.custom_created_at) || now,
         deleted: state.registration.deleted,
         description: state.registration.description,
-        parts: state.registration.parts,
+        parts,
         client_id: state.registration.client.id,
         warehouse_id: state.registration.warehouse.id,
         employee_id: state.data.user.id,
         price: state.registration.price,
+        inventory_id: state.registration.inventory_id || null,
         filter: getFilter()
     })
 
@@ -169,6 +171,12 @@ export function createRegistration() {
                         type: 'CHANGE_REGISTRATION_STATE',
                         data: {registrations: data.warehouse_registrations, registrations_count: data.count},
                     })
+                    if (state.inventory.edit) {
+                        dispatch({
+                            type: 'EDIT_INVENTORY',
+                            inventory: data.inventory
+                        })
+                    }
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusRegistrationEditor: false},
@@ -194,6 +202,7 @@ export function saveRegistration() {
         number: state.registration.number,
         description: state.registration.description,
         parts: state.registration.parts,
+        price: state.registration.price,
         filter: getFilter()
     })
     request_config.method = 'PUT'

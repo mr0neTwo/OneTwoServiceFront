@@ -3,7 +3,7 @@ import { getRequestConfig, bad_request } from './actionUtils'
 
 export function changeTempleState( data ) {
     return {
-        type: 'CHANGE_FILTER_STATE',
+        type: 'CHANGE_TEMPLE_STATE',
         data
     }
 }

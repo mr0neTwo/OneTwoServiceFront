@@ -31,6 +31,7 @@ const PartEditor = props => {
             !event.path.map((el) => el.id).includes('writeOfEditor') &&
             !event.path.map((el) => el.id).includes('registrationEditor') &&
             !event.path.map((el) => el.id).includes('clientEditor') &&
+            !event.path.map((el) => el.id).includes('statusBackEditor') &&
             !event.path.map((el) => el.id).includes('btaddWP')
         ) {
             handleClose()

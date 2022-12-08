@@ -313,3 +313,37 @@ export const back_headers = [
         order: 6
     }
 ]
+
+export const inventory_headers = [
+    {
+        id: 1,
+        title: 'Инвентаризация №',
+        field: 'label',
+        width: 70,
+        order: 1
+    },{
+        id: 2,
+        title: 'Создано',
+        field: 'created_at',
+        width: 100,
+        order: 2
+    },{
+        id: 3,
+        title: 'Склад',
+        field: 'warehouse.title',
+        width: 140,
+        order: 3
+    },{
+        id: 4,
+        title: 'Категория',
+        field: 'category.title',
+        width: 140,
+        order: 4
+    },{
+        id: 5,
+        title: 'Описание',
+        field: 'description',
+        width: 140,
+        order: 5
+    }
+]

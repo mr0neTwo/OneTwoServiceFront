@@ -27,6 +27,7 @@ import {remainReducer} from './reducers/remainReducer'
 import {writeOfReducer} from './reducers/writeOfReducer'
 import {warehouseMovementReducer} from './reducers/warehouseMovementReduсer'
 import {warehouseBackReducer} from './reducers/warehouseBackReducer'
+import {inventoryReducer} from './reducers/inventoryReducer'
 
 
 
@@ -57,5 +58,6 @@ export const rootReducer = combineReducers({
    remain: remainReducer,
    writeof: writeOfReducer,
    movement: warehouseMovementReducer,
-   back: warehouseBackReducer
+   back: warehouseBackReducer,
+   inventory: inventoryReducer
 })

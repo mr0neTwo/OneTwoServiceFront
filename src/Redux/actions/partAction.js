@@ -78,6 +78,7 @@ function getFilter() {
 export function getPart(part_id) {
 
     const state = store.getState()
+    if (!state.data.user.role.permissions.includes('edit_part')) return {type: 'NOTHING'}
 
     const request_config = getRequestConfig({id: part_id})
 

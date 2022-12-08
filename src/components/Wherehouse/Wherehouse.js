@@ -30,8 +30,16 @@ const Warehouse = (props) => {
         if (props.permissions.includes('write_of_warehouse')) {
             current_tabs.push((<WarehouseWriteOf/>))
         }
-        current_tabs = current_tabs.concat([(<WarehouseMoves/>), (<WarehouseInventories/>), (<WarehouseBacks/>), (
-            <WarehouseParts/>)])
+        if (props.permissions.includes('see_move_warehouse')) {
+            current_tabs.push((<WarehouseMoves/>))
+        }
+        if (props.permissions.includes('see_inventory')) {
+            current_tabs.push((<WarehouseInventories/>))
+        }
+        if (props.permissions.includes('see_refund_to_supplier')) {
+            current_tabs.push((<WarehouseBacks/>))
+        }
+        current_tabs.push((<WarehouseParts/>))
         return current_tabs
     }, [props.permissions])
 
@@ -46,7 +54,16 @@ const Warehouse = (props) => {
         if (props.permissions.includes('write_of_warehouse')) {
             current_list.push('Списания')
         }
-        current_list = current_list.concat(['Пермещения', 'Инвентаризации', 'Возвраты поставщику', 'Товары и категории'])
+        if (props.permissions.includes('see_move_warehouse')) {
+            current_list.push('Пермещения')
+        }
+        if (props.permissions.includes('see_inventory')) {
+            current_list.push('Инвентаризации')
+        }
+        if (props.permissions.includes('see_refund_to_supplier')) {
+            current_list.push('Возвраты поставщику')
+        }
+        current_list.push('Товары и категории')
         return current_list
     }, [props.permissions])
 

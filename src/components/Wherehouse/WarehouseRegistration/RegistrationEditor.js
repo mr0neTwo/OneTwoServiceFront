@@ -66,7 +66,7 @@ const RegistrationEditor = (props) => {
         if (
             props.registration.number &&
             checkObject(props.registration.warehouse) &&
-            checkObject(props.registration.client) &&
+            (checkObject(props.registration.client) || props.registration.inventory_id) &&
             props.registration.parts.length
         ) {
             props.createRegistration()
@@ -131,11 +131,13 @@ const RegistrationEditor = (props) => {
         props.changeRemainState({filter_registration_id: props.registration.edit})
     }
 
+    const canDoBack = props.registration.inventory_id || !props.registration.edit || !props.permissions.includes('create_refund_to_supplier')
+
     return (
-        <div className={`rightBlock ${props.registration.edit ? 'z9999' : 'z99'}`}>
+        <div className='rightBlock z9999'>
             <div className='rightBlockWindow' id='registrationEditor'>
                 <div className='createNewTitle'>
-                    {props.registration.edit ? props.registration.label : ' Новое оприходование'}
+                    {props.registration.edit ? `Оприходование ${props.registration.label}` : ' Новое оприходование'}
                 </div>
                 <div className='contentEditor'>
                     <SetClient
@@ -147,6 +149,7 @@ const RegistrationEditor = (props) => {
                         checked={props.view.inputRegistrationClientChecked}
                         redStar={true}
                         disabled={!!props.registration.edit}
+                        invisible={props.registration.inventory_id}
                     />
                     <div className='row al-itm-fe'>
                         <LableInput
@@ -179,9 +182,9 @@ const RegistrationEditor = (props) => {
                         checkedFlag='inputRegistrationWarehouseChecked'
                         checked={props.view.inputRegistrationWarehouseChecked}
                         noChoosed='Выберете склад'
-                        disabled={!!props.registration.edit}
+                        disabled={!!props.registration.edit || !!props.registration.inventory_id}
                     />
-                    <AddParts/>
+                    <AddParts invisible={!!props.registration.edit || !!props.registration.inventory_id}/>
                     {props.view.inputRegistrationPartChecked ? null : <div className='errorMassageInput'>Добавьте хотябы одну запчасть</div>}
                     <TableRegistrationPart/>
                     <LableArea
@@ -199,7 +202,7 @@ const RegistrationEditor = (props) => {
                     create={handleCreate}
                     save={handleSave}
                     close={handleClose}
-                    extraButton={handleBack}
+                    extraButton={canDoBack ? null : handleBack}
                     extraTitle='Сделать возврат'
                 />
             </div>

@@ -98,12 +98,10 @@ export function createBack() {
     const state = store.getState()
 
     const request_config = getRequestConfig({
-        label: state.back.label,
         created_at: parseInt(new Date() / 1000),
         parts: state.back.parts,
         description: state.back.description,
         price: state.back.price,
-        created_by_id: state.back.created_by.id,
         warehouse_id: state.remain.filter_warehouse.id,
         client_id: state.back.client.id,
         registration_id: state.back.registration.id,

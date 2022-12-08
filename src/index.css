@@ -1342,7 +1342,7 @@ div.tableOrders td {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 999;
   display: flex;
   justify-content: flex-end;
   background-color: rgba(0, 0, 0, 0.25);
@@ -3306,6 +3306,7 @@ div.ssm > div:hover {
 .h31 { height: 31px }
 .h52 { height: 52px }
 .h90 { height: 90px }
+.h300 { height: 300px }
 .h100 { height: 100% }
 .mh { max-height: min-content }
 .mh72 { max-height: 72vh }
@@ -3341,6 +3342,7 @@ div.ssm > div:hover {
 .wm500 { max-width: 500px }
 .wmn500 { min-width: 500px }
 .wmn700 { min-width: 700px }
+.wmn900 { min-width: 900px }
 .wmn750 { min-width: 750px }
 .wm400 { min-width: 400px }
 .wmn300 { min-width: 300px }

@@ -61,6 +61,7 @@ const SetClient = (props) => {
             props.changeVisibleState({'statusClientEditor': true})
         }
     }
+    if (props.invisible) return <div/>
 
     if (Object.values(props.client).length) {
         return (
