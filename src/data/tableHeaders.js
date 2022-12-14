@@ -347,3 +347,73 @@ export const inventory_headers = [
         order: 5
     }
 ]
+
+export const request_spare_part_headers = [
+    {
+        id: 1,
+        title: 'Запрос №',
+        field: 'label',
+        width: 70,
+        order: 1
+    },{
+        id: 2,
+        title: 'Создано',
+        field: 'created_at',
+        width: 100,
+        order: 2
+    },{
+        id: 3,
+        title: 'Будет доставлен',
+        field: 'estimated_come_at',
+        width: 100,
+        order: 3
+    },{
+        id: 4,
+        title: 'Статус',
+        field: 'status',
+        width: 100,
+        order: 4
+    },{
+        id: 5,
+        title: 'Количество',
+        field: 'amount',
+        width: 100,
+        order: 5
+    },{
+        id: 6,
+        title: 'Стоимость',
+        field: 'cost',
+        width: 100,
+        order: 6
+    },{
+        id: 7,
+        title: 'Комментарий',
+        field: 'description',
+        width: 140,
+        order: 7
+    },{
+        id: 8,
+        title: 'Исполнитель',
+        field: 'executor',
+        width: 100,
+        order: 8
+    },{
+        id: 9,
+        title: 'Клиент',
+        field: 'client',
+        width: 100,
+        order: 9
+    },{
+        id: 10,
+        title: 'Поставщик',
+        field: 'supplier',
+        width: 100,
+        order: 10
+    },{
+        id: 11,
+        title: 'Заказ',
+        field: 'order',
+        width: 100,
+        order: 11
+    }
+]

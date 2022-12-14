@@ -23,7 +23,7 @@ const WarehouseBacks = props => {
                         className='ml10 h27'
                         width='250px'
                         range={true}
-                        func={date => props.changeBackState({filter_created_at: date.map(date => parseInt(date / 1000))})}
+                        func={date => props.changeBackState({filter_created_at: date.map(date => Math.round(date / 1000))})}
                         current_date={props.back.filter_created_at}
                     />
                 </div>

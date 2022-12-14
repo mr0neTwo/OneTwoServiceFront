@@ -190,6 +190,17 @@ export function createPart() {
                             data: {statusRegistrationPartEditor: true, inputRegistrationPartChecked: true}
                         })
                     }
+                    // Если создаем запчать при запросе запчастей
+                    if(state.view.statusReqSparePartEditor) {
+                        dispatch({
+                            type: 'CHANGE_REQUEST_SPARE_PARTS_STATE',
+                            data: {part: data.new_part}
+                        })
+                        dispatch({
+                            type: 'CHANGE_VISIBLE_STATE',
+                            data: {statusRegistrationPartEditor: true, inputRegistrationPartChecked: true}
+                        })
+                    }
                 } else {
                     console.warn(data.message)
                 }

@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
-import Icon from '../../general/Icon'
-
+import {changeReqSparePartState} from '../../../Redux/actions/requestSparePartsAction'
 import {addParts, changePartState} from '../../../Redux/actions/partAction'
-import {icon_down, icon_left} from '../../../data/icons'
-import {changeRegistrationState} from '../../../Redux/actions/registrationAction'
+import {icon_bug, icon_down, icon_left} from '../../../data/icons'
 import {changeVisibleState} from '../../../Redux/actions'
+
+import Icon from '../../general/Icon'
 import Button from '../../general/Button'
+import {checkObject} from '../../general/utils'
 
 
 
-const AddParts = (props) => {
-
+const SetPart = (props) => {
 
     useEffect(() => {
         props.addParts()
@@ -22,14 +22,13 @@ const AddParts = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listWarehousePart') &&
-            !event.path.map(el => el.id).includes('warehousePart') &&
-            !event.path.map(el => el.id).includes('registrationPartEditor')
+            !event.path.map(el => el.id).includes('listPart') &&
+            !event.path.map(el => el.id).includes('spareParts')
         ) {
             setShowList(false)
         }
     }
-    
+
     useEffect(() => {
         window.addEventListener('click', clickHandel)
         return () => {
@@ -37,40 +36,63 @@ const AddParts = (props) => {
         }
     })
 
-    const handleSet = (part) => {
-        setShowList(false)
-        let cell = ''
-        if (Object.values(props.registration.warehouse).length) {
-            const rule = part.residue_rules.find(rule => rule.warehouse.id === props.registration.warehouse.id)
-            cell = rule ? rule.cell : ''
-        }
-        props.changeRegistrationState({part, cell, prices: part.prices})
-        props.changeVisibleState({
-            statusRegistrationPartEditor: true,
-            inputRegistrationPartChecked: true
-        })
-    }
-
     const handleNewPart = () => {
         props.changeVisibleState({statusPartEditor: true})
         props.changePartState({warehouse_category: props.warehouse.warehouse_categories})
     }
 
-    const parts = props.part.parts.filter(part => !props.registration.parts.map(part => part.part.id).includes(part.id))
+    if (checkObject(props.reqsp.part)) {
+        return (
+            <div className = 'mt15 w400'>
+                <div className='partCard'>
+                    <div>
+                        <div>
+                            <Icon
+                                className='icon-client'
+                                icon={icon_bug}
+                            />
+                            <span
+                                className='partCardName'
+                                onClick={() => console.log(props.reqsp.part)}
+                            >
+                                {props.reqsp.part.title}
+                            </span>
+                        </div>
+                        <div className='noWr w350'>{props.reqsp.part.description}</div>
+                        <div className='noWr w350'>
+                            <span>Артукул: </span>
+                            <span>{props.reqsp.part.article}</span>
+                        </div>
+                        <div className='noWr w350'>
+                            <span>Код: </span>
+                            <span>{props.reqsp.part.code}</span>
+                        </div>
+                    </div>
+                    <div
+                        className='crossButtom'
+                        onClick={() => props.changeReqSparePartState({part: {}})}
+                    >
+                        &#9587;
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
 
     if (props.invisible) return <div/>
 
     return (
-        <div className='w400 h52'>
+        <div id='spareParts' className='w400 h52'>
 
             <div className='lableImput mt15'>Наименование товара</div>
 
             <div className='blockInput'>
                 <div
-                    id='warehousePart'
+                    id='Parts'
                     className='orderInputBox'
-                    style={{borderColor: props.view.inputRegistrationPartChecked  ?  null : 'red'}}
-                    onClick={props.registration.edit ? null : () => setShowList(true)}
+                    style={{borderColor: props.view.inputRequestSparePart  ?  null : 'red'}}
+                    onClick={props.reqsp.edit ? null : () => setShowList(true)}
                 >
                     <input
                         className='optionFilterInput'
@@ -82,12 +104,12 @@ const AddParts = (props) => {
                     />
                 </div>
                 {showList ?
-                    <div className='listFilter' id='listWarehousePart'>
-                        {parts.map(part => (
+                    <div className='listFilter' id='listPart'>
+                        {props.part.parts.map(part => (
                             <div
                                 className='rowGropList'
                                 key={part.id}
-                                onClick={() => handleSet(part)}
+                                onClick={() => props.changeReqSparePartState({part})}
                             >
                                 <div>{(part.marking !== part.title) && !!part.marking ? `${part.title } (${part.marking})`: part.title}</div>
                                 <div className='orderDate ml30 noWr'>
@@ -97,6 +119,7 @@ const AddParts = (props) => {
                         ))}
                         <div className='btmst'>
                             <Button
+                                id='btaddWP'
                                 title='+ Запчасть'
                                 className='whiteButton'
                                 onClick={handleNewPart}
@@ -111,15 +134,15 @@ const AddParts = (props) => {
 const mapStateToProps = state => ({
     part: state.part,
     view: state.view,
-    registration: state.registration,
+    reqsp: state.reqsp,
     warehouse: state.warehouse
 })
 
 const mapDispatchToProps = {
     changePartState,
     addParts,
-    changeRegistrationState,
+    changeReqSparePartState,
     changeVisibleState
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddParts)
+export default connect(mapStateToProps, mapDispatchToProps)(SetPart)

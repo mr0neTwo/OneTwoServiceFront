@@ -7,7 +7,6 @@ import {order_event_types} from '../../../../../data/data'
 
 const OrderEvents = props => {
 
-
     const values = order_event_types.filter(event => props.event_filter.includes(event.id)).map(event => event.value)
 
     return (

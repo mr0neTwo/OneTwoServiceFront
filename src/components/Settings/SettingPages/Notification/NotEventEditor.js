@@ -8,7 +8,7 @@ import { resetNotEvent, saveNotEvent, selectedNotEvent} from '../../../../Redux/
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
 import ChooseButton from '../../../general/ChooseButton'
-import ChooseStatuses from './ChooseStatuses'
+import ChooseStatuses from '../../../general/ChooseStatuses'
 import {eventsClients} from '../../../../data/events'
 
 
@@ -87,6 +87,7 @@ const NotEventEditor = props => {
                             func={value => props.selectedNotEvent(value, 'statuses')}
                             current_list={props.notEvent.statuses}
                             invisible={props.notEvent.event !== 'ORDER_STATUS_CHANGED_TO'}
+                            range={[0, 7]}
                         />
                     </div>
                     <ChooseButton

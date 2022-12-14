@@ -3,6 +3,7 @@ import React, {useEffect, useState, useRef} from 'react'
 import Checkbox from './Checkbox'
 import Icon from './Icon'
 import {icon_down, icon_left} from '../../data/icons'
+import {includesObject} from './utils'
 
 /**
  * id='id'
@@ -21,14 +22,18 @@ import {icon_down, icon_left} from '../../data/icons'
  *
  * func={value => props.selectedFilter(value, 'temp_order_types')}
  *
+ * employee={false}
+ *
+ * disabled={props.disabled}
+ *
  */
 
-const ChooseOfListMany = (props) => {
+const SelectFromListMany = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
-        if (!event.path.map(el => el.id).includes(`chooseOfList${props.id}`)) {
+        if (!event.path.map(el => el.id).includes(`selectFromList${props.id}`)) {
             if (listVisible) {
                 setListVisible(false)
             }
@@ -46,7 +51,7 @@ const ChooseOfListMany = (props) => {
 
     useEffect(() => {
         if(mainCheckbox.current) {
-            const values = props.list.filter(el => props.checked_list.includes(el.id))
+            const values = props.list.filter(el => includesObject(el, props.checked_list))
             if (values.length === props.list.length) {
                 mainCheckbox.current.indeterminate = false
                 mainCheckbox.current.checked = true
@@ -58,7 +63,6 @@ const ChooseOfListMany = (props) => {
             }
         }
     }, [props.checked_list, listVisible])
-
 
     const showWord = (len) => {
         switch (len) {
@@ -80,8 +84,8 @@ const ChooseOfListMany = (props) => {
     return (
         <div
             style={{width: props.width ? props.width : '250px'}}
-            id={`chooseOfList${props.id}`}
-            className={props.className}
+            id={`selectFromList${props.id}`}
+            className={`h49 ${props.className}`}
         >
             <div className='lableImput'>{props.title}</div>
             <div
@@ -101,7 +105,7 @@ const ChooseOfListMany = (props) => {
                         <input
                             ref={mainCheckbox}
                             type='checkbox'
-                            onChange={() => props.func(props.list.map(el => el.id))}
+                            onChange={() => props.func(props.list)}
                             disabled={props.disabled}
                         />
                         <label>{props.mainLable}</label>
@@ -116,11 +120,10 @@ const ChooseOfListMany = (props) => {
                                 <Checkbox
                                     className='ml10'
                                     label={props.employee ? `${element.last_name} ${element.first_name}` : (element.title ? element.title : element.name)}
-                                    onChange={() => props.func([element.id])}
-                                    checked={props.checked_list.includes(element.id)}
+                                    onChange={() => props.func([element])}
+                                    checked={includesObject(element, props.checked_list)}
                                     disabled={props.disabled}
                                 />
-
                             </div>
                         )
                     })}
@@ -130,7 +133,7 @@ const ChooseOfListMany = (props) => {
 }
 
 
-export default ChooseOfListMany
+export default SelectFromListMany
 
 // id='id'
 // className='className'

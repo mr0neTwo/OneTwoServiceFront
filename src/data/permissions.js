@@ -284,6 +284,18 @@ export const warehouse = [
    },{
       value: 'edit_buy_cost',
       description: 'Может устанавливать и редакировать себестоимость'
+   },{
+      value: 'see_request_spare_parts',
+      description: 'Может видеть запросы запчастей'
+   },{
+      value: 'create_request_spare_parts',
+      description: 'Может создавать запросы запчастей'
+   },{
+      value: 'edit_request_spare_parts',
+      description: 'Может редактировать запросы запчастей'
+   },{
+      value: 'delete_request_spare_parts',
+      description: 'Может удалять/восстанавливать запросы запчастей'
    }
 ]
 

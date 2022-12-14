@@ -5,6 +5,7 @@ import Icon from './Icon'
 import {changeVisibleState} from '../../Redux/actions'
 import PropTypes from "prop-types";
 import {icon_down, icon_left} from '../../data/icons'
+import {checkObject} from './utils'
 
 
 /**
@@ -21,8 +22,6 @@ import {icon_down, icon_left} from '../../data/icons'
  * current_object={props.current_object}
  *
  * width={'250px'}
- *
- * employee={false}
  *
  * checkedFlag='checkedFlag'
  *
@@ -63,13 +62,10 @@ const SelectFromList = (props) => {
     }
 
     const getTitle = useMemo(() => {
-        if (Object.values(props.current_object).length) {
-            if (props.employee) {
-                return `${props.current_object.last_name} ${props.current_object.first_name}`
-            } else {
-
-                return props.current_object.title || props.current_object.name
-            }
+        if (checkObject(props.current_object)) {
+            return props.current_object.title ||
+                    props.current_object.name ||
+                    `${props.current_object.last_name} ${props.current_object.first_name}`
         } else {
             return props.noChoosed || 'Выберете тип'
         }
@@ -111,7 +107,7 @@ const SelectFromList = (props) => {
                                 className='options'
                                 onClick={() => handleClick(element)}
                             >
-                                {props.employee ? `${element.last_name} ${element.first_name}` : (element.title || element.name)}
+                                {element.title || element.name || `${element.last_name} ${element.first_name}`}
                             </div>
                         )
                     })}
@@ -129,7 +125,6 @@ SelectFromList.propTypes = {
     setElement: PropTypes.func,
     current_object: PropTypes.object,
     width: PropTypes.string,
-    employee: PropTypes.bool,
     checkedFlag: PropTypes.string,
     disabled: PropTypes.bool,
     invisible: PropTypes.bool

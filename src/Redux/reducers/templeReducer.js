@@ -1,5 +1,8 @@
 import {includesObject} from '../../components/general/utils'
 
+const now = new Date()
+const key = 'key_'
+
 const initialState = {
 
    edit: 0,

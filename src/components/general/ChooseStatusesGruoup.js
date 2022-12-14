@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 
 
-import Checkbox from '../../../general/Checkbox'
+import Checkbox from './Checkbox'
 
 
 const ChooseStatusesGruoup = props => {
@@ -25,8 +25,6 @@ const ChooseStatusesGruoup = props => {
             mainCheckbox.current.indeterminate = true
         }
     }, [props.current_list])
-
-
 
     const handleChoose = (val) => {
         props.func(val)

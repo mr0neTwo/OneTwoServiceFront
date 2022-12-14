@@ -9,7 +9,7 @@ import {icon_cross, icon_trush} from '../../../data/icons'
 
 import FilterEditor from '../FilterEditor'
 import Button from '../../general/Button'
-import ChooseStatuses from '../../Settings/SettingPages/Notification/ChooseStatuses'
+import ChooseStatuses from '../../general/ChooseStatuses'
 import ChooseOfListMany from '../../general/ChooseOfListMany'
 import ChooseWithSearch from '../../general/ChooseWithSearch'
 import ChooseDate from '../../general/calandar/ChooseDate'
@@ -56,6 +56,7 @@ const SetFilter = props => {
                         func={value => props.selectedFilter(value, 'temp_statuses')}
                         func_clear={() => props.changeFilterState({temp_statuses: []})}
                         current_list={props.filter.temp_statuses}
+                        range={[0, 7]}
                     />
                     <SetGroup/>
                     <ChooseWithSearch
@@ -64,12 +65,11 @@ const SetFilter = props => {
                         width='100%'
                         title='Клиент'
                         list={props.client.clients}
-                        current_element={Object.values(props.temp_client).length ? props.temp_client.name : ''}
+                        current_element={props.temp_client}
                         setElement={client => props.changeFilterState({temp_client: client})}
                         filter={props.client.filter_name}
                         changeFilter={filter => props.changeClientState({filter_name: filter})}
                         placeholder='Введите имя'
-                        disabled={false}
                     />
                 </div>
 

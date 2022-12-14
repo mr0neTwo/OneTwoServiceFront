@@ -41,7 +41,7 @@ const Checkbox = (props) => {
          />
          <label>
              {props.icon ? <Icon className={props.iconClassName} icon={props.icon} color={props.iconColor}/> : null}
-             <span className='ml2'>{props.label}</span>
+             <span className='ml2 noWr'>{props.label}</span>
          </label>
       </div>
    )

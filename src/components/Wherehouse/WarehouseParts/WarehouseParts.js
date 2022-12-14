@@ -32,6 +32,7 @@ const WarehouseParts = props => {
 
     const handleAddPart = () => {
         props.changeWarehouseForm(props.warehouse.current_category, 'current_parent_category')
+        props.changePartState({warehouse_category: props.warehouse.warehouse_categories})
         props.changeVisibleState({statusPartEditor: true})
     }
 

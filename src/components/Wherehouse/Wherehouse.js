@@ -11,6 +11,7 @@ import WarehouseMoves from './WarehouseMovement/WarehouseMovement';
 import WarehouseInventories from './WarehouseInventories/WarehouseInventories';
 import WarehouseRemains from './WarehouseRemains/WarehouseRemains';
 import WarehouseBacks from './WarehouseBacks/WarehouseBacks';
+import RequestSpareParts from './RequestSpareParts/RequestSpareParts'
 
 
 const Warehouse = (props) => {
@@ -23,6 +24,9 @@ const Warehouse = (props) => {
         let current_tabs = []
         if (props.permissions.includes('see_remaining_warehouse')) {
             current_tabs.push((<WarehouseRemains/>))
+        }
+        if (props.permissions.includes('see_request_spare_parts')) {
+            current_tabs.push((<RequestSpareParts/>))
         }
         if (props.permissions.includes('see_registrations') || props.permissions.includes('create_registrations')) {
             current_tabs.push((<WarehouseRegistration/>))
@@ -47,6 +51,9 @@ const Warehouse = (props) => {
         let current_list = []
         if (props.permissions.includes('see_remaining_warehouse')) {
             current_list.push('Остатки')
+        }
+        if (props.permissions.includes('see_request_spare_parts')) {
+            current_list.push('Запросы запчастей')
         }
         if (props.permissions.includes('see_registrations') || props.permissions.includes('create_registrations')) {
             current_list.push('Оприходования')

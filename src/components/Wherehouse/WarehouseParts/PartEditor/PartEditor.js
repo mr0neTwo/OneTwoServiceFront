@@ -90,7 +90,7 @@ const PartEditor = props => {
     }, [props.permissions])
 
     return (
-        <div className='rightBlock z99'>
+        <div className={`rightBlock ${props.view.statusReqSparePartEditor ? 'z99999' : 'z99'}`}>
             <div className='rightBlockWindow' id='wpartEditorWindow'>
                 <div className='createNewTitle'>{props.part.edit ? props.part.title : 'Новый товар'}</div>
 
@@ -126,7 +126,8 @@ const PartEditor = props => {
 const mapStateToProps = (state) => ({
     part: state.part,
     permissions: state.data.user.role.permissions,
-    statusOrderNotFound: state.view.statusOrderNotFound
+    statusOrderNotFound: state.view.statusOrderNotFound,
+    view: state.view
 })
 
 const mapDispatchToProps = {

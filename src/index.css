@@ -1299,7 +1299,7 @@ div.tableOrders td {
 
 .whiteBlueBotton {
   margin: 5px 5px;
-  padding: 4px 10px;
+  /*padding: 4px 10px;*/
   display: flex;
   justify-content: space-between;
   color: #4791d1;
@@ -2025,6 +2025,20 @@ checkboxLable {
   box-shadow: 1px 1px 6px 0 rgb(0 0 0 / 10%);
 }
 
+.partCard {
+  display: flex;
+  justify-content: space-between;
+  border-left: 8px solid #cba13b;
+  border-radius: 4px;
+  padding: 12px;
+  background-color: white;
+  width: 100%;
+  margin-right: 30px;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 6px 0 rgb(0 0 0 / 10%);
+}
+
+
 .icon-client {
   margin-right: 3px;
   padding: 0;
@@ -2062,6 +2076,20 @@ checkboxLable {
 .clientCardName:hover {
   color: #0c61ac;
 }
+
+.partCardName {
+  font-size: 14px;
+  line-height: 18px;
+  color: #cba13b;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.clientCardName:hover {
+  color: #98782c;
+}
+
+
 .clientCardTitle {
   padding: 5px 0px;
   font-weight: 700;
@@ -3304,6 +3332,7 @@ div.ssm > div:hover {
 .h27 { height: 27px }
 .h29 { height: 29px }
 .h31 { height: 31px }
+.h49 { height: 49px }
 .h52 { height: 52px }
 .h90 { height: 90px }
 .h300 { height: 300px }
@@ -3316,6 +3345,7 @@ div.ssm > div:hover {
 .w600 { width: 600px }
 .w500 { width: 500px }
 .w400 { width: 400px }
+.w350 { width: 350px }
 .w300 { width: 300px }
 .w250 { width: 250px }
 .w200 { width: 200px }

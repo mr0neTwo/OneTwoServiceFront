@@ -30,6 +30,7 @@ import WarehouseMovementEditor from './Wherehouse/WarehouseMovement/WarehouseMov
 import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor'
 import InventoryEditorPreview from './Wherehouse/WarehouseInventories/InventoryEditorPreview'
 import InventoryEditor from './Wherehouse/WarehouseInventories/InventoryEditor'
+import RequestSparePartEditor from './Wherehouse/RequestSpareParts/RequestSparePartEditor'
 
 
 
@@ -78,6 +79,7 @@ function Main(props) {
             {props.view.statusBackEditor ? <WarehouseBackEditor/> : null}
             {props.view.statusInventoryEditor ? <InventoryEditor/> : null}
             {props.view.statusInventoryEditorPreview ? <InventoryEditorPreview/> : null}
+            {props.view.statusReqSparePartEditor ? <RequestSparePartEditor/> : null}
         </div>
     )
 }

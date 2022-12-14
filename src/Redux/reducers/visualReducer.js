@@ -55,6 +55,7 @@ const initialState = {
    statusReturnPart: false,
    statusInventoryEditor: false,
    statusInventoryEditorPreview: false,
+   statusReqSparePartEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -114,6 +115,7 @@ const initialState = {
    inputWarehouseBack: true,
    inputWarehouseReturnPart: true,
    inputWarehouseInventory: true,
+   inputRequestSparePart: true,
 
    errorSameMail: false,
    errorSameLogin: false,
