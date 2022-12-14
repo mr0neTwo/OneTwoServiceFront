@@ -134,7 +134,7 @@ const RegistrationEditor = (props) => {
     const canDoBack = props.registration.inventory_id || !props.registration.edit || !props.permissions.includes('create_refund_to_supplier')
 
     return (
-        <div className={`rightBlock ${props.registration.edit ? 'z9999' : 'z99'}`}>
+        <div className={`rightBlock ${props.registration.edit || props.view.statusInventoryEditor ? 'z9999' : 'z99'}`}>
             <div className='rightBlockWindow' id='registrationEditor'>
                 <div className='createNewTitle'>
                     {props.registration.edit ? `Оприходование ${props.registration.label}` : ' Новое оприходование'}
