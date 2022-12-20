@@ -36,7 +36,7 @@ function getFilter() {
     const state = store.getState()
     return {
         deleted: state.reqsp.show_deleted,
-        created_at: state.reqsp.filter_created_at,
+        created_at: state.reqsp.filter_created_at.some(created_at => !!created_at) ? state.reqsp.filter_created_at : null,
         status_id: state.reqsp.filter_status.map(employee => employee.id),
         created_by_id: state.reqsp.filter_created_by.map(employee => employee.id),
         executor_id: state.reqsp.filter_executor.map(employee => employee.id),
@@ -274,7 +274,7 @@ export function changeStatus(status_id, request_spare_part_id) {
         request_spare_part_id,
         status_id,
         branch_id: state.branch.current_branch.id,
-        filter: state.reqsp.edit ? getFilter() : null
+        filter: getFilter()
     })
 
     return async dispatch => {
@@ -292,12 +292,12 @@ export function changeStatus(status_id, request_spare_part_id) {
                     if (state.reqsp.edit) {
                         dispatch({
                             type: 'CHANGE_REQUEST_SPARE_PARTS_STATE',
-                            data: {status: data.status}
+                            data: {status: data.status, events: data.events}
                         })
                     }
                     dispatch({
                         type: 'CHANGE_REQUEST_SPARE_PARTS_STATE',
-                        data: {request_spare_parts: data.request_spare_parts, count: data.count, events: data.events}
+                        data: {request_spare_parts: data.request_spare_parts, count: data.count}
                     })
                     showAlert(dispatch, 'alert-success', 'Статус успешно изменен')
                 } else {

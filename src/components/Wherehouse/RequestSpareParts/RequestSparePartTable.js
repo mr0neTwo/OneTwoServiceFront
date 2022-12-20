@@ -12,6 +12,7 @@ import Executor from './cell/Executor'
 import Client from './cell/Client'
 import Order from './cell/Order'
 import Price from './cell/Price'
+import SparePart from './cell/SparePart'
 
 const RequestSparePartTable = (props) => {
 
@@ -21,12 +22,13 @@ const RequestSparePartTable = (props) => {
             case 1: return <Label key={header.id} reqsp={reqsp} getReqSparePart={props.getReqSparePart}/>
             case 2: return <CreatedAt key={header.id} reqsp={reqsp}/>
             case 3: return <EstimatedComeAt key={header.id} reqsp={reqsp} request_spare_part_id={reqsp.id}/>
-            case 4: return <td key={header.id}><Status status={reqsp.status}/></td>
-            case 6: return <Price key={header.id} reqsp={reqsp}/>
-            case 8: return <Executor key={header.id} reqsp={reqsp}/>
-            case 9: return <Client key={header.id} client={reqsp.client}/>
-            case 10: return <Client key={header.id} client={reqsp.supplier}/>
-            case 11: return <Order key={header.id} reqsp={reqsp}/>
+            case 4: return <SparePart key={header.id} reqsp={reqsp}/>
+            case 5: return <td key={header.id}><Status status={reqsp.status} request_spare_part_id={reqsp.id}/></td>
+            case 7: return <Price key={header.id} reqsp={reqsp}/>
+            case 9: return <Executor key={header.id} reqsp={reqsp}/>
+            case 10: return <Client key={header.id} client={reqsp.client}/>
+            case 11: return <Client key={header.id} client={reqsp.supplier}/>
+            case 12: return <Order key={header.id} reqsp={reqsp}/>
             default: return <td key={header.id}>{reqsp[header.field]}</td>
         }
     }

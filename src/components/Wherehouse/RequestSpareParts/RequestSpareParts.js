@@ -1,21 +1,21 @@
-import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import React, {useEffect, useState} from 'react'
+import {connect} from 'react-redux'
 
 import {addReqSparePart, changeReqSparePartState, selectedReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
-import {addClients, changeClientState} from '../../../Redux/actions/clientAction'
 import {request_spare_part_headers} from '../../../data/tableHeaders'
 
-import ChooseDate from '../../general/calandar/ChooseDate'
 import TableFields from '../../general/TableFields'
 import Paginate from '../../general/Paginate'
-import SelectFromListMany from '../../general/SelectFromListMany'
-import SelectStatuses from '../../general/SelectStatuses'
-import ChooseWithSearch from '../../general/ChooseWithSearch'
+
 import RequestSparePartTable from './RequestSparePartTable'
 import Button from '../../general/Button'
 import {changeVisibleState} from '../../../Redux/actions'
+import {icon_filter} from '../../../data/icons'
+import RequestSparePartFilter from './RequestSparePartFilter'
 
 const RequestSpareParts = props => {
+
+    const [showFilter, setShowFilet] =  useState(true)
 
     useEffect(() => {
         props.addReqSparePart()
@@ -29,80 +29,34 @@ const RequestSpareParts = props => {
         props.reqsp.page
     ])
 
-    useEffect(() => {
-        props.addClients()
-    }, [props.filter_name])
-
     const handleNewReqSparePart = () => {
         props.changeReqSparePartState({executor: {id: 0, name: 'Не назначен'}})
         props.changeVisibleState({statusReqSparePartEditor: true})
     }
 
     return (
-        <div className = 'contentTab'>
-            <Button
-                id='newReqSparePart'
-                title='+ Запрос'
-                className='greenButton h31'
-                onClick={handleNewReqSparePart}
-                // invisible={!props.permissions.includes('create_inventory')}
-            />
-            <div className='row jc-sb al-itm-fe'>
-                <div className='row al-itm-fe mt15'>
-                    <ChooseDate
-                        title='Период'
-                        className='ml10 h49'
-                        width='200px'
-                        range={true}
-                        func={date => props.changeReqSparePartState({filter_created_at: date.map(date => Math.round(date / 1000))})}
-                        current_date={props.reqsp.filter_created_at}
+        <div className='contentTab'>
+            <div className='row jc-sb al-itm-fs'>
+                <div className='row'>
+                    <Button
+                        id='newReqSparePart'
+                        title='+ Запрос'
+                        className='greenButton h31'
+                        onClick={handleNewReqSparePart}
+                        // invisible={!props.permissions.includes('create_inventory')}
                     />
-                    <SelectFromListMany
-                        id='created_by'
-                        className='ml10'
-                        width='200px'
-                        title='Создал'
-                        mainLable='Все'
-                        list={props.employees}
-                        checked_list={props.reqsp.filter_created_by}
-                        func={list => props.selectedReqSparePart(list, 'filter_created_by')}
-                        employee={true}
-                    />
-                    <SelectFromListMany
-                        id='executor'
-                        className='ml10'
-                        width='200px'
-                        title='Исполнитель'
-                        mainLable='Все'
-                        list={props.employees}
-                        checked_list={props.reqsp.filter_executor}
-                        func={list => props.selectedReqSparePart(list, 'filter_executor')}
-                        employee={true}
-                    />
-                    <SelectStatuses
-                        id='status'
-                        className='ml10'
-                        func={value => props.selectedReqSparePart(value, 'filter_status')}
-                        current_list={props.reqsp.filter_status}
-                        width={'240px'}
-                        invisible={false}
-                        range={[12, 18]}
-                    />
-                    <ChooseWithSearch
-                        id='supplier'
-                        className='ml10'
-                        width='250px'
-                        title='Поставщик'
-                        list={props.clients}
-                        current_element={props.reqsp.filter_supplier}
-                        setElement={supplier => props.changeReqSparePartState({filter_supplier: supplier})}
-                        filter={props.filter_name}
-                        changeFilter={filter => props.changeClientState({filter_name: filter})}
-                        placeholder='Введите имя'
+                    <Button
+                        className='customFilter ml10'
+                        title='Фильтр'
+                        onClick={() => setShowFilet(!showFilter)}
+                        icon={icon_filter}
+                        iconClassName='icon-s2'
+                        iconColor='282e33'
                     />
                 </div>
                 <TableFields
                     id='tableFields'
+                    className='h31'
                     height='185px'
                     classNameMenu='listOption'
                     list={request_spare_part_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 6)}
@@ -110,6 +64,7 @@ const RequestSpareParts = props => {
                     func={props.selectedReqSparePart}
                 />
             </div>
+            <RequestSparePartFilter invisible={showFilter}/>
             <RequestSparePartTable/>
             <div className='row'>
                 <Paginate
@@ -128,9 +83,6 @@ const RequestSpareParts = props => {
 
 const mapStateToProps = state => ({
     reqsp: state.reqsp,
-    employees: state.employee.employees.filter(employee => !employee.deleted),
-    clients: state.client.clients,
-    filter_name: state.client.filter_name,
     permissions: state.data.user.role.permissions
 })
 
@@ -138,8 +90,6 @@ const mapDispatchToProps = {
     addReqSparePart,
     selectedReqSparePart,
     changeReqSparePartState,
-    changeClientState,
-    addClients,
     changeVisibleState
 }
 

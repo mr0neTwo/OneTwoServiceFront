@@ -51,7 +51,6 @@ const CustomPanel = (props) => {
                             className='customFilter'
                             title='Фильтр'
                             onClick={handleEditFilter}
-                            invisible={false}
                             icon={icon_filter}
                             iconClassName='icon-s2'
                             iconColor='282e33'

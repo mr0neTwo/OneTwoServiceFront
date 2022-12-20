@@ -910,7 +910,6 @@ div.tableOrders td {
   align-items: center;
   text-align: center;
   padding: 5px 12px;
-  margin: 5px 0px;
   background: #5cb85c;
   border-color: #5cb85c;
   color: #fff;
@@ -942,7 +941,6 @@ div.tableOrders td {
   display: flex;
   align-items: center;
   padding: 0px 8px;
-  margin: 4px;
   height: 29px;
   border: 1px solid #aaaaaa;
   border-radius: 4px;
@@ -2076,7 +2074,6 @@ checkboxLable {
 .clientCardName:hover {
   color: #0c61ac;
 }
-
 .partCardName {
   font-size: 14px;
   line-height: 18px;

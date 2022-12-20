@@ -35,10 +35,7 @@ const initialState = {
     filter_created_by: [],
     filter_executor: [],
     filter_supplier: {},
-    filter_created_at: JSON.parse(localStorage.getItem(key + 'filter_created_at')) || [
-        Math.round(now.setHours(0, 0, 0, 0) / 1000),
-        Math.round(now.setHours(23, 59, 59, 999) / 1000)
-    ],
+    filter_created_at: JSON.parse(localStorage.getItem(key + 'filter_created_at')) || [0, 0],
     page: 0,
 
     event_filter: JSON.parse(localStorage.getItem(key + 'event_filter')) || request_event_types,
@@ -53,6 +50,7 @@ export const requestSparePartsReducer = (state = initialState, action) => {
             Object.keys(action.data).forEach(field => {
                 if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
             })
+            console.log(action.data)
             return {...Object.assign(state, action.data)}
         }
 

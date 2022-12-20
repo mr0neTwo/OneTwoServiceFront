@@ -21,6 +21,8 @@ function getDateEstimated(datestamp, statusGroup) {
 
 const EstimatedComeAt = (props) => {
 
+    if (!props.reqsp.estimated_come_at) return <td/>
+
     return (
         <td>
             <div className="estimated-top">
