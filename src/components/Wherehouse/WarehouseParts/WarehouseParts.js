@@ -37,9 +37,9 @@ const WarehouseParts = props => {
     }
 
     return (
-        <div className = 'contentTab'>
-            <div className='row al-itm-bl'>
-                <div className='wp25 overv'>
+        <>
+            <div className='row al-itm-bl mt15'>
+                <div className='wp25 '>
                     <div className='row al-itm-ct'>
                         <Button
                             id='btaddWC'
@@ -104,7 +104,7 @@ const WarehouseParts = props => {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

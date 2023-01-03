@@ -35,18 +35,17 @@ const RequestSpareParts = props => {
     }
 
     return (
-        <div className='contentTab'>
-            <div className='row jc-sb al-itm-fs'>
+        <>
+            <div className='row jc-sb al-itm-fs mt15'>
                 <div className='row'>
                     <Button
                         id='newReqSparePart'
                         title='+ Запрос'
                         className='greenButton h31'
                         onClick={handleNewReqSparePart}
-                        // invisible={!props.permissions.includes('create_inventory')}
                     />
                     <Button
-                        className='customFilter ml10'
+                        className='customFilter ml15'
                         title='Фильтр'
                         onClick={() => setShowFilet(!showFilter)}
                         icon={icon_filter}
@@ -77,7 +76,7 @@ const RequestSpareParts = props => {
                 />
                 <div className='ml10'>Всего - {props.reqsp.count}</div>
             </div>
-        </div>
+        </>
     )
 }
 

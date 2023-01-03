@@ -39,7 +39,7 @@ const WriteOfPartTable = (props) => {
     }
 
     return (
-        <table className='mt15'>
+        <table className='tableOrdersBox mt15'>
            <thead>
             <tr>
                 {props.writeof.inventory_id ? <th className='w15'/> : null}

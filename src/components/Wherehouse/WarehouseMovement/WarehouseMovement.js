@@ -18,8 +18,8 @@ const WarehouseMovement = props => {
     }, [props.movement.filter_created_at, props.movement.page])
 
     return (
-        <div className='contentTab'>
-            <div className='row jc-sb'>
+        <>
+            <div className='row jc-sb mt15'>
                 <div className='row'>
                     <Button
                         id='addMovement'
@@ -57,7 +57,7 @@ const WarehouseMovement = props => {
                 />
                 <div className='ml10'>Всего - {props.movement.count}</div>
             </div>
-        </div>
+        </>
     )
 }
 

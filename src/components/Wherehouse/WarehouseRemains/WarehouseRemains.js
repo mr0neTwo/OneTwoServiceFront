@@ -44,8 +44,8 @@ const WarehouseRemains = (props) => {
     })
 
     return (
-        <div className='contentTab'>
-            <div className='row jc-sb'>
+        <>
+            <div className='row jc-sb mt15'>
                 <div className='row al-itm-fe'>
                     <SelectFromList
                         id='selWarRem'
@@ -100,7 +100,7 @@ const WarehouseRemains = (props) => {
                 />
                 <div className='ml10'>Всего - {props.remain.remains_count}</div>
             </div>
-        </div>
+        </>
     )
 }
 

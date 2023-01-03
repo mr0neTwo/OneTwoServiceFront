@@ -24,8 +24,8 @@ const WarehouseWriteOf = props => {
     }
 
     return (
-        <div className = 'contentTab'>
-            <div className='row jc-sb'>
+        <>
+            <div className='row jc-sb mt15'>
                 <div className='row'>
                     <Button
                         id='addWriteOf'
@@ -67,7 +67,7 @@ const WarehouseWriteOf = props => {
                 />
                 <div className='ml10'>Всего - {props.writeof.count}</div>
             </div>
-        </div>
+        </>
     )
 }
 

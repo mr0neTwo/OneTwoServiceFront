@@ -38,15 +38,15 @@ const CustomPanel = (props) => {
     return (
         <div className='mainCustomPanel '>
             <div className='customPanel'>
-                <div className='row al-itm-fe'>
+                <div className='row al-itm-ct'>
                     <Button
                         id='addOrder'
-                        className='greenButton'
+                        className='greenButton h29'
                         title='+ Заказ'
                         onClick={newOrder}
                         invisible={!props.permissions.includes('create_orders')}
                     />
-                    <div className='customFilters'>
+                    <div className='customFilters ml15'>
                         <Button
                             className='customFilter'
                             title='Фильтр'

@@ -40,7 +40,7 @@ const TableRegistration = (props) => {
     const table_headers = props.registration.table_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 7)
 
     return (
-        <div className='tableWarehouseBox'>
+        <div className='tableOrdersBox mt15'>
             <table id="tableWarehouse">
                 <thead className="tableThead">
                     <tr>

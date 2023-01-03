@@ -28,7 +28,7 @@ const TableRemains = (props) => {
     }
 
     return (
-        <div className="tableWarehouseBox mt15">
+        <div className="tableOrdersBox mt15">
             <table id="tableWarehouse">
                 <thead className="tableThead">
                     <tr>

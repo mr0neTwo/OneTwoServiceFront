@@ -46,7 +46,7 @@ const CustomFilter = props => {
 
     return (
         <div
-            className='customFilter'
+            className='customFilter ml5'
             onClick={handleChoose}
             style={{
                 backgroundColor: props.data.id === props.filter.active_filter ? '#eeeeef' : 'white',

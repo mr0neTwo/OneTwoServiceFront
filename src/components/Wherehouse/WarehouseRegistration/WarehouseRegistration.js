@@ -24,8 +24,8 @@ const WarehouseRegistration = props => {
     }, [props.registration.showDeleted, props.registration.filter_created_at, props.registration.page])
 
     return (
-        <div className=''>
-            <div className='row jc-sb'>
+        <>
+            <div className='row jc-sb mt15'>
                 <div className='row'>
                     <Button
                         id='newRegistration'
@@ -65,7 +65,7 @@ const WarehouseRegistration = props => {
                 />
                 <div className='ml10'>Всего - {props.registration.registrations_count}</div>
             </div>
-        </div>
+        </>
     )
 }
 
