@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {icone_sphere, icone_setting} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 import {changeVisibleState} from '../../../Redux/actions'
 import {changeCashboxState, editCashbox} from '../../../Redux/actions/cashboxAction'
 
@@ -85,12 +85,12 @@ const Cashbox = (props) => {
             onClick={() => props.changeCashboxState({current_cashbox: props.cashbox})}
         >
             <div className='icons'>
-                <div><Icon className='smalIcon' icon={icone_sphere}
+                <div><Icon className='smalIcon' icon={ICON.SPHERE}
                            color={activ(props.cashbox.id) && props.cashbox.isGlobal ? 'grey' : 'white'}/></div>
                 <div
                     onClick={edit ? handleEdit : null}
                 >
-                    <Icon className='smalIcon curP' icon={icone_setting}
+                    <Icon className='smalIcon curP' icon={ICON.SETTING}
                           color={activ(props.cashbox.id) && edit ? 'grey' : 'white'}/>
                 </div>
             </div>

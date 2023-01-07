@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {setVisibleListFlag, addVisibleFlag, deleteVisibleFlag,} from '../../../Redux/actions'
 import {valueOfPhoneInput} from '../../general/utils'
 import {addPhoneCounter, changeClientEditorPhone, deleteCountNumber} from '../../../Redux/actions/clientAction'
-import {icon_trush} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import PhoneTitle from './PhoneTitle'
 
@@ -39,7 +39,7 @@ const AddPhones = (props) => {
                                 }}
                             >
                                 <svg className="icon-deletePhone" viewBox="0 0 32 32">
-                                    <path d={icon_trush}/>
+                                    <path d={ICON.TRASH}/>
                                 </svg>
                             </div>
                         ) : null}

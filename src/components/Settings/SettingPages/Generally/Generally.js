@@ -6,7 +6,7 @@ const Generally = (props) => {
   
   return (
     <div className='settingContent'>
-        <div className='Header'>
+        <div className='header'>
           <span className='headerTitle'>Общие</span>
         </div>
         <div className='settingPageBody'>

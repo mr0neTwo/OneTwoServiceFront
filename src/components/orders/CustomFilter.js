@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 
 import {changeFilterState} from '../../Redux/actions/filterAction'
 import {addClientToTempFilter} from '../../Redux/actions/clientAction'
+import Button from '../general/Button'
+import {ICON} from '../../data/icons'
 
 const CustomFilter = props => {
 
@@ -44,17 +46,15 @@ const CustomFilter = props => {
         }
     }
 
+    const isActive = props.data.id === props.filter.active_filter
+
     return (
-        <div
-            className='customFilter ml5'
+        <Button
+            size='small'
+            type={isActive ? 'secondary-active' : 'secondary'}
+            title= {props.data.title}
             onClick={handleChoose}
-            style={{
-                backgroundColor: props.data.id === props.filter.active_filter ? '#eeeeef' : 'white',
-                opacity: props.data.id === props.filter.active_filter || props.filter.active_filter === 0 ? 1 : 0.5
-            }}
-        >
-            {props.data.title}
-        </div>
+        />
     )
 }
 

@@ -4,7 +4,7 @@ import React, {useState, useEffect} from 'react'
 import {showDate, showRangeDate} from '../utils'
 
 import Icon from '../Icon'
-import {icon_calendar} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 import CalendarTime from './CalendarTime'
 import CalendarNavi from './CalendarNavi'
 import CalendarOption from './CalendarOption'
@@ -236,7 +236,7 @@ const ChooseDate = (props) => {
             >
                 <Icon
                     className='icon-s2 mlr5'
-                    icon={icon_calendar}
+                    icon={ICON.CALENDAR}
                     color='gray'
                 />
                 <div>{title}</div>

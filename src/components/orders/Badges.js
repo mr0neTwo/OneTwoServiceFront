@@ -1,14 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import MainFilter from './MainFilter'
+import Badge from './Badge'
 
-const Filters = props => {
+const Badges = props => {
 
     return (
-        <div className='mainFilters'>
+        <div className='badges-container'>
             {props.badges.map(badge => (
-                    badge.count ? <MainFilter badge={badge} key={badge.id}/> : null
+                    badge.count ? <Badge key={badge.id} badge={badge}/> : null
                 ))
             }
         </div>
@@ -19,4 +19,4 @@ const mapStateToProps = state => ({
     badges: state.filter.badges
 })
 
-export default connect(mapStateToProps)(Filters)
+export default connect(mapStateToProps)(Badges)

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
 import Icon from '../general/Icon'
-import {icon_search} from '../../data/icons'
+import {ICON} from '../../data/icons'
 
 const Search = (props) => {
 
@@ -23,7 +23,7 @@ const Search = (props) => {
         <div className={`boxSearch w250 ${props.className}`}>
             <Icon
                 className='icon-s2 pd5'
-                icon={icon_search}
+                icon={ICON.SEARCH}
                 color='grey'
             />
             <input

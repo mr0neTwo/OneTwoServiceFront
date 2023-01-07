@@ -31,6 +31,8 @@ import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor
 import InventoryEditorPreview from './Wherehouse/WarehouseInventories/InventoryEditorPreview'
 import InventoryEditor from './Wherehouse/WarehouseInventories/InventoryEditor'
 import RequestSparePartEditor from './Wherehouse/RequestSpareParts/RequestSparePartEditor'
+import PaymentsEditor from './Payments/PaymentsEditor'
+import StikerToPrint from './orders/newOrder/orderHisroy/StikerToPrint'
 
 
 
@@ -49,9 +51,9 @@ function Main(props) {
 
 
     return (
-        <div>
+        <div className="main-box">
             <Sidebar/>
-            <div className='contentMain'>
+            <div className='main-content'>
                 <Alerts/>
                 <Switch>
                     <Route path='/tasks' component={TaskManager}/>
@@ -80,6 +82,7 @@ function Main(props) {
             {props.view.statusInventoryEditor ? <InventoryEditor/> : null}
             {props.view.statusInventoryEditorPreview ? <InventoryEditorPreview/> : null}
             {props.view.statusReqSparePartEditor ? <RequestSparePartEditor/> : null}
+            {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
         </div>
     )
 }

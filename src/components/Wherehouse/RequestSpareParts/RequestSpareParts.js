@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {addReqSparePart, changeReqSparePartState, selectedReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
-import {request_spare_part_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 
 import TableFields from '../../general/TableFields'
 import Paginate from '../../general/Paginate'
@@ -10,7 +10,7 @@ import Paginate from '../../general/Paginate'
 import RequestSparePartTable from './RequestSparePartTable'
 import Button from '../../general/Button'
 import {changeVisibleState} from '../../../Redux/actions'
-import {icon_filter} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 import RequestSparePartFilter from './RequestSparePartFilter'
 
 const RequestSpareParts = props => {
@@ -48,7 +48,7 @@ const RequestSpareParts = props => {
                         className='customFilter ml15'
                         title='Фильтр'
                         onClick={() => setShowFilet(!showFilter)}
-                        icon={icon_filter}
+                        icon={ICON.FILTER}
                         iconClassName='icon-s2'
                         iconColor='282e33'
                     />
@@ -58,7 +58,7 @@ const RequestSpareParts = props => {
                     className='h31'
                     height='185px'
                     classNameMenu='listOption'
-                    list={request_spare_part_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 6)}
+                    list={Table.Fields.RequestSparePart.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 6)}
                     checked_list={props.reqsp.table_headers}
                     func={props.selectedReqSparePart}
                 />

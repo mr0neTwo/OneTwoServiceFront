@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {setVisibleFlag, changeOrderFormS, changeVisibleState} from '../../../../Redux/actions'
 import {editOperation, deleteOperation, resetOperation} from '../../../../Redux/actions/operationActions'
-import {icon_briefcase, icon_bug, icon_pencil, icon_trush} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 import {deleteOrderPart, editOrderPart, resetOrderPart} from '../../../../Redux/actions/orderPartAction'
 
@@ -69,7 +69,7 @@ const TableWorksMaterials = (props) => {
                             onDoubleClick={disabled ? null : () => editOperation(operation)}
                         >
                             <td>
-                                <Icon className='icon-s1' icon={icon_briefcase} color='#aaa'/>
+                                <Icon className='icon-s1' icon={ICON.BRIEFCASE} color='#aaa'/>
                             </td>
                             <td>{operation.title}{operation.comment ? ` (${operation.comment})` : null}</td>
                             <td className='tae'>{operation.amount}</td>
@@ -80,10 +80,10 @@ const TableWorksMaterials = (props) => {
                                 {!disabled ?
                                     <div className='row'>
                                         <div onClick={() => editOperation(operation)}>
-                                            <Icon className='icon-s2 curP ml5' icon={icon_pencil}/>
+                                            <Icon className='icon-s2 curP ml5' icon={ICON.PENCIL}/>
                                         </div>
                                         <div onClick={() => deleteOperation(operation)}>
-                                            <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                            <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
                                         </div>
                                     </div> : null}
                             </td>
@@ -96,7 +96,7 @@ const TableWorksMaterials = (props) => {
                             onDoubleClick={disabled ? null : () => editPart(part)}
                         >
                             <td>
-                                <Icon className='icon-s1' icon={icon_bug} color='#aaa'/>
+                                <Icon className='icon-s1' icon={ICON.BUG} color='#aaa'/>
                             </td>
                             <td>{part.title}{part.comment ? ` (${part.comment})` : null}</td>
                             <td className='tae'>{part.amount}</td>
@@ -107,10 +107,10 @@ const TableWorksMaterials = (props) => {
                                 {!disabled ?
                                     <div className='row'>
                                         <div onClick={() => editPart(part)}>
-                                            <Icon className='icon-s2 curP ml5' icon={icon_pencil}/>
+                                            <Icon className='icon-s2 curP ml5' icon={ICON.PENCIL}/>
                                         </div>
                                         <div id='deleteOrderPart' onClick={() => deletePart(part) }>
-                                            <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                            <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
                                         </div>
                                     </div> : null}
                             </td>

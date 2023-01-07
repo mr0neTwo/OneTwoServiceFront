@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {changeMovementState} from '../../../Redux/actions/warehouseMovementAction'
-import {icon_trush} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 
@@ -71,7 +71,7 @@ const MovementPartTable = (props) => {
                         <td>
                             <div className='row'>
                                 <div onClick={() => handleDelete(idx)}>
-                                    <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                    <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
                                 </div>
                             </div>
                         </td>}

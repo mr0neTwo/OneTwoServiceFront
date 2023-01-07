@@ -6,7 +6,7 @@ import {changeVisibleState} from '../../../Redux/actions'
 import {addRemain, changeRemainState} from '../../../Redux/actions/remainAction'
 import {changeWriteOfState} from '../../../Redux/actions/writeOfAction'
 
-import {icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 import {checkObject} from '../../general/utils'
@@ -66,7 +66,7 @@ const AddWriteOf = (props) => {
                     />
                     <Icon
                         className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
+                        icon={showList ? ICON.LEFT : ICON.DOWN}
                     />
                 </div>
                 {!disabled && showList ?

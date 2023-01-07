@@ -21,11 +21,11 @@ function App(props) {
     }, [props.login_status])
 
     return (
-        <div>
+        <>
             {Object.values(props.user).length && props.login_status && props.csrfToken ? <Main/> : null}
             {props.login_status ? null : <Login/>}
             {props.statusRefreshPage ? <RefreshPage/> : null}
-        </div>
+        </>
     )
 }
 

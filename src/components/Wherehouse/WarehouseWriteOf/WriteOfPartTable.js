@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {changeWriteOfState} from '../../../Redux/actions/writeOfAction'
-import {icon_trush} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 import Checkbox from '../../general/Checkbox'
@@ -89,7 +89,7 @@ const WriteOfPartTable = (props) => {
                     <td>
                         <div className='row'>
                             <div onClick={() => handleDelete(idx)}>
-                                <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
                             </div>
                         </div>
                     </td>}

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import { changeVisibleState,} from '../../../Redux/actions'
 import {changeFilterState, deleteFilter, resetTempFilter, selectedFilter} from '../../../Redux/actions/filterAction'
 import {addClients, changeClientState} from '../../../Redux/actions/clientAction'
-import {icon_cross, icon_trush} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 
 import FilterEditor from '../FilterEditor'
@@ -131,7 +131,7 @@ const SetFilter = props => {
                 {props.filter.active_filter ?
                     <Button
                         className='whiteButton bcr'
-                        icon={icon_trush}
+                        icon={ICON.TRASH}
                         iconClassName='icon-s1 pd1'
                         iconColor='white'
                         onClick={() => props.deleteFilter()}
@@ -147,7 +147,7 @@ const SetFilter = props => {
                     className='whiteButton'
                     title='Сбросить параметы'
                     onClick={() => props.resetTempFilter()}
-                    icon={icon_cross}
+                    icon={ICON.CROSS}
                     iconClassName='icon-sm8'
                     iconColor='#282e33'
                 />

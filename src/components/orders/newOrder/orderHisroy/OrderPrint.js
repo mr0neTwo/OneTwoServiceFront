@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import Icon from '../../../general/Icon'
-import {icon_down, icon_print} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 import Button from '../../../general/Button'
 import Checkbox from '../../../general/Checkbox'
 import {setVisibleFlag} from '../../../../Redux/actions'
@@ -42,8 +42,8 @@ const OrderPrint = (props) => {
                 onClick={() => setListVisible(!listVisible)}
             >
                 <div className='whiteButton m0 pd05 ml10'>
-                    <Icon icon={icon_print} className='icon-s4 pd1'/>
-                    <Icon icon={icon_down} className='icon-s4 pd1'/>
+                    <Icon icon={ICON.PRINT} className='icon-s4 pd1'/>
+                    <Icon icon={ICON.DOWN} className='icon-s4 pd1'/>
                 </div>
             </div>
             {listVisible ?

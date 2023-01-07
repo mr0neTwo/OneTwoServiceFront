@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Compress from 'react-image-file-resizer'
 
 import {changeEmployeeState, saveAvatar} from '../../../Redux/actions/employeeAction'
+
 import Button from '../../general/Button'
 import RangeSlider from './RangeSlider'
 
@@ -107,6 +108,7 @@ const ChangeAvatar = (props) => {
                     src={props.employee.img || `${process.env.REACT_APP_LOCAL_SOURCE}/${props.employee.avatar}`}
                     ref={img}
                     className='editAvaImg'
+                    alt='image'
                 />
             </div>
 

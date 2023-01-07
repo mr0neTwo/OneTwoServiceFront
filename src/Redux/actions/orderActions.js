@@ -9,7 +9,7 @@ export function changeOrderState(data) {
     }
 }
 
-export function selectedOrder(value, field, saveToApp=false) {
+export function selectedOrder(value, field, saveToApp=true) {
     return {
         type: 'SELECTED_ORDER',
         field,

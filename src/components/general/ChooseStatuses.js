@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 
-import {icon_down, icon_left} from '../../data/icons'
+import {ICON} from '../../data/icons'
 
 import ChooseStatusesGruoup from './ChooseStatusesGruoup'
 import Icon from './Icon'
@@ -68,7 +68,7 @@ const ChooseStatuses = (props) => {
                 onClick={props.disabled ? null : () => setListVisible(!listVisible)}
             >
                 <div className='noWr'>{`Выбрано ${props.current_list.length}`}</div>
-                <Icon icon={listVisible ? icon_down : icon_left} className='icon-s2' color='grey'/>
+                <Icon icon={listVisible ? ICON.DOWN : ICON.LEFT} className='icon-s2' color='grey'/>
             </div>
             {listVisible ?
                 <div className='liststatus'>

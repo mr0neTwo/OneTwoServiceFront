@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import ReactPaginate from 'react-paginate'
 import {connect} from 'react-redux'
 
@@ -8,7 +8,7 @@ import {addOrders} from '../../Redux/actions/orderActions'
 
 
 import Header from './Header'
-import Filters from './Filters'
+import Badges from './Badges'
 import TableOrders from './TableOrdrers'
 import Loader from '../Loader/Loader'
 import CustomPanel from './CustomPanel'
@@ -55,34 +55,36 @@ function Orders(props) {
     }, [])
 
     return (
-        <div className="pageContent">
+        <>
             <Header oderSearch={''}/>
-            <Filters/>
-            <CustomPanel/>
-            {props.ordersShow ? <TableOrders/> : <Loader/>}
-            <div className="tableAllPage">
-                <ReactPaginate
-                    pageCount={props.count % 50 > 0 ? (props.count / 50) : props.count / 50 - 1}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={pageChangeHandler}
-                    forcePage={props.page}
-                    previousLabel={'<'}
-                    nextLabel={'>'}
-                    breakLabel={'...'}
-                    breakClassName={'pages-pagination'}
-                    containerClassName={'pagination'}
-                    pageClassName={'pages-pagination'}
-                    activeClassName={'active'}
-                    nextClassName={'pages-pagination'}
-                    previousClassName={'pages-pagination'}
-                />
-                <div className="tablePageCount">
-                    Всего - {props.count}
-                </div>
+            <Badges/>
+            <div className='content-container mt20'>
+                <CustomPanel/>
+                {props.ordersShow ? <TableOrders/> : <Loader/>}
+                {/*<div className="tableAllPage">*/}
+                {/*    <ReactPaginate*/}
+                {/*        pageCount={props.count % 50 > 0 ? (props.count / 50) : props.count / 50 - 1}*/}
+                {/*        marginPagesDisplayed={2}*/}
+                {/*        pageRangeDisplayed={5}*/}
+                {/*        onPageChange={pageChangeHandler}*/}
+                {/*        forcePage={props.page}*/}
+                {/*        previousLabel={'<'}*/}
+                {/*        nextLabel={'>'}*/}
+                {/*        breakLabel={'...'}*/}
+                {/*        breakClassName={'pages-pagination'}*/}
+                {/*        containerClassName={'pagination'}*/}
+                {/*        pageClassName={'pages-pagination'}*/}
+                {/*        activeClassName={'active'}*/}
+                {/*        nextClassName={'pages-pagination'}*/}
+                {/*        previousClassName={'pages-pagination'}*/}
+                {/*    />*/}
+                {/*    <div className="tablePageCount">*/}
+                {/*        Всего - {props.count}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                {/*{props.statusOrderLoader ? <Loader className='orderLoader'/> : null}*/}
             </div>
-            {props.statusOrderLoader ? <Loader className='orderLoader'/> : null}
-        </div>
+        </>
     )
 }
 

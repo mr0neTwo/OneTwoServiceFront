@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {icon_cancel, icon_down, icon_left} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import Icon from './Icon'
 import {checkObject} from './utils'
 
@@ -80,10 +80,10 @@ const ChooseWithSearch = props => {
                         className='al-itm-ct'
                         onClick={() => props.setElement({})}
                     >
-                        <Icon icon={icon_cancel} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon-close'/>
                     </div>
                     :
-                    <Icon icon={listVisible ? icon_down : icon_left} className='icon-s2'/>
+                    <Icon icon={listVisible ? ICON.DOWN : ICON.LEFT} className='icon-s2'/>
                 }
             </button>
             {listVisible ?

@@ -13,7 +13,7 @@ const Payments = (props) => {
     return (
         <div className='pageContent'>
 
-            <div className='Header'>
+            <div className='header'>
                 <span className='headerTitle'>Финансы</span>
             </div>
 

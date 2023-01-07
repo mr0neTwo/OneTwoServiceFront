@@ -1,85 +1,78 @@
-import { task, leads, orders, sales, finance, warehouse, setting, clients, analytic, reports } from './permissions'
+import {task, leads, orders, sales, finance, warehouse, setting, clients, analytic, reports} from './permissions'
+import {ICON} from './icons'
 
-
-export const data_menu_rows = [
-{
-    id: 1,
-    title: 'Задачи',
-    image: 'task',
-    url: '/tasks',
-    group_name: 'generally_menu',
-    permission_keys: task.map(per => per.value)
-},{
-    id: 2,
-    title: 'Обращения',
-    image: 'M 3.527 6.987 a 0.5 0.5 0 0 0 -0.432 0.751 l 0.733 1.263 a 0.5 0.5 0 0 0 0.432 0.25 h 7.48 a 0.5 0.5 0 0 0 0.432 -0.25 l 0.733 -1.263 a 0.5 0.5 0 0 0 -0.432 -0.75 H 3.527 Z m 2.56 4.431 a 0.5 0.5 0 0 0 -0.433 0.75 l 0.69 1.2 a 0.5 0.5 0 0 0 0.434 0.25 h 2.444 a 0.5 0.5 0 0 0 0.434 -0.25 l 0.69 -1.2 a 0.5 0.5 0 0 0 -0.433 -0.75 H 6.087 Z M 0.867 2.382 a 0.5 0.5 0 0 0 -0.433 0.75 l 0.83 1.437 a 0.5 0.5 0 0 0 0.433 0.25 h 12.606 a 0.5 0.5 0 0 0 0.433 -0.25 l 0.83 -1.437 a 0.5 0.5 0 0 0 -0.433 -0.75 H 0.867 Z',
-    url: '/leans',
-    group_name: 'generally_menu',
-    permission_keys: leads.map(per => per.value)
-},{
-    id: 3,
-    title: 'Заказы',
-    image: 'M 13.6 0 H 2.4 A 2.403 2.403 0 0 0 0 2.4 v 11.2 A 2.403 2.403 0 0 0 2.4 16 h 11.2 a 2.403 2.403 0 0 0 2.4 -2.4 V 2.4 A 2.403 2.403 0 0 0 13.6 0 Z M 2.4 1.6 h 11.2 a 0.801 0.801 0 0 1 0.8 0.8 v 7.2 h -1.972 a 1.598 1.598 0 0 0 -1.331 0.713 L 9.972 12 H 6.028 l -1.125 -1.688 A 1.598 1.598 0 0 0 3.572 9.6 H 1.6 V 2.4 a 0.8 0.8 0 0 1 0.8 -0.8 Z m 2.355 4.8 h 6.4 c 0.267 0 0.8 0.32 0.8 0.8 c 0 0.48 -0.533 0.8 -0.8 0.8 h -6.4 c -0.266 0 -0.8 -0.32 -0.8 -0.8 c 0 -0.48 0.534 -0.8 0.8 -0.8 Z m 6.4 -3.2 h -6.4 c -0.266 0 -0.8 0.32 -0.8 0.8 c 0 0.48 0.534 0.8 0.8 0.8 h 6.4 c 0.267 0 0.8 -0.32 0.8 -0.8 c 0 -0.48 -0.533 -0.8 -0.8 -0.8 Z',
-    url: '/orders',
-    group_name: 'generally_menu',
-    permission_keys: orders.map(per => per.value)
-},{
-    id: 4,
-    title: 'Продажи',
-    image: 'M 1.472 0 a 0.656 0.656 0 0 0 0 1.311 h 0.976 V 8.793 a 0.652 0.652 0 0 0 0 0.046 v 2.68 a 2.289 2.289 0 1 0 2.726 1.217 h 4.837 a 2.288 2.288 0 1 0 2.07 -1.312 H 3.76 V 9.473 h 9.952 c 0.327 0 0.603 -0.24 0.65 -0.563 l 0.816 -5.713 a 0.656 0.656 0 0 0 -0.603 -0.746 L 3.76 1.677 V 0.656 A 0.656 0.656 0 0 0 3.104 0 H 1.472 Z m 10.593 12.736 h 0.025 a 0.976 0.976 0 1 1 -0.025 0 Z m -8.97 0 h 0.024 a 0.976 0.976 0 1 1 -0.024 0 Z',
-    url: '/shops',
-    group_name: 'generally_menu',
-    permission_keys: sales.map(per => per.value)
-},{
-    id: 5,
-    title: 'Финансы',
-    image: 'M 3.555 1.348 a 8 8 0 1 1 8.89 13.304 a 8 8 0 0 1 -8.89 -13.304 Z m 3.203 4.683 a 0.727 0.727 0 0 1 0.515 -0.213 h 2.909 a 0.727 0.727 0 1 0 0 -1.454 H 8.727 v -0.728 a 0.727 0.727 0 1 0 -1.454 0 v 0.728 a 2.182 2.182 0 1 0 0 4.363 h 1.454 a 0.727 0.727 0 1 1 0 1.455 H 5.818 a 0.727 0.727 0 0 0 0 1.454 h 1.455 v 0.728 a 0.727 0.727 0 0 0 1.454 0 v -0.728 a 2.182 2.182 0 0 0 0 -4.363 H 7.273 a 0.727 0.727 0 0 1 -0.515 -1.242 Z',
-    url: '/payments',
-    group_name: 'generally_menu',
-    permission_keys: finance.map(per => per.value)
-},{
-    id: 6,
-    title: 'Склад',
-    image: 'M5.5 0a1 1 0 00-1 1v5a1 1 0 001 1h5a1 1 0 001-1V1a1 1 0 00-1-1h-5zm1.2 1a.2.2 0 00-.2.2v1c0 .11.09.2.2.2h2.6a.2.2 0 00.2-.2v-1a.2.2 0 00-.2-.2H6.7zM1 9a1 1 0 00-1 1v5a1 1 0 001 1h5a1 1 0 001-1v-5a1 1 0 00-1-1H1zm1.2 1a.2.2 0 00-.2.2v1c0 .11.09.2.2.2h2.6a.2.2 0 00.2-.2v-1a.2.2 0 00-.2-.2H2.2zM9 10a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-5a1 1 0 01-1-1v-5zm2 .2c0-.11.09-.2.2-.2h2.6c.11 0 .2.09.2.2v1a.2.2 0 01-.2.2h-2.6a.2.2 0 01-.2-.2v-1z',
-    url: '/warehouse',
-    group_name: 'generally_menu',
-    permission_keys: warehouse.map(per => per.value)
-},{
-    id: 7,
-    title: 'Клиенты',
-    image: 'M14.4 6.4c0 1.323-1.077 2.4-2.4 2.4a2.403 2.403 0 01-2.4-2.4C9.6 5.077 10.677 4 12 4s2.4 1.077 2.4 2.4zM8.8 4c0 1.765-1.435 3.2-3.2 3.2A3.203 3.203 0 012.4 4C2.4 2.235 3.835.8 5.6.8 7.365.8 8.8 2.235 8.8 4zM12 9.6c-.897 0-1.753.3-2.448.837A5.583 5.583 0 005.6 8.8 5.607 5.607 0 000 14.4a.8.8 0 00.8.8h9.6a.8.8 0 00.8-.8h4a.8.8 0 00.8-.8c0-2.206-1.794-4-4-4z',
-    url: '/clients',
-    group_name: 'generally_menu',
-    permission_keys: clients.map(per => per.value)
-},{
-    id: 8,
-    title: 'Аналитика',
-    image: 'M12.184.705a.889.889 0 00-1.311.06L6.879 5.556 3.953 4.094a.889.889 0 00-1.109.262L.178 7.91A.889.889 0 101.6 8.978l2.222-2.962 2.892 1.446a.889.889 0 001.08-.226l3.821-4.586 2.868 2.867A.889.889 0 0015.74 4.26L12.184.705zm-.678 5.074a.889.889 0 01.678.26l3.556 3.555c.166.166.26.392.26.628v4.445a.889.889 0 01-.889.889H.89a.889.889 0 01-.74-1.382L3.705 8.84a.889.889 0 011.137-.302l2.913 1.457L10.86 6.11a.889.889 0 01.645-.332z',
-    url: 'analytics',
-    group_name: 'report_menu',
-    permission_keys: analytic.map(per => per.value)
-},{
-    id: 9,
-    title: 'Отчеты',
-    image: 'M0 2a2 2 0 012-2h2v5H0V2zm0 5v7a2 2 0 002 2h2V7H0zm6 0v9h8a2 2 0 002-2V7H6zm10-2V2a2 2 0 00-2-2H6v5h10z',
-    url: '/reports',
-    group_name: 'report_menu',
-    permission_keys: reports.map(per => per.value)
-},{
-    id: 10,
-    title: 'Звонки',
-    image: 'M1.882 0h3.765L7.53 4.706 5.176 6.118a10.353 10.353 0 004.706 4.705l1.412-2.352L16 10.353v3.765A1.882 1.882 0 0114.118 16 15.059 15.059 0 010 1.882 1.882 1.882 0 011.882 0z',
-    url: '/telephony',
-    group_name: 'report_menu',
-    permission_keys: ['report_call']
-},{
-    id: 11,
-    title: 'Настройки',
-    image: 'M15.456 6.04l-1.512-.504.712-1.424a.8.8 0 00-.152-.912L12.8 1.496a.8.8 0 00-.92-.152l-1.424.712L9.952.544A.8.8 0 009.2 0H6.8a.8.8 0 00-.76.544l-.504 1.512-1.424-.712a.8.8 0 00-.912.152L1.496 3.2a.8.8 0 00-.152.92l.712 1.424-1.512.504A.8.8 0 000 6.8v2.4a.8.8 0 00.544.76l1.512.504-.712 1.424a.8.8 0 00.152.912L3.2 14.504a.8.8 0 00.92.152l1.424-.712.504 1.512a.8.8 0 00.76.544h2.4a.8.8 0 00.76-.544l.504-1.512 1.424.712a.8.8 0 00.904-.152l1.704-1.704a.8.8 0 00.152-.92l-.712-1.424 1.512-.504A.8.8 0 0016 9.2V6.8a.8.8 0 00-.544-.76zM8 11a3 3 0 100-6 3 3 0 000 6z',
-    url: '/settings',
-    group_name: 'setting_menu',
-    permission_keys: setting.map(per => per.value)
+export const Nav = {
+    Main: [
+        {
+            id: 1,
+            title: 'Задачи',
+            icon: ICON.CLIPBOARD,
+            url: '/tasks',
+            permission_keys: task.map(per => per.value)
+        // }, {
+        //     id: 2,
+        //     title: 'Обращения',
+        //     icon: ICON.FILTER_LIST,
+        //     url: '/leans',
+        //     permission_keys: leads.map(per => per.value)
+        }, {
+            id: 3,
+            title: 'Заказы',
+            icon: ICON.ORDERS,
+            url: '/orders',
+            permission_keys: orders.map(per => per.value)
+        }, {
+            id: 4,
+            title: 'Продажи',
+            icon: ICON.CART,
+            url: '/shops',
+            permission_keys: sales.map(per => per.value)
+        }, {
+            id: 5,
+            title: 'Финансы',
+            icon: ICON.COIN_DOLLAR,
+            url: '/payments',
+            permission_keys: finance.map(per => per.value)
+        }, {
+            id: 6,
+            title: 'Склад',
+            icon: ICON.INBOXES,
+            url: '/warehouse',
+            permission_keys: warehouse.map(per => per.value)
+        }, {
+            id: 7,
+            title: 'Клиенты',
+            icon: ICON.USERS,
+            url: '/clients',
+            permission_keys: clients.map(per => per.value)
+        }
+    ],
+    Second: [
+        {
+            id: 8,
+            title: 'Аналитика',
+            icon: ICON.STATS_DOCS,
+            url: 'analytics',
+            permission_keys: analytic.map(per => per.value)
+        }, {
+            id: 9,
+            title: 'Отчеты',
+            icon: ICON.FILE_TEXT,
+            url: '/reports',
+            permission_keys: reports.map(per => per.value)
+        }
+    ],
+    Third: [
+        {
+            id: 10,
+            title: 'Настройки',
+            icon: ICON.COG,
+            url: '/settings',
+            permission_keys: setting.map(per => per.value)
+        }
+    ]
 }
-]
+
+// export const data_menu_rows =
 
 

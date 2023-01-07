@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import { showDate } from '../../../general/utils'
-import { icon_warning } from '../../../../data/icons'
+import { ICON } from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 import {setPayment, setVisibleFlag} from '../../../../Redux/actions'
 import PaymentCard from '../../../Payments/PaymentCard'
@@ -37,7 +37,7 @@ const TableOrderPayments = (props) => {
                               <div title={`Платеж добавлен задним числом\n${showDate(payment.created_at)}` }>
                               <Icon 
                                  className='icon-s2 ml5'
-                                 icon={icon_warning} 
+                                 icon={ICON.WARNING}
                                  color='red' 
                               /> 
                            </div> : null}

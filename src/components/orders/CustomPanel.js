@@ -3,13 +3,14 @@ import {connect} from 'react-redux'
 
 import {changeVisibleState, setVisibleFlag} from '../../Redux/actions'
 import {changeFilterState} from '../../Redux/actions/filterAction'
-import {changeOrderState} from '../../Redux/actions/orderActions'
-import {icon_filter} from '../../data/icons'
+import {changeOrderState, selectedOrder} from '../../Redux/actions/orderActions'
+import {ICON} from '../../data/icons'
 
 import CustomFilter from './CustomFilter'
 import SetFilter from './setCustomFilter/SetFilter'
 import Button from '../general/Button'
-import TableOrderFields from './TableOrderFields'
+import TableFields from '../general/TableFields'
+import {Table} from '../../data/tableHeaders'
 
 const CustomPanel = (props) => {
 
@@ -36,35 +37,38 @@ const CustomPanel = (props) => {
     }
 
     return (
-        <div className='mainCustomPanel '>
-            <div className='customPanel'>
-                <div className='row al-itm-ct'>
+        <div className='row jc-sb'>
+
+                <div className='custom-filters-container'>
                     <Button
-                        id='addOrder'
-                        className='greenButton h29'
-                        title='+ Заказ'
+                        id='newOrder'
+                        size='small'
+                        type='create'
+                        title='Создать'
                         onClick={newOrder}
                         invisible={!props.permissions.includes('create_orders')}
                     />
-                    <div className='customFilters ml15'>
-                        <Button
-                            className='customFilter'
-                            title='Фильтр'
-                            onClick={handleEditFilter}
-                            icon={icon_filter}
-                            iconClassName='icon-s2'
-                            iconColor='282e33'
-                        />
-                        {props.customFilters.map(filter => {
-                            return (
-                                <CustomFilter data={filter} key={filter.id}/>
-                            )
-                        })}
-                    </div>
+                    <Button
+                        size='small'
+                        type='secondary'
+                        title='Фильтр'
+                        onClick={handleEditFilter}
+                        icon={ICON.FILTER}
+                        iconClassName='icon-16'
+                    />
+
+                    { props.customFilters.map(filter => <CustomFilter key={filter.id} data={filter} />) }
+
                 </div>
-                <TableOrderFields/>
-            </div>
-            {props.statusSetCustomFilter ? <SetFilter/> : null}
+                <TableFields
+                    id='orders'
+                    className='ml10'
+                    list={Table.Fields.Order}
+                    checked_list={props.order.table_headers}
+                    func={props.selectedOrder}
+                />
+
+            {/*{props.statusSetCustomFilter ? <SetFilter/> : null}*/}
         </div>
     )
 }
@@ -75,7 +79,7 @@ const mapStateToProps = state => ({
     permissions: state.data.user.role.permissions,
     statusOrderEditor: state.view.statusOrderEditor,
     user: state.data.user,
-    edit: state.order.edit,
+    order: state.order,
     schedule: state.branch.current_branch.schedule
 })
 
@@ -83,7 +87,8 @@ const mapDispatchToProps = {
     setVisibleFlag,
     changeOrderState,
     changeFilterState,
-    changeVisibleState
+    changeVisibleState,
+    selectedOrder
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomPanel)

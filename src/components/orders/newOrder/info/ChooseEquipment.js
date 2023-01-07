@@ -6,7 +6,7 @@ import {
   addAnotherEquipment,
   deleteDevice,
 } from '../../../../Redux/actions'
-import { icon_trush } from '../../../../data/icons'
+import { ICON } from '../../../../data/icons'
 
 import LabelInputOrder from './LabelInputOrder'
 import SetOrderBrand from './SetOrderBrand'
@@ -105,7 +105,7 @@ const ChooseEquipment = (props) => {
                     onClick={() => props.deleteDevice(idx)}
                   >
                     <svg className="icon-table-red-basket" viewBox="0 0 32 32">
-                      <path d={icon_trush} />
+                      <path d={ICON.TRASH} />
                     </svg>
                   </div>
                 </div>

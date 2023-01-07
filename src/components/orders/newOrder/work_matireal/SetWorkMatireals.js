@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom'
 
 import {changeVisibleState} from '../../../../Redux/actions'
 import {createOperation} from '../../../../Redux/actions/operationActions'
-import {icon_barcode} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 
 import OperationEditor from './OperationEditor'
 import Icon from '../../../general/Icon'
@@ -118,7 +118,7 @@ const SetWorkMatireals = (props) => {
                         className='addPartsBox'
                         onClick={handleNewWriteOf}
                     >
-                        <Icon icon={icon_barcode} className='icon-s1'/>
+                        <Icon icon={ICON.BARCODE} className='icon-s1'/>
                         <div className='ml10'>Со склада</div>
                     </div>
                 </div>

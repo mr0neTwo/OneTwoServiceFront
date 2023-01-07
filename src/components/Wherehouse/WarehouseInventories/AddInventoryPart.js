@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {changeVisibleState} from '../../../Redux/actions'
 import {addRemain, changeRemainState} from '../../../Redux/actions/remainAction'
 import {changeInventoryState} from '../../../Redux/actions/actionInventory'
-import {icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 
@@ -61,7 +61,7 @@ const AddInventoryPart = (props) => {
                     />
                     <Icon
                         className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
+                        icon={showList ? ICON.LEFT : ICON.DOWN}
                     />
                 </div>
                 {showList ?

@@ -1,4 +1,4 @@
-import {service_table_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 import {includesObject} from '../../components/general/utils'
 
 const initialState = {
@@ -23,7 +23,7 @@ const initialState = {
    seted_categiry: null,
 
 
-   chosed_fields: JSON.parse(localStorage.getItem('chosed_fields')) || service_table_headers
+   chosed_fields: JSON.parse(localStorage.getItem('chosed_fields')) || Table.Fields.Service
 }
  
 export const dictServiceReducer = (state = initialState, action) => {

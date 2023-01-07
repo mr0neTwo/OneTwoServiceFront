@@ -21,7 +21,7 @@ const SettingEmployees = (props) => {
 
     return (
         <div className='settingContent'>
-            <div className='Header'>
+            <div className='header'>
                 <span className='headerTitle'>Сотрудники</span>
             </div>
             <div className='settingPageBody'>

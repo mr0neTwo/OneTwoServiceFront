@@ -1,21 +1,33 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 
-import MenuRow from './MenuRow'
+import Icon from '../general/Icon'
 
 
-function MenuGroup({group}) {
+function MenuGroup(props) {
 
     return (
-
-            <div>
-                {group.map(row => {
+        <div>
+            {props.group.map(row => {
                     return (
-                        <MenuRow row = {row} key = {row.id}/>
-                        )
-                    }
-                )
+                        <NavLink
+                            key={row.id}
+                            className="menu-row"
+                            activeClassName="menu-row-active"
+                            to={row.url}
+                            style={{borderLeftColor: props.color}}
+                        >
+                            <Icon
+                                className='icon-16'
+                                icon={row.icon}
+                            />
+                            <span className="secondary cur-p">{row.title}</span>
+                        </NavLink>
+                    )
                 }
-            </div>
-    )}
-   
+            )}
+        </div>
+    )
+}
+
 export default MenuGroup

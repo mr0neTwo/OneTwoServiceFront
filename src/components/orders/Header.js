@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import {changeFilterState, resetFilter} from '../../Redux/actions/filterAction'
+import {ICON} from '../../data/icons'
+
+import Icon from '../general/Icon'
 
 
 const Header = props => {
 
-   const [search, setSearch] = useState('')
+    const [search, setSearch] = useState('')
 
     const handleChange = event => {
         setSearch(event.target.value)
@@ -16,30 +19,48 @@ const Header = props => {
     const handleSearch = (event) => {
         if (event.key !== 'Enter') return
         event.preventDefault()
-        if(!props.filter.active_badge) props.resetFilter()
+        if (!props.filter.active_badge) props.resetFilter()
         if (event.key === 'Enter') props.changeFilterState({search})
     }
 
     return (
-        <div className = 'Header'>
-            <div className = 'headerTitle'>Заказы</div>
-            <div className = 'imputSearch'>
-                <form>
-                    <input 
-                        className = 'imputSearchForm' 
-                        placeholder = 'Минимум 3 символа'
-                        onChange={event => handleChange(event)}
-                        onKeyPressCapture={event => handleSearch(event)}
-                        value = {search}
+        <div className='header'>
+            <div className='row g12 ai-c'>
+                <h3>Заказы</h3>
+                <div className='row g3 ai-c'>
+                    <Icon
+                        className='icon-20'
+                        icon={ICON.MAP_PIN}
+                        color='var(--dark-success)'
                     />
-                </form>
+                    <h3 className='ml5'>Бабушкина</h3>
+                    <Icon
+                        className='icon-24'
+                        icon={ICON.DOWN}
+                        color='var(--dark-main)'
+                    />
+                </div>
+            </div>
+            <div className='input-container w200'>
+                <Icon
+                    className='icon-16'
+                    icon={ICON.SEARCH}
+                    color='var(--dark-secondary)'
+                />
+                <input
+                    placeholder='Минимум 3 символа'
+                    onChange={event => handleChange(event)}
+                    onKeyPressCapture={event => handleSearch(event)}
+                    value={search}
+                />
             </div>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    filter: state.filter
+    filter: state.filter,
+    // color: state.data.current_branch.icon.color
 })
 
 const mapDispatchToProps = {
@@ -47,4 +68,4 @@ const mapDispatchToProps = {
     resetFilter
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

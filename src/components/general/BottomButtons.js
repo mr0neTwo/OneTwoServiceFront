@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {icon_trush, icon_spinner} from '../../data/icons'
+import {ICON} from '../../data/icons'
 
 /**
  * Кнопки сниза панели редактора
@@ -46,7 +46,7 @@ const BottomButtons = (props) => {
     const buttonDelete = props.delete ? (
         <div id='deleteButton' className="whiteButton simbolBotton" onClick={props.delete}>
             <svg className="icon-table-red-basket" viewBox="0 0 32 32">
-                <path d={icon_trush}/>
+                <path d={ICON.TRASH}/>
             </svg>
         </div>
     ) : null
@@ -57,7 +57,7 @@ const BottomButtons = (props) => {
             onClick={props.recover}
         >
             <svg className="icon-recover" viewBox="0 0 32 32">
-                <path d={icon_spinner}/>
+                <path d={ICON.SPINNER}/>
             </svg>
             Восстановить
         </div>

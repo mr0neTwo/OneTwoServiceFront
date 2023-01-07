@@ -3,15 +3,7 @@ import {connect} from 'react-redux'
 
 
 import Icon from '../../../../general/Icon'
-import {
-    icon_arrow_down,
-    icon_arrow_right,
-    icon_briefcase,
-    icon_bubble,
-    icon_bug,
-    icon_calendar, icon_coin_dollar
-} from '../../../../../data/icons'
-import {icon_letter, icon_loop, icon_pencil, icon_trush, icon_user} from '../../../../../data/icons'
+import {ICON} from '../../../../../data/icons'
 import {compareDates, showDate} from '../../../../general/utils'
 
 
@@ -19,16 +11,16 @@ const EventSimple = props => {
 
     const chooseIcon = (event_type) => {
         let list_type = ['ASSIGN_ENGINEER', 'CHANGE_ENGINEER', 'ASSIGN_MANAGER', 'CHANGE_MANAGER', 'ADD_CLIENT', 'CHANGE_CLIENT']
-        if (list_type.includes(event_type)) return icon_user
-        if (event_type === 'CHANGE_ESTIMATED_DONE_AT') return icon_calendar
-        if (event_type === 'ADD_OPERATION') return icon_briefcase
-        if (event_type === 'ADD_ORDER_PART') return icon_bug
-        if (['DELETE_OPERATION', 'DELETE_ORDER_PART', 'DELETE_PAYMENT'].includes(event_type)) return icon_trush
-        if (['ADD_COMMENT', 'SEND_SMS'].includes(event_type)) return  icon_bubble
-        if (event_type === 'SEND_EMAIL') return icon_letter
-        if (event_type === 'MOVE_TO') return icon_loop
-        if (event_type === 'ADD_PAYMENT') return icon_coin_dollar
-        return icon_pencil
+        if (list_type.includes(event_type)) return ICON.USER
+        if (event_type === 'CHANGE_ESTIMATED_DONE_AT') return ICON.CALENDAR
+        if (event_type === 'ADD_OPERATION') return ICON.BRIEFCASE
+        if (event_type === 'ADD_ORDER_PART') return ICON.BUG
+        if (['DELETE_OPERATION', 'DELETE_ORDER_PART', 'DELETE_PAYMENT'].includes(event_type)) return ICON.TRASH
+        if (['ADD_COMMENT', 'SEND_SMS'].includes(event_type)) return  ICON.BUBBLE
+        if (event_type === 'SEND_EMAIL') return ICON.LETTER
+        if (event_type === 'MOVE_TO') return ICON.LOOP
+        if (event_type === 'ADD_PAYMENT') return ICON.COIN_DOLLAR
+        return ICON.PENCIL
     }
 
     const checkLength = (event) => {
@@ -95,7 +87,7 @@ const EventSimple = props => {
                             {event.current && event.current.title ?
                                 <Icon
                                     className='icon-sm8 mlr5'
-                                    icon={checkLength(event) ? icon_arrow_down : icon_arrow_right}
+                                    icon={checkLength(event) ? ICON.ARROW_DOWN : ICON.ARROW_RIGHT}
                                 /> : null}
                             <div style={{whiteSpace: "pre-wrap"}}>{event.new.title}</div>
                         </div>

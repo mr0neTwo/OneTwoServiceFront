@@ -1,30 +1,33 @@
-
 import React, { useEffect, useState, useRef } from 'react'
 
 import Checkbox from './Checkbox'
-import {icon_down, icon_table} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import Icon from './Icon'
 import {includesObject} from './utils'
+import Button from './Button'
 
 
 /**
  * Меню выбора полей таблицы для отображения
- *
- * id='id' // id компонента
- *
- * className='className' // Класс оболочки компонента
- *
- * height='200px' // Высота компонента
- *
- * list={props.list} // Список всех полей таблицы
- *
- * checked_list={props.checked_list} // Список выбраных палей таблицы
- *
- * func={() => console.log('choose element')} // функция выбора элементов
- *
- * field='table_headers' // имя поля в редюссере списка выбраных полей таблицы
- *
+ * @component
+ * @example
+ * <TableFields
+ * id='id'
+ * className='className'
+ * list={props.list}
+ * checked_list={props.checked_list}
+ * func={() => console.log('choose element')}
+ * field='table_headers'
  * invisible={false}
+ * />
+ *
+ * id - id компонента
+ * className - Стиль контейнера компонента
+ * list - Список всех полей таблицы
+ * checked_list - Список выбраных палей таблицы
+ * func - функция выбора элементов
+ * field - имя поля в редюссере списка выбраных полей таблицы default-table_headers
+ * invisible - не отображать элемент
  *
  * @returns {JSX.Element}
  */
@@ -71,66 +74,48 @@ const TableFields = (props) => {
    if (props.invisible) return <div/>
 
    return (
-      <div 
-         id={`tableFields${props.id}`}
-         style={{width: '67px', height: '26px'}}
-         className={`tableFields ml10 ${props.className}`}
-      >
-         <div 
-            className='chooseFieldButton pd1'
-            onClick = {()=> setListVisible(!listVisible)}
-         >
-            <div className='cl11'>
-               <Icon icon={props.icon || icon_table} className='icon-table'/>
-            </div>
-            <div className='cl12'>
-                  <Icon icon={icon_down} className='icon-table'/>
-            </div>
-         </div>
+       <div
+           id={`tableFields${props.id}`}
+           className={`table-field-container ${props.className}`}
+       >
+          <Button
+              size='small'
+              type='secondary'
+              onClick={() => setListVisible(!listVisible)}
+              icon={ICON.TABLE}
+              iconClassName='icon-16'
+          />
+          {listVisible ?
+              <div className='drop-list'>
+                 <div className='table-field'>
+                    <div className='nowrap'>Поля таблицы</div>
+                    <Icon className='icon-16' icon={ICON.TABLE}/>
+                 </div>
+                 <div className='drop-items pd5 colm g6'>
+                    {props.list.map(field => {
+                       return (
+                           <div
+                               key={field.id}
+                               className='options'
+                           >
+                              <Checkbox
+                                  id={field.id}
+                                  className='ml10'
+                                  type='slide-one'
+                                  label={field.title}
+                                  onChange={() => props.func([field], props.field || 'table_headers', true)}
+                                  checked={includesObject(field, props.checked_list)}
+                              />
+                           </div>
+                       )
+                    })}
+                 </div>
 
-         {listVisible ?
-            <div 
-               className={props.classNameMenu}
-               style={{ minHeight : props.height}}
-            >
-               
-                  <div className='checkbox'>
-                     <input 
-                        ref={ mainCheckbox }
-                        type='checkbox' 
-                        onChange={() => props.func(props.list, props.field || 'table_headers')}
-                        disabled={props.disabled}
-                     />
-                     <label>Все</label>
-                  </div>
-                  
-            {props.list.map(field => {
-               return(
-               <div
-                  key={field.id}
-                  className='options'
-               >
-                  <Checkbox
-                     className='ml10'
-                     label={field.title}
-                     onChange={() => props.func([field], props.field || 'table_headers', true)}
-                     checked={includesObject(field, props.checked_list)}
-                  />
-                  
-               </div>
-            )})}
-         </div> : null}
-      </div> 
+              </div> : null}
+
+       </div>
    )
 }
 
   
  export default TableFields
-
-// id='id'
-// className='className'
-// height='200px'
-// list={props.list}
-// checked_list={props.checked_list}
-// func={() => console.log('choose element')}
-// field='field'

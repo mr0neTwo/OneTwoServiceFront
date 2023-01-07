@@ -1,20 +1,20 @@
 import React from 'react'
-import {icon_checkmarker, icon_cross, icon_warning} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import Icon from '../general/Icon'
 
 const Alert = (props) => {
 
     let icon, color
     if (props.type === 'alert-success') {
-        icon = icon_checkmarker
+        icon = ICON.CHECK_MARKER
         color = '#155724'
     }
     if (props.type === 'alert-warning') {
-        icon = icon_warning
+        icon = ICON.WARNING
         color = '#856404'
     }
     if (props.type === 'alert-danger') {
-        icon = icon_cross
+        icon = ICON.CROSS
         color = '#721c24'
     }
 

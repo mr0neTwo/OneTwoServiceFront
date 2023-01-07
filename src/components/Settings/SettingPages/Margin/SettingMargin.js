@@ -20,7 +20,7 @@ const SettingMargin = (props) => {
     return (
         <div className='settingContent'>
 
-            <div className='Header'>
+            <div className='header'>
                 <span className='headerTitle'>Цены и скидки</span>
             </div>
 

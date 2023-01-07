@@ -5,7 +5,7 @@ import {changeWarehouseForm, editWarehouseCategory} from '../../../Redux/actions
 import {setVisibleFlag} from '../../../Redux/actions'
 import {changePartState} from '../../../Redux/actions/partAction'
 
-import { icon_down, icon_right} from '../../../data/icons'
+import { ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 import WarehouseCategory from './WarehouseCategory'
@@ -50,7 +50,7 @@ const CategoryTable = props => {
                     onClick= {() => handleChooseMain(mainCategory) }
                 >
                     <td className='row w100 pd5'>
-                        <Icon className='icon-s1' icon={visibleList ? icon_down : icon_right}/>
+                        <Icon className='icon-s1' icon={visibleList ? ICON.DOWN : ICON.RIGHT}/>
                         <div className='noWr'>{mainCategory.title}</div>
                     </td>
                     <td className='w70 pd5 tac'>{mainCategory.count}</td>

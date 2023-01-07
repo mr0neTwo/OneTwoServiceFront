@@ -50,7 +50,7 @@ const OrderEditor = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('addOrder') &&
+            !event.path.map((el) => el.id).includes('newOrder') &&
             !event.path.map((el) => el.id).includes('clientEditor') &&
             !event.path.map((el) => el.id).includes('createNewOrder') &&
             !event.path.map((el) => el.id).includes('paymentsEditorWiondow') &&

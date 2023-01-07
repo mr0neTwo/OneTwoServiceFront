@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {changeVisibleState} from '../../../../Redux/actions'
 import {createEquipmentType, addEquipmentType, changeBookState} from '../../../../Redux/actions/bookActions'
 import {changeOrderState} from '../../../../Redux/actions/orderActions'
-import {icon_cancel, icon_down} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 
 const SetOrderGroupe = (props) => {
@@ -74,10 +74,10 @@ const SetOrderGroupe = (props) => {
                 />
                 {settled && props.permissions.includes('edit_info_orders') ?
                     <div onClick={reset}>
-                        <Icon icon={icon_cancel} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon-close'/>
                     </div>
                     :
-                    <Icon icon={icon_down} className='icon-s2'/>
+                    <Icon icon={ICON.DOWN} className='icon-s2'/>
                 }
             </button>
             {!props.view.checkedOrderKindofGood ?

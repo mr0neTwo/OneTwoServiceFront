@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {createEquipmentModel, addEquipmentModel, changeBookState} from '../../../../Redux/actions/bookActions'
-import {icon_cancel, icon_close, icon_down} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 import {changeOrderState} from '../../../../Redux/actions/orderActions'
 
@@ -67,10 +67,10 @@ const SetOrderModel = (props) => {
                 />
                 {seted && props.permissions.includes('edit_info_orders') ?
                     <div onClick={reset}>
-                        <Icon icon={icon_cancel} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon-close'/>
                     </div>
                     :
-                    <Icon icon={icon_down} className='icon-s2'/>
+                    <Icon icon={ICON.DOWN} className='icon-s2'/>
                 }
             </button>
             {visibleList && !disabled ? (

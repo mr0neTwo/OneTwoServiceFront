@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import {changePartProperty, deletePartProperty} from '../../../Redux/actions/partAction'
 import Icon from '../../general/Icon'
-import {icon_trush} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 const Property = (props) => {
 
@@ -57,7 +57,7 @@ const Property = (props) => {
             <td
                 onClick={disabled ? null : () => props.deletePartProperty(props.idx)}
             >
-                <Icon icon={icon_trush} className='icon-s1'/>
+                <Icon icon={ICON.TRASH} className='icon-s1'/>
             </td>
 
         </tr>

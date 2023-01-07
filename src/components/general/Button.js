@@ -24,16 +24,17 @@ import Icon from './Icon'
  * iconColor='black' // Цвет Иконки
  */
 const Button = (props) => {
+
    return props.invisible ? (<div/>) : (
       <button
          id={props.id}
-         className={props.invisible ? 'disabledButton' : props.className}
+         className={`bt f-med bt-${props.size} bt-${props.type}`}
          onClick={props.onClick}
-         disabled={props.invisible || props.disabled}
+         disabled={props.disabled}
       >
-          <div className='row'>
+          <div className='row g10'>
               {props.icon ? <Icon icon={props.icon} className={props.iconClassName} color={props.iconColor}/> : null}
-              {props.title ? <div className='ml5'>{props.title}</div> : null}
+              {props.title ? <div>{props.title}</div> : null}
           </div>
       </button>
    )

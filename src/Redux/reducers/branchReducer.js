@@ -1,4 +1,4 @@
-import {icon_location} from "../../data/icons"
+import {ICON} from "../../data/icons"
 
 const initialState = {
     branches: [],
@@ -9,7 +9,7 @@ const initialState = {
     address: '',
     phone: '',
     color: 'grey',
-    icon: icon_location,
+    icon: ICON.LOCATION,
     orders_type_id: 1,
     orders_type_strategy: 'last',
     orders_prefix: 'OTS',
@@ -102,7 +102,7 @@ export const branchReducer = (state = initialState, action) => {
                 address: '',
                 phone: '',
                 color: 'grey',
-                icon: icon_location,
+                icon: ICON.LOCATION,
                 orders_type_id: 1,
                 orders_type_strategy: 'last',
                 orders_prefix: 'OTS',

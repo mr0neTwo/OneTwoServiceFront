@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { icon_burn, icon_clock } from '../../../data/icons'
+import { ICON} from '../../../data/icons'
 import { setVisibleFlag } from '../../../Redux/actions'
 import Icon from '../../general/Icon'
 import StatusList from '../StatusList'
@@ -10,8 +10,8 @@ import PaymentsEditor from '../../Payments/PaymentsEditor'
 const TitleOrderEditor = (props) => {
 
   const iconBr = props.current_branch ? <Icon icon={props.current_branch.icon} color={props.current_branch.color} className='icon-sm8'/> : null
-  const iconB = props.order.urgent ? <Icon icon={icon_burn} color='red' className='icon-sm8'/> : null
-  const iconC = (!props.order.overdue && props.order.status.group < 4) ? <Icon icon={icon_clock} color='#f0ad4e' className='icon-sm8'/> : null
+  const iconB = props.order.urgent ? <Icon icon={ICON.BURN} color='red' className='icon-sm8'/> : null
+  const iconC = (!props.order.overdue && props.order.status.group < 4) ? <Icon icon={ICON.CLOCK} color='#f0ad4e' className='icon-sm8'/> : null
 
    return (
 

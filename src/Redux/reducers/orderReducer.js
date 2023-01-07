@@ -1,5 +1,8 @@
 import {order_event_types} from '../../data/data'
-import dataTableHeader from '../../data/dataTableHeader'
+import {Table} from '../../data/tableHeaders'
+import {includesObject} from '../../components/general/utils'
+
+const key = 'order_'
 
 const initialState = {
 
@@ -16,7 +19,7 @@ const initialState = {
     closed_at: 0,
     assigned_at: 0,
     duration: 0,
-    estimated_done_at: parseInt(Date.now() / 1000) + 4 * 24 * 3600,
+    estimated_done_at: Math.round(Date.now() / 1000) + 4 * 24 * 3600,
     scheduled_for: 0,
     warranty_date: 0,
     status_deadline: 0,
@@ -65,10 +68,10 @@ const initialState = {
     urgent: false,
     warranty_measures: false,
 
-    event_filter: JSON.parse(localStorage.getItem('event_filter')) || order_event_types.map(event => event.id),
+    event_filter: JSON.parse(localStorage.getItem(key + 'event_filter')) || order_event_types.map(event => event.id),
     event_comment: '',
 
-    tableFields: JSON.parse(localStorage.getItem('tableFields')) || dataTableHeader,
+    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || Table.Fields.Order,
 
     position_cursor: 0,
     position_over: null
@@ -78,6 +81,10 @@ export const orderReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case 'CHANGE_ORDER_STATE': {
+            const session_save = ['table_headers', 'event_filter']
+            Object.keys(action.data).forEach(field => {
+                if (session_save.includes(field)) sessionStorage.setItem(key + field, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 
@@ -85,15 +92,15 @@ export const orderReducer = (state = initialState, action) => {
             // Обявим переменную для изменных данных
             let new_data
             // Проверим если значения value в списке уже существующих
-            if (action.value.every(val => state[action.field].includes(val))) {
+            if (action.value.every(val => includesObject(val, state[action.field]))) {
                 // Если есть удалим эти значения
-                new_data = state[action.field].filter(val => !action.value.includes(val))
+                new_data = state[action.field].filter(val => !includesObject(val, action.value))
             } else {
                 // Если нет добавим эти значения
-                new_data = state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
+                new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem(key + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
             return {
                 ...state,

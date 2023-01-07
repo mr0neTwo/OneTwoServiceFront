@@ -5,7 +5,7 @@ import {changeVisibleState} from '../../../../Redux/actions'
 import {cteateEquipmentSubtype, addEquipmentSubtype, changeBookState} from '../../../../Redux/actions/bookActions'
 import {changeOrderState} from '../../../../Redux/actions/orderActions'
 
-import {icon_cancel, icon_close, icon_down} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 import Subtype from './Subtype'
 import Icon from '../../../general/Icon'
 
@@ -74,10 +74,10 @@ const SetOrderSubtype = (props) => {
                 />
                 {seted && props.permissions.includes('edit_info_orders') ?
                     <div onClick={reset}>
-                        <Icon icon={icon_cancel} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon-close'/>
                     </div>
                     :
-                    <Icon icon={icon_down} className='icon-s2'/>
+                    <Icon icon={ICON.DOWN} className='icon-s2'/>
                 }
             </button>
             {!props.view.checkedOrderSubtype ?

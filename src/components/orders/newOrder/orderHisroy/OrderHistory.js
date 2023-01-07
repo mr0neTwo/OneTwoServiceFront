@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {selectedOrder} from '../../../../Redux/actions/orderActions'
 import {order_event_types} from '../../../../data/data'
-import {icon_filter} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 
 import OrderPrint from './OrderPrint'
 import OrderEvents from './OrderEvetns/OrderEvents'
@@ -26,7 +26,7 @@ const OrderHistory = props => {
                     checked_list={props.order.event_filter}
                     func={props.selectedOrder}
                     field='event_filter'
-                    icon={icon_filter}
+                    icon={ICON.FILTER}
                 />
             </div>
             {props.order.events.length ? <OrderEvents/> : null}

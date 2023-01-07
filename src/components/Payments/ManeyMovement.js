@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {addPayments, changePaymentState} from '../../Redux/actions/paymentAction'
-import {icon_stats_docs} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import Icon from '../general/Icon'
 import TablePayments from './TablePayments';
 import Checkbox from '../general/Checkbox';
@@ -24,7 +24,7 @@ const ManeyMovement = (props) => {
         <div className='ml30 w100'>
 
             <div className='row'>
-                <Icon icon={icon_stats_docs}/>
+                <Icon icon={ICON.STATS_DOCS}/>
                 <h3 className='ml5'>{`Движение денег по кассе "${props.current_cashbox ? props.current_cashbox.title : ''}"`}</h3>
             </div>
             <div className='row'>

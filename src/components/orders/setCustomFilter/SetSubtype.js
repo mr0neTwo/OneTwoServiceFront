@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import { addEquipmentSubtype, changeBookState} from '../../../Redux/actions/bookActions'
 import {changeFilterState} from '../../../Redux/actions/filterAction'
-import {icon_cancel, icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 import Icon from '../../general/Icon'
 
 const SetSubtype = props => {
@@ -69,10 +69,10 @@ const SetSubtype = props => {
                 />
                 {settled ?
                     <div onClick={reset}>
-                        <Icon icon={icon_cancel} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon-close'/>
                     </div>
                     :
-                    <Icon icon={visibleList ? icon_down : icon_left} className='icon-s2'/>
+                    <Icon icon={visibleList ? ICON.DOWN : ICON.LEFT} className='icon-s2'/>
                 }
             </button>
             {visibleList ?

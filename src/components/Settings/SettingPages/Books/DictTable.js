@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { chooseBookSelected } from '../../../../Redux/actions/bookActions'
 import Checkbox from '../../../general/Checkbox'
-import { icon_trush } from '../../../../data/icons'
+import { ICON } from '../../../../data/icons'
 
 const DictTable = (props) => {
 
@@ -37,7 +37,7 @@ const DictTable = (props) => {
             <div className='row'>
                <div className="whiteButton simbolBotton" onClick={props.delete}>
                   <svg className="icon-table-red-basket" viewBox="0 0 32 32">
-                     <path d={icon_trush} />
+                     <path d={ICON.TRASH} />
                   </svg>
                </div>
                <div>Выбрано - {props.selected.length}</div>

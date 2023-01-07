@@ -1,25 +1,33 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
 import {changeDataState} from '../../Redux/actions/dataAction'
+import Icon from './Icon'
+import {ICON} from '../../data/icons'
 
 
 /**
+ * Заголовок таблицы (ячейка)
+ * @component
+ * @example
+ * <TableHeader
+ * header={header}
+ * headers={props.headers}
+ * changeState={state_object => console.log(state_object)}
+ * field='table_headers'
+ * title_field_sort='sort_field'
+ * title_sort='sort'
+ * title_sort_field={props.sort_field}
+ * sort={props.sort}
+ * />
  *
- * header={header} // oбъект заголовка
- *
- * headers={props.headers} // список всех выбранных заголовков
- *
- * changeState={props.changeState} // функция изменения state текущего редюсера
- *
- * field='table_field' // поле выбранных заголовков таблицы
- *
- * title_field_sort='sort_field' // поле типа сортировки
- *
- * title_sort='sort' // поле типп сортировки
- *
- * title_sort_field={props.sort_field} // значение поля сортировки
- *
- * sort={props.sort} // значение типа сортировки
+ * header - oбъект заголовка
+ * headers - список всех выбранных заголовков
+ * changeState - функция изменения state текущего редюсера
+ * field - поле выбранных заголовков таблицы default='table_headers'
+ * title_field_sort - поле типа сортировки
+ * title_sort - поле типп сортировки
+ * title_sort_field - значение поля сортировки default='sort_field'
+ * sort - значение типа сортировки
  *
  */
 
@@ -87,14 +95,10 @@ const TableHeader = (props) => {
     }
 
     return (
-        <th
-            className='tableColumnHeader'
-            // style={{minWidth: `${columnWidth}px`}}
-            style={{width: `${columnWidth}px`}}
-        >
-            <div className='row'>
+        <th style={{maxWidth: `${columnWidth}px`}} >
+            <div className='table-header-container'  >
                 <div
-                    className='ml5 w100'
+                    className='nowrap'
                     draggable
                     onClick={!props.changeState ? null : () => props.changeState({
                         [props.title_sort_field || 'sort_field']: props.header.field,
@@ -110,10 +114,14 @@ const TableHeader = (props) => {
                 {props.headers ?
                     <div className='row'>
                         <div
-                            style={{height: '40px'}}
-                            className='curResize'
+                            className='cur-resize'
                             onMouseDown={handleDragStart}
-                        />
+                        >
+                            <Icon
+                                icon={ICON.RESIZE}
+                                className='icon-16'
+                            />
+                        </div>
                         <div
                             style={{display: props.data.position_over === props.header.order ? 'block' : 'none'}}
                             className='dragOver'

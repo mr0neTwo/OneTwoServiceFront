@@ -2,15 +2,12 @@ import React, {useEffect, useMemo, useRef} from 'react'
 import {connect} from 'react-redux'
 
 
-import {addOrders, editOrder, getOrder, resetOrder} from '../../Redux/actions/orderActions'
+import {addOrders, changeOrderState, editOrder, getOrder, resetOrder} from '../../Redux/actions/orderActions'
 import {changeVisibleState, initStatusMenuVisibleAction} from '../../Redux/actions'
 import {changeBookState} from '../../Redux/actions/bookActions'
 
-import Loader from '../Loader/Loader'
 import Create from './cell/Create'
-import Lable from './cell/Lable'
 import EstimatedDone from './cell/EstimatedDone'
-import TableHeader from './TableHeader'
 import Status from './cell/Status'
 import KindOfGood from './cell/KindOfGood'
 import Brand from './cell/Brand'
@@ -20,8 +17,6 @@ import Client from './cell/Client'
 import Price from './cell/Price'
 import EngineerNotes from './cell/EngineerNotes'
 import Equipment from './cell/Equipment'
-import OrderEditor from './newOrder/OrderEditor'
-import PaymentsEditor from '../Payments/PaymentsEditor'
 import StikerToPrint from './newOrder/orderHisroy/StikerToPrint'
 import Subtype from './cell/Subtype'
 import Manager from './cell/Manager'
@@ -29,6 +24,10 @@ import MissedPayments from './cell/MissedPayments'
 import ManagerNotes from './cell/ManagerNotes'
 import Cell from './cell/Cell'
 import AdCampaign from './cell/AdCampaign'
+import TableHeader from '../general/TableHeader'
+import Label from '../general/cell/Label'
+import Loader from '../Loader/Loader'
+import CreateAt from '../general/cell/CreateAt'
 
 
 const TableOrders = props => {
@@ -59,15 +58,18 @@ const TableOrders = props => {
         }
     }
 
-    const tFields = useMemo(() => props.order.tableFields.filter(header => header.visible), [props.order, props.order.tableFields])
-
-    const table_order = useRef(null)
-
     const chooseCell = (field, order) => {
         switch (field.id) {
 
-            case 1: return <Lable key={field.id} order={order}/>
-            case 2: return <Create key={field.id} order={order}/>
+            case 1: return (
+                <Label
+                    key={field.id}
+                    label={order.id_label}
+                    func={() => props.getOrder(order.id)}
+                    urgent={order.urgent}
+                />
+            )
+            case 2: return <CreateAt key={field.id} creator={order.created_by.name} date={order.created_at}/>
             case 3: return <EstimatedDone key={field.id} order={order}/>
             case 4: return <Status key={field.id} order={order}/>
             case 5: return <Equipment key={field.id} order={order}/>
@@ -90,15 +92,20 @@ const TableOrders = props => {
 
     if (props.employees) {
         return (
-            <div className="tableOrdersBox">
-                <table id="tableOrders" ref={table_order}>
+            <div className="table-orders-container mt5">
+                <table>
                     <thead className="tableThead">
                     <tr>
-                        {tFields.map(header => (
+                        {props.order.table_headers.map(header => (
                             <TableHeader
                                 key={header.id}
-                                data={header}
-                                tableHeight={table_order.current ? table_order.current.offsetHeight : 40}
+                                header={header}
+                                headers={props.order.table_headers}
+                                changeState={props.changeOrderState}
+                                // title_field_sort='sort_field'
+                                // title_sort='sort'
+                                // title_sort_field={props.sort_field}
+                                // sort={props.sort}
                             />
                         ))}
                     </tr>
@@ -110,14 +117,12 @@ const TableOrders = props => {
                             className="orderTableRows"
                             onDoubleClick={() => handleEdit(order)}
                         >
-                            {tFields.map(header => chooseCell(header, order))}
+                            {props.order.table_headers.map(header => chooseCell(header, order))}
                         </tr>
                     ))}
                     </tbody>
                 </table>
-                {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
                 {props.view.statusOrderSticker ? <StikerToPrint onAfterPrint={afterPrint}/> : null}
-
             </div>
         )
     } else {
@@ -140,7 +145,8 @@ const mapDispatchToProps = {
     editOrder,
     changeBookState,
     resetOrder,
-    getOrder
+    getOrder,
+    changeOrderState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrders)

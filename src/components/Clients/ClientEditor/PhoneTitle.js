@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {changeClientEditorPhone} from '../../../Redux/actions/clientAction'
-import {icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 
@@ -34,7 +34,7 @@ const PhoneTitle = (props) => {
                 {props.idx === 0 ? <span className="redStar">*</span> : null}
                 <Icon
                     className='icon-s1'
-                    icon={listVisible ? icon_down : icon_left}
+                    icon={listVisible ? ICON.DOWN : ICON.LEFT}
                 />
             </div>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { icon_clock } from '../../../data/icons'
+import { ICON } from '../../../data/icons'
 import Icon from '../../general/Icon'
 import {showDate} from '../../general/utils'
 
@@ -22,7 +22,7 @@ const EstimatedDone = props => {
       {/* Вывожу иконку времени с цветовой зависимостью от статуса и времени просрочки */}
       <div className="estimated-top">
         <Icon 
-          icon={icon_clock} 
+          icon={ICON.CLOCK}
           className='clockEstimated'
           color={(!props.order.overdue && props.order.status.group < 4) ? '#f0ad4e' : '#ebebeb'}
         />

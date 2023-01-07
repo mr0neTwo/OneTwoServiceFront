@@ -5,7 +5,7 @@ import {changeClientState} from '../../../Redux/actions/clientAction'
 import ChooseButton from '../../general/ChooseButton'
 import Checkbox from '../../general/Checkbox'
 import Icon from '../../general/Icon'
-import {icon_angry, icon_truck} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 
 const TopCheckboxes = (props) => {
@@ -25,7 +25,7 @@ const TopCheckboxes = (props) => {
                 onChange={event => props.changeClientState({supplier: event.target.checked})}
                 checked={props.client.supplier}
                 iconClassName='icon-s1'
-                icon={icon_truck}
+                icon={ICON.TRUCK}
             />
             <Checkbox
                 className='ml10'
@@ -33,7 +33,7 @@ const TopCheckboxes = (props) => {
                 onChange={event => props.changeClientState({conflicted: event.target.checked})}
                 checked={props.client.conflicted}
                 iconClassName='icon-s1'
-                icon={icon_angry}
+                icon={ICON.ANGRY}
                 iconColor='#f74e4d'
             />
         </div>

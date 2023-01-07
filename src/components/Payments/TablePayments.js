@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {setVisibleFlag, setPayment} from '../../Redux/actions'
-import {icon_file_text, icon_warning} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import Icon from '../general/Icon'
 import {showDate} from '../general/utils'
 
@@ -65,7 +65,7 @@ const TablePayments = (props) => {
                                 <div title={`Платеж добавлен задним числом\n${showDate(payment.created_at)}`}>
                                     <Icon
                                         className='icon-s2 ml5'
-                                        icon={icon_warning}
+                                        icon={ICON.WARNING}
                                         color='red'
                                     />
                                 </div> : null}
@@ -75,7 +75,7 @@ const TablePayments = (props) => {
                         <div>{payment.description}{payment.client.name ?` (Клиент: ${payment.client.name})` : null }</div>
                         {payment.direction ?
                             <div className='row'>
-                                <Icon className='icon-s1' icon={icon_file_text} color='#acacac'/>
+                                <Icon className='icon-s1' icon={ICON.FILE_TEXT} color='#acacac'/>
                                 <div className='tac ml5 cgr'>{payment.cashflow_category}</div>
                             </div> : null}
                     </td>

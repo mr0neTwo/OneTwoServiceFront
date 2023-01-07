@@ -5,7 +5,7 @@ import { editCurrentClient, changeVisibleState} from '../../Redux/actions'
 import {addClients, changeClientState} from '../../Redux/actions/clientAction'
 import {showPhone} from './utils'
 import Icon from './Icon'
-import {icon_client, icon_down, icon_left} from '../../data/icons'
+import {ICON} from '../../data/icons'
 
 
 /**
@@ -71,7 +71,7 @@ const SetClient = (props) => {
                         <div>
                             <Icon
                                 className='icon-client'
-                                icon={icon_client}
+                                icon={ICON.CLIENT}
                             />
                             <span
                                 className='clientCardName'
@@ -125,7 +125,7 @@ const SetClient = (props) => {
                     </div>
                     <Icon
                         className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
+                        icon={showList ? ICON.LEFT : ICON.DOWN}
                     />
                 </div>
                 {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо выбрать'}</div> : null}

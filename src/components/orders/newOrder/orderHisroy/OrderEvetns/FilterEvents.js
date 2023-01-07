@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react'
 
-import {icon_filter, icon_down, icon_left} from '../../../../../data/icons'
+import {ICON} from '../../../../../data/icons'
 import Icon from '../../../../general/Icon'
 import Checkbox from '../../../../general/Checkbox'
 
@@ -51,8 +51,8 @@ const FilterEvents = props => {
                 className='optionsButton al-itm-ct'
                 onClick={() => setListVisible(!listVisible)}
             >
-                <Icon icon={icon_filter} className='icon-s2' color='#282e33'/>
-                <Icon icon={listVisible ? icon_down : icon_left} className='icon-s2' color='#282e33'/>
+                <Icon icon={ICON.FILTER} className='icon-s2' color='#282e33'/>
+                <Icon icon={listVisible ? ICON.DOWN : ICON.LEFT} className='icon-s2' color='#282e33'/>
             </div>
             {listVisible ?
                 <div

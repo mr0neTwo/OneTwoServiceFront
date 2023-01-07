@@ -1,5 +1,5 @@
 import {includesObject} from '../../components/general/utils'
-import { remain_headers} from '../../data/tableHeaders'
+import {Table, Tbale} from '../../data/tableHeaders'
 
 const initialState = {
 
@@ -33,7 +33,7 @@ const initialState = {
         {id: 2, title: 'Только в наличии'}
     ],
 
-    table_headers:  JSON.parse(localStorage.getItem('remain_table_headers')) || remain_headers,
+    table_headers:  JSON.parse(localStorage.getItem('remain_table_headers')) || Table.Fields.Remain,
     sort_field: 'id',
     sort: 'asc'
 }

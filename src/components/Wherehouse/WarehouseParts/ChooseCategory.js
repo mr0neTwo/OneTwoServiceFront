@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import {changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
 
-import {icon_down, icon_left, icon_right} from '../../../data/icons';
+import {ICON} from '../../../data/icons';
 
 import Icon from '../../general/Icon';
 import SelectCategory from './SelectCategory';
@@ -49,7 +49,7 @@ const ChooseCategory = (props) => {
                 onClick={() => setListVisible(!listVisible && !props.warehouse.category_deleted)}
             >
                 <div className='noWr'>{props.current_category ? props.current_category.title : ''}</div>
-                <Icon className='icon-s4' icon={listVisible ?  icon_left : icon_down}/>
+                <Icon className='icon-s4' icon={listVisible ?  ICON.LEFT : ICON.DOWN}/>
             </div>
             {listVisible && !props.disabled ?
                 <div
@@ -60,7 +60,7 @@ const ChooseCategory = (props) => {
                         className='row hovblue'
                     >
                         <div onClick={() => setCatVisible(!catVisible)}>
-                            <Icon className='icon-s1' icon={catVisible ? icon_down : icon_right}/>
+                            <Icon className='icon-s1' icon={catVisible ? ICON.DOWN : ICON.RIGHT}/>
                         </div>
                         <div onClick={() => handleChoose(mainCategory) }>{mainCategory.title}</div>
                     </div>
