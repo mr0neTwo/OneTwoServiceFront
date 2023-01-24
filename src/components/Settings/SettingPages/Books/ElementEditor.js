@@ -10,7 +10,7 @@ import ChooseOfList from '../../../general/ChooseOfList'
 
 const ElementEditor = (props) => {
   const clickHandel = (event) => {
-    if (!event.path.map((el) => el.id).includes('elementEditorWiondow')) {
+    if (!event.composedPath().map((el) => el.id).includes('elementEditorWiondow')) {
       props.setVisibleFlag('statusElementEditor', false)
     }
   }

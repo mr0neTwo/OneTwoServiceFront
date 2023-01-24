@@ -5,7 +5,7 @@ const initialState = {
     amount: 1,                  // Количество
     cost: 0,                    // Себестоимость
     discount_value: 0,          // Сумма скидки
-    engineer_id: 0,             // Инженер
+    engineer: {},               // Инженер
     price: 0,                   // Цена запчасти
     total: 0,                   // Итоговая сумма
     title: '',                  // Наименование запачасти
@@ -29,13 +29,6 @@ export const orderPartReducer = (state = initialState, action) => {
             return {...Object.assign(state, action.data)}
         }
 
-        case 'CHANGE_ORDER_PART_FORM': {
-            return {
-                ...state,
-                [action.field]: action.value
-            }
-        }
-
         case 'EDIT_ORDER_PART': {
             return {
                 ...state,
@@ -43,7 +36,7 @@ export const orderPartReducer = (state = initialState, action) => {
                 amount: action.order_part.amount,
                 cost: action.order_part.cost,
                 discount_value: action.order_part.discount_value,
-                engineer_id: action.order_part.engineer_id,
+                engineer: action.order_part.engineer,
                 price: action.order_part.price,
                 total: action.order_part.total,
                 title: action.order_part.title,
@@ -63,7 +56,7 @@ export const orderPartReducer = (state = initialState, action) => {
                 amount: 1,
                 cost: 0,
                 discount_value: 0,
-                engineer_id: 0,
+                engineer: {},
                 price: 0,
                 total: 0,
                 title: '',

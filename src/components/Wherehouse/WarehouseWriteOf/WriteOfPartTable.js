@@ -35,68 +35,75 @@ const WriteOfPartTable = (props) => {
     }
 
     if (!props.writeof.parts.length) {
-        return <div className='tempPage h90'>Выбере запчасть</div>
+        return <div className='empty_table'>Выбере запчасть</div>
     }
 
     return (
-        <table className='tableOrdersBox mt15'>
-           <thead>
-            <tr>
-                {props.writeof.inventory_id ? <th className='w15'/> : null}
-                <th>Наименование</th>
-                <th className='w70'>Адрес</th>
-                <th className='w70'>Количество</th>
-                {props.writeof.edit || props.writeof.inventory_id ? null : <th/>}
-            </tr>
-           </thead>
-            <tbody>
-            {props.writeof.parts.map((remain, idx) => (
-                <tr
-                    key={idx}
-                    className='fillcol'
-                >
-                    {props.writeof.inventory_id ?
-                        <td>
-                            <Checkbox
-                                onChange={event => handleCheck(idx, event.target.checked)}
-                                checked={remain.checked}
-                            />
-                        </td>
-                        : null}
-                    <td>
-                        <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
-                        <div className='orderDate noWr'>{remain.description}</div>
-                    </td>
-                    <td>{remain.cell}</td>
-                    {props.writeof.edit || props.writeof.inventory_id ?
-                        <td>
-                            <div className='tac ml5'>{remain.target_count}</div>
-                        </td>
-                        :
-                        <td>
-                        <div className='row'>
-                            <input
-                                className='w30'
-                                onChange={event => handleChange(event.target.value, idx)}
-                                value={props.writeof.parts[idx].target_count}
-                                disabled={props.writeof.edit}
-                            />
-                            <div className='ml5'>{`/ ${remain.count}`}</div>
-                        </div>
-                    </td>}
-
-                    {props.writeof.edit || props.writeof.inventory_id ? null :
-                    <td>
-                        <div className='row'>
-                            <div onClick={() => handleDelete(idx)}>
-                                <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
-                            </div>
-                        </div>
-                    </td>}
+        <div className='table'>
+            <table>
+               <thead>
+                <tr>
+                    {props.writeof.inventory_id ? <th className='th th_w15'/> : null}
+                    <th className='th'>Наименование</th>
+                    <th className='th th_w70'>Адрес</th>
+                    <th className='th th_w70'>Количество</th>
+                    {props.writeof.edit || props.writeof.inventory_id ? null : <th className='th th_w20'/>}
                 </tr>
-            ))}
-            </tbody>
-        </table>
+               </thead>
+                <tbody>
+                {props.writeof.parts.map((remain, idx) => (
+                    <tr
+                        key={idx}
+                        className='tr tr_tools'
+                    >
+                        {props.writeof.inventory_id ?
+                            <td className='td'>
+                                <Checkbox
+                                    id='id'
+                                    type='squared-five'
+                                    onChange={event => handleCheck(idx, event.target.checked)}
+                                    checked={remain.checked}
+                                />
+                            </td>
+                            : null}
+                        <td className='td'>
+                            <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
+                            <div className='cs cell_text'>{remain.description}</div>
+                        </td>
+                        <td className='td'>{remain.cell}</td>
+                        {props.writeof.edit || props.writeof.inventory_id ?
+                            <td className='td'>
+                                <div className='cell_text'>{remain.target_count}</div>
+                            </td>
+                            :
+                            <td>
+                            <div className='input td_input'>
+                                <input
+                                    className='w30'
+                                    onChange={event => handleChange(event.target.value, idx)}
+                                    value={props.writeof.parts[idx].target_count}
+                                    disabled={props.writeof.edit}
+                                />
+                                <div>{`/ ${remain.count}`}</div>
+                            </div>
+                        </td>}
+
+                        {props.writeof.edit || props.writeof.inventory_id ? null :
+                        <td className='td'>
+
+                            <div
+                                className='tr_set-button-delete'
+                                onClick={() => handleDelete(idx)}
+                            >
+                                <Icon className='icon' icon={ICON.TRASH}/>
+                            </div>
+
+                        </td>}
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
     )
 }
 

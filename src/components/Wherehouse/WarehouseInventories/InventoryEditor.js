@@ -23,10 +23,10 @@ const InventoryEditor = (props) => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('addInventory') &&
-            !event.path.map((el) => el.id).includes('writeOfEditor') &&
-            !event.path.map((el) => el.id).includes('registrationEditor') &&
-            !event.path.map((el) => el.id).includes('inventoryEditor')
+            !event.composedPath().map((el) => el.id).includes('addInventory') &&
+            !event.composedPath().map((el) => el.id).includes('writeOfEditor') &&
+            !event.composedPath().map((el) => el.id).includes('registrationEditor') &&
+            !event.composedPath().map((el) => el.id).includes('inventoryEditor')
         ) {
             handleClose()
         }

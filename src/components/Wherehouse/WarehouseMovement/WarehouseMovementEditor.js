@@ -32,9 +32,9 @@ const WarehouseMovementEditor = (props) => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('addMovement') &&
-            !event.path.map((el) => el.id).includes('newOrderPart') &&
-            !event.path.map((el) => el.id).includes('movementEditor')
+            !event.composedPath().map((el) => el.id).includes('addMovement') &&
+            !event.composedPath().map((el) => el.id).includes('newOrderPart') &&
+            !event.composedPath().map((el) => el.id).includes('movementEditor')
         ) {
             handleClose()
         }

@@ -3,13 +3,13 @@
 /* Шрифты*/
 @font-face {
   font-family: OpenSans;
-  src: url('./OpenSans-Light.ttf') format('truetype');
+  src: url('OpenSans-Light.ttf') format('truetype');
   font-style: normal;
   font-weight: normal;
 }
 @font-face {
   font-family: Inter;
-  src: url('./Inter-Light.otf') format('opentype');
+  src: url('Inter-Light.otf') format('opentype');
   font-style: normal;
   font-weight: normal;
 }
@@ -460,7 +460,7 @@ div.checkbox input[type='checkbox'] + label::before {
 
 div.checkbox input[type='checkbox']:checked + label::before {
   background-color: #ffffff;
-  background-image: url(checkmark.svg);
+  background-image: url(../svg/checkmark.svg);
   background-size: 10px;
   /* content:  "\e0fe"; */
 }
@@ -499,13 +499,13 @@ div.subCheckbox input[type='checkbox'] + label::before {
 
 div.subCheckbox input[type='checkbox']:checked + label::before {
   background-color: #ffffff;
-  background-image: url(checkmark.svg);
+  background-image: url(../svg/checkmark.svg);
   background-size: 10px;
 }
 
 div.checkbox input[type='checkbox']:indeterminate + label::before {
   background-color: #ffffff;
-  background-image: url(svg/minus.svg);
+  background-image: url(../svg/minus.svg);
   background-size: 10px;
 }
 
@@ -2606,7 +2606,7 @@ thead:hover {
 }
 
 .receiptBox:before {
-  background: url(zub.png) repeat-x;
+  background: url(../svg/zub.png) repeat-x;
   background-size: 8px 10px;
   bottom: -11px;
   content: "";

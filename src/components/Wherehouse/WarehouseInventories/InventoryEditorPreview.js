@@ -21,8 +21,8 @@ const InventoryEditorPreview = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('inventoryEditorPreview') &&
-            !event.path.map((el) => el.id).includes('addInventory')
+            !event.composedPath().map((el) => el.id).includes('inventoryEditorPreview') &&
+            !event.composedPath().map((el) => el.id).includes('addInventory')
         ) {
             handleClose()
         }

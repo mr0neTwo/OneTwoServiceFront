@@ -1,0 +1,64 @@
+
+.input-label {
+  position: relative;
+  //min-width: $formWight;
+  transition: color 1s;
+
+
+  &__label {
+    transition: color 1s;
+  }
+
+  &__input {
+    cursor: pointer;
+    transition: border-color 1s, color 1s;
+  }
+
+  &__text {
+    //color: var(--secondary);
+    width: 100%;
+    transition: color 1s;
+  }
+  &__red-star {
+    color: var(--error);
+    transition: color 1s;
+  }
+  &__unit {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 5px;
+    background-color: var(--disabled);
+    border-left: 1px solid var(--secondary);
+    border-radius: 0 $borderRadius $borderRadius 0;
+    transition: border-color 1s, color 1s;
+  }
+
+  &_unit {
+    .input { padding: 0 0 0 6px;}
+  }
+
+  &_focus {
+
+    .input-label__input {
+      border-color: var(--action-accent);
+    }
+    .input-label__unit {
+      border-color: var(--action-accent);
+      color:  var(--action-accent);
+    }
+    .textarea {
+      border-color: var(--action-accent);
+    }
+  }
+
+  &_error {
+    .label {
+      color: var(--error);
+    }
+    .input-label__input {
+      border-color: var(--error);
+    }
+  }
+
+}

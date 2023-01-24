@@ -24,7 +24,7 @@ const ServiceEditor = (props) => {
      }
    
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('serviceEditorWiondow')) {
+      if (!event.composedPath().map((el) => el.id).includes('serviceEditorWiondow')) {
          handleClose()
       }
    }

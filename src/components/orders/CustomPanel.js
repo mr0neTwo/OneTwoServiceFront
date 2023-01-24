@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 
-import {changeVisibleState, setVisibleFlag} from '../../Redux/actions'
+import {changeVisibleState} from '../../Redux/actions'
 import {changeFilterState} from '../../Redux/actions/filterAction'
 import {changeOrderState, selectedOrder} from '../../Redux/actions/orderActions'
 import {ICON} from '../../data/icons'
@@ -10,9 +10,10 @@ import CustomFilter from './CustomFilter'
 import SetFilter from './setCustomFilter/SetFilter'
 import Button from '../general/Button'
 import TableFields from '../general/TableFields'
-import {Table} from '../../data/tableHeaders'
 
 const CustomPanel = (props) => {
+
+    const [invisible, setInvisible] = useState('custom-filter_invisible')
 
     const newOrder = () => {
         // Посчитаем ориентировочную дату готовности
@@ -32,29 +33,30 @@ const CustomPanel = (props) => {
     }
 
     const handleEditFilter = () => {
-        props.setVisibleFlag('statusSetCustomFilter', 'change')
+        // props.changeVisibleState({statusSetCustomFilter: !props.statusSetCustomFilter})
+        setInvisible(invisible ? '' : 'custom-filter_invisible')
         props.changeFilterState({active_badge: 0,  active_filter: 0})
     }
 
     return (
+        <div>
         <div className='row jc-sb'>
-
                 <div className='custom-filters-container'>
                     <Button
                         id='newOrder'
-                        size='small'
+                        className='fw-bold'
+                        size='med'
                         type='create'
                         title='Создать'
                         onClick={newOrder}
                         invisible={!props.permissions.includes('create_orders')}
                     />
                     <Button
-                        size='small'
-                        type='secondary'
+                        size='med'
+                        type='tertiary'
                         title='Фильтр'
                         onClick={handleEditFilter}
                         icon={ICON.FILTER}
-                        iconClassName='icon-16'
                     />
 
                     { props.customFilters.map(filter => <CustomFilter key={filter.id} data={filter} />) }
@@ -63,14 +65,13 @@ const CustomPanel = (props) => {
                 <TableFields
                     id='orders'
                     className='ml10'
-                    list={Table.Fields.Order}
-                    checked_list={props.order.table_headers}
-                    func={props.selectedOrder}
+                    list={props.order.table_headers}
+                    func={table_headers =>  props.changeOrderState({table_headers})}
                 />
-
-            {/*{props.statusSetCustomFilter ? <SetFilter/> : null}*/}
         </div>
-    )
+        <SetFilter invisible={invisible}/>
+        </div>
+)
 }
 
 const mapStateToProps = state => ({
@@ -84,7 +85,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    setVisibleFlag,
     changeOrderState,
     changeFilterState,
     changeVisibleState,

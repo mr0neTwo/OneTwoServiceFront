@@ -1,9 +1,7 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 import PropTypes from "prop-types";
 
 import Icon from './Icon'
-
-
 
 /**
  * Чекбокс с подписью
@@ -15,6 +13,7 @@ import Icon from './Icon'
  * type='squared-three'
  * onChange={event => console.log(event.target.changed)}
  * checked={props.checked}
+ * ref={ref}
  * icon={ICON.ICON_NAME}
  * iconClassName='iconClassName'
  * iconColor='black'
@@ -28,6 +27,7 @@ import Icon from './Icon'
  * type - тип компонента
  * onChange - функция именения состояния
  * checked - текущее состояние true или false
+ * ref - ссылка на элемент
  * icon - Иконка перед текстом
  * iconClassName - стиль иконки
  * iconColor - цвет иконки
@@ -46,29 +46,30 @@ import Icon from './Icon'
  * 9. squared-four
  *
 */
-const Checkbox = (props) => {
+const Checkbox = forwardRef((props, ref) => {
 
     if (props.invisible) return <div/>
 
     return (
-            <div className={`checkbox ${props.className}`}>
-                <div className={props.type}>
+            <div className={`checkbox checkbox_${props.type} ${props.className} ${props.checked ? 'checkbox_checked' : ''}`}>
+                <div className='checkbox__box'>
                     <input
                         id={props.id}
                         type="checkbox"
+                        ref={ref}
                         onChange={props.onChange}
                         checked={props.checked}
                         disabled={props.disabled}
                     />
                     <label htmlFor={props.id}/>
                 </div>
-                <div className={`row ai-c g6 ${props.checked ? 'cm' : 'cs'}`}>
+                <div className='checkbox__label'>
                     {props.icon ? <Icon className={props.iconClassName} icon={props.icon} color={props.iconColor}/> : null}
                     <div className='nowrap'>{props.label}</div>
                 </div>
             </div>
     )
-}
+})
 
 Checkbox.propTypes = {
     className: PropTypes.string,

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {ICON} from '../../data/icons'
+import Button from './Button'
 
 /**
  * Кнопки сниза панели редактора
@@ -18,60 +19,78 @@ import {ICON} from '../../data/icons'
  * recover={() => console.log('recover')} // Фунция восстановления
  *
  * close={() => console.log('close')} // Функция закрытия редактора
- * 
+ *
  * extraButton={() => console.log('extra')} // Функция дополнительной кнопки
- * 
+ *
  * extraTitle='extraTitle' // Текст дополнительно кнопки
  *
  */
 const BottomButtons = (props) => {
     const buttonCreate = props.create ? (
-        <div className="blueButton mr-lf-0 " onClick={props.create}>
-            Создать
-        </div>
-    ) : null
+            <Button
+                id='bottomButtonsCreate'
+                size='med'
+                type='primary'
+                title='Создать'
+                onClick={props.create}
+            />
+        ) :
+        null
 
     const buttonSave = props.save ? (
-        <div className="blueButton mr-lf-0" onClick={props.save}>
-            Сохранить
-        </div>
+            <Button
+                id='bottomButtonsSave'
+                size='med'
+                type='primary'
+                title='Сохранить'
+                onClick={props.save}
+            />
     ) : null
 
     const buttonClose = props.close ? (
-        <div className="whiteBlueBotton" onClick={props.close}>
-            Закрыть
-        </div>
+            <Button
+                id='bottomButtonsClose'
+                size='med'
+                type='tertiary'
+                title='Закрыть'
+                onClick={props.close}
+            />
     ) : null
 
     const buttonDelete = props.delete ? (
-        <div id='deleteButton' className="whiteButton simbolBotton" onClick={props.delete}>
-            <svg className="icon-table-red-basket" viewBox="0 0 32 32">
-                <path d={ICON.TRASH}/>
-            </svg>
-        </div>
+            <Button
+                id='bottomButtonsDelete'
+                size='med'
+                type='destructive'
+                icon={ICON.TRASH}
+                onClick={props.delete}
+            />
     ) : null
 
     const buttonRecover = props.recover ? (
-        <div
-            className={`${props.recover ? 'blueButton' : 'greyDisbledButton'} mr-lf-0`}
-            onClick={props.recover}
-        >
-            <svg className="icon-recover" viewBox="0 0 32 32">
-                <path d={ICON.SPINNER}/>
-            </svg>
-            Восстановить
-        </div>
+            <Button
+                id='bottomButtonsRecovery'
+                size='med'
+                type='primary'
+                title='Восстановить'
+                icon={ICON.SPINNER}
+                onClick={props.recover}
+            />
     ) : null
 
     const extraButton = props.extraButton ? (
-        <div id='extraButton' className="whiteButton mr5" onClick={props.extraButton}>
-            {props.extraTitle}
-        </div>
+            <Button
+                id='bottomButtonsExtra'
+                size='med'
+                type='secondary'
+                title={props.extraTitle}
+                onClick={props.extraButton}
+            />
     ) : null
 
     return (
-        <div className="buttons_ mt15">
-            <div className="buttons">
+        <div className="bottom-buttons">
+            <div className="bottom-buttons__main-buttons">
                 {props.edit ? (props.deleted ? buttonRecover : buttonSave) : buttonCreate}
                 {buttonClose}
             </div>

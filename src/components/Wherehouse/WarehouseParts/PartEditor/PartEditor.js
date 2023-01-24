@@ -27,12 +27,12 @@ const PartEditor = props => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('wpartEditorWindow') &&
-            !event.path.map((el) => el.id).includes('writeOfEditor') &&
-            !event.path.map((el) => el.id).includes('registrationEditor') &&
-            !event.path.map((el) => el.id).includes('clientEditor') &&
-            !event.path.map((el) => el.id).includes('statusBackEditor') &&
-            !event.path.map((el) => el.id).includes('btaddWP')
+            !event.composedPath().map((el) => el.id).includes('wpartEditorWindow') &&
+            !event.composedPath().map((el) => el.id).includes('writeOfEditor') &&
+            !event.composedPath().map((el) => el.id).includes('registrationEditor') &&
+            !event.composedPath().map((el) => el.id).includes('clientEditor') &&
+            !event.composedPath().map((el) => el.id).includes('statusBackEditor') &&
+            !event.composedPath().map((el) => el.id).includes('btaddWP')
         ) {
             handleClose()
         }

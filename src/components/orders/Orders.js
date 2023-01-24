@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react'
-import ReactPaginate from 'react-paginate'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 
 import {addStatusGroupAction, addAdCampaign, addEquipment} from '../../Redux/actions'
 import {addBadges, changeFilterForm, changeFilterState, addCustomFilters} from '../../Redux/actions/filterAction'
-import {addOrders} from '../../Redux/actions/orderActions'
+import {addOrders, changeOrderState} from '../../Redux/actions/orderActions'
 
 
 import Header from './Header'
 import Badges from './Badges'
 import TableOrders from './TableOrdrers'
-import Loader from '../Loader/Loader'
 import CustomPanel from './CustomPanel'
+import Paginate from '../general/Paginate'
+import SetFilter from './setCustomFilter/SetFilter'
 
 
 function Orders(props) {
@@ -19,9 +19,9 @@ function Orders(props) {
     useEffect(() => {
         if (Object.values(props.current_branch).length) props.addOrders()
     }, [
-        props.filter.sort,
-        props.filter.field_sort,
-        props.filter.page,
+        props.order.sort,
+        props.order.field_sort,
+        props.order.page,
         props.filter.engineer_id,
         props.filter.overdue,
         props.filter.status_id,
@@ -40,15 +40,11 @@ function Orders(props) {
 
 // Загружаем заказы
     useEffect(() => {
-        props.addStatusGroup()
+        // props.addStatusGroup()
         props.addCustomFilters()
-        props.addAdCampaign()
-    }, [])
+        // props.addAdCampaign()
+    }, [props.user])
 
-    const pageChangeHandler = page => {
-        const curent_page = page.selected ? page.selected : 0
-        props.changeFilterState({page: curent_page})
-    }
 
     useEffect(() => {
         props.addBadges()
@@ -58,31 +54,17 @@ function Orders(props) {
         <>
             <Header oderSearch={''}/>
             <Badges/>
-            <div className='content-container mt20'>
+            <div className='content-container'>
                 <CustomPanel/>
-                {props.ordersShow ? <TableOrders/> : <Loader/>}
-                {/*<div className="tableAllPage">*/}
-                {/*    <ReactPaginate*/}
-                {/*        pageCount={props.count % 50 > 0 ? (props.count / 50) : props.count / 50 - 1}*/}
-                {/*        marginPagesDisplayed={2}*/}
-                {/*        pageRangeDisplayed={5}*/}
-                {/*        onPageChange={pageChangeHandler}*/}
-                {/*        forcePage={props.page}*/}
-                {/*        previousLabel={'<'}*/}
-                {/*        nextLabel={'>'}*/}
-                {/*        breakLabel={'...'}*/}
-                {/*        breakClassName={'pages-pagination'}*/}
-                {/*        containerClassName={'pagination'}*/}
-                {/*        pageClassName={'pages-pagination'}*/}
-                {/*        activeClassName={'active'}*/}
-                {/*        nextClassName={'pages-pagination'}*/}
-                {/*        previousClassName={'pages-pagination'}*/}
-                {/*    />*/}
-                {/*    <div className="tablePageCount">*/}
-                {/*        Всего - {props.count}*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-                {/*{props.statusOrderLoader ? <Loader className='orderLoader'/> : null}*/}
+                <TableOrders/>
+                <Paginate
+                    allItems={props.count}
+                    onPage={50}
+                    count={2}
+                    count_start_end={2}
+                    navigation={true}
+                    func={page => props.changeOrderState({page})}
+                />
             </div>
         </>
     )
@@ -92,8 +74,10 @@ const mapStateToProps = state => ({
     filter: state.filter,
     count: state.order.count,
     ordersShow: state.order.ordersShow,
-    statusOrderLoader: state.view.statusOrderLoader,
-    current_branch: state.branch.current_branch
+    statusSetCustomFilter: state.view.statusSetCustomFilter,
+    current_branch: state.branch.current_branch,
+    user: state.data.user,
+    order: state.order
 })
 
 const mapDispatchToProps = {
@@ -104,7 +88,8 @@ const mapDispatchToProps = {
     addEquipment,
     addBadges,
     changeFilterState,
-    changeFilterForm
+    changeFilterForm,
+    changeOrderState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders)

@@ -45,11 +45,11 @@ const RegistrationEditor = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('registrationEditor') &&
-            !event.path.map((el) => el.id).includes('wpartEditorWindow') &&
-            !event.path.map((el) => el.id).includes('newRegistration') &&
-            !event.path.map((el) => el.id).includes('statusBackEditor') &&
-            !event.path.map((el) => el.id).includes('changeWarehouseMessage')
+            !event.composedPath().map((el) => el.id).includes('registrationEditor') &&
+            !event.composedPath().map((el) => el.id).includes('wpartEditorWindow') &&
+            !event.composedPath().map((el) => el.id).includes('newRegistration') &&
+            !event.composedPath().map((el) => el.id).includes('statusBackEditor') &&
+            !event.composedPath().map((el) => el.id).includes('changeWarehouseMessage')
         ) {
             handleClose()
         }

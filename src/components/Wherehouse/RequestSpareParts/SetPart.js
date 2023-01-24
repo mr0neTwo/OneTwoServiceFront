@@ -22,8 +22,8 @@ const SetPart = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listPart') &&
-            !event.path.map(el => el.id).includes('spareParts')
+            !event.composedPath().map(el => el.id).includes('listPart') &&
+            !event.composedPath().map(el => el.id).includes('spareParts')
         ) {
             setShowList(false)
         }

@@ -1,12 +1,14 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 
 import {changeFilterState, resetFilter} from '../../Redux/actions/filterAction'
 import {ICON} from '../../data/icons'
 
 import Icon from '../general/Icon'
+import {COLORS} from '../../data/colors'
 
 const Badge = props => {
+    const [hover, setHover] = useState(false)
 
     const handleChoose = () => {
         if (props.active_badge !== props.badge.id) {
@@ -40,22 +42,27 @@ const Badge = props => {
     }
 
 
+    const style = {backgroundColor: `var(--${COLORS.BADGE[props.badge.id]}${isActive || hover ? '' : '-no-active'})`}
+
+
     return (
         <div
-            className='badge'
-            style={{
-                backgroundColor: props.badge.color,
-                opacity: isActive ? 1 : 0.4
-            }}
+            className={`badge ${isActive || hover ? 'badge-full' : ''}`}
+            style={style}
+            onMouseOver={() => setHover(true)}
+            onMouseOut={() => setHover(false)}
             onClick={handleChoose}
         >
             <Icon
-                className='icon-24'
+                className='icon'
                 icon={ICON[props.badge.icon]}
             />
-            <div className='colm'>
-                <div className='f-large fw-bold'> {`${props.badge.count} ${getWord(props.badge)}`}</div>
-                <div> {props.badge.title}</div>
+            <div className='full-data'>
+                <div className='fl-bold nowrap'> {`${props.badge.count} ${getWord(props.badge)}`}</div>
+                <div className='nowrap'> {props.badge.title}</div>
+            </div>
+            <div className='short-data'>
+                <h3>{props.badge.count}</h3>
             </div>
         </div>
     )

@@ -1,45 +1,46 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
+
 import {ICON} from '../../data/icons'
 import Icon from './Icon'
 import {checkObject} from './utils'
 
 
 /**
- * id='id' // id компонента
+ * Выбор элемента из списка с помощью строки поиска
  *
- * className='className' // className оболочки компанента
- *
- * width='250px' // ширина компонента
- *
- * title='title' // Подпись сверху
- *
- * list={props.list} // Список элементов
- *
- * current_element={props.current_element} // выбраный элемент
- *
- * setElement={() => console.log('setElement')} // функция выбора элемента
- *
- * filter={props.filter} // фильр поиска элемента
- *
- * changeFilter={() => console.log('changeFilter')} // функция изменения фильтра
- *
+ * @component
+ * @example
+ * <SelectFromListMany
+ * className='className'
+ * title='title'
+ * list={props.list}
+ * current_element={props.current_element}
+ * setElement={() => console.log('setElement')}
+ * filter={props.filter}
+ * changeFilter={() => console.log('changeFilter')}
  * placeholder='Введите текст'
+ * disabled={false}
+ * />
  *
- * disabled={} // заблокировать
- *
- * @returns {JSX.Element}
- *
+ * className - стиль оболочки компанента
+ * title - Подпись сверху
+ * list - Список элементов
+ * current_element - выбраный элемент
+ * setElement - функция выбора элемента
+ * filter - фильтр поиска элемента
+ * changeFilter - функция изменения фильтра
+ * placeholder - приглашение ко вводу
+ * disabled - заблокировать
  */
 const ChooseWithSearch = props => {
 
     const [listVisible, setListVisible] = useState(false)
 
+    const element = useRef()
 
-    const clickHandel = event => {
-        if (!event.path.map(el => el.id).includes(`ChooseWithSearch${props.id}`)) {
-            if (listVisible) {
-                setListVisible(false)
-            }
+    const clickHandel = (event) => {
+        if (element.current && listVisible && !element.current.contains(event.target)) {
+            setListVisible(false)
         }
     }
 
@@ -54,62 +55,64 @@ const ChooseWithSearch = props => {
 
     return (
         <div
-            id={`ChooseWithSearch${props.id}`}
-            style={{width: props.width ? props.width : '250px'}}
-            className={`h49 ${props.className}`}
+            ref={element}
+            className={`select ${props.className} ${listVisible ? 'select_active' : ''}`}
         >
-            <div className='lableImput'>{props.title}</div>
+            <div className='label select__label'>{props.title}</div>
             <button
-                className={props.disabled ? 'optionsUnavaliable' : 'optionsFilterText'}
+                className='input select__input'
                 onClick={() => setListVisible(true)}
                 disabled={props.disabled || selected}
             >
                 {selected ?
                     <div>{props.current_element.name || props.current_element.title || props.current_element.id_label}</div>
                     :
-                    <input
-                        className={props.disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
-                        onChange={event => props.changeFilter(event.target.value)}
-                        placeholder={props.placeholder}
-                        value={props.filter}
-                        disabled={props.disabled || selected}
-                    />
+                    <div className='select__input-container-in'>
+                        <Icon
+                            className='icon select__icon-search'
+                            icon={ICON.SEARCH}
+                        />
+                        <input
+                            className='w100p'
+                            onChange={event => props.changeFilter(event.target.value)}
+                            placeholder={props.placeholder}
+                            value={props.filter}
+                            disabled={props.disabled || selected}
+                        />
+                    </div>
                 }
                 {selected ?
                     <div
-                        className='al-itm-ct'
                         onClick={() => props.setElement({})}
                     >
-                        <Icon icon={ICON.CANCEL} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon'/>
                     </div>
                     :
-                    <Icon icon={listVisible ? ICON.DOWN : ICON.LEFT} className='icon-s2'/>
+                    <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
                 }
             </button>
             {listVisible ?
-                <div
-                    className='listOptionsChoose'
-                    style={{width: props.width ? props.width : '250px'}}
-                >
-                    {props.list.map((element, idx) => {
-                        return (
-                            <div
-                                key={idx}
-                                className='options'
-                                onClick={() => {
-                                    props.setElement(element)
-                                    setListVisible(false)
-                                }}
-                            >
-                                {element.title || element.name || element.id_label}
-                            </div>
-                        )
-                    })}
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                            {props.list.map((element, idx) => {
+                                return (
+                                    <div
+                                        key={idx}
+                                        className='select__item select__item_option'
+                                        onClick={() => {
+                                            props.setElement(element)
+                                            setListVisible(false)
+                                        }}
+                                    >
+                                        {element.title || element.name || element.id_label}
+                                    </div>
+                                )
+                            })}
+                        </div>
                 </div> : null}
-        </div>
+            </div>
     )
 }
-
 
 export default ChooseWithSearch
 

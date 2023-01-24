@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
+
+
 import {changeDataState} from '../../Redux/actions/dataAction'
 import Icon from './Icon'
 import {ICON} from '../../data/icons'
@@ -16,7 +18,7 @@ import {ICON} from '../../data/icons'
  * field='table_headers'
  * title_field_sort='sort_field'
  * title_sort='sort'
- * title_sort_field={props.sort_field}
+ * sort_field={props.sort_field}
  * sort={props.sort}
  * />
  *
@@ -26,7 +28,7 @@ import {ICON} from '../../data/icons'
  * field - поле выбранных заголовков таблицы default='table_headers'
  * title_field_sort - поле типа сортировки
  * title_sort - поле типп сортировки
- * title_sort_field - значение поля сортировки default='sort_field'
+ * sort_field - значение поля сортировки default='sort_field'
  * sort - значение типа сортировки
  *
  */
@@ -94,40 +96,56 @@ const TableHeader = (props) => {
         }
     }
 
+    const sortField = () => {
+        if (props.changeState) {
+            props.changeState({
+                [props.title_sort_field || 'sort_field']: props.header.field,
+                [props.title_sort || 'sort']: props.sort === 'asc' ? 'desc' : 'asc'
+            })
+        }
+    }
+
+    const getSortIcon = () => {
+        if (props.sort_field === props.header.field) {
+            if (props.sort === 'asc') {
+                return <Icon className='icon' icon={ICON.SORT_ASC}/>
+            } else {
+                return <Icon className='icon' icon={ICON.SORT_DESC}/>
+            }
+        } else {
+            return null
+        }
+    }
+
     return (
-        <th style={{maxWidth: `${columnWidth}px`}} >
-            <div className='table-header-container'  >
+        <th style={{minWidth: `${columnWidth}px`}} >
+            <div className='table-header' >
                 <div
-                    className='nowrap'
+                    className='table-header__content'
                     draggable
-                    onClick={!props.changeState ? null : () => props.changeState({
-                        [props.title_sort_field || 'sort_field']: props.header.field,
-                        [props.title_sort || 'sort']: props.sort === 'asc' ? 'desc' : 'asc'
-                    })}
+                    onClick={sortField}
                     onDragEnd={props.headers ? handleEndDrag : null}
                 >
-                    <span>{props.header.title}</span>
-                    <span>
-                        {props.sort_field === props.header.field ? (props.sort === 'asc' ? '↓' : '↑') : null}
-                    </span>
+                    <div className='table-header__title'>{props.header.title}</div>
+                    <div>{getSortIcon()}</div>
                 </div>
                 {props.headers ?
                     <div className='row'>
                         <div
-                            className='cur-resize'
+                            className='table-header__resize'
                             onMouseDown={handleDragStart}
                         >
                             <Icon
                                 icon={ICON.RESIZE}
-                                className='icon-16'
+                                className='icon'
                             />
                         </div>
                         <div
                             style={{display: props.data.position_over === props.header.order ? 'block' : 'none'}}
-                            className='dragOver'
+                            className='table-header__dragOver'
                         />
                         <div
-                            className='overArea'
+                            className='table-header__overArea'
                             onDragOver={() => handleDragOver(props.header.order)}
                         />
                     </div>: null}

@@ -10,11 +10,11 @@ function LogoUser(props) {
     return (
         <Link to='/user'>
             <div
-                className='avatar'
+                className='sidebar__avatar'
             >
                 <img
                     src={`${process.env.REACT_APP_LOCAL_SOURCE}/${props.user.avatar}`}
-                    className='img-avatar'
+                    className='sidebar__img-avatar'
                     alt='User avatar'
                 />
             </div>

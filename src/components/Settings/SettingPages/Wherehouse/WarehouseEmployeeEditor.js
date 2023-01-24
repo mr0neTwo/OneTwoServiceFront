@@ -13,7 +13,7 @@ const WarehouseEmployeeEditor = (props) => {
     const [perm, setPerm] = useState( props.warehouse.employees[props.warehouse.permissions_employee].like_warehouse )
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('warehouseEmployeeEditor')) {
+        if (!event.composedPath().map((el) => el.id).includes('warehouseEmployeeEditor')) {
             props.setVisibleFlag('statusWarehouseEmployeeEditor', false)
         }
     }

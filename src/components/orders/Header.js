@@ -29,23 +29,23 @@ const Header = props => {
                 <h3>Заказы</h3>
                 <div className='row g3 ai-c'>
                     <Icon
-                        className='icon-20'
+                        className='icon icon_20'
                         icon={ICON.MAP_PIN}
-                        color='var(--dark-success)'
+                        color='var(--success)'
                     />
                     <h3 className='ml5'>Бабушкина</h3>
                     <Icon
-                        className='icon-24'
+                        className='icon icon_24'
                         icon={ICON.DOWN}
-                        color='var(--dark-main)'
+                        color='var(--main)'
                     />
                 </div>
             </div>
             <div className='input-container w200'>
                 <Icon
-                    className='icon-16'
+                    className='icon'
                     icon={ICON.SEARCH}
-                    color='var(--dark-secondary)'
+                    color='var(--secondary)'
                 />
                 <input
                     placeholder='Минимум 3 символа'

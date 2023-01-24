@@ -19,6 +19,8 @@ import Tabs from '../../general/Tabs'
 
 const ClientEditor = (props) => {
 
+    const id = 'ClientEditor'
+
     const handleClose = () => {
         props.resetClient()
         props.changeVisibleState({
@@ -33,8 +35,8 @@ const ClientEditor = (props) => {
     
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('clientEditor') &&
-            !event.path.map((el) => el.id).includes('newClient')
+            !event.composedPath().map((el) => el.id).includes(id) &&
+            !event.composedPath().map((el) => el.id).includes('newClient')
         ) {
             handleClose()
         }
@@ -108,17 +110,14 @@ const ClientEditor = (props) => {
     }
 
     return (
-        <div className="rightBlock">
-            <div className="rightBlockWindow mw50" id="clientEditor">
-                <div className="createNewTitle">
-                    {props.client.edit ? props.client.name : 'Новый клиент'}
-                </div>
+        <div className="modal modal_z20">
+            <div className="modal__box modal__box_editor" id={id}>
+                <h4>{props.client.edit ? props.client.name : 'Новый клиент'}</h4>
 
-                <div className='contentEditor'>
+                <div className='modal__body modal__body-editor'>
                     {props.client.edit ?
                         <div>
                             <Tabs
-                                className='mt15'
                                 list={['Общие', 'Баланс', 'Обращения', 'Заказы', 'Платежи', 'Звонки', 'SMS', 'Задачи']}
                                 tab={props.client.tabs}
                                 func={idx => props.changeClientState({tabs: idx})}

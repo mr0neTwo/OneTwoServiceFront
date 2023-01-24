@@ -1,25 +1,20 @@
-
-
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag } from '../../../../Redux/actions'
-import { changeOrderFormS } from '../../../../Redux/actions'
+import { changeVisibleState } from '../../../../Redux/actions'
 import { cells } from '../../../../data/cells'
+import {changeOrderState} from '../../../../Redux/actions/orderActions'
 
 
 
 const CellEditor = (props) => {
 
-
-
    const handleClose = () => {
-      props.setVisibleFlag('statusCellEditor', false)
-      // props.resetPayrule()
+      props.changeVisibleState({statusCellEditor: false})
    }
 
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('cellEditor')) {
+      if (!event.composedPath().map((el) => el.id).includes('cellEditor')) {
          handleClose()
       }
     }
@@ -32,21 +27,20 @@ const CellEditor = (props) => {
    })
 
    return (
-      <div className='centerBlock'>
-         <div className='blockWindow' id='cellEditor'>
-            <div className='createNewTitle'>Выберете ячейку</div>
-            <div className='cellContainer'>
+      <div className='modal'>
+         <div className='modal__box modal__body-cell' id='cellEditor'>
+            <h4>Выберете ячейку</h4>
+            <div className='cell-container'>
                {cells.map( cell => (
                   <div
                      key={cell.id}
                      style={{
                         width: cell.width,
-                        height: cell.height,
-                        backgroundColor: cell.color
+                        height: cell.height
                      }}
-                     className='cell'
+                     className='cell-container__cell'
                      onClick={() => {
-                        props.changeOrderFormS(cell.title, 'cell')
+                        props.changeOrderState({cell: cell.title})
                         handleClose()
                      }}
                   >
@@ -69,8 +63,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-   setVisibleFlag,
-   changeOrderFormS
+    changeVisibleState,
+    changeOrderState
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(CellEditor)

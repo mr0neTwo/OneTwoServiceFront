@@ -51,9 +51,9 @@ export function reorderOrderField(id, order) {
 export function getOrderFilter() {
     const state = store.getState()
     return {
-        sort: state.filter.sort,
-        field_sort: state.filter.field_sort,
-        page: state.filter.page,
+        sort: state.order.sort,
+        field_sort: state.order.field_sort,
+        page: state.order.page,
 
         engineer_id: !state.data.user.role.orders_visibility ? state.filter.engineer_id.concat([state.data.user.id]) : state.filter.engineer_id,
         overdue: state.filter.overdue,
@@ -84,9 +84,8 @@ export function addOrders() {
     return async dispatch => {
 
         await  dispatch({
-            type: 'SET_VISIBLE_FLAG',
-            field: 'statusOrderLoader',
-            value: true
+            type: 'CHANGE_ORDER_STATE',
+            data: {spinner: true}
         })
 
         await fetch(state.data.url_server + '/get_orders', request_config)
@@ -95,11 +94,7 @@ export function addOrders() {
                 if (data.success) {
                     dispatch({
                         type: 'CHANGE_ORDER_STATE',
-                        data: {ordersShow: data.data, count: data.count}
-                    })
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusOrderLoader: false}
+                        data: {ordersShow: data.data, count: data.count, spinner: false}
                     })
                 } else {
                     console.warn(data.message)
@@ -116,19 +111,18 @@ export function createOrder() {
     const request_config = getRequestConfig({
         estimated_done_at: state.order.estimated_done_at,
 
-        order_type_id: state.order.order_type_id,
-        client_id: state.order.client.id,
-        ad_campaign_id: state.order.ad_campaign_id,
-        manager_id: state.order.manager.id,
-        engineer_id: state.order.engineer.id,
+        order_type_id: state.order.order_type.id  || null,
+        client_id: state.order.client.id  || null,
+        ad_campaign_id: state.order.ad_campaign.id  || null,
+        manager_id: state.order.manager.id  || null,
+        engineer_id: state.order.engineer.id || null,
         created_by_id: state.data.user.id,
         branch_id: state.branch.current_branch.id,
         status_id: 1,
-
-        kindof_good_id: state.order.kindof_good.id,
-        brand_id: state.order.brand.id,
-        subtype_id: state.order.subtype.id,
-        model_id: state.order.model.id || null,
+        kindof_good_id: state.order.kindof_good.id  || null,
+        brand_id: state.order.brand.id  || null,
+        subtype_id: state.order.subtype.id  || null,
+        model_id: state.order.model.id  || null,
         malfunction: state.order.malfunction,
         packagelist: state.order.packagelist,
         appearance: state.order.appearance,
@@ -272,15 +266,15 @@ export function saveOrder() {
         warranty_date: state.order.warranty_date,
         status_deadline: state.order.status_deadline,
 
-        ad_campaign_id: state.order.ad_campaign_id,
-        client_id: state.order.client.id,
-        order_type_id: state.order_type_id,
-        manager_id: state.order.manager.id,
-        engineer_id: state.order.engineer.id,
-        kindof_good_id: state.order.kindof_good.id,
-        brand_id: state.order.brand.id,
-        subtype_id: state.order.subtype.id,
-        model_id: state.order.model.id,
+        ad_campaign_id: state.order.ad_campaign.id || null,
+        client_id: state.order.client.id || null,
+        order_type_id: state.order.order_type.id || null,
+        manager_id: state.order.manager.id || null,
+        engineer_id: state.order.engineer.id || null,
+        kindof_good_id: state.order.kindof_good.id || null,
+        brand_id: state.order.brand.id || null,
+        subtype_id: state.order.subtype.id || null,
+        model_id: state.order.model.id || null,
 
         serial: state.order.serial,
         malfunction: state.order.malfunction,

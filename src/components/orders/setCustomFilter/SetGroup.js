@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {connect} from 'react-redux'
 
 import { addEquipmentType, changeBookState} from '../../../Redux/actions/bookActions'
@@ -8,24 +8,21 @@ import {changeFilterState} from '../../../Redux/actions/filterAction'
 
 const SetGroup = props => {
 
-    const [visibleList, setVisibleList] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
+
+    const element = useRef()
+
+    const clickHandel = (event) => {
+        if (element.current && listVisible && !element.current.contains(event.target)) {
+            setListVisible(false)
+        }
+    }
 
     useEffect(() => {
         props.addEquipmentType()
     }, [props.book.filter_type])
 
-    const seted = !!Object.values(props.book.equipment_type).length
-
-    const clickHandel = (event) => {
-        if (
-            !event.path.map(el => el.id).includes('listFilterOfGroup') &&
-            !event.path.map(el => el.id).includes('optionsFilterTextOfGroup')
-        ) {
-            if (visibleList) {
-                setVisibleList(false)
-            }
-        }
-    }
+    const selected = !!Object.values(props.book.equipment_type).length
 
     useEffect(() => {
         window.addEventListener('click', clickHandel)
@@ -54,44 +51,54 @@ const SetGroup = props => {
     const setType = (equipment) => {
         props.changeFilterState({temp_kindof_good_id: equipment.id})
         props.changeBookState({equipment_type: equipment})
-        setVisibleList(false)
+        setListVisible(false)
     }
 
     return (
-        <div className='mt15 h52'>
-            <div className='lableImput'>Тип устройства</div>
+        <div
+            ref={element}
+            className={`select ${props.className} ${listVisible ? 'select_active' : ''}`}
+        >
+            <div className='label select__label'>Тип устройства</div>
             <button
-                id='optionsFilterTextOfGroup'
-                className='optionsFilterText'
-                onClick={() => setVisibleList(true)}
-                disabled={seted}
+                className='input select__input'
+                onClick={() => setListVisible(true)}
+                disabled={selected}
             >
-                <input
-                    className='optionFilterInput'
-                    onChange={event => props.changeBookState({filter_type: event.target.value})}
-                    placeholder='Выбирете группу'
-                    value={seted ? props.book.equipment_type.title : props.book.filter_type}
-                    disabled={seted}
-                />
-                {seted ?
+                <div className='select__input-container-in'>
+                    <Icon
+                        className='icon select__icon-search'
+                        icon={ICON.SEARCH}
+                    />
+                    <input
+                        className='w100p'
+                        onChange={event => props.changeBookState({filter_type: event.target.value})}
+                        placeholder='Выбирете группу'
+                        value={selected ? props.book.equipment_type.title : props.book.filter_type}
+                        disabled={selected}
+                    />
+                </div>
+                {selected ?
                     <div onClick={reset}>
-                        <Icon icon={ICON.CANCEL} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon'/>
                     </div>
                     :
-                    <Icon icon={visibleList ? ICON.DOWN : ICON.LEFT} className='icon-s2'/>
+                    <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
                 }
             </button>
-            {visibleList ?
-                <div className='listFilter' id='listFilterOfGroup'>
-                    {props.book.equipment_types.map(equipment => (
+            {listVisible ?
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                        {props.book.equipment_types.map(equipment => (
                             <div
                                 key={equipment.id}
-                                className='rowGropList'
+                                className='select__item select__item_option'
                                 onClick={() => setType(equipment)}
                             >
                                 {equipment.title}
                             </div>
-                    ))}
+                        ))}
+                    </div>
                 </div> : null}
         </div>
     )

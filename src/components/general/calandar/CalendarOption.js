@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 
 
 const CalendarOption = props => {
@@ -126,18 +126,17 @@ const CalendarOption = props => {
 
     return props.invisible ? null : (
         <div
-            id='listCalendarOption'
-            className='listOptionsChoose'
-            style={{width: props.width}}
+            id='calendarList'
+            className='calendar__drop-list'
         >
-            {props.allDate ? <div className='options' onClick={chooseAllDate}>Все время</div> : null}
-            <div className='options' onClick={chooseToday}>Сегодня</div>
-            <div className='options' onClick={chooseThisWeek}>Текущая неделя</div>
-            <div className='options' onClick={chooseThisMonth}>Текущий месяц</div>
-            <div className='options' onClick={chooseThisYear}>Текущий год</div>
-            <div className='options' onClick={chooseLastWeek}>Прошлая неделя</div>
-            <div className='options' onClick={chooseLastMonth}>Прошлый месяц</div>
-            <div className='options' onClick={chooseDate}>Выбрать даты</div>
+            {props.allDate ? <div className='calendar__item' onClick={chooseAllDate}>Все время</div> : null}
+            <div className='calendar__item' onClick={chooseToday}>Сегодня</div>
+            <div className='calendar__item' onClick={chooseThisWeek}>Текущая неделя</div>
+            <div className='calendar__item' onClick={chooseThisMonth}>Текущий месяц</div>
+            <div className='calendar__item' onClick={chooseThisYear}>Текущий год</div>
+            <div className='calendar__item' onClick={chooseLastWeek}>Прошлая неделя</div>
+            <div className='calendar__item' onClick={chooseLastMonth}>Прошлый месяц</div>
+            <div className='calendar__item' onClick={chooseDate}>Выбрать даты</div>
         </div>
     )
 }

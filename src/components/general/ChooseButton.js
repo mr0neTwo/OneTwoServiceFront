@@ -29,11 +29,11 @@ const ChooseButton = (props) => {
 
 
     return props.invisible ? (<div/>) : (
-        <div className={props.className}>
-            <div className='lableImput'>{props.title}</div>
-            <div className='checkButton'>
+        <div className={`tab-button ${props.className}`}>
+            <div className='label'>{props.title}</div>
+            <div className='tab-button__box'>
                 <div
-                    className={stateButton ? 'checkButtonTwo' : 'checkButtonOne'}
+                    className={`tab-button__button tab-button__button_left ${stateButton ? 'tab-button__button_active' : ''}`}
                     onClick={props.disabled ? null : () => {
                         setStateButton(true)
                         props.func1()
@@ -42,7 +42,7 @@ const ChooseButton = (props) => {
                     {props.name[0]}
                 </div>
                 <div
-                    className={stateButton ? 'checkButtonOne' : 'checkButtonTwo'}
+                    className={`tab-button__button tab-button__button_right ${stateButton ? '' : 'tab-button__button_active'}`}
                     onClick={props.disabled ? null : () => {
                         setStateButton(false)
                         props.func2()

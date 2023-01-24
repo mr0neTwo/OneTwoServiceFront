@@ -24,8 +24,8 @@ const WarehouseCategoryEditor = props => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('wgategoryEditorWindow') &&
-            !event.path.map((el) => el.id).includes('btaddWC')
+            !event.composedPath().map((el) => el.id).includes('wgategoryEditorWindow') &&
+            !event.composedPath().map((el) => el.id).includes('btaddWC')
         ) {
             handleClose()
         }

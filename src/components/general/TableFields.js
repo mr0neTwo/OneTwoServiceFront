@@ -12,21 +12,15 @@ import Button from './Button'
  * @component
  * @example
  * <TableFields
- * id='id'
  * className='className'
  * list={props.list}
- * checked_list={props.checked_list}
- * func={() => console.log('choose element')}
- * field='table_headers'
+ * func={table_headers => console.log('table_headers')}
  * invisible={false}
  * />
  *
- * id - id компонента
  * className - Стиль контейнера компонента
  * list - Список всех полей таблицы
- * checked_list - Список выбраных палей таблицы
- * func - функция выбора элементов
- * field - имя поля в редюссере списка выбраных полей таблицы default-table_headers
+ * func - функция возвращает обновленный список полей
  * invisible - не отображать элемент
  *
  * @returns {JSX.Element}
@@ -35,11 +29,12 @@ const TableFields = (props) => {
 
    const [listVisible, setListVisible] = useState(true)
 
+   const element = useRef()
+
    const clickHandel = (event) => {
-      if (!event.path.map(el => el.id).includes(`tableFields${props.id}`) ) {
-         if (listVisible) {
-            setListVisible(false)
-      }}
+      if (element.current && listVisible && !element.current.contains(event.target)) {
+         setListVisible(false)
+      }
    }
    
    useEffect(() => {
@@ -49,49 +44,44 @@ const TableFields = (props) => {
       }
    })
 
-   const mainCheckbox = useRef()
-  
-   useEffect(() => {
-      const values = props.list.filter(el => includesObject(el, props.checked_list))
-      if (mainCheckbox.current) {
-         if (values.length === props.list.length) {
-            mainCheckbox.current.indeterminate = false
-            mainCheckbox.current.checked = true
-         } else if (!values.length) {
-            mainCheckbox.current.indeterminate = false
-            mainCheckbox.current.checked = false
-         } else {
-            mainCheckbox.current.indeterminate = true
-         }
-      }
-
-   }, [props.checked_list])
-
    useEffect(() => {
       setListVisible(false)
    }, [])
+
+   const handleChange = (field_id, checked) => {
+      const table_headers = props.list.map(field => {
+         if (field.id === field_id) {
+            field.visible = checked
+         }
+         return field
+      })
+      props.func(table_headers)
+   }
 
    if (props.invisible) return <div/>
 
    return (
        <div
-           id={`tableFields${props.id}`}
-           className={`table-field-container ${props.className}`}
+          ref={element}
+          className={`field-options ${props.className}`}
        >
           <Button
-              size='small'
-              type='secondary'
-              onClick={() => setListVisible(!listVisible)}
+              size='med'
+              type='tertiary'
+              onClick={() => setListVisible(true)}
               icon={ICON.TABLE}
-              iconClassName='icon-16'
+              iconClassName='icon'
           />
           {listVisible ?
-              <div className='drop-list'>
-                 <div className='table-field'>
+              <div className='field-options__drop-list'>
+                 <div
+                     className='field-options__title'
+                     onClick={() => setListVisible(false)}
+                 >
                     <div className='nowrap'>Поля таблицы</div>
-                    <Icon className='icon-16' icon={ICON.TABLE}/>
+                    <Icon className='icon' icon={ICON.TABLE}/>
                  </div>
-                 <div className='drop-items pd5 colm g6'>
+                 <div className='field-options__drop-items'>
                     {props.list.map(field => {
                        return (
                            <div
@@ -103,8 +93,8 @@ const TableFields = (props) => {
                                   className='ml10'
                                   type='slide-one'
                                   label={field.title}
-                                  onChange={() => props.func([field], props.field || 'table_headers', true)}
-                                  checked={includesObject(field, props.checked_list)}
+                                  onChange={event => handleChange(field.id, event.target.checked)}
+                                  checked={field.visible}
                               />
                            </div>
                        )

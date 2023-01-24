@@ -19,6 +19,7 @@ const WriteOfEditor = (props) => {
 
     const [showMessage, setShowMessage] = useState(false)
 
+    const id = 'WriteOfEditor'
     const check_parts = !!props.writeof.parts.length
 
     useEffect(() => {
@@ -35,9 +36,9 @@ const WriteOfEditor = (props) => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('addWriteOf') &&
-            !event.path.map((el) => el.id).includes('newOrderPart') &&
-            !event.path.map((el) => el.id).includes('writeOfEditor')
+            !event.composedPath().map((el) => el.id).includes('addWriteOf') &&
+            !event.composedPath().map((el) => el.id).includes('newOrderPart') &&
+            !event.composedPath().map((el) => el.id).includes(id)
         ) {
             handleClose()
         }
@@ -60,67 +61,63 @@ const WriteOfEditor = (props) => {
         if (!props.writeof.edit) setShowMessage(true)
         setTimeout(() => {
             setShowMessage(false)
-        }, 2000)
+        }, 3000)
     }
 
     return (
-        <div className='rightBlock z9999'>
-            <div className='rightBlockWindow wmn700' id='writeOfEditor'>
-                <div className='createNewTitle'>{props.writeof.edit ? `Списание ${props.writeof.label}` : 'Новое списание'}</div>
+        <div className='modal modal_z20'>
+            <div className='modal__box modal__box_editor' id={id}>
+                <h4>{props.writeof.edit ? `Списание ${props.writeof.label}` : 'Новое списание'}</h4>
 
-                <div className='contentEditor'>
+                <div className='modal__body modal__body-editor'>
                     <SelectFromList
-                        id='idSelectPartEngineer'
+                        className='w220'
                         title='Инженер'
-                        className='mt15'
                         list={props.employees}
                         setElement={employee => props.changeWriteOfState({engineer: employee})}
                         current_object={props.writeof.engineer}
-                        width={'210px'}
                         employee={true}
                         noChoosed='Выберете инженера'
                         invisible={!(props.writeof.write_of_type.type === 'ORDER')}
                     />
-                    <div className='row mt15'>
+                    <div className='two-buttons'>
+
+                    <div
+                        className='warehouse-select'
+                        onClick={check_parts ? () => showTip() : null}
+                    >
+                        <SelectFromList
+                            title='Склад'
+                            list={props.warehouses}
+                            setElement={warehouse => props.changeRemainState({filter_warehouse: warehouse})}
+                            current_object={props.writeof.edit ? props.writeof.warehouse : props.remain.filter_warehouse}
+                            noChoosed='Выберете склад'
+                            disabled={check_parts || !!props.writeof.edit || !!props.writeof.inventory_id}
+                        />
                         {showMessage ?
-                            <div className='tipWriteOfMessage'>
+                            <div className='warehouse-select__tip'>
                                 Чтобы изменить склад, нужно удалить добавленные товары или запчасти
                             </div> : null}
-                        <div onClick={check_parts ? () => showTip() : null}>
-                            <SelectFromList
-                                id='idSelectPartWarehouse'
-                                title='Склад'
-                                list={props.warehouses}
-                                setElement={warehouse => props.changeRemainState({filter_warehouse: warehouse})}
-                                current_object={props.writeof.edit ? props.writeof.warehouse : props.remain.filter_warehouse}
-                                width={'210px'}
-                                noChoosed='Выберете склад'
-                                disabled={check_parts || !!props.writeof.edit || !!props.writeof.inventory_id}
-                            />
-                        </div>
-                        <ChooseCategory
-                            className='ml10'
-                            width={'210px'}
-                            setCategory={category => props.changeRemainState({filter_category: category})}
-                            current_category={props.remain.filter_category}
-                            disabled={!!props.writeof.edit|| !!props.writeof.inventory_id}
-                        />
-                        <SelectFromList
-                            id='idSelectPartWarehouse'
-                            title='Цена'
-                            className='ml15'
-                            list={props.discount_margin}
-                            setElement={warehouse => props.changeWriteOfState({discount_margin: warehouse})}
-                            current_object={props.writeof.discount_margin}
-                            width={'210px'}
-                            noChoosed='Выберете цену'
-                            invisible={!(props.writeof.write_of_type.type === 'ORDER')}
-                        />
+                    </div>
+                    <ChooseCategory
+                        className='ml10'
+                        width={'210px'}
+                        setCategory={category => props.changeRemainState({filter_category: category})}
+                        current_category={props.remain.filter_category}
+                        disabled={!!props.writeof.edit|| !!props.writeof.inventory_id}
+                    />
+                    <SelectFromList
+                        title='Цена'
+                        list={props.discount_margin}
+                        setElement={warehouse => props.changeWriteOfState({discount_margin: warehouse})}
+                        current_object={props.writeof.discount_margin}
+                        noChoosed='Выберете цену'
+                        invisible={!(props.writeof.write_of_type.type === 'ORDER')}
+                    />
                     </div>
                     <AddWriteOf/>
-                    {props.writeof.parts.length ? <WriteOfPartTable/> : 'Добавьте хотябы онду запчасть'}
+                    <WriteOfPartTable/>
                     <LableArea
-                        className='mt15'
                         title='Комментарий'
                         onChange={event => props.changeWriteOfState({description: event.target.value})}
                         value={props.writeof.description}

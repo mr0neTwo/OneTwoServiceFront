@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 
 import {selectedOrder} from '../../../../Redux/actions/orderActions'
@@ -14,14 +14,11 @@ const OrderHistory = props => {
 
 
     return (
-        <div className="orderHistory">
-            <div className='row al-itm-fs'>
+        <div className="history-order-editor">
+            <div className='history-order-editor__buttons'>
                 <OrderPrint/>
                 <TableFields
                     id='orderEvents'
-                    className='ml5'
-                    height='200px'
-                    classNameMenu='aventFilterMenu'
                     list={order_event_types}
                     checked_list={props.order.event_filter}
                     func={props.selectedOrder}

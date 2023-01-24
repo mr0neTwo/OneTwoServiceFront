@@ -25,7 +25,7 @@ const EquipmentEditor = (props) => {
   }
 
   const clickHandel = (event) => {
-    if (!event.path.map((el) => el.id).includes('equipmentEditorWiondow')) {
+    if (!event.composedPath().map((el) => el.id).includes('equipmentEditorWiondow')) {
       handleClose()
     }
   }

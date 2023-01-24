@@ -14,37 +14,39 @@ function Sidebar(props) {
 
 
     return (
-        <div className='container-sidebar'>
-            <LogoUser/>
-            <div>
-                <hr className='hr-menu'/>
-                {generally_menu.length ?
-                    <>
+        <div className='sidebar'>
+            <div className='sidebar__body'>
+                <LogoUser/>
+                <div>
+                    <hr className='sidebar__hr'/>
+                    {generally_menu.length ?
+                        <>
+                            <MenuGroup
+                                key={1011}
+                                group={generally_menu}
+                                color={props.color}
+                            />
+                            <hr className='sidebar__hr'/>
+                        </> : null}
+
+                    {report_menu.length ?
+                        <>
+                            <MenuGroup
+                                key={1012}
+                                group={report_menu}
+                                color={props.color}
+                            />
+                            <hr className='sidebar__hr'/>
+                        </> : null}
+
+                    {setting_menu.length ?
                         <MenuGroup
-                            key={1011}
-                            group={generally_menu}
+                            key={1013}
+                            group={setting_menu}
                             color={props.color}
-                        />
-                        <hr className='hr-menu'/>
-                    </> : null}
+                        /> : null}
 
-                {report_menu.length ?
-                    <>
-                        <MenuGroup
-                            key={1012}
-                            group={report_menu}
-                            color={props.color}
-                        />
-                        <hr className='hr-menu'/>
-                    </> : null}
-
-                {setting_menu.length ?
-                    <MenuGroup
-                        key={1013}
-                        group={setting_menu}
-                        color={props.color}
-                    /> : null}
-
+                </div>
             </div>
         </div>
     )

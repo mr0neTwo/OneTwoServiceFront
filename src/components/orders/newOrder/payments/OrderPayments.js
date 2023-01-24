@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import {editCurrentClient, changeVisibleState} from '../../../../Redux/actions'
@@ -38,21 +38,19 @@ const OrderPayments = (props) => {
    }
 
    return (
-      <div className = 'contentTab'>
-         <div className='row mt15' id='btorderpay'>
+      <div className = 'form-order-editor'>
+         <div className='form-order-editor__payment-buttons'>
             <Button
-               className='greenButton'
-               title='Предоплата'
-               onClick={ handleIncome }
-               invisible={false}
-               disabled={false}
+                size='med'
+                type='create'
+                title='Предоплата'
+                onClick={ handleIncome }
             />
             <Button
-               className='greenButton bcr ml10'
-               title='Выплата'
-               onClick={ handleOutcome }
-               invisible={false}
-               disabled={false}
+                size='med'
+                type='destructive'
+                title='Выплата'
+                onClick={ handleOutcome }
             />
          </div>
          <TableOrderPayments/>

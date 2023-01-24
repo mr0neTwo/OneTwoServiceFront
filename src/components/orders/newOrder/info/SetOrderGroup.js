@@ -6,26 +6,27 @@ import {createEquipmentType, addEquipmentType, changeBookState} from '../../../.
 import {changeOrderState} from '../../../../Redux/actions/orderActions'
 import {ICON} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
+import Button from '../../../general/Button'
+import {checkObject} from '../../../general/utils'
 
-const SetOrderGroupe = (props) => {
+const SetOrderGroup = (props) => {
 
-    const [visibleList, setVisibleList] = useState(false)
-    const [visibleBotton, setVisisbleBotton] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
+    const [visibleButton, setVisibleButton] = useState(false)
+
+    const id = 'SetOrderGroup'
 
     useEffect(() => {
         props.addEquipmentType()
     }, [props.book.filter_type])
 
-    const settled = !!Object.values(props.order.kindof_good).length
+    const selected = checkObject(props.order.kindof_good)
 
     const clickHandel = (event) => {
-        if (
-            !event.path.map(el => el.id).includes('listOrderOfGroup') &&
-            !event.path.map(el => el.id).includes('optionsOrderTextOfGroup')
-        ) {
-            if (visibleList) {
-                setVisibleList(false)
-                setVisisbleBotton(false)
+        if (!event.composedPath().map(el => el.id).includes(id)) {
+            if (listVisible) {
+                setListVisible(false)
+                setVisibleButton(false)
             }
         }
     }
@@ -44,7 +45,11 @@ const SetOrderGroupe = (props) => {
             subtype: {},
             model: {}
         })
-        props.changeBookState({equipment_type: {}})
+        props.changeBookState({
+            equipment_type: {},
+            equipment_brand: {},
+            equipment_subtype: {}
+        })
         props.changeVisibleState({checkedOrderKindofGood: true})
     }
 
@@ -52,71 +57,92 @@ const SetOrderGroupe = (props) => {
     const setOrderType = equipment => {
         props.changeOrderState({kindof_good: equipment}) 
         props.changeBookState({filter_type: '', equipment_type: equipment})
-        setVisibleList(false)
-        setVisisbleBotton(false)
+        props.changeVisibleState({checkedOrderKindofGood: true})
+        setListVisible(false)
+        setVisibleButton(false)
     }
 
+    const createNewType = (event) => {
+        if (event.key === 'Enter') {
+            props.createEquipmentType(event.target.value)
+            setListVisible(false)
+            setVisibleButton(false)
+        }
+    }
+
+    const mainClassName = useMemo(() => {
+        let className = 'select'
+        if (props.className) className += ` ${props.className}`
+        if (listVisible) className += ' select_active'
+        if (!props.view.checkedOrderKindofGood) className += ' select_error'
+        return className
+    }, [props.className, listVisible, props.view.checkedOrderKindofGood])
+
     return (
-        <div>
+        <div
+            id={id}
+            className={mainClassName}
+        >
+            <div className='label select__label'>Тип устройства</div>
             <button
-                className='optionsFilterText'
-                id='optionsOrderTextOfGroup'
-                onClick={() => setVisibleList(true)}
-                disabled={settled}
-                style={!props.view.checkedOrderKindofGood? {borderColor: 'red'} : null}
+                className='input select__input'
+                onClick={() => setListVisible(true)}
+                disabled={selected}
             >
                 <input
-                    className='optionFilterInput'
+                    className='w100p'
                     onChange={event => props.changeBookState({filter_type: event.target.value})}
                     placeholder='Выбирете группу'
-                    value={settled ? props.order.kindof_good.title : props.book.filter_type}
-                    disabled={settled}
+                    value={selected ? props.order.kindof_good.title : props.book.filter_type}
+                    disabled={selected}
                 />
-                {settled && props.permissions.includes('edit_info_orders') ?
+                {selected && props.permissions.includes('edit_info_orders') ?
                     <div onClick={reset}>
-                        <Icon icon={ICON.CANCEL} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon'/>
                     </div>
                     :
-                    <Icon icon={ICON.DOWN} className='icon-s2'/>
+                    <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
                 }
             </button>
-            {!props.view.checkedOrderKindofGood ?
-                <div className='errorMassageInput'>{'Необоходимо выбрать из списка'}</div> : null}
-            {visibleList ? <div className='listFilter' id='listOrderOfGroup'>
-                {props.book.equipment_types.map(equipment => (
-                    visibleBotton ? null :
-                    <div
-                        key={equipment.id}
-                        className='rowGropList'
-                        onClick={() => setOrderType(equipment)}
-                    >
-                        {equipment.title}
-                    </div>
-                ))}
-                <div className='btmsts'>
-                    {visibleBotton ?
-                        <input
-                            className='optionFilterInput'
-                            autoFocus
-                            onChange={event => props.changeBookState({filter_type: event.target.value})}
-                            onKeyPress={(event) => {
-                                if (event.key === 'Enter') {
-                                    props.createEquipmentType(event.target.value)
-                                    setVisisbleBotton(false)
-                                }
-                            }}
-                            onBlur={() => setVisisbleBotton(false)}
-                            value={props.book.filter_type}
-                            placeholder='Введите и нажмиете Enter'
-                        /> :
-                        <div
-                            className='btnstsTitle'
-                            onClick={() => setVisisbleBotton(true)}
-                        >
-                            Добавить тип
-                        </div>}
-                </div>
 
+            {listVisible ?
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                        <div className='select__set-items'>
+                            {props.book.equipment_types.map(equipment => (
+                                visibleButton ? null :
+                                <div
+                                    key={equipment.id}
+                                    className='select__item select__item_option'
+                                    onClick={() => setOrderType(equipment)}
+                                >
+                                    {equipment.title}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                <div className='select__buttons'>
+                    {visibleButton ?
+                        <div className='select__add-input'>
+                            <input
+                                className='select__add-input'
+                                autoFocus
+                                onChange={event => props.changeBookState({filter_type: event.target.value})}
+                                onKeyPress={createNewType}
+                                onBlur={() => setVisibleButton(false)}
+                                value={props.book.filter_type}
+                            />
+                            <div className='select__add-input-text'>Введите название и нижмите Enter</div>
+                        </div>
+                        :
+                        <Button
+                            size='small'
+                            type='tertiary'
+                            title='Добавить тип'
+                            onClick={() => setVisibleButton(true)}
+                        />
+                    }
+                    </div>
             </div> : null}
         </div>
     )
@@ -137,4 +163,4 @@ const mapDispatchToProps = {
     changeVisibleState
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SetOrderGroupe)
+export default connect(mapStateToProps, mapDispatchToProps)(SetOrderGroup)

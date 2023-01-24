@@ -7,8 +7,11 @@ import {changeOrderPartState, deleteOrderPart, resetOrderPart} from '../../../..
 
 import ChooseOfList from '../../../general/ChooseOfList'
 import BottomButtons from '../../../general/BottomButtons'
+import SelectFromList from '../../../general/SelectFromList'
 
 const ReturnOrderPart = (props) => {
+
+    const id = 'ReturnOrderPart'
 
     const handleClose = () => {
         props.changeVisibleState({statusReturnPart: false, inputWarehouseReturnPart: true})
@@ -16,9 +19,9 @@ const ReturnOrderPart = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('statusReturnPart') &&
-            !event.path.map((el) => el.id).includes('deleteButton') &&
-            !event.path.map((el) => el.id).includes('deleteOrderPart')
+            !event.composedPath().map((el) => el.id).includes(id) &&
+            !event.composedPath().map((el) => el.id).includes('deleteButton') &&
+            !event.composedPath().map((el) => el.id).includes('deleteOrderPart')
     ) {
             handleClose()
         }
@@ -37,7 +40,7 @@ const ReturnOrderPart = (props) => {
             handleClose()
             props.changeVisibleState({
                 inputOrderPartEngineerChecked: true,
-                inputOrderPartTitleChacked: true,
+                inputOrderPartTitleChecked: true,
                 statusOrderPartEditor: false
             })
             props.resetOrderPart()
@@ -47,22 +50,19 @@ const ReturnOrderPart = (props) => {
     }
 
     return (
-        <div className='centerBlockFix'>
-            <div className='blockWindowFix wmn500 z99999' id='statusReturnPart'>
+        <div className='modal'>
+            <div className='modal__box modal__box_editor' id={id}>
                 <div className='createNewTitle'>Возврат детали/товара на склад</div>
-                <div className='mt15 row al-itm-fe'>
-                    <ChooseOfList
-                        id='idch'
+                <div className='modal__body modal__body-editor'>
+                    <SelectFromList
                         title='Выбирете склад'
                         list={props.warehouses}
-                        setElement={warehouse_id => props.changeOrderPartState({to_warehouse_id: warehouse_id})}
-                        current_id={props.orderPart.to_warehouse_id}
-                        width={'250px'}
+                        setElement={warehouse_id => props.changeOrderPartState({to_warehouse: warehouse_id})}
+                        current_object={props.orderPart.to_warehouse}
                         checkedFlag='inputWarehouseReturnPart'
-                        checked={props.inputWarehouseReturnPart}
-                        noChoosed='Выбирете склад'
+                        noChoosed='Выберете склад'
                     />
-                    <div className='ml15 pd5'>{`${props.orderPart.amount} шт.`}</div>
+                    <div className=''>{`${props.orderPart.amount} шт.`}</div>
                 </div>
                 <BottomButtons
                     create={handleReturn}

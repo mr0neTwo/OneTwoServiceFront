@@ -13,7 +13,7 @@ import LableInpute from '../../../general/LableInput'
 const PriceEditor = (props) => {
 
   const clickHandel = (event) => {
-    if (!event.path.map((el) => el.id).includes('priceEditor')) {
+    if (!event.composedPath().map((el) => el.id).includes('priceEditor')) {
       props.setVisibleFlag('statusPriceEditor', false)
     }
   }

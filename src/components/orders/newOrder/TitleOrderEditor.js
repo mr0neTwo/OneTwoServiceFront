@@ -2,46 +2,49 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { ICON} from '../../../data/icons'
-import { setVisibleFlag } from '../../../Redux/actions'
+import {changeStatus} from '../../../Redux/actions/orderActions'
+
+import SetStatus from '../../general/SetStatus'
 import Icon from '../../general/Icon'
-import StatusList from '../StatusList'
-import PaymentsEditor from '../../Payments/PaymentsEditor'
+
 
 const TitleOrderEditor = (props) => {
 
-  const iconBr = props.current_branch ? <Icon icon={props.current_branch.icon} color={props.current_branch.color} className='icon-sm8'/> : null
-  const iconB = props.order.urgent ? <Icon icon={ICON.BURN} color='red' className='icon-sm8'/> : null
-  const iconC = (!props.order.overdue && props.order.status.group < 4) ? <Icon icon={ICON.CLOCK} color='#f0ad4e' className='icon-sm8'/> : null
-
    return (
 
-      <div className="createNewTitle">
-         {props.order.edit ? 
-         <div className='statusListOrder'>
-            <span>Заказ № {props.order.id_label}</span>
-            <span className='ml10 fsz12'>
-               <button
-                  id='statusListOrderForm'
-                  className="statusButtom"
-                  type="button"
-                  style={{ backgroundColor: props.order.status.color }}
-                  onClick={() => props.setVisibleFlag('statusStatusList', true)}
-               >
-                  {props.order.status.name}
-                  <span className="statusSeparate"> | &#6662;</span>
-               </button>
-               {props.statusStatusList ?
-                   <StatusList
-                       order={props.order}
-                   />
-                   : null
-               }
-            </span>
-            <span className='ml10'>{iconBr}</span>
-            <span className='ml5'>{iconB}</span>   
-            <span className='ml5'>{iconC}</span>
-         </div> : 'Новый заказ'}
-          {props.statusPaymentsEditor ? <PaymentsEditor/> : null}
+      <div className="header-order-editor">
+         {props.order.edit ?
+
+             <div className='header-order-editor__body'>
+                <h4>Заказ № {props.order.id_label}</h4>
+                 <SetStatus
+                     id='orderEditor'
+                     status={props.order.status}
+                     listOfGroups={props.status_group.filter(group => group.id < 8)}
+                     changeStatus = {status => props.changeStatus(status.id, props.order.edit) }
+                 />
+                 <Icon
+                     className='icon icon_24'
+                     icon={props.current_branch.icon}
+                     color={props.current_branch.color}
+                     invisible={!props.current_branch}
+                 />
+                 <Icon
+                     className='icon icon_24'
+                     icon={ICON.BURN}
+                     color='var(--error)'
+                     invisible={!props.order.urgent}
+                 />
+                 <Icon
+                     className='icon icon_24'
+                     icon={ICON.CLOCK}
+                     color='var(--orange)'
+                     invisible={!(!props.order.overdue && props.order.status.group < 4)}
+                 />
+             </div>
+             :
+             <h4>Новый заказ</h4>
+         }
       </div>
    )
 }
@@ -49,12 +52,11 @@ const TitleOrderEditor = (props) => {
 const mapStateToProps = state => ({
     order: state.order,
     current_branch: state.branch.current_branch,
-    statusStatusList: state.view.statusStatusList,
-    statusPaymentsEditor: state.view.statusPaymentsEditor
+    status_group: state.data.status_group
 })
 
 const mapDispatchToProps = {
-   setVisibleFlag
+    changeStatus
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(TitleOrderEditor)

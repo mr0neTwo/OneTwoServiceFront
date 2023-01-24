@@ -1,0 +1,217 @@
+
+$maxHeight: 350px;
+
+@keyframes drop-down-body {
+  0% {max-height: 0;}
+  100% {max-height: $maxHeight - 62px;}
+}
+
+.select {
+  position: relative;
+  min-width: $formWight;
+  transition: color 1s;
+
+  &_statuses {
+    .checkbox__label {
+      color: var(--main);
+    }
+  }
+
+  &__label {
+    transition: color 1s;
+  }
+
+  &__input {
+    cursor: pointer;
+    transition: border-color 1s, fill 1s, color 1s;
+  }
+
+  &__input-container-in {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+  }
+  input {
+    color: var(--main);
+  }
+
+  &__drop-list {
+    position: absolute;
+    transform: translateY(-4px);
+    width: 100%;
+    padding-top: 10px;
+    border: 1px solid var(--main);
+    border-top: none;
+    box-sizing: border-box;
+    background-color: var(--background);
+    border-radius: 0 0 $borderRadius $borderRadius;
+    z-index: 2;
+    max-height: $maxHeight;
+    animation: ani-items 0.5s forwards;
+  }
+
+  &__drop-list-body {
+    overflow: auto;
+    max-height: $maxHeight - 62px;
+    box-sizing: border-box;
+    animation: drop-down-body 0.5s forwards;
+    padding-bottom: 6px;
+  }
+
+  &__buttons {
+    display: flex;
+    height: 50px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid var(--secondary);
+    animation: ani-items 0.5s forwards;
+  }
+
+  &__set-items {
+    padding: 5px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 0;
+
+    &_client {
+      justify-content: space-between;
+    }
+    &_phone {
+      min-width: 130px;
+    }
+    &_price {
+      white-space: nowrap;
+    }
+
+    &_option {
+      cursor: pointer;
+      color: var(--secondary);
+      padding: 4px 10px;
+
+      &:hover {
+        color: var(--main);
+        background-color: var(--second-bacground);
+      }
+    }
+
+    &_img-box {
+      display: flex;
+      position: absolute;
+      transform: translateX(214px) translateY(-100px);
+      border: 1px solid var(--main);
+      border-radius: 6px;
+      padding: 5px 5px 5px 7px;
+      z-index: 5555;
+      background-color: var(--second-bacground);
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: 100px;
+        width: 10px;
+        height: 10px;
+        background-color: var(--second-bacground);
+        border-bottom: 1px solid var(--main);
+        border-left: 1px solid var(--main);
+        transform: rotate(45deg);
+      }
+    }
+
+    &_img {
+      height: 200px;
+    }
+
+    &_category {
+      color: var(--secondary);
+      padding: 2px 0;
+      display: flex;
+      flex-direction: row;
+      gap: 2px;
+      cursor: pointer;
+      fill: var(--action-accent);
+
+      &:hover {
+        color: var(--main);
+      }
+    }
+
+
+  }
+
+  &__add-input {
+    width: 100%;
+    padding: 0 5px;
+  }
+  &__add-input-text {
+    padding: 5px 0 0 5px;
+    color: var(--main);
+    @include font-small();
+  }
+
+  &__status {
+    padding: 2px;
+    border-radius: 6px;
+    color: var(--background);
+    @include font-regular($weight-medium);
+  }
+
+  &__icon-search {
+    fill: var(--main);
+  }
+
+  &__cell {
+    min-width: initial;
+    max-width: 100px;
+  }
+
+  &_error {
+    .label {
+      color: var(--error);
+    }
+    .select__input {
+      border-color: var(--error);
+    }
+  }
+
+  &_active {
+    .select__input,  {
+      position: absolute;
+      top: 21px;
+      z-index: 3;
+      border-color: var(--action-accent);
+      fill: var(--action-accent);
+      color: var(--main);
+    }
+    .select__drop-list {
+      border-color: var(--action-accent);
+      fill: var(--main);
+    }
+    .select__label {
+      color: var(--main);
+      margin-bottom: 30px;
+    }
+    .select__icon-search {
+      fill: var(--action-accent);
+    }
+    input {
+      color: var(--main);
+    }
+  }
+
+  &_disabled {
+    .input,  {
+      border-color: var(--secondary);
+      fill: var(--secondary);
+      color: var(--secondary);
+    }
+    .select__label {
+      color: var(--secondary);
+    }
+  }
+
+}

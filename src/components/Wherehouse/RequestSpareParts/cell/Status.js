@@ -7,7 +7,7 @@ const Status = props => {
     const [listVisible, setVisibleList] = useState(false)
 
     const clickHandel = event => {
-        if (!event.path.map(el => el.id).includes(`status_${props.status.id * (props.request_spare_part_id + 1)}`)) {
+        if (!event.composedPath().map(el => el.id).includes(`status_${props.status.id * (props.request_spare_part_id + 1)}`)) {
             if (listVisible) {
                 setVisibleList(false)
             }

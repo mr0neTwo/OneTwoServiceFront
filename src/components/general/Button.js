@@ -1,39 +1,48 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+
 import Icon from './Icon'
 
 /**
- * Кнопка с набором функций.
+ * Кнопка
  *
- * id={'id'} // id кнопки
+ * @component
+ * @example
+ * <Button
+ * id='id'
+ * className='className'
+ * size='small'
+ * type='primary'
+ * title='title'
+ * onClick={() => console.log('click')}
+ * invisible={false}
+ * disabled={false}
+ * icon={icon}
+ * />
  *
- * className='className' // Класс стилей
- *
- * title='title' // Надпись внутри кнопки
- *
- * onClick={() => console.log('click')} // Функция при нажатии на кнопку
- *
- * invisible={false} // Неотображать
- *
- * disabled={false} // Заблакировать
- *
- * icon={icon} // Иконка
- *
- * iconClassName='iconClassName' // Класс иконки
- *
- * iconColor='black' // Цвет Иконки
+ * id - id кнопки
+ * className - стиль кнопки
+ * size - размер (small, med, large)
+ * type - тип (primary, secondary, tertiary, secondary-active, destructive, create)
+ * title - Надпись внутри кнопки
+ * onClick - Функция при нажатии на кнопку
+ * invisible - Неотображать
+ * disabled - Заблакировать
+ * icon - Иконка
  */
+
+
 const Button = (props) => {
 
    return props.invisible ? (<div/>) : (
       <button
          id={props.id}
-         className={`bt f-med bt-${props.size} bt-${props.type}`}
+         className={`bt  bt_${props.type} bt_${props.size} ${props.className}`}
          onClick={props.onClick}
          disabled={props.disabled}
       >
           <div className='row g10'>
-              {props.icon ? <Icon icon={props.icon} className={props.iconClassName} color={props.iconColor}/> : null}
+              {props.icon ? <Icon icon={props.icon}/> : null}
               {props.title ? <div>{props.title}</div> : null}
           </div>
       </button>

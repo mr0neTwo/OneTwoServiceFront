@@ -1,0 +1,236 @@
+
+
+.calendar {
+  position: relative;
+  min-width: $formWight;
+  color: var(--main);
+  transition: color 1s;
+
+  &__label {
+    transition: color 1s;
+  }
+
+  &__input {
+    cursor: pointer;
+    transition: border-color 1s, fill 1s, color 1s;
+  }
+  &__icon {
+    fill : var(--main);
+    transition: fill 1s;
+  }
+
+  &__icon-down {
+    fill : var(--action-accent);
+    transition: fill 1s;
+  }
+
+  &__drop-list {
+    position: absolute;
+    overflow: hidden;
+    transform: translateY(26px);
+    width: 100%;
+    padding: 10px 0;
+    border: 1px solid var(--secondary);
+    border-top: none;
+    box-sizing: border-box;
+    background-color: var(--background);
+    border-radius: 0 0 $borderRadius $borderRadius;
+    z-index: 2;
+    max-height: $maxHeight;
+    animation: ani-items 0.5s forwards;
+  }
+
+  &__item {
+    cursor: pointer;
+    color: var(--secondary);
+    display: flex;
+    flex-direction: row;
+    padding: 8px 10px;
+
+    &:hover {
+      color: var(--main);
+      background-color: var(--disabled);
+    }
+  }
+
+  &__date-select {
+    display: flex;
+    flex-direction: column;
+    width: $formWight;
+    box-sizing: border-box;
+    padding: 8px;
+    position: absolute;
+    transform: translateY(8px);
+    border: 1px solid var(--action-accent);
+    border-radius: $borderRadius;
+    background-color: var(--background);
+    z-index: 2;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 30px;
+      width: 10px;
+      height: 10px;
+      background-color: var(--background);
+      border-top: 1px solid var(--action-accent);
+      border-left: 1px solid var(--action-accent);
+      transform: rotate(45deg);
+    }
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--second-bacground);
+    border-radius: $borderRadius;
+    align-items: center;
+    fill: var(--action-accent)
+  }
+
+  &__nav-next {
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  &__nav-body {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__nav-month {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__nav-year-buttons {
+    cursor: pointer;
+
+    div:first-child {
+      margin-bottom: -10px;
+      margin-top: -2px;
+    }
+    div:nth-child(2) {
+      margin-top: -10px;
+      margin-bottom: -4px;
+    }
+  }
+  &__month-list {
+    position: absolute;
+    border: 1px solid var(--main);
+    border-radius: $borderRadius;
+    background-color: var(--background);
+    padding: 6px 0;
+    z-index: 4;
+    transform: translateY(208px) translateX(-10px);
+  }
+
+  &__month-item {
+    cursor: pointer;
+    color: var(--secondary);
+    display: flex;
+    flex-direction: row;
+    padding: 4px 10px;
+
+    &:hover {
+      color: var(--main);
+      background-color: var(--second-bacground);
+    }
+  }
+
+  &__days {
+    display: grid;
+    grid-template-columns: repeat(7, 26px);
+    grid-template-rows: repeat(7, 26px);
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 3px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &_out {
+      color: var(--secondary);
+    }
+
+    &_between {
+      &:before {
+        content: '';
+        position: absolute;
+        width: 64px;
+        height: 26px;
+        background-color: var(--second-bacground);
+        z-index: -1;
+      }
+    }
+
+    &_selected {
+      color: var(--main);
+      background-color: var(--action-accent);
+      &:before {
+        display: none;
+      }
+    }
+  }
+  &__time {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    height: 30px;
+    padding-top: 6px;
+    //border-top: 1px solid var(--main);
+  }
+  &__time-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    fill: var(--action-accent);
+    font-size: 20px;
+
+    input {
+      font-size: 18px;
+    }
+  }
+
+  &_active {
+
+    .calendar__input, {
+      border-color: var(--action-accent);
+    }
+
+    .calendar__drop-list {
+      border-color: var(--action-accent);
+      fill: var(--main);
+    }
+    .calendar__icon {
+      fill: var(--action-accent);
+    }
+
+    .calendar__label {
+      //margin-bottom: 30px;
+    }
+  }
+
+
+
+}

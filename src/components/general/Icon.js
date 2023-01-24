@@ -4,7 +4,7 @@ import React from 'react'
 
 const Icon = (props) => {
 
-    if (props.invisible) return <div/>
+    if (props.invisible) return null
 
    return (
       <svg 

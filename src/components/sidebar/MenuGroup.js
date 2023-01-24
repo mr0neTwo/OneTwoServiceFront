@@ -12,16 +12,16 @@ function MenuGroup(props) {
                     return (
                         <NavLink
                             key={row.id}
-                            className="menu-row"
-                            activeClassName="menu-row-active"
+                            className="sidebar__item"
+                            activeClassName="sidebar__item_active"
                             to={row.url}
                             style={{borderLeftColor: props.color}}
                         >
                             <Icon
-                                className='icon-16'
+                                className='sidebar__icon'
                                 icon={row.icon}
                             />
-                            <span className="secondary cur-p">{row.title}</span>
+                            <span className="sidebar__title">{row.title}</span>
                         </NavLink>
                     )
                 }

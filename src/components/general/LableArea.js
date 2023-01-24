@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { connect } from 'react-redux'
 
-import { setVisibleFlag } from '../../Redux/actions'
+import { changeVisibleState } from '../../Redux/actions'
 import PropTypes from "prop-types";
 
 
@@ -29,19 +29,34 @@ import PropTypes from "prop-types";
  */
 const LableArea = (props) => {
 
+    const [focus, setFocus] = useState(false)
+
+    const handleBlur = (event) => {
+        if (props.checkedFlag) props.changeVisibleState({[props.checkedFlag]: !!event.target.value})
+        setFocus(false)
+    }
+
    return (
-      <div className={props.className}>
-            <div className='lableImput'>{props.title}{props.redStar ? <span className='redStar'>*</span> : null}</div>
+      <div
+          className={`
+              input-label ${props.className} 
+              ${focus ? 'input-label_focus' : ''} 
+              ${props.checkedFlag && !props.checked ? 'input-label_error' : ''}
+          `}
+      >
+          <div className='label input-label__label'>
+              {props.title}
+              {props.redStar ? <span className={props.value ? '' : 'input-label__red-star'}>*</span> : null}
+          </div>
             <textarea 
-               className='textInput'
-               name={props.name}
+               className='textarea'
+               autoFocus={props.autoFocus}
                onChange={props.onChange}
                value={props.value}
-               onBlur={props.checkedFlag ? event => props.setVisibleFlag(props.checkedFlag, !!event.target.value) : null}
-               style={props.checkedFlag && !props.checked  ? {borderColor: 'red'} : null}
+               onFocus={() => setFocus(true)}
+               onBlur={handleBlur}
                disabled={props.disabled}
             />
-         {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо заполнить'}</div> : null}
       </div>
    )
 }
@@ -63,7 +78,7 @@ const mapStateToProps = state => ({
    })
 
 const mapDispatchToProps = {
-   setVisibleFlag
+    changeVisibleState
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(LableArea)

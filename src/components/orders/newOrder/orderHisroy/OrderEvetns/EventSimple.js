@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import Icon from '../../../../general/Icon'
 import {ICON} from '../../../../../data/icons'
 import {compareDates, showDate} from '../../../../general/utils'
+import {COLORS} from '../../../../../data/colors'
 
 
 const EventSimple = props => {
@@ -45,48 +46,55 @@ const EventSimple = props => {
 
     const time = new Date(props.event.created_at * 1000).toLocaleString('ru', optionsShowDate)
 
+    const lastEvent = props.events[props.idx - 1]
+    const style = {
+        borderColor: `var(--${COLORS.STATUS[props.idx ? lastEvent.current_status.group : props.event.current_status.group]})`
+    }
+
     return (
 
         <div
-            className='orderEvent'
-            style={{borderColor: props.event.current_status.color}}
+            className='history-order-editor__event'
+            style={style}
         >
-            {!props.idx || !compareDates(props.event.created_at, props.events[props.idx - 1].created_at) ?
-                <div className='dateEvent'>{showDate(props.event.created_at, false)}</div>
+            {!props.idx || !compareDates(props.event.created_at, lastEvent.created_at) ?
+                <div className='history-order-editor__event-date'>{showDate(props.event.created_at, false)}</div>
                 : null
             }
-            <div className='eventElement'>
+            <div className='history-order-editor__item'>
                 {props.event.changed.map((event, idx) => (
                     <div key={idx}>
-                        <div className='row jc-sb'>
-                            <div className='row'>
+                        <div className='history-order-editor__title-box'>
+                            <div
+                                className='history-order-editor__title'
+                                style={{marginLeft: idx ? '30px': null}}
+                            >
                                 <div
                                     style={{
-                                        backgroundColor: props.event.current_status.color,
+                                        backgroundColor: `var(--${COLORS.STATUS[props.event.current_status.group]})`,
                                         display: idx ? 'none': null,
                                         marginLeft: idx ? '30px': null
                                     }}
-                                    className='boxHistoryIcon'
+                                    className='history-order-editor__icon'
                                     title={props.employee}
                                 >
-                                    <Icon className='icon-s2' icon={chooseIcon(props.event.event_type)} color='white'/>
+                                    <Icon
+                                        className='icon'
+                                        icon={chooseIcon(props.event.event_type)}
+                                    />
                                 </div>
-                                <div
-                                    className='ml10 txtb'
-                                    style={{marginLeft: idx ? '28px': null}}
-                                >
-                                    {event.title}
-                                </div>
+                                <div>{event.title}</div>
                             </div>
-                            <div className='cgr'>{time}</div>
+                            <div>{time}</div>
                         </div>
+
                         <div
-                            className={`${checkLength(event) ? null : 'row'} ml30`}
+                            className={`history-order-editor__message ${checkLength(event) ? 'history-order-editor__message_colm' : ''}`}
                         >
                             {event.current && event.current.title ? <div className=''>{event.current.title}</div> : null}
                             {event.current && event.current.title ?
                                 <Icon
-                                    className='icon-sm8 mlr5'
+                                    className='icon icon_10'
                                     icon={checkLength(event) ? ICON.ARROW_DOWN : ICON.ARROW_RIGHT}
                                 /> : null}
                             <div style={{whiteSpace: "pre-wrap"}}>{event.new.title}</div>

@@ -5,9 +5,9 @@ import {showDate} from '../utils'
 const CreatedAt = (props) => {
     return (
         <td>
-            <div className='colm cell'>
-                <div className='nowrap'>{props.creator}</div>
-                <div className='cs nowrap'>{showDate(props.date)}</div>
+            <div className='cell cell_date'>
+                <div className='cell_text'>{props.creator}</div>
+                <div className='cs cell_text'>{showDate(props.date)}</div>
             </div>
 
         </td>

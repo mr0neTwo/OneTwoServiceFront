@@ -6,37 +6,42 @@ import {ICON} from '../../data/icons'
 import {includesObject} from './utils'
 
 /**
+ * Компонент позволяет выбрать несколько элементов из списка
+ *
+ * @component
+ * @example
+ * <SelectFromListMany
  * id='id'
- *
  * className='className'
- *
- * width='250px'
- *
  * title='title'
- *
- * mainLable='Все'
- *
+ * mainLabel='Все'
  * list={props.list}
- *
  * checked_list={props.checked_list}
- *
- * func={value => props.selectedFilter(value, 'temp_order_types')}
- *
- * employee={false}
- *
+ * func={object => props.selectedObject(object, 'objects')}
  * disabled={props.disabled}
+ * />
  *
+ * id - id элемента
+ * className - стиль оболочки компонента
+ * title - Подпись сверху
+ * mainLabel - Подпись общего чекбокса
+ * list - Список всех элементов
+ * checked_list - Список выбранных элементов
+ * func - функция выбора элемента
+ * disabled - заблокировать
  */
 
 const SelectFromListMany = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
 
+    const id = `selectFromList${props.id}`
+
+    const element = useRef()
+
     const clickHandel = (event) => {
-        if (!event.path.map(el => el.id).includes(`selectFromList${props.id}`)) {
-            if (listVisible) {
-                setListVisible(false)
-            }
+        if (element.current && listVisible && !element.current.contains(event.target)) {
+            setListVisible(false)
         }
     }
 
@@ -81,52 +86,55 @@ const SelectFromListMany = (props) => {
     }
 
 
+
     return (
         <div
-            style={{width: props.width ? props.width : '250px'}}
-            id={`selectFromList${props.id}`}
-            className={`h49 ${props.className}`}
+            ref={element}
+            className={`select ${props.className} ${listVisible ? 'select_active' : ''}`}
         >
-            <div className='lableImput'>{props.title}</div>
+            <div className='label select__label'>{props.title}</div>
             <div
-                className='optionsButton al-itm-ct'
+                className='input select__input'
                 onClick={() => setListVisible(!listVisible)}
             >
                 <div>{showWord(props.checked_list.length)}</div>
-                <Icon icon={listVisible ? ICON.DOWN : ICON.LEFT} className='icon-s2' color='#282e33'/>
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
             </div>
             {listVisible ?
-                <div
-                    className='listOptionsChoose'
-                    style={{width: props.width ? props.width : '250px'}}
-                >
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                        <div className='select__set-items'>
 
-                    <div className='checkbox'>
-                        <input
-                            ref={mainCheckbox}
-                            type='checkbox'
-                            onChange={() => props.func(props.list)}
-                            disabled={props.disabled}
-                        />
-                        <label>{props.mainLable}</label>
+                            <Checkbox
+                                id={id + 'Checkbox'}
+                                className='mb5'
+                                ref={mainCheckbox}
+                                label={props.mainLabel}
+                                type='squared-five'
+                                onChange={() => props.func(props.list)}
+                                checked={props.list.every(element => includesObject(element, props.checked_list))}
+                                disabled={props.disabled}
+                            />
+                            {props.list.map(element => {
+                                return (
+                                    <div
+                                        key={element.id}
+                                        className='select__item'
+                                    >
+                                        <Checkbox
+                                            id={id + element.id}
+                                            className='ml20'
+                                            type='squared-five'
+                                            label={ element.title || element.name }
+                                            onChange={() => props.func([element])}
+                                            checked={includesObject(element, props.checked_list)}
+                                            disabled={props.disabled}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
-
-                    {props.list.map(element => {
-                        return (
-                            <div
-                                key={element.id}
-                                className='options'
-                            >
-                                <Checkbox
-                                    className='ml10'
-                                    label={props.employee ? `${element.last_name} ${element.first_name}` : (element.title ? element.title : element.name)}
-                                    onChange={() => props.func([element])}
-                                    checked={includesObject(element, props.checked_list)}
-                                    disabled={props.disabled}
-                                />
-                            </div>
-                        )
-                    })}
                 </div> : null}
         </div>
     )

@@ -1,6 +1,5 @@
-import React, {useEffect, useMemo} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
-import {useHistory, useLocation} from 'react-router-dom'
 
 import {addDictService, changeVisibleState} from '../../../Redux/actions'
 import {createOrder, resetOrder, saveOrder, getOrder} from '../../../Redux/actions/orderActions'
@@ -16,6 +15,7 @@ import OrderInfo from './info/OrderInfo'
 import OrderWorksMaterials from './work_matireal/OrderWorksMaterials'
 import OrderPayments from './payments/OrderPayments'
 import OrderHistory from './orderHisroy/OrderHistory'
+import {checkObject} from '../../general/utils'
 
 
 
@@ -34,7 +34,7 @@ const OrderEditor = (props) => {
     const handleClose = () => {
         props.changeVisibleState({
             statusOrderEditor: false,
-            checkedOrderClient: false,
+            checkedOrderClient: true,
             checkedOrderKindofGood: true,
             checkedOrderBrand: true,
             checkedOrderSubtype: true
@@ -50,12 +50,12 @@ const OrderEditor = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('newOrder') &&
-            !event.path.map((el) => el.id).includes('clientEditor') &&
-            !event.path.map((el) => el.id).includes('createNewOrder') &&
-            !event.path.map((el) => el.id).includes('paymentsEditorWiondow') &&
-            !event.path.map((el) => el.id).includes('writeOfEditor') &&
-            !event.path.map((el) => el.id).includes('statusReturnPart')
+            !event.composedPath().map((el) => el.id).includes('newOrder') &&
+            !event.composedPath().map((el) => el.id).includes('clientEditor') &&
+            !event.composedPath().map((el) => el.id).includes('createNewOrder') &&
+            !event.composedPath().map((el) => el.id).includes('paymentsEditorWiondow') &&
+            !event.composedPath().map((el) => el.id).includes('WriteOfEditor') &&
+            !event.composedPath().map((el) => el.id).includes('statusReturnPart')
         ) {
             handleClose()
         }
@@ -70,51 +70,51 @@ const OrderEditor = (props) => {
 
     const handleCreate = () => {
         if (
-            Object.values(props.order.client).length &&
-            Object.values(props.order.kindof_good).length &&
-            Object.values(props.order.brand).length &&
-            Object.values(props.order.subtype).length &&
+            checkObject(props.order.client) &&
+            checkObject(props.order.kindof_good) &&
+            checkObject(props.order.brand) &&
+            checkObject(props.order.subtype) &&
             props.order.malfunction
         ) {
             props.createOrder()
         } else {
-            if (!Object.values(props.order.client).length) props.changeVisibleState({checkedOrderClient: true})
-            if (!Object.values(props.order.kindof_good).length) props.changeVisibleState({checkedOrderKindofGood: false})
-            if (!Object.values(props.order.brand).length) props.changeVisibleState({checkedOrderBrand: false})
-            if (!Object.values(props.order.subtype).length) props.changeVisibleState({checkedOrderSubtype: false})
+            if (!checkObject(props.order.client)) props.changeVisibleState({checkedOrderClient: false})
+            if (!checkObject(props.order.kindof_good)) props.changeVisibleState({checkedOrderKindofGood: false})
+            if (!checkObject(props.order.brand)) props.changeVisibleState({checkedOrderBrand: false})
+            if (!checkObject(props.order.subtype)) props.changeVisibleState({checkedOrderSubtype: false})
             if (!props.order.malfunction) props.changeVisibleState({inputMalfunctionChecked: false})
         }
     }
 
     const handleSave = () => {
         if (
-            Object.values(props.order.client).length &&
-            Object.values(props.order.kindof_good).length &&
-            Object.values(props.order.brand).length &&
-            Object.values(props.order.subtype).length
-
+            checkObject(props.order.client) &&
+            checkObject(props.order.kindof_good) &&
+            checkObject(props.order.brand) &&
+            checkObject(props.order.subtype) &&
+            props.order.malfunction
         ) {
             props.saveOrder()
         } else {
-            if (!Object.values(props.order.client).length) props.changeVisibleState({checkedOrderClient: true})
-            if (!Object.values(props.order.kindof_good).length) props.changeVisibleState({checkedOrderKindofGood: false})
-            if (!Object.values(props.order.brand).length) props.changeVisibleState({checkedOrderBrand: false})
-            if (!Object.values(props.order.subtype).length) props.changeVisibleState({checkedOrderSubtype: false})
+            if (!checkObject(props.order.client)) props.changeVisibleState({checkedOrderClient: false})
+            if (!checkObject(props.order.kindof_good)) props.changeVisibleState({checkedOrderKindofGood: false})
+            if (!checkObject(props.order.brand)) props.changeVisibleState({checkedOrderBrand: false})
+            if (!checkObject(props.order.subtype)) props.changeVisibleState({checkedOrderSubtype: false})
             if (!props.order.malfunction) props.changeVisibleState({inputMalfunctionChecked: false})
         }
     }
 
 
     return (
-        <div className="rightBlock z99">
-            <div className="rightBlockWindow" id="createNewOrder">
-                <div className="cteateNewOrderContent">
+        <div className="modal">
+            <div className="modal__box" id="createNewOrder">
+                <div className="modal__body modal__body-order">
 
-                    <div className="createOrderForm mt20">
+                    <div className="modal__body-order-form">
 
                         <TitleOrderEditor/>
                         {props.order.edit ?
-                            <div>
+                            <>
                                 <Tabs
                                     list={['Информация о заказе', 'Работы и материалы', 'Платежи']}
                                     func={idx => props.changeOrderState({tabs: idx})}
@@ -123,20 +123,16 @@ const OrderEditor = (props) => {
                                 {props.order.tabs === 0 ? <OrderInfo/> : null}
                                 {props.order.tabs === 1 ? <OrderWorksMaterials/> : null}
                                 {props.order.tabs === 2 ? <OrderPayments/> : null}
-                            </div> : <OrderInfo/>}
+                            </> : <OrderInfo/>}
+                        <BottomButtons
+                            edit={props.order.edit}
+                            create={handleCreate}
+                            save={handleSave}
+                            close={handleClose}
+                        />
                     </div>
 
-                    <OrderHistory/>
-                </div>
-
-                <div className="boxOrderButtons">
-                    <BottomButtons
-                        edit={props.order.edit}
-                        create={handleCreate}
-                        save={handleSave}
-                        // delete={() => props.deleteClient(props.client.edit)}
-                        close={handleClose}
-                    />
+                    {props.order.edit ? <OrderHistory/> : null}
                 </div>
             </div>
         </div>

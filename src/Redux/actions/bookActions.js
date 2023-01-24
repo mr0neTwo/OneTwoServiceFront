@@ -270,6 +270,16 @@ export function createEquipmentType(title) {
                         field: 'equipment_type_count',
                         value: data.count,
                     })
+                    if (state.view.statusOrderEditor) {
+                        dispatch({
+                            type: 'CHANGE_ORDER_STATE',
+                            data: {kindof_good: data.equipment_type},
+                        })
+                        dispatch({
+                        type: 'CHANGE_BOOK_STATE',
+                            data: {filter_type: '', equipment_type: data.equipment_type},
+                        })
+                    }
                     showAlert(dispatch, 'alert-success', 'Тип успешно добавлен')
                 } else {
                     console.warn(data.message)
@@ -344,6 +354,16 @@ export function createEquipmentBrand(title) {
                         field: 'equipment_brand_count',
                         value: data.count,
                     })
+                    if (state.view.statusOrderEditor) {
+                        dispatch({
+                            type: 'CHANGE_ORDER_STATE',
+                            data: {brand: data.brand},
+                        })
+                        dispatch({
+                            type: 'CHANGE_BOOK_STATE',
+                            data: {filter_brand: '', equipment_brand: data.brand},
+                        })
+                    }
                     showAlert(dispatch, 'alert-success', 'Бренд успешно добавлен')
                 } else {
                     console.warn(data.message)
@@ -417,6 +437,16 @@ export function cteateEquipmentSubtype(title) {
                         field: 'equipment_subtype_count',
                         value: data.count,
                     })
+                    if (state.view.statusOrderEditor) {
+                        dispatch({
+                            type: 'CHANGE_ORDER_STATE',
+                            data: {subtype: data.subtype},
+                        })
+                        dispatch({
+                            type: 'CHANGE_BOOK_STATE',
+                            data: {filter_subtype: '', equipment_subtype: data.subtype},
+                        })
+                    }
                     showAlert(dispatch, 'alert-success', 'Модуль/серия успешно добавлена')
                 } else {
                     console.warn(data.message)
@@ -490,6 +520,16 @@ export function createEquipmentModel(title) {
                         field: 'equipment_models_count',
                         value: data.count,
                     })
+                    if (state.view.statusOrderEditor) {
+                        dispatch({
+                            type: 'CHANGE_ORDER_STATE',
+                            data: {model: data.model},
+                        })
+                        dispatch({
+                            type: 'CHANGE_BOOK_STATE',
+                            data: {filter_model: '', equipment_model: data.model},
+                        })
+                    }
                     showAlert(dispatch, 'alert-success', 'Модель успешно добавлена')
                 } else {
                     console.warn(data.message)

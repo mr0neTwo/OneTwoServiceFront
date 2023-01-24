@@ -1,0 +1,75 @@
+
+// Badges ===============================
+
+.badges-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 10px;
+}
+
+
+.badge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  gap: 8px;
+  border-radius: 20px;
+  max-width: min-content;
+  cursor: pointer;
+  color: var(--background);
+  fill: var(--background);
+
+  .icon{
+    @extend .icon;
+    @extend .icon_24;
+  }
+
+  .full-data {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .short-data {
+    @include font-large($weight-bold);
+    display: none;
+    padding: 0 5px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+  .badges-container {
+    justify-content: flex-start;
+    overflow: auto;
+  }
+
+  .badge {
+
+    .full-data {
+      display: none;
+    }
+
+    .short-data {
+      display: flex;
+    }
+  }
+
+  .badge-full {
+
+    .full-data {
+      display: flex;
+    }
+
+    .short-data {
+      display: none;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+}

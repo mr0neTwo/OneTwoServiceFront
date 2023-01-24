@@ -1,0 +1,32 @@
+
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30px;
+  border-bottom: 1px solid var(--secondary);
+
+  &__tab {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--secondary);
+    width: max-content;
+    padding: 0px 10px;
+    height: 100%;
+
+    &:hover {
+      color: var(--secondary-lighten);
+    }
+
+    &_active {
+      color: var(--action-accent);
+      border-bottom: 2px solid var(--action-accent);
+
+      &:hover {
+        color: var(--action-accent);
+      }
+    }
+  }
+}
