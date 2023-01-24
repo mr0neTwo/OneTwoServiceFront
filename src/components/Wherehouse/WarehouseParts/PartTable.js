@@ -1,76 +1,70 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
-import { setVisibleFlag } from '../../../Redux/actions'
-import {editPart} from '../../../Redux/actions/partAction'
-import {part_table_headers} from '../../../data/tableHeaders'
-import {changeWarehouseForm} from '../../../Redux/actions/warehouseAction'
-
-
-function PartTable (props) {
+import PartName from '../WarehouseRemains/cell/PartName'
+import PartImag from '../WarehouseRemains/cell/PartImag'
+import PartDoc from '../WarehouseRemains/cell/PartDoc'
+import {changePartState, getPart} from '../../../Redux/actions/partAction'
+import TableHeader from '../../general/TableHeader'
 
 
-    const handleEdit = (part) => {
-        props.editPart(part)
-        props.setVisibleFlag('statusPartEditor', true)
-        props.changeWarehouseForm(props.warehouse.current_category, 'current_parent_category')
+function PartTable(props) {
+
+
+    const chooseCell = (header, part) => {
+
+        switch (header.id) {
+            case 1: return <PartName key={header.id} header={header} part={part}/>
+            case 7: return <PartImag key={header.id} header={header} part={part}/>
+            case 8: return <td key={header.id}>{part.warehouse_category.title}</td>
+            case 9: return <PartDoc key={header.id} header={header} part={part}/>
+            default: return <td key={header.id}>{part[header.field]}</td>
+        }
     }
 
-    const table_heards = part_table_headers.filter(part => props.part.choosed_headers.includes(part.id))
-
     return (
-        <table className='mt15'>
-            <thead>
-            <tr>
-                {table_heards.map(header => (
-                    <th key={header.id}>{header.title}</th>
-                ))}
-            </tr>
-            </thead>
-            <tbody>
-            {props.part.parts.map(part => (
-                    <tr
-                        key={part.id}
-                        className={part.deleted ? 'rowDeleted' : null}
-                        onDoubleClick={() => handleEdit(part)}
-                    >
-                        {table_heards.map(header => {
-                            if (header.field === 'doc_url')
-                                return (
-                                    <td key={header.title + part.id}>
-                                        {part[header.field] ?
-                                            <a
-                                                href={`${process.env.PUBLIC_URL}/${part[header.field]}`}
-                                                target='_blank'
-                                            >
-                                                {part[header.field].split('/').pop()}
-                                            </a>
-                                            : null
-                                        }
-                                    </td>
-                                )
-                            if (header.field === 'warehouse_category')
-                                return <td key={header.title + part.id}>{part[header.field].title}</td>
-                            return <td key={header.title + part.id}>{part[header.field]}</td>
-                        })}
+        <div className="tableWarehouseBox mt15">
+            <table id='tableWarehouse'>
+                <thead>
+                    <tr>
+                        {props.part.choosed_headers.map(header => (
+                            <TableHeader
+                                key={header.id}
+                                header={header}
+                                changeState={props.changePartState}
+                                headers={props.part.choosed_headers}
+                                // sort_field={props.part.sort_field}
+                                // sort={props.part.sort}
+                            />
+                        ))}
                     </tr>
-                )
-            )}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {props.part.parts.map(part => (
+                        <tr
+                            key={part.id}
+                            className={part.deleted ? 'rowDeleted' : null}
+                            onDoubleClick={() => props.getPart(part.id)}
+
+                        >
+                            {props.part.choosed_headers.map(header => chooseCell(header, part))}
+                        </tr>
+                    )
+                )}
+                </tbody>
+            </table>
+        </div>
     )
 }
 
 const mapStateToProps = state => ({
-    part: state.part,
-    warehouse: state.warehouse
+    part: state.part
 })
 
 const mapDispatchToProps = {
-    setVisibleFlag,
-    editPart,
-    changeWarehouseForm
+    getPart,
+    changePartState
 }
 
 
-export default connect (mapStateToProps, mapDispatchToProps) (PartTable)
+export default connect(mapStateToProps, mapDispatchToProps)(PartTable)

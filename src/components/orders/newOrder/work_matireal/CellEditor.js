@@ -19,7 +19,7 @@ const CellEditor = (props) => {
    }
 
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('cellEditor')) {
+      if (!event.composedPath().map((el) => el.id).includes('cellEditor')) {
          handleClose()
       }
     }

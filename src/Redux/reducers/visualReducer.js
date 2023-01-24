@@ -14,7 +14,7 @@ const initialState = {
    statusEmployeeEditor: false,
    employeeEditorRoleOptions: false,
    statusOrderEditor: false,
-   statusCreateNewClient: false,
+   statusClientEditor: false,
    statusAdCampaignClient: false,
    checkedOrderClient: false,
    statusBranchEditor: false,
@@ -36,7 +36,6 @@ const initialState = {
    statusWarehouseEditor: false,
    statusWarehouseEmployeeEditor: false,
    statusWarehouseCategoryEditor: false,
-   statusPartEditor: false,
    statusOrderPartEditor: false,
    statusOrderSticker: false,
    statusOrderLoader: false,
@@ -44,6 +43,19 @@ const initialState = {
    statusNotTemplateEditor: false,
    statusNotEventEditor: false,
    needToResetOrder: false,
+   statusRegistrationEditor: false,
+   statusRegistrationPartEditor: false,
+   statusRemainEditor: false,
+   statusResidueRuleEditor: false,
+   statusOrderNotFound: false,
+   statusWriteOfEditor: false,
+   statusPartEditor: false,
+   statusMovementEditor: false,
+   statusBackEditor: false,
+   statusReturnPart: false,
+   statusInventoryEditor: false,
+   statusInventoryEditorPreview: false,
+   statusReqSparePartEditor: false,
 
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
@@ -92,6 +104,18 @@ const initialState = {
    inputNotEventEventChecked: true,
    inputNotEventTemplateChecked: true,
    inputFilterTitleChecked: true,
+   inputRegistrationLabelChecked: true,
+   inputRegistrationWarehouseChecked: true,
+   inputRegistrationCountChecked: true,
+   inputRegistrationClientChecked: true,
+   inputRegistrationPartChecked: true,
+   inputResRulWarehouse: true,
+   inputEngineerWriteOf: true,
+   inputTargetWarehouseMovement: true,
+   inputWarehouseBack: true,
+   inputWarehouseReturnPart: true,
+   inputWarehouseInventory: true,
+   inputRequestSparePart: true,
 
    errorSameMail: false,
    errorSameLogin: false,
@@ -144,22 +168,6 @@ export const visualReducer = (state = initialState, action) => {
          }
       }
 
-
-
-      case 'CHANGE_STATUS_AD_CAMPAIGN_CLIENT': {
-         return {
-            ...state, 
-            statusAdCampaignClient: !state.statusAdCampaignClient,
-         }
-      }
-      
-      case 'SET_AD_CANMPAIGN_CLIENT': {
-         return {
-            ...state, 
-            statusAdCampaignClient: !state.statusAdCampaignClient,
-         }
-      }
-
       case 'SET_VISIBLE_FLAG': {
 
          if (action.value === 'change') {
@@ -207,14 +215,6 @@ export const visualReducer = (state = initialState, action) => {
          return {
             ...state,
             [action.field]: state[action.field].concat([true])
-         }
-      }
-
-      
-      case 'EDIT_CLIENT': {
-         return {
-            ...state, 
-            statusCreateNewClient: true
          }
       }
 

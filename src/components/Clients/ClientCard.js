@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { showPhone } from '../general/utils'
-import { editClient } from '../../Redux/actions'
 import ClientEditor from './ClientEditor/ClientEditor'
+import {editClient} from '../../Redux/actions/clientAction'
 
 const ClientCard = (props) => {
 
@@ -39,14 +39,13 @@ const ClientCard = (props) => {
             &#9587;
          </div>
          </div>
-         {props.statusCreateNewClient ? <ClientEditor/> : null }
       </div>
    )
 }
 
 const mapStateToProps = state => ({
    client: state.client,
-   statusCreateNewClient: state.view.statusCreateNewClient
+   statusClientEditor: state.view.statusClientEditor
    })
 
 const mapDispatchToProps = {

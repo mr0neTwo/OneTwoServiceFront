@@ -44,49 +44,25 @@ const initialState = {
 
     tabs: 0,
     phone_titles: ['Мобильный', 'Рабочий', 'Домашний'],
-    statusPhoneList: [false],
-    statusAddTitle: [false],
 
     page: 0,
     filter_name: '',
-    filter_phone: ''
-
+    filter_phone: '',
+    search: '',
+    showDeleted: false
 }
 
 export const clientReducer = (state = initialState, action) => {
     switch (action.type) {
 
-        case 'CHANGE_CLIENT_FORM': {
-            return {
-                ...state,
-                [action.field]: action.value
-            }
-        }
-
         case 'CHANGE_CLIENT_STATE': {
             return {...Object.assign(state, action.data)}
         }
 
-        case 'SET_CLIENT_CHECKBOX': {
-
-            if (action.value === 'change') {
-                return {
-                    ...state,
-                    [action.field]: !state[action.field]
-                }
-            } else {
-                return {
-                    ...state,
-                    [action.field]: action.value
-                }
-            }
-        }
-
-
         case 'CHANGE_CLIENT_EDITOR_PHONE': {
 
             let phones = state.phone
-            phones[action.idx].number = action.value
+            phones[action.idx][action.field] = action.value
 
             return {
                 ...state,
@@ -102,8 +78,7 @@ export const clientReducer = (state = initialState, action) => {
                     title: 'Мобильный',
                     number: '',
                     notify: false
-                }]),
-                statusPhoneList: state.statusPhoneList.concat([false])
+                }])
             }
         }
 
@@ -111,75 +86,11 @@ export const clientReducer = (state = initialState, action) => {
 
             let phones = state.phone
             phones.splice(action.idx, 1)
-            const statusPhones = state.statusPhoneList
-            statusPhones.splice(action.idx, 1)
 
-            return {
-                ...state,
-                phone: phones,
-                statusPhoneList: statusPhones
-            }
-        }
-
-
-        case 'SET_PHONE_NOTIFY': {
-
-            let phones = state.phone
-            phones[action.idx].notify = !phones[action.idx].notify
 
             return {
                 ...state,
                 phone: phones
-            }
-        }
-
-
-        case 'SET_PHONE_TITLE': {
-
-            let phones = state.phone
-            phones[action.idx].title = action.title
-            const statusPhones = state.statusPhoneList
-            statusPhones[action.idx] = !statusPhones[action.idx]
-
-            return {
-                ...state,
-                phone: phones,
-                statusPhoneList: statusPhones
-            }
-        }
-
-        case 'CHANGE_STATUS_PHONE_LIST': {
-
-            const statusPhones = state.statusPhoneList
-            statusPhones[action.idx] = !statusPhones[action.idx]
-
-            const statusTitle = state.statusAddTitle
-            statusTitle[action.idx] = false
-
-            return {
-                ...state,
-                statusPhoneList: statusPhones,
-                statusAddTitle: statusTitle
-            }
-        }
-
-
-        case 'CHANGE_STATUS_ADD_TITLE': {
-
-            const statusTitle = state.statusAddTitle
-            statusTitle[action.idx] = !statusTitle[action.idx]
-
-            return {
-                ...state,
-                statusAddTitle: statusTitle
-            }
-        }
-
-        case 'SET_AD_CANMPAIGN_CLIENT': {
-
-            return {
-                ...state,
-                ad_campaign_id: action.id
             }
         }
 
@@ -202,7 +113,7 @@ export const clientReducer = (state = initialState, action) => {
             }
         }
 
-        case 'RESET_DATA_CLIENT': {
+        case 'RESET_CLIENT': {
             return {
                 ...state,
                 juridical: false,
@@ -247,8 +158,6 @@ export const clientReducer = (state = initialState, action) => {
 
                 edit: 0,
                 tabs: 0,
-                statusPhoneList: [false],
-                statusAddTitle: [false]
 
             }
         }
@@ -272,9 +181,9 @@ export const clientReducer = (state = initialState, action) => {
                 deleted: action.client.deleted,
 
                 name: action.client.name,
-                name_doc: action.client.name_doc,
-                email: action.client.email,
-                address: action.client.address,
+                name_doc: action.client.name_doc || '',
+                email: action.client.email || '',
+                address: action.client.address || '',
                 phone: action.client.phone,
                 ad_campaign_id: action.client.ad_campaign_id,
                 discount_code: action.client.discount_code,
@@ -301,7 +210,7 @@ export const clientReducer = (state = initialState, action) => {
                 discount_materials_type: action.client.discount_materials_type,
                 discount_service_type: action.client.discount_service_type,
 
-                edit: action.client.id
+                edit: action.client.id,
             }
         }
 

@@ -38,7 +38,6 @@ function TableHeader(props) {
         }
     }
 
-
     return (
         <th
             className='tableColumnHeader'
@@ -57,8 +56,8 @@ function TableHeader(props) {
                 >
                     {props.data.title}
                     <span>
-                            {props.filter.field_sort === props.data.field ? (props.filter.sort === 'asc' ? '↓' : '↑') : null}
-                        </span>
+                        {props.filter.field_sort === props.data.field ? (props.filter.sort === 'asc' ? '↓' : '↑') : null}
+                    </span>
                 </div>
                 <div
                     style={{height: '40px'}}

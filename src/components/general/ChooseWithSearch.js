@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {icon_cancel, icon_down, icon_left} from '../../data/icons'
 import Icon from './Icon'
+import {checkObject} from './utils'
 
 
 /**
@@ -35,7 +36,7 @@ const ChooseWithSearch = props => {
 
 
     const clickHandel = event => {
-        if (!event.path.map(el => el.id).includes(`ChooseWithSearch${props.id}`)) {
+        if (!event.composedPath().map(el => el.id).includes(`ChooseWithSearch${props.id}`)) {
             if (listVisible) {
                 setListVisible(false)
             }
@@ -49,27 +50,32 @@ const ChooseWithSearch = props => {
         }
     })
 
+    const selected = checkObject(props.current_element)
 
     return (
         <div
             id={`ChooseWithSearch${props.id}`}
             style={{width: props.width ? props.width : '250px'}}
-            className={props.className}
+            className={`h49 ${props.className}`}
         >
             <div className='lableImput'>{props.title}</div>
             <button
                 className={props.disabled ? 'optionsUnavaliable' : 'optionsFilterText'}
                 onClick={() => setListVisible(true)}
-                disabled={props.disabled || Object.values(props.current_element).length}
+                disabled={props.disabled || selected}
             >
-                <input
-                    className={props.disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
-                    onChange={event => props.changeFilter(event.target.value)}
-                    placeholder={props.placeholder}
-                    value={Object.values(props.current_element).length ? props.current_element : props.filter}
-                    disabled={props.disabled || Object.values(props.current_element).length}
-                />
-                {Object.values(props.current_element).length ?
+                {selected ?
+                    <div>{props.current_element.name || props.current_element.title || props.current_element.id_label}</div>
+                    :
+                    <input
+                        className={props.disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
+                        onChange={event => props.changeFilter(event.target.value)}
+                        placeholder={props.placeholder}
+                        value={props.filter}
+                        disabled={props.disabled || selected}
+                    />
+                }
+                {selected ?
                     <div
                         className='al-itm-ct'
                         onClick={() => props.setElement({})}
@@ -95,7 +101,7 @@ const ChooseWithSearch = props => {
                                     setListVisible(false)
                                 }}
                             >
-                                {element.title || element.name}
+                                {element.title || element.name || element.id_label}
                             </div>
                         )
                     })}

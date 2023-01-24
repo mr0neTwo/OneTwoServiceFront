@@ -13,7 +13,6 @@ import TaskManager from './TaskManager/TaskManager';
 import Leads from './Leads/Leads';
 import Shops from './Shops/Shops';
 import Payments from './Payments/Payments';
-import Wherehouse from './Wherehouse/Wherehouse';
 import Clients from './Clients/Clients';
 import Analytics from './Analytics/Analytics';
 import Reports from './Reports/Reports';
@@ -22,6 +21,17 @@ import Settings from './Settings/Settings';
 import OrderEditor from './orders/newOrder/OrderEditor'
 import UserSetting from './sidebar/userSettings/UserSetting'
 import Alerts from './Alerts/Alerts'
+import Warehouse from './Wherehouse/Wherehouse'
+import PartEditor from './Wherehouse/WarehouseParts/PartEditor/PartEditor'
+import WriteOfEditor from './Wherehouse/WarehouseWriteOf/WriteOfEditor'
+import RegistrationEditor from './Wherehouse/WarehouseRegistration/RegistrationEditor'
+import ClientEditor from './Clients/ClientEditor/ClientEditor'
+import WarehouseMovementEditor from './Wherehouse/WarehouseMovement/WarehouseMovementEditor'
+import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor'
+import InventoryEditorPreview from './Wherehouse/WarehouseInventories/InventoryEditorPreview'
+import InventoryEditor from './Wherehouse/WarehouseInventories/InventoryEditor'
+import RequestSparePartEditor from './Wherehouse/RequestSpareParts/RequestSparePartEditor'
+
 
 
 function Main(props) {
@@ -49,7 +59,7 @@ function Main(props) {
                     <Route path='/orders' component={Orders}/>
                     <Route path='/shops' component={Shops}/>
                     <Route path='/payments' component={Payments}/>
-                    <Route path='/wherehouse' component={Wherehouse}/>
+                    <Route path='/warehouse' component={Warehouse}/>
                     <Route path='/clients' component={Clients}/>
                     <Route path='/analytics' component={Analytics}/>
                     <Route path='/reports' component={Reports}/>
@@ -60,21 +70,25 @@ function Main(props) {
                     <Redirect from='/' to='/leans'/>
                 </Switch>
             </div>
-            <Switch>
-                <Route
-                    exact path="/orders/:id"
-                    // loadData={() => props.getOrder(id)}
-                    component={OrderEditor}
-                />
-            </Switch>
+            {props.view.statusWriteOfEditor ? <WriteOfEditor/> : null}
+            {props.view.statusRegistrationEditor ? <RegistrationEditor/> : null}
+            {props.view.statusClientEditor ? <ClientEditor/> : null}
+            {props.view.statusPartEditor ? <PartEditor/> : null}
+            {props.view.statusOrderEditor ? <OrderEditor/> : null}
+            {props.view.statusMovementEditor ? <WarehouseMovementEditor/> : null}
+            {props.view.statusBackEditor ? <WarehouseBackEditor/> : null}
+            {props.view.statusInventoryEditor ? <InventoryEditor/> : null}
+            {props.view.statusInventoryEditorPreview ? <InventoryEditorPreview/> : null}
+            {props.view.statusReqSparePartEditor ? <RequestSparePartEditor/> : null}
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    statusCreateNewClient: state.view.statusCreateNewClient,
+    statusClientEditor: state.view.statusClientEditor,
     user_id: state.data.user.id,
-    branches: state.branch.branches
+    branches: state.branch.branches,
+    view: state.view
 })
 
 const mapDispatchToProps = {

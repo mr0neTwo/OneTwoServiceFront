@@ -13,7 +13,7 @@ import DataCashbox from './DataCashbox'
 const CashboxEditor = (props) => {
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('cashboxEditorWiondow')) {
+        if (!event.composedPath().map((el) => el.id).includes('cashboxEditorWiondow')) {
             props.setVisibleFlag('statusCashboxEditor', false)
         }
     }

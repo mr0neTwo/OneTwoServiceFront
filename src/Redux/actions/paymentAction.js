@@ -3,6 +3,7 @@ import { getRequestConfig, bad_request } from './actionUtils'
 import {getOrderFilter} from './orderActions'
 import {get_cashbox_filter} from './cashboxAction'
 import {showAlert} from '../actions'
+import {object} from 'prop-types'
 
 
 export function changePaymentState( data ) {
@@ -58,7 +59,7 @@ export function createPayment(context) {
         tags: state.payment.tags,
         relation_type: state.payment.relation_type,
         cashbox_id: state.payment.cashbox_id ? state.payment.cashbox_id : null,
-        client_id: state.payment.client_id ? state.payment.client_id : null,
+        client_id: Object.values(state.payment.client).length ? state.payment.client.id : null,
         employee_id: state.payment.employee_id,
         order_id: state.payment.order_id ? state.payment.order_id : null,
         target_cashbox_id: state.payment.direction ? null : state.payment.target_cashbox_id

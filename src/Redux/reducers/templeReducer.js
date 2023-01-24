@@ -1,3 +1,8 @@
+import {includesObject} from '../../components/general/utils'
+
+const now = new Date()
+const key = 'key_'
+
 const initialState = {
 
    edit: 0,
@@ -7,16 +12,9 @@ const initialState = {
  
 export const templeReducer = (state = initialState, action) => {
    switch (action.type){
- 
-      case 'CHANGE_TEMPLE_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value
-         }
-      }
 
       case 'CHANGE_TEMPLE_STATE': {
-         return Object.assign(state, action.data)
+         return {...Object.assign(state, action.data)}
       }
 
 
@@ -41,12 +39,12 @@ export const templeReducer = (state = initialState, action) => {
          // Обявим переменную для изменных данных
          let new_data
          // Проверим если значения value в списке уже существующих
-         if (action.value.every(val => state[action.field].includes(val))) {
+         if (action.value.every(val => includesObject(val, state[action.field]))) {
             // Если есть удалим эти значения
-            new_data = state[action.field].filter(val => !action.value.includes(val))
+            new_data = state[action.field].filter(val => !includesObject(val, action.value))
          } else {
             // Если нет добавим эти значения
-            new_data = state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
+            new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
          }
          // Если флаг saveToApp установлен сохраним данные на локальном хранилище
          if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))

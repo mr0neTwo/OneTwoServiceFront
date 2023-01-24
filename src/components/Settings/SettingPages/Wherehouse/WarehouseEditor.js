@@ -22,7 +22,7 @@ const WarehouseEditor = props => {
     }
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('warehouseEditorWindow')) {
+        if (!event.composedPath().map((el) => el.id).includes('warehouseEditorWindow')) {
             handleClose()
         }
     }

@@ -5,6 +5,7 @@ import {Redirect, Route, Switch} from 'react-router-dom'
 import UserSettingMenu from './UserSettingMenu'
 import UserProfile from './UserProfile'
 import Logout from './Logout'
+import UserPersonality from './UserPersonality'
 
 
 const UserSetting = (props) => {
@@ -14,6 +15,7 @@ const UserSetting = (props) => {
             <Switch>
                 <Route path = '/user/profile' component = {UserProfile}/>
                 <Route path = '/user/logout' component = {Logout}/>
+                <Route path = '/user/personality' component = {UserPersonality}/>
                 <Redirect from='/user' to='/user/profile'/>
             </Switch>
         </div>

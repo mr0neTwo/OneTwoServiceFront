@@ -8,7 +8,6 @@ import {icon_filter} from '../../../../data/icons'
 import OrderPrint from './OrderPrint'
 import OrderEvents from './OrderEvetns/OrderEvents'
 import TableFields from '../../../general/TableFields'
-import Button from '../../../general/Button'
 import AddComment from './OrderEvetns/AddComment'
 
 const OrderHistory = props => {

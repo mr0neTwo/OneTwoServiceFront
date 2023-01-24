@@ -2,17 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { icon_clock } from '../../../data/icons'
 import Icon from '../../general/Icon'
+import {showDate} from '../../general/utils'
 
 const EstimatedDone = props => {
-   
-   const optionsShowDate = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      // second: 'numeric'
-    }
+
 
     function getDateEstimated(datestamp, statusGroop) {
       if (statusGroop > 3) return '-'
@@ -38,7 +31,7 @@ const EstimatedDone = props => {
       </div>
       {/* Вывожу форматированую дату готовности */}
       <div className="orderDate">
-        {new Date(props.order.estimated_done_at * 1000).toLocaleString('ru', optionsShowDate ).replace('г.,', '')}
+        {showDate(props.order.estimated_done_at)}
       </div>
     </td>
    )

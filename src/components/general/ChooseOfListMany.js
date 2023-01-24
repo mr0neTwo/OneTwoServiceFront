@@ -4,12 +4,31 @@ import Checkbox from './Checkbox'
 import Icon from './Icon'
 import {icon_down, icon_left} from '../../data/icons'
 
+/**
+ * id='id'
+ *
+ * className='className'
+ *
+ * width='250px'
+ *
+ * title='title'
+ *
+ * mainLable='Все'
+ *
+ * list={props.list}
+ *
+ * checked_list={props.checked_list}
+ *
+ * func={value => props.selectedFilter(value, 'temp_order_types')}
+ *
+ */
+
 const ChooseOfListMany = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
-        if (!event.path.map(el => el.id).includes(`chooseOfList${props.id}`)) {
+        if (!event.composedPath().map(el => el.id).includes(`chooseOfList${props.id}`)) {
             if (listVisible) {
                 setListVisible(false)
             }

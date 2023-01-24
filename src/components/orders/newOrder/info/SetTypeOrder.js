@@ -12,7 +12,7 @@ const SetTypeOrder = (props) => {
 
     <div className = 'formRow mt15'>
       <div className='optionsTitle'>Тип заказа</div> 
-      <div className='blockImput'>
+      <div className='blockInput'>
         <ChooseOfList
           id={17}
           list={ props.order_type }

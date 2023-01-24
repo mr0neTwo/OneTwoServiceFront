@@ -7,7 +7,7 @@ import { changeSalaryRuleForm, addSalaryCountCoef, changeSalaryCoefForm } from '
 import { deleteSalaryCountCoef, resetPayrule } from '../../../../Redux/actions/payrulleAction'
 import ChooseOfList from '../../../general/ChooseOfList'
 import WarningOrange from '../../../general/WarningOrange'
-import ChooseButton from '../../../general/ChooseBotton'
+import ChooseButton from '../../../general/ChooseButton'
 import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'
 import Icon from '../../../general/Icon'
@@ -22,7 +22,7 @@ const SalaryRuleReducer = (props) => {
    }
 
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('salaryEditor')) {
+      if (!event.composedPath().map((el) => el.id).includes('salaryEditor')) {
          handleClose()
       }
     }

@@ -13,7 +13,7 @@ const TableOrderFields = props => {
     const [listVisible, setListVisible] = useState(true)
 
     const clickHandel = (event) => {
-        if (!event.path.map(el => el.id).includes('tableOrderFields')) {
+        if (!event.composedPath().map(el => el.id).includes('tableOrderFields')) {
             if (listVisible) {
                 setListVisible(false)
             }

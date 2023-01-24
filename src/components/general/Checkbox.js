@@ -1,6 +1,7 @@
-
 import React from 'react'
 import PropTypes from "prop-types";
+
+import Icon from './Icon'
 
 /**
  * Чек бокс с подписью
@@ -12,6 +13,12 @@ import PropTypes from "prop-types";
  * onChange={() => console.log('change')}
  *
  * checked={props.checked}
+ *
+ * icon={icon}
+ *
+ * iconClassName='iconClassName'
+ *
+ * iconColor='black'
  *
  * disabled={false}
  *
@@ -32,7 +39,10 @@ const Checkbox = (props) => {
             checked={props.checked}
             disabled={props.disabled}
          />
-         <label>{props.label}</label>
+         <label>
+             {props.icon ? <Icon className={props.iconClassName} icon={props.icon} color={props.iconColor}/> : null}
+             <span className='ml2 noWr'>{props.label}</span>
+         </label>
       </div>
    )
 }

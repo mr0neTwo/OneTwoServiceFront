@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { setVisibleFlag } from "../../../../Redux/actions"
 import { changeWarehousePermission } from '../../../../Redux/actions/warehouseAction'
-import ChooseBotton from '../../../general/ChooseBotton'
+import ChooseButton from '../../../general/ChooseButton'
 import WarningOrange from '../../../general/WarningOrange'
 import Checkbox from '../../../general/Checkbox'
 
@@ -13,7 +13,7 @@ const WarehouseEmployeeEditor = (props) => {
     const [perm, setPerm] = useState( props.warehouse.employees[props.warehouse.permissions_employee].like_warehouse )
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('warehouseEmployeeEditor')) {
+        if (!event.composedPath().map((el) => el.id).includes('warehouseEmployeeEditor')) {
             props.setVisibleFlag('statusWarehouseEmployeeEditor', false)
         }
     }
@@ -36,7 +36,7 @@ const WarehouseEmployeeEditor = (props) => {
                     text="Сотрудник сможет выполнять только те действия, которые разрешены в настройках его роли"
                     width="500px"
                 />
-                <ChooseBotton
+                <ChooseButton
                     className='mt15'
                     title='Выберите права'
                     name={['Доступные для склада', 'Персональные']}

@@ -14,6 +14,8 @@ const initialState = {
     warranty_period: 0,         // Период гарантии
     created_at: 0,              // Дата создания
     order_id: 0,                // id заказа
+    warehouse_parts_id: 0,      // С какой партии добавлена запчасть
+    to_warehouse_id: 0,         // Куда вернуть при удалении
 
     warranty_value: 30*24*60*60, // Значение гарантии для конвертации из введеных пользователем значений в timestamp (количество секунд в месяце из 30 дней)
     percent: true,              // true - вычисляем процент, false - сумму в скидке discount_value
@@ -22,6 +24,10 @@ const initialState = {
 
 export const orderPartReducer = (state = initialState, action) => {
     switch (action.type){
+
+        case 'CHANGE_ORDER_PART_STATE': {
+            return {...Object.assign(state, action.data)}
+        }
 
         case 'CHANGE_ORDER_PART_FORM': {
             return {
@@ -45,7 +51,8 @@ export const orderPartReducer = (state = initialState, action) => {
                 deleted: action.order_part.deleted,
                 warranty_period: action.order_part.warranty_period,
                 created_at: action.order_part.created_at,
-                order_id: action.order_part.order_id
+                order_id: action.order_part.order_id,
+                warehouse_parts_id: action.order_part.warehouse_parts_id
             }
         }
 
@@ -65,6 +72,7 @@ export const orderPartReducer = (state = initialState, action) => {
                 warranty_period: 0,
                 created_at: 0,
                 order_id: 0,
+                warehouse_parts_id: 0,
 
                 warranty_value: 30*24*60*60,
                 percent: true,

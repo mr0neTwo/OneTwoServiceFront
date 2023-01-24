@@ -1,11 +1,20 @@
-const optionsShowDate = {
+const optionsShowDateTime = {
    year: 'numeric',
    month: 'long',
    day: 'numeric',
    hour: 'numeric',
    minute: 'numeric',
    // second: 'numeric'
- }
+}
+
+const optionsShowDate = {
+   year: 'numeric',
+   month: 'long',
+   day: 'numeric',
+   // hour: 'numeric',
+   // minute: 'numeric',
+   // second: 'numeric'
+}
 
 const optionsShowRangeDate = {
    year: 'numeric',
@@ -14,7 +23,7 @@ const optionsShowRangeDate = {
 }
 
 /**
- * Приодит номер телефона к читабильному виду
+ * Приводит номер телефона к читабильному виду
  *
  * @param {number} phone The phone number in the format 71234567890
  * @return {string} The phone number in the string '+7 (123) 456-78-90'
@@ -35,8 +44,9 @@ export function showName (employee) {
    return `${employee.last_name} ${employee.first_name}`
 }
 
-export function showDate (date) {
-   return new Date(date * 1000).toLocaleString('ru', optionsShowDate).replace('г.,', '')
+export function showDate (date, showTime=true) {
+   const options = showTime ? optionsShowDateTime : optionsShowDate
+   return new Date(date * 1000).toLocaleString('ru', options).replace('г.,', '')
 }
 
 export function showRangeDate (range_date) {
@@ -51,6 +61,24 @@ export function currentMonth() {
    start_date.setDate(1)
    start_date.setHours(0, 0, 0, 0)
    return [parseInt(start_date / 1000), parseInt(today / 1000)]
+}
+
+export function includesObject(obj, list) {
+   for (let i = 0; i < list.length; i++) {
+      if (list[i].id === obj.id) {
+         return true
+      }
+   }
+   return false
+}
+
+export function checkObject (object) {
+   if (!object) return false
+   if (Object.values(object).length) {
+      return true
+   } else {
+      return false
+   }
 }
 
 export function valueOfPhoneInput(number) {
@@ -84,4 +112,12 @@ export function valueOfPhoneInput(number) {
    } else {
       return ''
    }
+}
+
+export const compareDates = (date1, date2) => {
+   date1 = new Date(date1 * 1000)
+   date2 = new Date(date2 * 1000)
+   return date1.getDate() === date2.getDate() &&
+       date1.getMonth() === date2.getMonth() &&
+       date1.getFullYear() === date2.getFullYear()
 }

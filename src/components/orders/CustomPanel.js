@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import { setVisibleFlag} from '../../Redux/actions'
+import {changeVisibleState, setVisibleFlag} from '../../Redux/actions'
 import {changeFilterState} from '../../Redux/actions/filterAction'
 import {changeOrderState} from '../../Redux/actions/orderActions'
 import {icon_filter} from '../../data/icons'
@@ -22,9 +22,12 @@ const CustomPanel = (props) => {
             let week_day = estimated_done_at.getDay() || 7 // вычеслим текущий день недели
             if (props.schedule.find(day => day.week_day === week_day).work_day) i++ // Если день рабочий, довим шаг цикла
         }
-
-        props.changeOrderState({manager_id: props.user.id, estimated_done_at: parseInt(estimated_done_at / 1000)})
-        props.setVisibleFlag('statusOrderEditor', true)
+        props.changeOrderState({
+            manager: props.user,
+            engineer: {id: 0, first_name: 'назначен', last_name: 'Не'},
+            estimated_done_at: parseInt(estimated_done_at / 1000)
+        })
+        props.changeVisibleState({statusOrderEditor: true})
     }
 
     const handleEditFilter = () => {
@@ -35,7 +38,7 @@ const CustomPanel = (props) => {
     return (
         <div className='mainCustomPanel '>
             <div className='customPanel'>
-                <div className='row al-itm-fe'>
+                <div className='customPanel-buttons'>
                     <Button
                         id='addOrder'
                         className='greenButton'
@@ -43,12 +46,11 @@ const CustomPanel = (props) => {
                         onClick={newOrder}
                         invisible={!props.permissions.includes('create_orders')}
                     />
-                    <div className='customFilters'>
+                    <div className='customPanel-buttons'>
                         <Button
                             className='customFilter'
                             title='Фильтр'
                             onClick={handleEditFilter}
-                            invisible={false}
                             icon={icon_filter}
                             iconClassName='icon-s2'
                             iconColor='282e33'
@@ -62,9 +64,7 @@ const CustomPanel = (props) => {
                 </div>
                 <TableOrderFields/>
             </div>
-
             {props.statusSetCustomFilter ? <SetFilter/> : null}
-
         </div>
     )
 }
@@ -82,7 +82,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     setVisibleFlag,
     changeOrderState,
-    changeFilterState
+    changeFilterState,
+    changeVisibleState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomPanel)

@@ -14,8 +14,8 @@ const SetClient = (props) => {
 
     const clickHandel1 = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listFilterOfOrOrder') &&
-            !event.path.map(el => el.id).includes('orderInputBoxOfOrder')
+            !event.composedPath().map(el => el.id).includes('listFilterOfOrOrder') &&
+            !event.composedPath().map(el => el.id).includes('orderInputBoxOfOrder')
         ) {
             if (listClientsVisible) {
                 setListClientsVisible(false)
@@ -25,8 +25,8 @@ const SetClient = (props) => {
 
     const clickHandel2 = (event) => {
         if (
-            !event.path.map(el => el.id).includes('orderInputBoxOfOrderPhone') &&
-            !event.path.map(el => el.id).includes('listFilterOfOrOrderPhone')
+            !event.composedPath().map(el => el.id).includes('orderInputBoxOfOrderPhone') &&
+            !event.composedPath().map(el => el.id).includes('listFilterOfOrOrderPhone')
         ) {
             if (listClientsPhoneVisible) {
                 setListClientsPhoneVisible(false)
@@ -50,7 +50,7 @@ const SetClient = (props) => {
             <div className='formRow'>
                 <div className='optionsTitle'>Имя клиента<span className='redStar'>*</span></div>
 
-                <div className='blockImput'>
+                <div className='blockInput'>
                     <div
                         id='orderInputBoxOfOrder'
                         className='orderInputBox'
@@ -63,8 +63,9 @@ const SetClient = (props) => {
                             value={props.name}
                         />
                         <div
+                            id='newClient'
                             className='simbolButton'
-                            onClick={() => props.changeVisibleState({'statusCreateNewClient': true})}
+                            onClick={() => props.changeVisibleState({'statusClientEditor': true})}
                         >
                             +
                         </div>
@@ -98,7 +99,7 @@ const SetClient = (props) => {
             <div className='formRow'>
 
                 <div className='optionsTitle'>Телефон<span className='redStar'>*</span></div>
-                <div className='blockImput'>
+                <div className='blockInput'>
 
                     <div
                         id='orderInputBoxOfOrderPhone'
@@ -113,8 +114,9 @@ const SetClient = (props) => {
                             isPhone={true}
                         />
                         <div
+                            id='newClient'
                             className='simbolButton'
-                            onClick={() => props.changeVisibleState({'statusCreateNewClient': true})}
+                            onClick={() => props.changeVisibleState({'statusClientEditor': true})}
                         >
                             +
                         </div>
@@ -140,12 +142,8 @@ const SetClient = (props) => {
                                 </div>
                             ))}
                         </div> : null}
-
                 </div>
-
             </div>
-
-            {props.view.statusCreateNewClient ? <ClientEditor/> : null}
         </div>
     )
 }

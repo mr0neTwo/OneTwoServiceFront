@@ -20,7 +20,7 @@ export const data_setting_menu = [
 },{
    id: 4,
    title: 'Склады',
-   url: '/settings/wherehouse',
+   url: '/settings/warehouse',
    group_name: 'generally_setting',
    permission_key: 'setting_warehouse'
 },{

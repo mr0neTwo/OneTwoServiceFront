@@ -7,8 +7,8 @@ import { resetNotEvent, saveNotEvent, selectedNotEvent} from '../../../../Redux/
 
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
-import ChooseButton from '../../../general/ChooseBotton'
-import ChooseStatuses from './ChooseStatuses'
+import ChooseButton from '../../../general/ChooseButton'
+import ChooseStatuses from '../../../general/ChooseStatuses'
 import {eventsClients} from '../../../../data/events'
 
 
@@ -23,10 +23,10 @@ const NotEventEditor = props => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('NotTempEditorWindow') &&
-            !event.path.map((el) => el.id).includes('gb1') &&
-            !event.path.map((el) => el.id).includes('gb2') &&
-            !event.path.map((el) => el.id).includes('gb3')
+            !event.composedPath().map((el) => el.id).includes('NotTempEditorWindow') &&
+            !event.composedPath().map((el) => el.id).includes('gb1') &&
+            !event.composedPath().map((el) => el.id).includes('gb2') &&
+            !event.composedPath().map((el) => el.id).includes('gb3')
         ) {
             handleClose()
         }
@@ -87,6 +87,7 @@ const NotEventEditor = props => {
                             func={value => props.selectedNotEvent(value, 'statuses')}
                             current_list={props.notEvent.statuses}
                             invisible={props.notEvent.event !== 'ORDER_STATUS_CHANGED_TO'}
+                            range={[0, 7]}
                         />
                     </div>
                     <ChooseButton

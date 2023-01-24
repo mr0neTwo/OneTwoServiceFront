@@ -31,7 +31,7 @@ const WarehouseCategory = props => {
                     }
                     <div className={props.category.deleted ? 'rowDeleted noWr' : 'noWr'}>{props.category.title}</div>
                 </td>
-                <td className='w70 pd5 tac'>{props.category.categories.length}</td>
+                <td className='w70 pd5 tac'>{props.category.count}</td>
             </tr>
             { visibleList ?
                 <div className='ml10'>

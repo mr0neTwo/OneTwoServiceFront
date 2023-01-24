@@ -20,8 +20,8 @@ const SetBrand = props => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listFilterOfBrand') &&
-            !event.path.map(el => el.id).includes('optionsFilterTextOfBrand')
+            !event.composedPath().map(el => el.id).includes('listFilterOfBrand') &&
+            !event.composedPath().map(el => el.id).includes('optionsFilterTextOfBrand')
         ) {
             if (visibleList) {
                 setVisibleList(false)

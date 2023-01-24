@@ -10,7 +10,7 @@ const LabelInputOrder = (props) => {
    return (
       <div className = {props.className}>
          <div className='optionsTitle'>{props.title}{props.checkedFlag ? <span className='redStar'>*</span> : null}</div>
-         <div className='blockImput'>
+         <div className='blockInput'>
             <input 
                className='textInput'
                name={props.name}

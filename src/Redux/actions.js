@@ -88,100 +88,6 @@ export function editRole(role) {
     }
 }
 
-
-export function setClietnCheckbox(field, value) {
-    return {
-        type: 'SET_CLIENT_CHECKBOX',
-        field,
-        value
-    }
-}
-
-
-export function changeClientEditorPhone(idx, value) {
-    return {
-        type: 'CHANGE_CLIENT_EDITOR_PHONE',
-        idx,
-        value
-    }
-}
-
-
-export function addPhoneCounter() {
-    return {
-        type: 'ADD_PHONE_COUNTER'
-    }
-}
-
-
-export function deleteCountNumber(idx) {
-    return {
-        type: 'DELETE_COUNT_NUMBER',
-        idx
-    }
-}
-
-
-export function setPhoneNotify(idx) {
-    return {
-        type: 'SET_PHONE_NOTIFY',
-        idx
-    }
-}
-
-
-export function changeStatusPhoneList(idx) {
-    return {
-        type: 'CHANGE_STATUS_PHONE_LIST',
-        idx
-    }
-}
-
-
-export function setPhoneTitle(idx, title) {
-    return {
-        type: 'SET_PHONE_TITLE',
-        idx,
-        title
-    }
-}
-
-
-export function changeStatusAddTitle(idx) {
-    return {
-        type: 'CHANGE_STATUS_ADD_TITLE',
-        idx
-    }
-}
-
-export function changeStatusAdCampaignClient() {
-    return {
-        type: 'CHANGE_STATUS_AD_CAMPAIGN_CLIENT'
-    }
-}
-
-export function setAdCampaignClient(id) {
-    return {
-        type: 'SET_AD_CANMPAIGN_CLIENT',
-        id
-    }
-}
-
-
-export function addClientTag(tag) {
-    return {
-        type: 'ADD_CLIENT_TAG',
-        tag
-    }
-}
-
-export function deleteClientTag(idx) {
-    return {
-        type: 'DELETE_CLIENT_TAG',
-        idx
-    }
-}
-
 export function setVisibleFlag(field, value) {
     return {
         type: 'SET_VISIBLE_FLAG',
@@ -218,13 +124,6 @@ export function deleteVisibleFlag(field, idx) {
         type: 'DELETE_FLAG',
         field,
         idx
-    }
-}
-
-
-export function resetDataClient() {
-    return {
-        type: 'RESET_DATA_CLIENT'
     }
 }
 
@@ -312,26 +211,7 @@ export function setPayment(payment) {
 }
 
 
-export function changePriceForm(value, field) {
-    return {
-        type: 'CHANGE_PRICE_FORM',
-        field,
-        value
-    }
-}
 
-export function editPrice(price) {
-    return {
-        type: 'EDIT_PRICE',
-        price
-    }
-}
-
-export function resetPrice() {
-    return {
-        type: 'RESET_PRICE'
-    }
-}
 
 
 export function changeDictServiceForm(value, field) {
@@ -464,205 +344,8 @@ export const csrf = () => {
 
 }
 
-// Client ================================================================================================================
 
 
-export function createNewClient() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        juridical: state.client.juridical,
-        supplier: state.client.supplier,
-        conflicted: state.client.conflicted,
-        should_send_email: state.client.should_send_email,
-        discount_good_type: state.client.discount_good_type,
-        discount_materials_type: state.client.discount_materials_type,
-
-        name: state.client.name,
-        name_doc: state.client.name_doc,
-        email: state.client.email,
-        address: state.client.address,
-        discount_code: state.client.discount_code,
-        notes: state.client.notes,
-        ogrn: state.client.ogrn,
-        inn: state.client.inn,
-        kpp: state.client.kpp,
-        juridical_address: state.client.juridical_address,
-        director: state.client.director,
-        bank_name: state.client.bank_name,
-        settlement_account: state.client.settlement_account,
-        corr_account: state.client.corr_account,
-        bic: state.client.bic,
-
-        discount_goods: state.client.discount_goods,
-        discount_materials: state.client.discount_materials,
-        discount_services: state.client.discount_services,
-
-        ad_campaign_id: state.client.ad_campaign_id,
-        discount_goods_margin_id: state.client.discount_goods_margin_id,
-        discount_materials_margin_id: state.client.discount_materials_margin_id,
-        discount_service_margin_id: state.client.discount_service_margin_id,
-        discount_service_type: state.client.discount_service_type,
-
-        tags: state.client.tags,
-        phone: state.client.phone,
-    })
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/clients', request_config)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'CHANGE_ORDER_FORM_S',
-                        field: 'client',
-                        value: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusCreateNewClient',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_DATA_CLIENT'
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание клиента не выполнен'))
-    }
-}
-
-export function saveChangeClient() {
-
-    const state = store.getState()
-
-    let request_config = getRequestConfig({
-        id: state.client.edit,
-        juridical: state.client.juridical,
-        supplier: state.client.supplier,
-        conflicted: state.client.conflicted,
-        should_send_email: state.client.should_send_email,
-        discount_good_type: state.client.discount_good_type,
-        discount_materials_type: state.client.discount_materials_type,
-        discount_service_type: state.client.discount_service_type,
-
-        name: state.client.name,
-        name_doc: state.client.name_doc,
-        email: state.client.email,
-        address: state.client.address,
-        discount_code: state.client.discount_code,
-        notes: state.client.notes,
-        ogrn: state.client.ogrn,
-        inn: state.client.inn,
-        kpp: state.client.kpp,
-        juridical_address: state.client.juridical_address,
-        director: state.client.director,
-        bank_name: state.client.bank_name,
-        settlement_account: state.client.settlement_account,
-        corr_account: state.client.corr_account,
-        bic: state.client.bic,
-
-        discount_goods: state.client.discount_goods,
-        discount_materials: state.client.discount_materials,
-        discount_services: state.client.discount_services,
-
-        ad_campaign_id: state.client.ad_campaign_id,
-        discount_goods_margin_id: state.client.discount_goods_margin_id,
-        discount_materials_margin_id: state.client.discount_materials_margin_id,
-        discount_service_margin_id: state.client.discount_service_margin_id,
-
-        tags: state.client.tags,
-        phone: state.client.phone,
-    })
-    request_config.method = 'PUT'
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/clients', request_config)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'CHANGE_ORDER_FORM_S',
-                        field: 'client',
-                        value: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusCreateNewClient',
-                        value: false
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error,'Запрос на изменение данных клиента не выполнен'))
-    }
-}
-
-export function editClient(id) {
-
-    const state = store.getState()
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_clients', getRequestConfig({id}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'EDIT_CLIENT',
-                        client: data.data[0]
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error,'Запрос данных клиента не выполнен'))
-    }
-}
-
-export function deleteClient(flag) {
-
-    const state = store.getState()
-
-    let request_config = getRequestConfig({
-        id: state.client.edit,
-        deleted: flag
-    })
-    request_config.method = 'PUT'
-
-    return dispatch => {
-
-
-        fetch(state.data.url_server + '/clients', request_config)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'CHANGE_ORDER_FORM_S',
-                        field: 'client',
-                        value: {}
-                    })
-                    dispatch({
-                        type: 'RESET_DATA_CLIENT'
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusCreateNewClient',
-                        value: false
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error,'Запрос на изменение клиента не выполнен'))
-    }
-}
 
 //===========================================================================================================================
 
@@ -794,28 +477,7 @@ export function addEquipment() {
 
 
 
-export function addDiscountMargin() {
 
-    const state = store.getState()
-
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_discount_margin', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
 
 
 export function createRole() {
@@ -982,8 +644,14 @@ export function addMainData() {
                             counters: data.counts,
                             ad_campaign: data.ad_campaign,
                             item_payments: data.item_payments,
-                            status_group: data.status_group,
-                            service_prices: data.service_prices
+                            status_group: data.status_group
+                        }
+                    })
+                    dispatch({
+                        type: 'CHANGE_PRICE_STATE',
+                        data: {
+                            service_prices: data.service_prices,
+                            discount_margin: data.discount_margin
                         }
                     })
                     dispatch({
@@ -998,6 +666,10 @@ export function addMainData() {
                         type: 'CHANGE_EMPLOYEE_STATE',
                         data: {employees: data.employees}
                     })
+                    // dispatch({
+                    //     type: 'CHANGE_WAREHOUSE_STATE',
+                    //     data: {employees: data.employees}
+                    // })
                 } else {
                     console.warn(data.message)
                 }
@@ -1257,129 +929,6 @@ export function addItemPayments() {
 }
 
 
-export function createPrice() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        title: state.price.title,
-        margin: state.price.margin,
-        margin_type: state.price.margin_type,
-        deleted: state.price.deleted
-    })
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание наценки не выполнен'))
-
-        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPriceEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PRICE'
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
-
-export function savePrice() {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        id: state.price.edit,
-        title: state.price.title,
-        margin: state.price.margin,
-        margin_type: state.price.margin_type,
-        deleted: state.price.deleted
-    })
-    request_config.method = 'PUT'
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на изменение цены не выполнен'))
-
-        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPriceEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PRICE'
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
-
-export function deletePrice(flag) {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        id: state.price.edit,
-        deleted: flag
-    })
-    request_config.method = 'PUT'
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/discount_margin', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на удаление ыены не выполнен'))
-
-        await fetch(state.data.url_server + '/get_discount_margin', getRequestConfig({}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'discount_margin',
-                        data: data.data,
-                    })
-                    dispatch({
-                        type: 'SET_VISIBLE_FLAG',
-                        field: 'statusPriceEditor',
-                        value: false
-                    })
-                    dispatch({
-                        type: 'RESET_PRICE'
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос наценок не выполнен'))
-    }
-}
 
 export function addGroupeService() {
 
@@ -1684,58 +1233,5 @@ export function deleteDictService(flag) {
     }
 }
 
-export function addServicePrices() {
 
-    const state = store.getState()
 
-    return dispatch => {
-
-        fetch(state.data.url_server + '/get_service_prices', getRequestConfig())
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'service_prices',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос цен на услуги не выполнен'))
-    }
-}
-
-export function createSaveServicePrice(id, cost, discount_margin_id, service_id) {
-
-    const state = store.getState()
-
-    const request_config = getRequestConfig({
-        id,
-        cost,
-        discount_margin_id,
-        service_id
-    })
-
-    return async dispatch => {
-
-        await fetch(state.data.url_server + '/service_prices', request_config)
-            .catch(error => bad_request(dispatch, error, 'Запрос на создание услуги не выполнен'))
-
-        await fetch(state.data.url_server + '/get_service_prices', getRequestConfig({}))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    dispatch({
-                        type: 'ADD_DATA',
-                        field: 'service_prices',
-                        data: data.data,
-                    })
-                } else {
-                    console.warn(data.message)
-                }
-            })
-            .catch(error => bad_request(dispatch, error, 'Запрос услуг не выполнен'))
-    }
-}

@@ -22,3 +22,22 @@ export const order_event_types = [
     {id: 21, title: 'Email оповещение', value: 'SEND_EMAIL'},
     {id: 22, title: 'Перемещение заказа', value: 'MOVE_TO'}
 ]
+
+export const request_event_types = [
+    {id: 1, title: 'Запрос создан', value: 'CREATE_REQUEST_SPARE_PART'},
+    {id: 2, title: 'Добавлена запчасть', value: 'ADD_PART'},
+    {id: 3, title: 'Назначен исполнитель', value: 'ASSIGN_EXECUTOR'},
+    {id: 4, title: 'Добавлен поставщик', value: 'ADD_SUPPLER'},
+    {id: 5, title: 'Добавлен клиент', value: 'ADD_CLIENT'},
+    {id: 6, title: 'Добавлен заказ', value: 'ADD_ORDER'},
+    {id: 7, title: 'Запчасть изменена', value: 'CHANGE_PART'},
+    {id: 8, title: 'Исполнитель изменен', value: 'CHANGE_EXECUTOR'},
+    {id: 9, title: 'Изменен постовщик', value: 'CHANGE_SUPPLER'},
+    {id: 10, title: 'Изменен клиент', value: 'CHANGE_CLIENT'},
+    {id: 11, title: 'Изменен заказ', value: 'CHANGE_ORDER'},
+    {id: 12, title: 'Изменены данные', value: 'CHANGE_DATA'},
+    {id: 13, title: 'Статус изменен', value: 'CHANGE_STATUS'},
+    {id: 14, title: 'Добавлен комментарий', value: 'ADD_COMMENT'},
+    {id: 15, title: 'Изменен срок поставки', value: 'CHANGE_ESTIMATED_COME_AT'},
+    {id: 15, title: 'Установлен срок поставки', value: 'ADD_ESTIMATED_COME_AT'}
+]

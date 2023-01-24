@@ -5,6 +5,41 @@ import PropTypes from 'prop-types'
 import { setVisibleFlag } from '../../Redux/actions'
 import { valueOfPhoneInput } from './utils'
 
+/**
+ *  className='className'
+ *
+ *  inputClassName='inputClassName'
+ *
+ *  width='250px'
+ *
+ *  title='title'
+ *
+ *  name='name'
+ *
+ *  onChange={event => console.log(event.target.value)}
+ *
+ *  value={props.value}
+ *
+ *  unit='%'
+ *
+ *  checkedFlag='flagName'
+ *
+ *  checked={props.view.flagName}
+ *
+ *  disabled={false}
+ *
+ *  redStar={false}
+ *
+ *  errorMassage='errorMassage'
+ *
+ *  isPhone={false}
+ *
+ *  invisible={false}
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
+
 const LableInput = (props) => {
 
    const handleChange = (event) => {

@@ -20,8 +20,8 @@ const SetOrderGroupe = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listOrderOfGroup') &&
-            !event.path.map(el => el.id).includes('optionsOrderTextOfGroup')
+            !event.composedPath().map(el => el.id).includes('listOrderOfGroup') &&
+            !event.composedPath().map(el => el.id).includes('optionsOrderTextOfGroup')
         ) {
             if (visibleList) {
                 setVisibleList(false)

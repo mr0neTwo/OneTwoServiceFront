@@ -14,7 +14,7 @@ const FilterEditor = props => {
     }
 
     const clickHandel = event => {
-        if (!event.path.map((el) => el.id).includes('createNewFilterWindow')) {
+        if (!event.composedPath().map((el) => el.id).includes('createNewFilterWindow')) {
             handleClose()
         }
     }

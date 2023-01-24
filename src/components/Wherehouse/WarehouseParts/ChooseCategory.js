@@ -8,31 +8,54 @@ import {icon_down, icon_left, icon_right} from '../../../data/icons';
 import Icon from '../../general/Icon';
 import SelectCategory from './SelectCategory';
 
+/**
+ *
+ * className='className'
+ *
+ * width='250px'
+ *
+ * setCategory={category => console.log(category)}
+ *
+ * current_category={props.current_category}
+ *
+ * disabled={false}
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
+
+
 const ChooseCategory = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
     const [catVisible, setCatVisible] = useState(!!props.warehouse.edit)
 
-    const mainCategory = props.warehouse.warehouses_categories[0]
+    const mainCategory = props.warehouse.warehouse_categories
 
     const handleChoose = (category) => {
         setListVisible( false )
-        props.changeWarehouseForm(category, 'current_parent_category')
+        props.setCategory(category)
     }
 
     return (
-        <div className = 'w250 mt15'>
+        <div
+            className={props.className}
+            style={{width: props.width || '250px'}}
+        >
             <div className='lableImput'>Родительская категория</div>
             <div
                 className='optionsButton'
                 onClick={() => setListVisible(!listVisible && !props.warehouse.category_deleted)}
-                // style={props.warehouse.current_parent_category.id === mainCategory.id ? { borderColor: '#cae1f5' } : null}
             >
-                <div className='noWr'>{props.warehouse.current_parent_category.title}</div>
-                <Icon className='icon-s2' icon={listVisible ? icon_down : icon_left}/>
+                <div className='noWr'>{props.current_category ? props.current_category.title : ''}</div>
+                <Icon className='icon-s4' icon={listVisible ?  icon_left : icon_down}/>
             </div>
             {listVisible && !props.disabled ?
-                <div className='listOptionsChoose pos-a'>
+                <div
+                    className='listOptionsChoose pos-a'
+                    style={{width: props.width || '250px'}}
+                >
                     <div
                         className='row hovblue'
                     >

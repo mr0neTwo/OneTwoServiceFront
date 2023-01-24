@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
 
 import Icon from '../../../../general/Icon'
@@ -11,6 +12,7 @@ import {
     icon_calendar, icon_coin_dollar
 } from '../../../../../data/icons'
 import {icon_letter, icon_loop, icon_pencil, icon_trush, icon_user} from '../../../../../data/icons'
+import {compareDates, showDate} from '../../../../general/utils'
 
 
 const EventSimple = props => {
@@ -45,62 +47,71 @@ const EventSimple = props => {
     }
 
     const optionsShowDate = {
-        // year: 'numeric',
-        // month: 'long',
-        // day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-        // second: 'numeric'
     }
 
     const time = new Date(props.event.created_at * 1000).toLocaleString('ru', optionsShowDate)
 
-
-
     return (
 
-        <div className='eventElement'>
-            {props.event.changed.map((event, idx) => (
-                <div>
-                    <div className='row jc-sb'>
-                        <div className='row'>
-                            <div
-                                style={{
-                                    backgroundColor: props.event.current_status.color,
-                                    display: idx ? 'none': null,
-                                    marginLeft: idx ? '30px': null
-                                }}
-                                className='boxHistoryIcon'
-                                title={props.employee}
-                            >
-                                <Icon className='icon-s2' icon={chooseIcon(props.event.event_type)} color='white'/>
+        <div
+            className='orderEvent'
+            style={{borderColor: props.event.current_status.color}}
+        >
+            {!props.idx || !compareDates(props.event.created_at, props.events[props.idx - 1].created_at) ?
+                <div className='dateEvent'>{showDate(props.event.created_at, false)}</div>
+                : null
+            }
+            <div className='eventElement'>
+                {props.event.changed.map((event, idx) => (
+                    <div key={idx}>
+                        <div className='row jc-sb'>
+                            <div className='row'>
+                                <div
+                                    style={{
+                                        backgroundColor: props.event.current_status.color,
+                                        display: idx ? 'none': null,
+                                        marginLeft: idx ? '30px': null
+                                    }}
+                                    className='boxHistoryIcon'
+                                    title={props.employee}
+                                >
+                                    <Icon className='icon-s2' icon={chooseIcon(props.event.event_type)} color='white'/>
+                                </div>
+                                <div
+                                    className='ml10 txtb'
+                                    style={{marginLeft: idx ? '28px': null}}
+                                >
+                                    {event.title}
+                                </div>
                             </div>
-                            <div
-                                className='ml10 txtb'
-                                style={{marginLeft: idx ? '28px': null}}
-                            >
-                                {event.title}
-                            </div>
+                            <div className='cgr'>{time}</div>
                         </div>
-                        <div className='cgr'>{time}</div>
+                        <div
+                            className={`${checkLength(event) ? null : 'row'} ml30`}
+                        >
+                            {event.current && event.current.title ? <div className=''>{event.current.title}</div> : null}
+                            {event.current && event.current.title ?
+                                <Icon
+                                    className='icon-sm8 mlr5'
+                                    icon={checkLength(event) ? icon_arrow_down : icon_arrow_right}
+                                /> : null}
+                            <div style={{whiteSpace: "pre-wrap"}}>{event.new.title}</div>
+                        </div>
                     </div>
-                    <div
-                        className={`${checkLength(event) ? null : 'row'} ml30`}
-                    >
-                        {event.current && event.current.title ?
-                            <div className=''>{event.current.title}</div> : null}
-                        {event.current && event.current.title ?
-                            <Icon
-                                className='icon-sm8 mlr5'
-                                icon={checkLength(event) ? icon_arrow_down : icon_arrow_right}
-                            /> : null}
-                        <div style={{whiteSpace: "pre-wrap"}}>{event.new.title}</div>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
+
+
     )
 }
 
+const mapStateToProps = state => ({
+    events: state.order.events,
+})
 
-export default EventSimple
+const mapDispatchToProps = {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventSimple)

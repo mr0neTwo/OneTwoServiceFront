@@ -216,62 +216,38 @@ export const finance = [
 
 export const warehouse = [
    {
-      value: 'see_remaining_warehouse', // не реализовано
+      value: 'see_remaining_warehouse',
       description: 'Может видеть остатки'
    },{
-      value: 'see_equipment_warehouse', // не реализовано
-      description: 'Может просматривать изделия'
-   },{
-      value: 'create_equipment_warehouse', // не реализовано
-      description: 'Может создавать изделия'
-   },{
-      value: 'edit_equipment_warehouse', // не реализовано
-      description: 'Может редактировать изделия'
-   },{
-      value: 'write_of_equipment', // не реализовано
-      description: 'Может списывать изделия'
-   },{
-      value: 'combine_equipment', // не реализовано
-      description: 'Может объединять изделия'
-   },{
-      value: 'move_equipment', // не реализовано
-      description: 'Может перемещать изделия'
-   },{
-      value: 'see_registrations', // не реализовано
+      value: 'see_registrations',
       description: 'Может просматривать оприходования'
    },{
-      value: 'create_registrations', // не реализовано
+      value: 'create_registrations',
       description: 'Может создавать оприходования'
    },{
-      value: 'delete_registrations', // не реализовано
-      description: 'Может удалять оприходования'
+      value: 'edit_registrations',
+      description: 'Может редактировать оприходования'
    },{
-      value: 'write_of_warehouse', // не реализовано
-      description: 'Списание'
+      value: 'write_of_warehouse',
+      description: 'Может списывать со склада и просматривать списания'
    },{
-      value: 'move_warehouse', // не реализовано
-      description: 'Перемещения'
+      value: 'move_warehouse',
+      description: 'Может делать перемещиня'
    },{
-      value: 'see_inventory', // не реализовано
+      value: 'see_move_warehouse',
+      description: 'Может видеть перемещиня'
+   },{
+      value: 'see_inventory',
       description: 'Может просматривать инвентаризации'
    },{
-      value: 'see_inventory_total', // не реализовано
-      description: 'Может просматривать итоги инвентаризации'
-   },{
-      value: 'create_inventory', // не реализовано
+      value: 'create_inventory',
       description: 'Может создавать инвентаризации'
    },{
-      value: 'delete_inventory', // не реализовано
-      description: 'Может удалять инвентаризации'
-   },{
-      value: 'see_refund_to_supplier', // не реализовано
+      value: 'see_refund_to_supplier',
       description: 'Может просматривать возвраты'
    },{
-      value: 'create_refund_to_supplier', // не реализовано
+      value: 'create_refund_to_supplier',
       description: 'Может создавать возвраты'
-   },{
-      value: 'serial_accounting', // не реализовано
-      description: 'Может включать серийный учет для существующих товаров'
    },{
       value: 'create_warehouse_categories',
       description: 'Может создавать категории товаров'
@@ -291,7 +267,7 @@ export const warehouse = [
       value: 'create_new_part',
       description: 'Может создавать новые товары'
    },{
-      value: 'edit_part', // не реализовано
+      value: 'edit_part',
       description: 'Может редактировать товары'
    },{
       value: 'see_delete_parts',
@@ -303,8 +279,23 @@ export const warehouse = [
       value: 'recover_parts',
       description: 'Может восстанавливать товары'
    },{
-      value: 'delete_operation_of_warehouse', // не реализовано
-      description: 'Может удалять операции на складе'
+      value: 'see_buy_cost',
+      description: 'Может видеть себестоимость'
+   },{
+      value: 'edit_buy_cost',
+      description: 'Может устанавливать и редакировать себестоимость'
+   },{
+      value: 'see_request_spare_parts',
+      description: 'Может видеть запросы запчастей'
+   },{
+      value: 'create_request_spare_parts',
+      description: 'Может создавать запросы запчастей'
+   },{
+      value: 'edit_request_spare_parts',
+      description: 'Может редактировать запросы запчастей'
+   },{
+      value: 'delete_request_spare_parts',
+      description: 'Может удалять/восстанавливать запросы запчастей'
    }
 ]
 

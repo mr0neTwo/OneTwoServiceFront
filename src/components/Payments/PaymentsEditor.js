@@ -8,14 +8,13 @@ import {changeStatus} from '../../Redux/actions/orderActions'
 import {addClients} from '../../Redux/actions/clientAction'
 
 import BottomButtons from '../general/BottomButtons'
-import ChooseBotton from '../general/ChooseBotton'
-import SetClientByName from './SetClientByName'
-import ClientCard from '../Clients/ClientCard'
+import ChooseButton from '../general/ChooseButton'
 import Receipt from './Receipt'
 import ChooseOfList from '../general/ChooseOfList'
 import LableArea from '../general/LableArea'
 import AddTags from '../general/AddTags'
 import ChooseDate from '../general/calandar/ChooseDate'
+import SetClient from '../general/SetClient'
 
 
 const PaymentsEditor = (props) => {
@@ -34,9 +33,9 @@ const PaymentsEditor = (props) => {
 
     const clickHandel = (event) => {
 
-        if (!event.path.map((el) => el.id).includes('paymentsEditorWiondow') &&
-            !event.path.map((el) => el.id).includes('createNewOrder') &&
-            !event.path.map((el) => el.id).includes('344')
+        if (!event.composedPath().map((el) => el.id).includes('paymentsEditorWiondow') &&
+            !event.composedPath().map((el) => el.id).includes('createNewOrder') &&
+            !event.composedPath().map((el) => el.id).includes('344')
         ) {
             handleClose()
         }
@@ -103,7 +102,7 @@ const PaymentsEditor = (props) => {
                 <div className='contentEditor'>
 
                     <div className='row al-itm-fe'>
-                        <ChooseBotton
+                        <ChooseButton
                             className='mt15 mr-rg-20'
                             title='Дата и время'
                             name={['Текущее', 'Заданное']}
@@ -123,19 +122,21 @@ const PaymentsEditor = (props) => {
                             width='250px'
                             func={date => props.changePaymentState({custom_created_at: parseInt(date / 1000)})}
                             current_date={props.payment.custom_created_at * 1000}
+                            time={true}
                             invisible={!chooseData}
                         />
                     </div>
-
-                    {props.payment.direction ? (props.payment.client_id ?
-                        <ClientCard
-                            edit={() => props.changeVisibleState({'statusCreateNewClient': true})}
-                            close={() => props.changeVisibleState({client_id: 0})}
-                        /> : <SetClientByName/>) : null}
+                    <SetClient
+                        id='paymentClient'
+                        title='Имя поставщика'
+                        setClient={client => props.changePaymentState({client})}
+                        client={props.payment.client}
+                        disabled={!!props.order_edit}
+                    />
                     <Receipt/>
 
                     <div className='row mt15 al-itm-fs'>
-                        <ChooseBotton
+                        <ChooseButton
                             className=''
                             title='Форма оплаты'
                             name={['Нал.', 'Безнал.']}

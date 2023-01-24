@@ -2,15 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { showPhone } from '../../../general/utils'
-import { editClient, changeOrderFormS } from '../../../../Redux/actions'
-import ClientEditor from '../../../Clients/ClientEditor/ClientEditor'
+import {changeOrderFormS, changeVisibleState} from '../../../../Redux/actions'
+import {getClient} from '../../../../Redux/actions/clientAction'
 
 const ClientCard = (props) => {
 
 
    return (
       <div className = 'formRow'>
-         <div className='optionsTitle'></div>
+         <div className='optionsTitle'> </div>
          <div className = 'clientCard'>
          <div>
             <div>
@@ -19,7 +19,7 @@ const ClientCard = (props) => {
                </svg>
                <span 
                   className='clientCardName'
-                  onClick={() => props.editClient(props.client.id)}
+                  onClick={() => props.getClient(props.client.id)}
                   >
                   {props.client.name}
                </span>
@@ -40,19 +40,19 @@ const ClientCard = (props) => {
             &#9587;
          </div>
          </div>
-         {props.statusCreateNewClient ? <ClientEditor/> : null }
       </div>
    )
 }
 
 const mapStateToProps = state => ({
    client: state.order.client,
-   statusCreateNewClient: state.view.statusCreateNewClient
+   statusClientEditor: state.view.statusClientEditor
    })
 
 const mapDispatchToProps = {
-   editClient,
-   changeOrderFormS
+    changeOrderFormS,
+    changeVisibleState,
+    getClient
 }
   
  export default connect(mapStateToProps, mapDispatchToProps)(ClientCard)

@@ -1,18 +1,19 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
-import { addWarehouseCategories, changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
-import {addParts, changePartForm, choosePartSelected} from '../../../Redux/actions/partAction'
-import {setVisibleFlag} from '../../../Redux/actions';
+import {addWarehouseCategories, changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
+import {addParts, changePartState, choosePartSelected} from '../../../Redux/actions/partAction'
+import {changeVisibleState, setVisibleFlag} from '../../../Redux/actions';
+import {part_table_headers} from '../../../data/tableHeaders'
 
 import Button from '../../general/Button';
 import WarehouseCategoryEditor from './WarehouseCategoryEditor';
 import CategoryTable from './CategoryTable';
 import Checkbox from '../../general/Checkbox';
-import PartEditor from './PartEditor';
 import PartTable from './PartTable'
 import TableFields from '../../general/TableFields'
-import {part_table_headers} from '../../../data/tableHeaders'
+import Paginate from '../../general/Paginate'
+import WarehouseSearch from '../Search'
 
 const WarehouseParts = props => {
 
@@ -22,7 +23,7 @@ const WarehouseParts = props => {
 
     useEffect(() => {
         props.addParts()
-    }, [props.part.showDeleted, props.part.page, props.warehouse.current_category])
+    }, [props.part.showDeleted, props.part.page, props.warehouse.current_category, props.part.filter_name])
 
     const handleAddCategory = () => {
         props.changeWarehouseForm(props.warehouse.current_category, 'current_parent_category')
@@ -31,13 +32,14 @@ const WarehouseParts = props => {
 
     const handleAddPart = () => {
         props.changeWarehouseForm(props.warehouse.current_category, 'current_parent_category')
-        props.setVisibleFlag('statusPartEditor', true)
+        props.changePartState({warehouse_category: props.warehouse.warehouse_categories})
+        props.changeVisibleState({statusPartEditor: true})
     }
 
     return (
         <div className = 'contentTab'>
             <div className='row al-itm-bl'>
-                <div className='wmn300 overv'>
+                <div className='wp25 overv'>
                     <div className='row al-itm-ct'>
                         <Button
                             id='btaddWC'
@@ -57,7 +59,7 @@ const WarehouseParts = props => {
                     {props.statusWarehouseCategoryEditor ? <WarehouseCategoryEditor/> : null}
                     <CategoryTable/>
                 </div>
-                <div className='ml10 w100'>
+                <div className='ml10 wp75 overv'>
                     <div className='row jc-sb'>
                         <div className='row al-itm-ct'>
                             <Button
@@ -70,9 +72,12 @@ const WarehouseParts = props => {
                             <Checkbox
                                 className='ml10'
                                 label='Показать удаленные'
-                                onChange={event => props.changePartForm(event.target.checked, 'showDeleted')}
+                                onChange={event => props.changePartState({showDeleted: event.target.checked})}
                                 checked={props.part.showDeleted}
                                 invisible={!props.permissions.includes('see_delete_parts')}
+                            />
+                            <WarehouseSearch
+                                func={search => props.changePartState({filter_name: search})}
                             />
                         </div>
                         <TableFields
@@ -85,19 +90,26 @@ const WarehouseParts = props => {
                             field='choosed_headers'
                         />
                     </div>
-                    {props.statusPartEditor ? <PartEditor/> : null}
                     <PartTable/>
+                    <div className='row'>
+                        <Paginate
+                            allItems={props.part.count_parts}
+                            onPage={50}
+                            count={2}
+                            count_start_end={0}
+                            navigation={true}
+                            func={page => props.changePartState({page})}
+                        />
+                        <div className='ml10'>Всего - {props.part.count_parts}</div>
+                    </div>
                 </div>
-
             </div>
-
         </div>
     )
 }
 
 const mapStateToProps = state => ({
     statusWarehouseCategoryEditor: state.view.statusWarehouseCategoryEditor,
-    statusPartEditor: state.view.statusPartEditor,
     warehouse: state.warehouse,
     part: state.part,
     permissions: state.data.user.role.permissions
@@ -109,7 +121,8 @@ const mapDispatchToProps = {
     changeWarehouseForm,
     addParts,
     choosePartSelected,
-    changePartForm
+    changePartState,
+    changeVisibleState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WarehouseParts)

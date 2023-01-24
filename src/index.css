@@ -111,6 +111,13 @@ table#tableOrders td {
   max-width: 0;
 }
 
+table#tableWarehouse {
+  min-width: max-content;
+}
+table#tableWarehouse td {
+  max-width: 0;
+}
+
 tr.ss > td {
   border: none;
   font-weight: 700;
@@ -169,7 +176,6 @@ tbody > tr.ss:hover {
   border-left-style: solid;
   font-size: 13px;
   line-height: 16px;
-  padding: 16px 0 16px 12px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -178,12 +184,16 @@ tbody > tr.ss:hover {
   color: #c9cbcc;
   fill: #c9cbcc;
 }
+.menuRowActive {
+  background-color: #53585c;
+  color: white;
+  fill: white;
+}
 
 .menuBranch {
   padding: 16px 0 16px 12px;
   font-size: 13px;
   line-height: 16px;
-  padding: 16px 0 16px 12px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -505,7 +515,11 @@ textarea:focus {
   color: #373737;
   max-height: 80vh;
 }
-
+.tableWarehouseBox {
+  overflow: auto;
+  color: #373737;
+  max-height: 72vh;
+}
 
 
 
@@ -896,7 +910,6 @@ div.tableOrders td {
   align-items: center;
   text-align: center;
   padding: 5px 12px;
-  margin: 5px 0px;
   background: #5cb85c;
   border-color: #5cb85c;
   color: #fff;
@@ -928,7 +941,6 @@ div.tableOrders td {
   display: flex;
   align-items: center;
   padding: 0px 8px;
-  margin: 4px;
   height: 29px;
   border: 1px solid #aaaaaa;
   border-radius: 4px;
@@ -946,15 +958,40 @@ div.tableOrders td {
 .orderLink:hover {
   text-decoration: underline;
 }
-/*.orderLink:visited {*/
-/*  color: #afd7fa;*/
-/*}*/
+
+.link {
+  text-decoration: none;
+  color: #4791d1;
+  text-align: center;
+  cursor: pointer;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+.partLink {
+  text-decoration: none;
+  color: var(--color-black);
+  text-align: center;
+  cursor: pointer;
+}
+.partLink:hover {
+  text-decoration: underline;
+}
 
 .mainCustomPanel {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
+
+.customPanel-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
 
 .setCustomFilter {
   display: flex;
@@ -1268,7 +1305,7 @@ div.tableOrders td {
 
 .whiteBlueBotton {
   margin: 5px 5px;
-  padding: 4px 10px;
+  /*padding: 4px 10px;*/
   display: flex;
   justify-content: space-between;
   color: #4791d1;
@@ -1281,16 +1318,16 @@ div.tableOrders td {
 }
 
 .whiteButton {
-  /*margin: 5px 10px;*/
   padding: 4px 10px;
   background-color: white;
   border-radius: 4px;
   justify-content: space-between;
   border: 1px solid #aaaaaa;
-  border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
   max-width: max-content;
+  align-items: center;
+  display: flex;
 }
 
 
@@ -1311,7 +1348,7 @@ div.tableOrders td {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 999;
   display: flex;
   justify-content: flex-end;
   background-color: rgba(0, 0, 0, 0.25);
@@ -1425,7 +1462,7 @@ div.tableOrders td {
   box-sizing: border-box;
 }
 
-#createNewClient {
+#createClient {
   z-index: 99999;
 }
 
@@ -1528,6 +1565,11 @@ div.tableOrders td {
   position: relative;
   text-decoration: none;
   color: #c9cbcc;
+  background-color: #53585c;
+}
+.settingRowActive {
+  background-color: #939699;
+  color: #fff
 }
 
 .settingRow:hover {
@@ -1585,7 +1627,7 @@ checkboxLable {
   margin-top: 10px;
 }
 
-.blockImput {
+.blockInput {
   display: block;
   flex-direction: column;
   max-height: 40px;
@@ -1734,7 +1776,7 @@ checkboxLable {
 .listOptionsPhones {
   display: block;
   flex-direction: column;
-  position: fixed;
+  position: relative;
   background-color: white;
   border: 1px solid #aaaaaa;
   border-bottom-left-radius: 4px;
@@ -1751,6 +1793,17 @@ checkboxLable {
   display: block;
   flex-direction: column;
   position: relative;
+  background-color: white;
+  border: 1px solid #aaaaaa;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 4px 0px;
+  overflow: scroll;
+  max-height: 200px;
+  z-index: 10;
+}
+
+.listOption {
   background-color: white;
   border: 1px solid #aaaaaa;
   border-bottom-left-radius: 4px;
@@ -1978,6 +2031,20 @@ checkboxLable {
   box-shadow: 1px 1px 6px 0 rgb(0 0 0 / 10%);
 }
 
+.partCard {
+  display: flex;
+  justify-content: space-between;
+  border-left: 8px solid #cba13b;
+  border-radius: 4px;
+  padding: 12px;
+  background-color: white;
+  width: 100%;
+  margin-right: 30px;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 6px 0 rgb(0 0 0 / 10%);
+}
+
+
 .icon-client {
   margin-right: 3px;
   padding: 0;
@@ -2015,6 +2082,19 @@ checkboxLable {
 .clientCardName:hover {
   color: #0c61ac;
 }
+.partCardName {
+  font-size: 14px;
+  line-height: 18px;
+  color: #cba13b;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.clientCardName:hover {
+  color: #98782c;
+}
+
+
 .clientCardTitle {
   padding: 5px 0px;
   font-weight: 700;
@@ -2608,6 +2688,14 @@ thead:hover {
   align-items: center;
 }
 
+.boxSearch {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  align-items: center;
+}
+
 .subtypePicture {
   position: fixed;
   top: 225px;
@@ -2618,7 +2706,7 @@ thead:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  /*background-color: white;*/
   border-radius: 5px;
   box-shadow: 1px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 -1px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
   background-color: #ffffff;
@@ -2880,9 +2968,10 @@ div.ssm > div:hover {
   background-color: var(--color-gray);
 }
 .dateEvent {
-  font-weight: bold;
+  font-weight: 800;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
+  padding: 5px;
 }
 
 .orderSticker{
@@ -3126,6 +3215,78 @@ div.ssm > div:hover {
   z-index: 9999999;
 }
 
+.rBorder {
+  border-right: 1px solid #c9cbcc;
+}
+
+.ibot {
+  text-align: center;
+  cursor: pointer;
+  padding-top: 5px;
+}
+.btmst {
+  margin: 10px 0 0 0;
+  padding: 13px 15px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #e6e5e5;
+  color: #4791d1;
+}
+
+.tsip {
+  border-collapse: separate; /* Способ отображения границы */
+  border-spacing: 2px; /* Расстояние между ячейками */
+}
+
+.sip_line {
+  border-bottom: 1px solid #acacac;
+  width: 100%;
+}
+
+.remainBox {
+  width: 92%;
+  border: 1px solid #acacac;
+  border-radius: 4px;
+  padding: 10px 18px;
+  color: #939699;
+}
+
+.remTabImg {
+  height: 50px;
+}
+
+.tipWriteOfMessage {
+  position: absolute;
+  display: block;
+  border: 1px solid #acacac;
+  border-radius: 5px;
+  top: 25px;
+  padding: 5px;
+  background-color: aliceblue;
+  width: 300px;
+}
+
+.makeChoice {
+  font-size: 16px;
+  color: var(--color-black);
+  padding-top: 150px;
+  width: 100%;
+  text-align: center;
+}
+
+.tipWriteOfMessage:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  bottom: -5px;
+  right: 196px;
+  box-shadow: 0px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 0px 0 #e6e6e6, 0 3px 13px rgb(0 0 0 / 8%);
+  transform: rotate(-45deg);
+  background: linear-gradient(45deg, aliceblue 50%, rgba(255, 255, 255, 0) 50%);
+}
+
 .fsz12 { font-size: 12px }
 .fsz16 { font-size: 16px }
 .fsz20 { font-size: 20px }
@@ -3139,6 +3300,7 @@ div.ssm > div:hover {
 .br200 { border-radius: 200px}
 
 .m0 {margin: 0}
+.m5 {margin: 5px}
 .mt15 { margin-top: 15px }
 .mt20 { margin-top: 20px }
 .mt35 { margin-top: 35px }
@@ -3173,15 +3335,22 @@ div.ssm > div:hover {
 .h20 { height: 20px }
 .h24 { height: 24px }
 .h27 { height: 27px }
+.h29 { height: 29px }
 .h31 { height: 31px }
+.h49 { height: 49px }
 .h52 { height: 52px }
 .h90 { height: 90px }
+.h300 { height: 300px }
 .h100 { height: 100% }
 .mh { max-height: min-content }
+.mh72 { max-height: 72vh }
 
+.w700 { width: 700px }
 .w515 { width: 515px }
+.w600 { width: 600px }
 .w500 { width: 500px }
 .w400 { width: 400px }
+.w350 { width: 350px }
 .w300 { width: 300px }
 .w250 { width: 250px }
 .w200 { width: 200px }
@@ -3189,6 +3358,7 @@ div.ssm > div:hover {
 .w150 { width: 150px }
 .w135 { width: 135px }
 .w130 { width: 130px }
+.w120 { width: 120px }
 .w91 { width: 91px }
 .w80 { width: 80px }
 .w70 { width: 70px }
@@ -3199,24 +3369,30 @@ div.ssm > div:hover {
 .w100 { width: 100% }
 .w90 { width: 90% }
 
+.wp75 {width: 75% }
+.wp25 {width: 25% }
+
 .mw50 { min-width: 50% }
 .mw40 { min-width: 40% }
 .wm500 { max-width: 500px }
 .wmn500 { min-width: 500px }
 .wmn700 { min-width: 700px }
+.wmn900 { min-width: 900px }
 .wmn750 { min-width: 750px }
 .wm400 { min-width: 400px }
 .wmn300 { min-width: 300px }
 .wm50 { max-width: 50px }
 .mwp { max-width: 30% }
-.wmx700 {max-width: 700px }
-.wmx750 {max-width: 750px }
+.wmx500 { max-width: 500px }
+.wmx700 { max-width: 700px }
+.wmx750 { max-width: 750px }
 .mwmc { max-width: max-content }
 
 .wsp {
   width: 500px;
   max-width: none;
 }
+.mxc { width: max-content}
 .pd1 { padding: 1px }
 .pd2 { padding: 2px }
 .pd5 { padding: 5px }
@@ -3224,6 +3400,7 @@ div.ssm > div:hover {
 .pd-lf-5 { padding: 5px }
 .pd-tb-5 { padding: 5px 0 }
 .pd-lr-5 { padding: 0px 5px }
+.pr15 {padding-right: 15px}
 
 .pd11-20 {padding: 11px 20px}
 
@@ -3248,10 +3425,19 @@ div.ssm > div:hover {
 .tac { text-align: center }
 .tae { text-align: end }
 
+.wsn { white-space: normal}
+
+.bcbl { background-color: #cae1f5 }
 .bcb { background-color: #282e32 }
 .bcr { background-color: #ee5047 }
 .bcg { background-color: #fbfbfb }
 .fw {fill: white }
 
+.clb { color: var(--color-black)}
+.cgr { color: #acacac}
 
-.cgr{ color: #acacac}
+.z9 { z-index: 9}
+.z99 { z-index: 99}
+.z999 { z-index: 999}
+.z9999 { z-index: 9999}
+.z99999 { z-index: 99999}

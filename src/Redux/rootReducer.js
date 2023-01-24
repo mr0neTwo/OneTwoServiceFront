@@ -17,11 +17,18 @@ import { priceReducer } from './reducers/priceReducer'
 import { dictServiceReducer } from './reducers/dictServiceReducer'
 import { operationReducer } from './reducers/operationReducer'
 import { payrollReducer } from './reducers/payrollReducer'
-import {warehouseReducer} from "./reducers/wherehouseReducer";
+import {warehouseReducer} from "./reducers/warehouseReducer";
 import {partReducer} from './reducers/partReducer';
 import {orderPartReducer} from './reducers/orderPartReducer'
 import {notTemplateReducer} from './reducers/notTemplateReducer'
 import {notEventReducer} from './reducers/notEventReducer'
+import {registrationReducer} from './reducers/registrationReducer'
+import {remainReducer} from './reducers/remainReducer'
+import {writeOfReducer} from './reducers/writeOfReducer'
+import {warehouseMovementReducer} from './reducers/warehouseMovementReduсer'
+import {warehouseBackReducer} from './reducers/warehouseBackReducer'
+import {inventoryReducer} from './reducers/inventoryReducer'
+import {requestSparePartsReducer} from './reducers/requestSparePartsReducer'
 
 
 
@@ -47,5 +54,12 @@ export const rootReducer = combineReducers({
    part: partReducer,
    orderPart: orderPartReducer,
    notTemplate: notTemplateReducer,
-   notEvent: notEventReducer
+   notEvent: notEventReducer,
+   registration: registrationReducer,
+   remain: remainReducer,
+   writeof: writeOfReducer,
+   movement: warehouseMovementReducer,
+   back: warehouseBackReducer,
+   inventory: inventoryReducer,
+   reqsp: requestSparePartsReducer,
 })

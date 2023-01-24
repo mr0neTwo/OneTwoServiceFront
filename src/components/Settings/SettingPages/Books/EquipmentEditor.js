@@ -11,7 +11,7 @@ import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'
 import AddPicture from '../../../general/AddPicture'
 import ChooseOfList from '../../../general/ChooseOfList'
-import ChooseBotton from '../../../general/ChooseBotton'
+import ChooseButton from '../../../general/ChooseButton'
 import ChooseOfListMany from '../../../general/ChooseOfListMany'
 import ChooseIcon from './CooseIcon'
 import JoinEquipmets from './JoinEquipmets'
@@ -25,7 +25,7 @@ const EquipmentEditor = (props) => {
   }
 
   const clickHandel = (event) => {
-    if (!event.path.map((el) => el.id).includes('equipmentEditorWiondow')) {
+    if (!event.composedPath().map((el) => el.id).includes('equipmentEditorWiondow')) {
       handleClose()
     }
   }
@@ -139,7 +139,7 @@ const EquipmentEditor = (props) => {
             <ChooseIcon disabled={props.book.deleted} />
           ) : null}
 
-          <ChooseBotton
+          <ChooseButton
             className="mt15"
             title="Локация"
             name={['Все', 'Отдельные']}

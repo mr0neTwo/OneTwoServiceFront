@@ -20,8 +20,8 @@ const SetSubtype = props => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listFilterOfSubtype') &&
-            !event.path.map(el => el.id).includes('optionsFilterTextOfSubtype')
+            !event.composedPath().map(el => el.id).includes('listFilterOfSubtype') &&
+            !event.composedPath().map(el => el.id).includes('optionsFilterTextOfSubtype')
         ) {
             if (visibleList) {
                 setVisibleList(false)

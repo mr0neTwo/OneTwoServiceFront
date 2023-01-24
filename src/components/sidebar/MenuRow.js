@@ -1,22 +1,24 @@
 import React, {useState} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {Link, NavLink, useHistory} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {changeDataState} from '../../Redux/actions/dataAction'
 
 
 
 function MenuRow(props) {
+
     const history = useHistory()
     if (history.location.pathname === props.row.url) props.changeDataState({current_menu_row: props.row.url})
 
+
+    const style = props.current_menu_row === props.row.url ? {borderLeftColor: props.current_branch.color} : null
+
     return (
-        <Link
+        <NavLink
             className="menuRow"
+            activeClassName="menuRowActive"
             to={props.row.url}
-            style={props.current_menu_row === props.row.url ? {
-                backgroundColor: '#53585c',
-                borderLeftColor: props.current_branch.color
-            } : null}
+            style={style}
             onClick={() => props.changeDataState({current_menu_row: props.row.url})}
         >
             {props.row.image === 'task' ? (
@@ -25,11 +27,11 @@ function MenuRow(props) {
                 </div>
             ) : (
                 <svg className="sidebarIcon">
-                    <path fillRule="evenodd" clipRule="evenodd" d={props.row.image}></path>
+                    <path fillRule="evenodd" clipRule="evenodd" d={props.row.image}/>
                 </svg>
             )}
             <span className="didebarItemsText">{props.row.title}</span>
-        </Link>
+        </NavLink>
     )
 }
 

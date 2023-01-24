@@ -70,7 +70,7 @@ function CooseAvailablePrices (props) {
 }
 
 const mapStateToProps = state => ({
-   discount_margin: state.data.discount_margin,
+   discount_margin: state.price.discount_margin,
    settable_discount_margin: state.role.settable_discount_margin
    })
 

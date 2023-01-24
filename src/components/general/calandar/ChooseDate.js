@@ -24,6 +24,8 @@ import CalendarOption from './CalendarOption'
  *
  * allDate={false}
  *
+ * time={false} // отображать время
+ *
  * func={date => console.log(date)}
  *
  * current_date={props.current_date}
@@ -52,19 +54,19 @@ const ChooseDate = (props) => {
 
     const clickHandel = (event) => {
         // Скрываем меню выбора месяца при клику вне меню
-        if (!event.path.map(el => el.id).includes('monthList')) {
+        if (!event.composedPath().map(el => el.id).includes('monthList')) {
             if (visibleListMonth) {
                 setVisibleListMonth(false)
             }
         }
         // Скрываем клендарь при клике вне календаря
-        if (!event.path.map(el => el.id).includes('calendar')) {
+        if (!event.composedPath().map(el => el.id).includes('calendar')) {
             if (visibleCalendar) {
                 setVisibleCalendar(false)
             }
         }
         // Скрываем клендарь при клике вне календаря
-        if (!event.path.map(el => el.id).includes('listCalendarOption')) {
+        if (!event.composedPath().map(el => el.id).includes('listCalendarOption')) {
             if (listVisible) {
                 setListVisible(false)
             }
@@ -155,11 +157,14 @@ const ChooseDate = (props) => {
         // Если задан режим выбора одной даты
         } else {
             // возвращаем выбранную дату
-            props.func(day)
+            let finish_day = new Date(props.current_date)
+            finish_day.setDate(day.getDate())
+            finish_day.setMonth(day.getMonth())
+            finish_day.setFullYear(day.getFullYear())
+            props.func(finish_day)
             // устанавливаем текущую дату в state компонента
-            setCurrent_day(new Date(day))
+            setCurrent_day(finish_day)
         }
-
     }
 
     /**
@@ -209,7 +214,7 @@ const ChooseDate = (props) => {
 
     const title = props.range ?
         (props.current_date && props.current_date.some(date => date) ? showRangeDate(props.current_date) : 'Любая')
-        : showDate(props.current_date / 1000)
+        : showDate(props.current_date / 1000, props.time)
 
     const handleChangeDate = () => {
         if (props.range) {
@@ -282,12 +287,13 @@ const ChooseDate = (props) => {
                             </div>
                         ))}
                     </div>
-
-                    <CalendarTime
-                        func={data => props.func(data)}
-                        current_date={props.current_date}
-                        invisible={props.range}
-                    />
+                    {props.time ?
+                        <CalendarTime
+                            func={data => props.func(data)}
+                            current_date={props.current_date}
+                            invisible={props.range}
+                        /> : null
+                    }
                 </div> : null}
 
         </div>

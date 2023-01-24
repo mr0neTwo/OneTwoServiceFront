@@ -1,25 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {
-    changeClientEditorPhone,
-    addPhoneCounter,
-    deleteCountNumber,
-    setPhoneNotify,
-    setVisibleListFlag,
-    addVisibleFlag,
-    deleteVisibleFlag,
-} from '../../../Redux/actions'
-import PhoneTitle from './PhoneTitle'
-import {icon_trush} from '../../../data/icons'
+import {setVisibleListFlag, addVisibleFlag, deleteVisibleFlag,} from '../../../Redux/actions'
 import {valueOfPhoneInput} from '../../general/utils'
+import {addPhoneCounter, changeClientEditorPhone, deleteCountNumber} from '../../../Redux/actions/clientAction'
+import {icon_trush} from '../../../data/icons'
+
+import PhoneTitle from './PhoneTitle'
 
 const AddPhones = (props) => {
 
     const handleChange = (idx, event) => {
         const out = event.target.value.replace(/[^0-9]/g, '')
-        if (out.length < 12) props.changeClientEditorPhone(idx, out)
+        if (out.length < 12) props.changeClientEditorPhone(idx, 'number', out,)
     }
+
+
 
     return (
         <div>
@@ -54,7 +50,7 @@ const AddPhones = (props) => {
                     <div className="checkbox mt5">
                         <input
                             type="checkbox"
-                            onChange={() => props.setPhoneNotify(idx)}
+                            onChange={event => props.changeClientEditorPhone(idx, 'notify', event.target.checked)}
                             checked={phone.notify}
                         />
                         <label>Согласен получать SMS</label>
@@ -83,7 +79,6 @@ const mapDispatchToProps = {
     changeClientEditorPhone,
     addPhoneCounter,
     deleteCountNumber,
-    setPhoneNotify,
     setVisibleListFlag,
     addVisibleFlag,
     deleteVisibleFlag,

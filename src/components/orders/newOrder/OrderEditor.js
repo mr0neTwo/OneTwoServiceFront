@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import {connect} from 'react-redux'
-import {useHistory} from 'react-router-dom'
+import {useHistory, useLocation} from 'react-router-dom'
 
-import {addDiscountMargin, addDictService, changeVisibleState} from '../../../Redux/actions'
-import {createOrder, resetOrder, saveOrder, addOrders, getOrder} from '../../../Redux/actions/orderActions'
+import {addDictService, changeVisibleState} from '../../../Redux/actions'
+import {createOrder, resetOrder, saveOrder, getOrder} from '../../../Redux/actions/orderActions'
 import {changeOrderState} from '../../../Redux/actions/orderActions'
-
+import {addDiscountMargin} from '../../../Redux/actions/priceAction'
 import {changeBookState, resetBookEquipment} from "../../../Redux/actions/bookActions";
 import {addClients} from '../../../Redux/actions/clientAction'
 
@@ -20,10 +20,6 @@ import OrderHistory from './orderHisroy/OrderHistory'
 
 
 const OrderEditor = (props) => {
-
-    const history = useHistory()
-    // console.log(history.location)
-    const edit = history.location.state && history.location.state.order_id
 
     useEffect(() => {
         props.addClients()
@@ -50,14 +46,16 @@ const OrderEditor = (props) => {
             equipment_model: {}
         })
         props.resetOrder()
-        if (edit) history.goBack()
     }
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('addOrder') &&
-            !event.path.map((el) => el.id).includes('createNewOrder') &&
-            !event.path.map((el) => el.id).includes('paymentsEditorWiondow')
+            !event.composedPath().map((el) => el.id).includes('addOrder') &&
+            !event.composedPath().map((el) => el.id).includes('clientEditor') &&
+            !event.composedPath().map((el) => el.id).includes('createNewOrder') &&
+            !event.composedPath().map((el) => el.id).includes('paymentsEditorWiondow') &&
+            !event.composedPath().map((el) => el.id).includes('writeOfEditor') &&
+            !event.composedPath().map((el) => el.id).includes('statusReturnPart')
         ) {
             handleClose()
         }
@@ -69,12 +67,6 @@ const OrderEditor = (props) => {
             window.removeEventListener('click', clickHandel)
         }
     })
-
-
-    useEffect(() => {
-        if (edit) props.getOrder(history.location.state.order_id)
-    }, [])
-
 
     const handleCreate = () => {
         if (
@@ -113,8 +105,8 @@ const OrderEditor = (props) => {
     }
 
 
-    return edit && !props.order.edit ? null : (
-        <div className="rightBlock">
+    return (
+        <div className="rightBlock z99">
             <div className="rightBlockWindow" id="createNewOrder">
                 <div className="cteateNewOrderContent">
 
@@ -154,7 +146,8 @@ const OrderEditor = (props) => {
 const mapStateToProps = state => ({
     filter: state.filter,
     order: state.order,
-    client: state.client
+    client: state.client,
+    statusOrderNotFound: state.view.statusOrderNotFound
 })
 
 const mapDispatchToProps = {
@@ -167,7 +160,6 @@ const mapDispatchToProps = {
     resetOrder,
     addDictService,
     saveOrder,
-    addOrders,
     resetBookEquipment,
     getOrder
 }

@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {changePayrollState} from '../../../Redux/actions/payrollActions'
 
-import ChooseBotton from '../../general/ChooseBotton'
+import ChooseButton from '../../general/ChooseButton'
 import ChooseOfList from '../../general/ChooseOfList'
 import LableArea from '../../general/LableArea'
 import LableInput from '../../general/LableInput'
@@ -18,7 +18,7 @@ const PayrollForm = (props) => {
     return (
         <div className=''>
             <div className='row al-itm-fe'>
-                <ChooseBotton
+                <ChooseButton
                     className='mt15 mr-rg-20'
                     title='Дата и время'
                     name={['Текущее', 'Заданное']}
@@ -80,7 +80,7 @@ const PayrollForm = (props) => {
                 <div>
                     <div className='orderFormTitle mt15'>Данные платежа</div>
                     <div className='row mt15 al-itm-fs'>
-                        <ChooseBotton
+                        <ChooseButton
                             className=''
                             title='Форма оплаты'
                             name={['Нал.', 'Безнал.']}

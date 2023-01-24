@@ -1,5 +1,9 @@
 const initialState = {
 
+   discount_margin: [],
+   service_prices: [],
+   part_prices: [],
+
    edit: 0,
 
    margin: 0,
@@ -15,19 +19,18 @@ const initialState = {
          id: 1,
          title: 'Скидка на работы'
       }
-   ]
+   ],
+
+   showDeleted: false,
+   filter_type: null,
+   page: 0
 }
  
 export const priceReducer = (state = initialState, action) => {
    switch (action.type){
- 
 
- 
-      case 'CHANGE_PRICE_FORM': {
-         return {
-            ...state, 
-            [action.field]: action.value
-         }
+      case 'CHANGE_PRICE_STATE': {
+         return {...Object.assign(state, action.data)}
       }
  
 
@@ -54,8 +57,7 @@ export const priceReducer = (state = initialState, action) => {
             deleted: false
          }
       }
- 
-       
+
       default: return state
    }
     

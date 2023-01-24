@@ -9,7 +9,7 @@ import LableInput from '../../../general/LableInput'
 import LableArea from '../../../general/LableArea'
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
-import ChooseBotton from '../../../general/ChooseBotton'
+import ChooseButton from '../../../general/ChooseButton'
 
 const OperationEditor = (props) => {
 
@@ -21,7 +21,7 @@ const OperationEditor = (props) => {
    }
    
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('operationEditorWiondow')) {
+      if (!event.composedPath().map((el) => el.id).includes('operationEditorWiondow')) {
          handleClose()
       }
    }
@@ -102,7 +102,8 @@ const OperationEditor = (props) => {
                onChange={event => props.changeOperationForm(event.target.value.replace(/[^0-9.]/g, ''), 'cost')}
                value={props.operation.cost}
                unit='руб.'
-               disabled={props.operation.deleted}
+               disabled={props.operation.deleted || !props.permissions.includes('edit_buy_cost')}
+               invisible={!props.permissions.includes('see_buy_cost')}
             />
             <div className='row al-itm-fe'>
                <LableInput
@@ -113,7 +114,7 @@ const OperationEditor = (props) => {
                   unit=' '
                   disabled={props.operation.deleted}
                />
-               <ChooseBotton
+               <ChooseButton
                   className='ml30'
                   name={['руб.', '%']}
                   func1 = {() => props.changeOperationForm(false, 'percent')}
@@ -130,7 +131,7 @@ const OperationEditor = (props) => {
                   unit=' '
                   disabled={props.operation.deleted}
                />
-               <ChooseBotton
+               <ChooseButton
                   className='ml30'
                   name={['Дни', 'Мес']}
                   func1 = {() => props.changeOperationForm(1*24*60*60, 'warranty_value')}
