@@ -21,7 +21,7 @@ const OperationEditor = (props) => {
    }
    
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('operationEditorWiondow')) {
+      if (!event.composedPath().map((el) => el.id).includes('operationEditorWiondow')) {
          handleClose()
       }
    }

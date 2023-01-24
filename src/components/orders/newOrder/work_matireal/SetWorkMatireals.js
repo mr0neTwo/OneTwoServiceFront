@@ -25,8 +25,8 @@ const SetWorkMatireals = (props) => {
 
     const clickHandel1 = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listSetWorks') &&
-            !event.path.map(el => el.id).includes('setWorks')
+            !event.composedPath().map(el => el.id).includes('listSetWorks') &&
+            !event.composedPath().map(el => el.id).includes('setWorks')
         ) {
             if (listVisible) {
                 setlistVisible(false)

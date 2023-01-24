@@ -16,9 +16,9 @@ const ReturnOrderPart = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('statusReturnPart') &&
-            !event.path.map((el) => el.id).includes('deleteButton') &&
-            !event.path.map((el) => el.id).includes('deleteOrderPart')
+            !event.composedPath().map((el) => el.id).includes('statusReturnPart') &&
+            !event.composedPath().map((el) => el.id).includes('deleteButton') &&
+            !event.composedPath().map((el) => el.id).includes('deleteOrderPart')
     ) {
             handleClose()
         }

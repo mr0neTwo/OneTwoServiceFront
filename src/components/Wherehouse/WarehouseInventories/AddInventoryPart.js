@@ -19,8 +19,8 @@ const AddInventoryPart = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('remainInventory') &&
-            !event.path.map(el => el.id).includes('listRemainInventory')
+            !event.composedPath().map(el => el.id).includes('remainInventory') &&
+            !event.composedPath().map(el => el.id).includes('listRemainInventory')
         ) {
             setShowList(false)
         }

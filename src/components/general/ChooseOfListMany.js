@@ -28,7 +28,7 @@ const ChooseOfListMany = (props) => {
     const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
-        if (!event.path.map(el => el.id).includes(`chooseOfList${props.id}`)) {
+        if (!event.composedPath().map(el => el.id).includes(`chooseOfList${props.id}`)) {
             if (listVisible) {
                 setListVisible(false)
             }

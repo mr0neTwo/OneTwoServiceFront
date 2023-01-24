@@ -11,7 +11,7 @@ import Clause from './cashboxes/Clause'
 const PaymentCard = (props) => {
 
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('paymentsCardWiondow')) {
+      if (!event.composedPath().map((el) => el.id).includes('paymentsCardWiondow')) {
         props.setVisibleFlag('statusPaymentsCard', false)
       }
     }

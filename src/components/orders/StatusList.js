@@ -16,7 +16,7 @@ function StatusList(props) {
   ]
 
   const clichHandel = (event) => {
-    if (!event.path.map(el => el.id).includes('statusListOrderForm')) {
+    if (!event.composedPath().map(el => el.id).includes('statusListOrderForm')) {
       props.changeStatusMenuVisible(props.order.id)
       props.setVisibleFlag('statusStatusList', false)
     }

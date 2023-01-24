@@ -33,9 +33,9 @@ const PaymentsEditor = (props) => {
 
     const clickHandel = (event) => {
 
-        if (!event.path.map((el) => el.id).includes('paymentsEditorWiondow') &&
-            !event.path.map((el) => el.id).includes('createNewOrder') &&
-            !event.path.map((el) => el.id).includes('344')
+        if (!event.composedPath().map((el) => el.id).includes('paymentsEditorWiondow') &&
+            !event.composedPath().map((el) => el.id).includes('createNewOrder') &&
+            !event.composedPath().map((el) => el.id).includes('344')
         ) {
             handleClose()
         }

@@ -21,8 +21,8 @@ const SetOrderModel = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('listOrderOfModel') &&
-            !event.path.map((el) => el.id).includes('optionsOrderTextOfModel')
+            !event.composedPath().map((el) => el.id).includes('listOrderOfModel') &&
+            !event.composedPath().map((el) => el.id).includes('optionsOrderTextOfModel')
         ) {
             if (visibleList) {
                 setVisibleList(false)

@@ -14,8 +14,8 @@ const SetClient = (props) => {
 
     const clickHandel1 = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listFilterOfOrOrder') &&
-            !event.path.map(el => el.id).includes('orderInputBoxOfOrder')
+            !event.composedPath().map(el => el.id).includes('listFilterOfOrOrder') &&
+            !event.composedPath().map(el => el.id).includes('orderInputBoxOfOrder')
         ) {
             if (listClientsVisible) {
                 setListClientsVisible(false)
@@ -25,8 +25,8 @@ const SetClient = (props) => {
 
     const clickHandel2 = (event) => {
         if (
-            !event.path.map(el => el.id).includes('orderInputBoxOfOrderPhone') &&
-            !event.path.map(el => el.id).includes('listFilterOfOrOrderPhone')
+            !event.composedPath().map(el => el.id).includes('orderInputBoxOfOrderPhone') &&
+            !event.composedPath().map(el => el.id).includes('listFilterOfOrOrderPhone')
         ) {
             if (listClientsPhoneVisible) {
                 setListClientsPhoneVisible(false)

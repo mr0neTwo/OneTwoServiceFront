@@ -13,7 +13,7 @@ const CashboxEmployeeEditor = (props) => {
    const [perm, setPerm] = useState( props.cashbox.employees[props.cashbox.permissions_employee].like_cashbox )
 
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('cashboxEmployeeEditor')) {
+      if (!event.composedPath().map((el) => el.id).includes('cashboxEmployeeEditor')) {
         props.setVisibleFlag('statusCashboxEmployeeEditor', false)
       }
     }

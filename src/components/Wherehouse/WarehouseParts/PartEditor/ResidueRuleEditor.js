@@ -21,7 +21,7 @@ const ResidueRuleEditor = (props) => {
     }
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('residueRuleEditor')) {
+        if (!event.composedPath().map((el) => el.id).includes('residueRuleEditor')) {
             handleClose()
         }
     }

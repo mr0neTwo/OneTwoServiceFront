@@ -54,19 +54,19 @@ const ChooseDate = (props) => {
 
     const clickHandel = (event) => {
         // Скрываем меню выбора месяца при клику вне меню
-        if (!event.path.map(el => el.id).includes('monthList')) {
+        if (!event.composedPath().map(el => el.id).includes('monthList')) {
             if (visibleListMonth) {
                 setVisibleListMonth(false)
             }
         }
         // Скрываем клендарь при клике вне календаря
-        if (!event.path.map(el => el.id).includes('calendar')) {
+        if (!event.composedPath().map(el => el.id).includes('calendar')) {
             if (visibleCalendar) {
                 setVisibleCalendar(false)
             }
         }
         // Скрываем клендарь при клике вне календаря
-        if (!event.path.map(el => el.id).includes('listCalendarOption')) {
+        if (!event.composedPath().map(el => el.id).includes('listCalendarOption')) {
             if (listVisible) {
                 setListVisible(false)
             }

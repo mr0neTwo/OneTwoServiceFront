@@ -18,7 +18,7 @@ import BottomButtons from '../../../general/BottomButtons'
 
 const RoleEditor = (props) => {
   const clickHandel = (event) => {
-    if (!event.path.map((el) => el.id).includes('createNewRoleWiondow')) {
+    if (!event.composedPath().map((el) => el.id).includes('createNewRoleWiondow')) {
       props.setVisibleFlag('statusCreateNewRole', false)
     }
   }

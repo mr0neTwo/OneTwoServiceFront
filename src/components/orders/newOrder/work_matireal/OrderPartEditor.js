@@ -26,8 +26,8 @@ const OrderPartEditor = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('orderPartEditorWindow') &&
-            !event.path.map((el) => el.id).includes('statusReturnPart')
+            !event.composedPath().map((el) => el.id).includes('orderPartEditorWindow') &&
+            !event.composedPath().map((el) => el.id).includes('statusReturnPart')
         ) {
             handleClose()
         }

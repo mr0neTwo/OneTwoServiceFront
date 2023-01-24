@@ -36,7 +36,7 @@ const ChooseWithSearch = props => {
 
 
     const clickHandel = event => {
-        if (!event.path.map(el => el.id).includes(`ChooseWithSearch${props.id}`)) {
+        if (!event.composedPath().map(el => el.id).includes(`ChooseWithSearch${props.id}`)) {
             if (listVisible) {
                 setListVisible(false)
             }

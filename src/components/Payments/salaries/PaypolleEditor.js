@@ -22,7 +22,7 @@ const PaypolleEditor = (props) => {
     }
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes('payrollEditorWiondow')) {
+        if (!event.composedPath().map((el) => el.id).includes('payrollEditorWiondow')) {
             handleClose()
         }
     }

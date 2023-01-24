@@ -36,8 +36,8 @@ const SetClient = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes(`list${props.id}`) &&
-            !event.path.map(el => el.id).includes(props.id)
+            !event.composedPath().map(el => el.id).includes(`list${props.id}`) &&
+            !event.composedPath().map(el => el.id).includes(props.id)
         ) {
             setShowList(false)
         }

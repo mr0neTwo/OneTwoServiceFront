@@ -22,8 +22,8 @@ const SetOrderSubtype = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('listOrderOfSubtype') &&
-            !event.path.map((el) => el.id).includes('optionsOrderTextOfSubtype')
+            !event.composedPath().map((el) => el.id).includes('listOrderOfSubtype') &&
+            !event.composedPath().map((el) => el.id).includes('optionsOrderTextOfSubtype')
         ) {
             if (visibleList) {
                 setVisibleList(false)

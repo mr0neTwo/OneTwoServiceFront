@@ -12,7 +12,7 @@ const PhoneTitle = (props) => {
     const [titleStatus, setTitleStatus] = useState(false)
 
     const clickHandel = (event) => {
-        if (!event.path.map((el) => el.id).includes(`listOptionsOfPhones${props.idx}`)) {
+        if (!event.composedPath().map((el) => el.id).includes(`listOptionsOfPhones${props.idx}`)) {
             setListVisible(false)
         }
     }

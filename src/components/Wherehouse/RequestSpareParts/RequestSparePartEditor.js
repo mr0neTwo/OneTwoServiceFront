@@ -48,9 +48,9 @@ const RequestSparePartEditor = (props) => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('statusReqSparePartEditor') &&
-            !event.path.map((el) => el.id).includes('newReqSparePart') &&
-            !event.path.map((el) => el.id).includes('wpartEditorWindow')
+            !event.composedPath().map((el) => el.id).includes('statusReqSparePartEditor') &&
+            !event.composedPath().map((el) => el.id).includes('newReqSparePart') &&
+            !event.composedPath().map((el) => el.id).includes('wpartEditorWindow')
         ) {
             handleClose()
         }

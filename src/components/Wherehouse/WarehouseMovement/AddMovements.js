@@ -23,8 +23,8 @@ const AddMovements = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listRemainMovement') &&
-            !event.path.map(el => el.id).includes('remainMovement')
+            !event.composedPath().map(el => el.id).includes('listRemainMovement') &&
+            !event.composedPath().map(el => el.id).includes('remainMovement')
         ) {
             setShowList(false)
         }

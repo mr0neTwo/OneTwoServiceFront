@@ -23,8 +23,8 @@ const AddWriteOf = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listRemainWriteOf') &&
-            !event.path.map(el => el.id).includes('remainWriteOf')
+            !event.composedPath().map(el => el.id).includes('listRemainWriteOf') &&
+            !event.composedPath().map(el => el.id).includes('remainWriteOf')
         ) {
             setShowList(false)
         }

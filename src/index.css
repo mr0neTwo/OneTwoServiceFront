@@ -985,6 +985,14 @@ div.tableOrders td {
   flex-direction: column;
 }
 
+.customPanel-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+
 .setCustomFilter {
   display: flex;
   flex-direction: column;

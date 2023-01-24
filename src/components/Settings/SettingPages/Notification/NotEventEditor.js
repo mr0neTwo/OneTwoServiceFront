@@ -23,10 +23,10 @@ const NotEventEditor = props => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('NotTempEditorWindow') &&
-            !event.path.map((el) => el.id).includes('gb1') &&
-            !event.path.map((el) => el.id).includes('gb2') &&
-            !event.path.map((el) => el.id).includes('gb3')
+            !event.composedPath().map((el) => el.id).includes('NotTempEditorWindow') &&
+            !event.composedPath().map((el) => el.id).includes('gb1') &&
+            !event.composedPath().map((el) => el.id).includes('gb2') &&
+            !event.composedPath().map((el) => el.id).includes('gb3')
         ) {
             handleClose()
         }

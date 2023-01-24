@@ -10,8 +10,8 @@ const WarningChangeWarehouse = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('changeWarehouseMessage') &&
-            !event.path.map((el) => el.id).includes('selectFromListWarehousesWR')
+            !event.composedPath().map((el) => el.id).includes('changeWarehouseMessage') &&
+            !event.composedPath().map((el) => el.id).includes('selectFromListWarehousesWR')
         ) {
             props.setMessageWarning(false)
         }

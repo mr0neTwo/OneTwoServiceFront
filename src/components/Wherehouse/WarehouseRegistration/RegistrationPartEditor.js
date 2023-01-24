@@ -37,9 +37,9 @@ const RegistrationPartEditor = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('registrationPartEditor') &&
-            !event.path.map((el) => el.id).includes('listWarehousePart') &&
-            !event.path.map((el) => el.id).includes('registrationTableParts')
+            !event.composedPath().map((el) => el.id).includes('registrationPartEditor') &&
+            !event.composedPath().map((el) => el.id).includes('listWarehousePart') &&
+            !event.composedPath().map((el) => el.id).includes('registrationTableParts')
         ) {
             handleClose()
         }

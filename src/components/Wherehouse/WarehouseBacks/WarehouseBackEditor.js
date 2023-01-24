@@ -31,9 +31,9 @@ const WarehouseBackEditor = (props) => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('statusRegistrationEditor') &&
-            !event.path.map((el) => el.id).includes('extraButton') &&
-            !event.path.map((el) => el.id).includes('statusBackEditor')
+            !event.composedPath().map((el) => el.id).includes('statusRegistrationEditor') &&
+            !event.composedPath().map((el) => el.id).includes('extraButton') &&
+            !event.composedPath().map((el) => el.id).includes('statusBackEditor')
         ) {
             handleClose()
         }

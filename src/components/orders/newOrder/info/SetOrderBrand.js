@@ -23,8 +23,8 @@ const SetOrderBrand = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map((el) => el.id).includes('listOrderOfBrand') &&
-            !event.path.map((el) => el.id).includes('optionsOrderTextOfBrand')
+            !event.composedPath().map((el) => el.id).includes('listOrderOfBrand') &&
+            !event.composedPath().map((el) => el.id).includes('optionsOrderTextOfBrand')
         ) {
             if (visibleList) {
                 setVisibleList(false)

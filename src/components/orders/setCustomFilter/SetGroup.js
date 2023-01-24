@@ -18,8 +18,8 @@ const SetGroup = props => {
 
     const clickHandel = (event) => {
         if (
-            !event.path.map(el => el.id).includes('listFilterOfGroup') &&
-            !event.path.map(el => el.id).includes('optionsFilterTextOfGroup')
+            !event.composedPath().map(el => el.id).includes('listFilterOfGroup') &&
+            !event.composedPath().map(el => el.id).includes('optionsFilterTextOfGroup')
         ) {
             if (visibleList) {
                 setVisibleList(false)

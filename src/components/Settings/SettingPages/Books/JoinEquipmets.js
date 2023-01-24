@@ -10,8 +10,8 @@ const JoinEquipmets = props => {
 
     const clickHandel = event => {
         if (
-            !event.path.map((el) => el.id).includes('setEquipment') &&
-            !event.path.map((el) => el.id).includes('listSetEquipments')
+            !event.composedPath().map((el) => el.id).includes('setEquipment') &&
+            !event.composedPath().map((el) => el.id).includes('listSetEquipments')
         ) {
             if (listVisible) {
                 setlistVisible(false)

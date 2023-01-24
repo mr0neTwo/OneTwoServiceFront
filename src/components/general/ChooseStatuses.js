@@ -38,7 +38,7 @@ const ChooseStatuses = (props) => {
     const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
-        if (!event.path.map(el => el.id).includes('chooseOfListStatuses') ) {
+        if (!event.composedPath().map(el => el.id).includes('chooseOfListStatuses') ) {
             if (listVisible) {
                 setListVisible(false)
             }}

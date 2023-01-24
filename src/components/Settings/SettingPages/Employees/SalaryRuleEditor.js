@@ -22,7 +22,7 @@ const SalaryRuleReducer = (props) => {
    }
 
    const clickHandel = (event) => {
-      if (!event.path.map((el) => el.id).includes('salaryEditor')) {
+      if (!event.composedPath().map((el) => el.id).includes('salaryEditor')) {
          handleClose()
       }
     }
