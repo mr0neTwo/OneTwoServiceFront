@@ -10,32 +10,40 @@ import {ICON} from '../../../data/icons'
 
 const TopCheckboxes = (props) => {
     return (
-        <div className="buttons mt15">
-            <ChooseButton
-                name={['Физ. лицо', 'Компания']}
-                func1={() => props.changeClientState({juridical: false})}
-                func2={() => props.changeClientState({juridical: true})}
-                checked={true}
-                disabled={false}
-                invisible={false}
-            />
-            <Checkbox
-                className='ml10'
-                label='Поставщик'
-                onChange={event => props.changeClientState({supplier: event.target.checked})}
-                checked={props.client.supplier}
-                iconClassName='icon-s1'
-                icon={ICON.TRUCK}
-            />
-            <Checkbox
-                className='ml10'
-                label='Конфликтный'
-                onChange={event => props.changeClientState({conflicted: event.target.checked})}
-                checked={props.client.conflicted}
-                iconClassName='icon-s1'
-                icon={ICON.ANGRY}
-                iconColor='#f74e4d'
-            />
+        <div className="modal__block-forms_row">
+            <div className='modal__block-forms w220'>
+                <ChooseButton
+                    name={['Физ. лицо', 'Компания']}
+                    func1={() => props.changeClientState({juridical: false})}
+                    func2={() => props.changeClientState({juridical: true})}
+                    checked={true}
+                    disabled={false}
+                    invisible={false}
+                />
+            </div>
+            <div className='modal__block-forms'>
+                <Checkbox
+                    id='ClientEditorSupplier'
+                    type='slide-three'
+                    label='Поставщик'
+                    onChange={event => props.changeClientState({supplier: event.target.checked})}
+                    checked={props.client.supplier}
+                    iconClassName='icon'
+                    icon={ICON.TRUCK}
+                    // iconColor='var(--main)'
+                />
+                <Checkbox
+                    id='ClientEditorConflicted'
+                    type='slide-three'
+                    label='Конфликтный'
+                    onChange={event => props.changeClientState({conflicted: event.target.checked})}
+                    checked={props.client.conflicted}
+                    iconClassName='icon'
+                    icon={ICON.ANGRY}
+                    iconColor='var(--error)'
+                />
+            </div>
+
         </div>
     )
 }

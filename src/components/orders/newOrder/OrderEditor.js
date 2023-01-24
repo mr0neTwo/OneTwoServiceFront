@@ -51,7 +51,7 @@ const OrderEditor = (props) => {
     const clickHandel = (event) => {
         if (
             !event.composedPath().map((el) => el.id).includes('newOrder') &&
-            !event.composedPath().map((el) => el.id).includes('clientEditor') &&
+            !event.composedPath().map((el) => el.id).includes('ClientEditor') &&
             !event.composedPath().map((el) => el.id).includes('createNewOrder') &&
             !event.composedPath().map((el) => el.id).includes('paymentsEditorWiondow') &&
             !event.composedPath().map((el) => el.id).includes('WriteOfEditor') &&

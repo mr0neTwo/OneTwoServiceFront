@@ -51,6 +51,16 @@
     min-height: 860px;
     box-sizing: border-box;
   }
+  &__body-client {
+    flex-direction: column;
+    max-height: 600px;
+    min-height: 600px;
+    width: 520px;
+    box-sizing: border-box;
+    overflow: auto;
+    gap: 15px;
+    padding-right: 10px;
+  }
 
   &__body-order-form {
     display:flex;
@@ -81,6 +91,18 @@
     grid-template-columns: 220px 220px;
     grid-auto-rows: 55px;
     gap: 15px;
+  }
+
+  &__block-forms {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    &_row {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+    }
   }
 
 }

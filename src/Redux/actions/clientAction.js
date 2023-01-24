@@ -207,7 +207,7 @@ export function createClient() {
         discount_materials: state.client.discount_materials,
         discount_services: state.client.discount_services,
 
-        ad_campaign_id: state.client.ad_campaign_id,
+        ad_campaign_id: state.client.ad_campaign.id,
         discount_goods_margin_id: state.client.discount_goods_margin_id,
         discount_materials_margin_id: state.client.discount_materials_margin_id,
         discount_service_margin_id: state.client.discount_service_margin_id,
@@ -296,7 +296,7 @@ export function saveChangeClient() {
         discount_materials: state.client.discount_materials,
         discount_services: state.client.discount_services,
 
-        ad_campaign_id: state.client.ad_campaign_id,
+        ad_campaign_id: state.client.ad_campaign.id,
         discount_goods_margin_id: state.client.discount_goods_margin_id,
         discount_materials_margin_id: state.client.discount_materials_margin_id,
         discount_service_margin_id: state.client.discount_service_margin_id,

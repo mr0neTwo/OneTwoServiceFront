@@ -10,7 +10,8 @@
     flex-direction: row;
     align-items: center;
     gap: 6px;
-    color: var(--secondary)
+    color: var(--secondary);
+    fill: var(--secondary);
   }
 
   &_slide-one {
@@ -576,6 +577,7 @@
   &_checked {
     .checkbox__label {
       color: var(--main);
+      fill: var(--main);
     }
   }
 }

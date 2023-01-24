@@ -80,6 +80,7 @@
   align-items: center;
   gap: 6px;
   color: var(--secondary);
+  fill: var(--secondary);
 }
 .checkbox_slide-one .checkbox__box {
   width: 30px;
@@ -535,6 +536,7 @@
 }
 .checkbox_checked .checkbox__label {
   color: var(--main);
+  fill: var(--main);
 }
 
 .bottom-buttons {
@@ -731,7 +733,7 @@
   transform: translateY(-4px);
   width: 100%;
   padding-top: 10px;
-  border: 1px solid var(--main);
+  border: 1px solid var(--action-accent);
   border-top: none;
   box-sizing: border-box;
   background-color: var(--background);
@@ -739,6 +741,22 @@
   z-index: 2;
   max-height: 350px;
   animation: ani-items 0.5s forwards;
+}
+.select__drop-list_full {
+  border: 1px solid var(--action-accent);
+  border-radius: 6px;
+}
+.select__drop-list_full:after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 30px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--background);
+  border-left: 1px solid var(--action-accent);
+  border-top: 1px solid var(--action-accent);
+  transform: rotate(45deg);
 }
 .select__drop-list-body {
   overflow: auto;
@@ -1088,6 +1106,14 @@
 .input-label__label {
   transition: color 1s;
 }
+.input-label__label_phone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  fill: var(--main);
+  cursor: pointer;
+  transition: color 1s, fill 1s;
+}
 .input-label__input {
   cursor: pointer;
   transition: border-color 1s, color 1s;
@@ -1128,6 +1154,9 @@
 }
 .input-label_error .input-label__input {
   border-color: var(--error);
+}
+.input-label_error .input-label__label_phone {
+  fill: var(--error);
 }
 
 .badges-container {
@@ -1568,6 +1597,16 @@
   min-height: 860px;
   box-sizing: border-box;
 }
+.modal__body-client {
+  flex-direction: column;
+  max-height: 600px;
+  min-height: 600px;
+  width: 520px;
+  box-sizing: border-box;
+  overflow: auto;
+  gap: 15px;
+  padding-right: 10px;
+}
 .modal__body-order-form {
   display: flex;
   flex-direction: column;
@@ -1593,6 +1632,16 @@
   display: grid;
   grid-template-columns: 220px 220px;
   grid-auto-rows: 55px;
+  gap: 15px;
+}
+.modal__block-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.modal__block-forms_row {
+  display: flex;
+  flex-direction: row;
   gap: 15px;
 }
 
@@ -2952,6 +3001,39 @@ h5 {
   border-bottom: 1px solid var(--action-accent);
   transform: rotate(45deg);
   background-color: var(--second-bacground);
+}
+
+.phone {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.phone__icon-trash {
+  position: absolute;
+  padding: 4px 10px;
+  right: -35px;
+  top: 4px;
+}
+.phone__box {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  fill-opacity: 0;
+  transition: fill-opacity 500ms;
+}
+.phone__box:hover {
+  fill-opacity: 1;
+}
+
+.tag__box {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+
+.title-client-phone {
+  display: flex;
+  flex-direction: row;
 }
 
 ::-webkit-scrollbar {

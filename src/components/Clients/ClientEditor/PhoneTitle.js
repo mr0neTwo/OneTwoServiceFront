@@ -5,14 +5,17 @@ import {changeClientEditorPhone} from '../../../Redux/actions/clientAction'
 import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
+import Button from '../../general/Button'
 
 const PhoneTitle = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
     const [titleStatus, setTitleStatus] = useState(false)
 
+    const id = `phoneTitle${props.idx}`
+
     const clickHandel = (event) => {
-        if (!event.composedPath().map((el) => el.id).includes(`listOptionsOfPhones${props.idx}`)) {
+        if (!event.composedPath().map((el) => el.id).includes(id)) {
             setListVisible(false)
         }
     }
@@ -25,56 +28,59 @@ const PhoneTitle = (props) => {
     })
 
     return (
-        <div id={`listOptionsOfPhones${props.idx}`}>
+        <div
+            id={id}
+        >
             <div
-                className="lableImput mt15 curP"
+                className="label input-label__label_phone"
                 onClick={() => setListVisible(!listVisible)}
             >
                 {props.title}
                 {props.idx === 0 ? <span className="redStar">*</span> : null}
-                <Icon
-                    className='icon-s1'
-                    icon={listVisible ? ICON.DOWN : ICON.LEFT}
-                />
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
             </div>
 
             {listVisible ? (
-                <div className="listOptionsPhones">
-                    {props.client.phone_titles.map(title => {
-                        return (
-                            <div
-                                key={title}
-                                className="options"
-                                onClick={() => {
-                                    props.changeClientEditorPhone(props.idx, 'title', title)
-                                    setListVisible(false)
-                                }}
-                            >
-                                {title}
-                            </div>
-                        )
-                    })}
-                    <div className="btmsts">
+                <div className="select__drop-list select__drop-list_full w150">
+                    <div className='select__drop-list-body'>
+                            {props.client.phone_titles.map(title => {
+                                return (
+                                    <div
+                                        key={title}
+                                        className="select__item_option"
+                                        onClick={() => {
+                                            props.changeClientEditorPhone(props.idx, 'title', title)
+                                            setListVisible(false)
+                                        }}
+                                    >
+                                        {title}
+                                    </div>
+                                )
+                            })}
+                    </div>
+                    <div className="select__buttons">
                         {titleStatus ? (
-                            <input
-                                className="optionFilterInput"
-                                autoFocus
-                                onKeyPress={event => {
-                                    if (event.key === 'Enter') {
-                                        props.changeClientEditorPhone(props.idx, 'title', event.target.value)
-                                        setTitleStatus(false)
-                                        setListVisible(false)
-                                    }
-                                }}
-                                placeholder="Введите и нажмиете Enter"
-                            />
-                        ) : (
-                            <div
-                                className="btnstsTitle"
-                                onClick={() => setTitleStatus(true)}
-                            >
-                                Задать поле
+                            <div className='select__add-input'>
+                                <input
+                                    className="select__add-input"
+                                    autoFocus
+                                    onKeyPress={event => {
+                                        if (event.key === 'Enter') {
+                                            props.changeClientEditorPhone(props.idx, 'title', event.target.value)
+                                            setTitleStatus(false)
+                                            setListVisible(false)
+                                        }
+                                    }}
+                                />
+                                <div className='select__add-input-text'>Введите название и нижмите Enter</div>
                             </div>
+                        ) : (
+                            <Button
+                                size='small'
+                                type='tertiary'
+                                title='Задать поле'
+                                onClick={() => setTitleStatus(true)}
+                            />
                         )}
                     </div>
                 </div>

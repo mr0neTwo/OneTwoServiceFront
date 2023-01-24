@@ -57,6 +57,13 @@ const SetClient = (props) => {
         }
     })
 
+    const handleNewClient = () => {
+        if (!props.disabled) {
+            props.changeClientState({ad_campaign: props.ad_campaign[0]})
+            props.changeVisibleState({'statusClientEditor': true})
+        }
+    }
+
     const editClient = (client) => {
         if (!props.disabled) {
             props.editCurrentClient(client)
@@ -82,6 +89,7 @@ const SetClient = (props) => {
                 <div className = 'client-card__card'>
                     <div className='client-card__name-row'>
                         <div
+                            id='newClient'
                             className='client-card__name'
                             onClick={() => editClient(props.client)}
                         >
@@ -140,7 +148,7 @@ const SetClient = (props) => {
                 />
                 <div
                     id='newClient'
-                    onClick={props.disabled ? null : () => props.changeVisibleState({'statusClientEditor': true})}
+                    onClick={handleNewClient}
                 >
                     <Icon icon={ICON.PLUS} className='icon'/>
                 </div>
@@ -177,7 +185,8 @@ const SetClient = (props) => {
 const mapStateToProps = state => ({
     clients: state.client.clients,
     filter_name: state.client.filter_name,
-    view: state.view
+    view: state.view,
+    ad_campaign: state.data.ad_campaign
 })
 
 const mapDispatchToProps = {

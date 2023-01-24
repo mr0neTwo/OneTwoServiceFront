@@ -7,6 +7,15 @@
 
   &__label {
     transition: color 1s;
+
+    &_phone {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      fill: var(--main);
+      cursor: pointer;
+      transition: color 1s, fill 1s;
+    }
   }
 
   &__input {
@@ -58,6 +67,9 @@
     }
     .input-label__input {
       border-color: var(--error);
+    }
+    .input-label__label_phone {
+      fill: var(--error);
     }
   }
 

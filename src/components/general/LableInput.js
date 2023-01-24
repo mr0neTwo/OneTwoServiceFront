@@ -68,7 +68,7 @@ const LableInput = (props) => {
                     onChange={props.isPhone ? handleChange : props.onChange}
                     value={props.isPhone ? valueOfPhoneInput(props.value) : props.value}
                     onFocus={() => setFocus(true)}
-                    onBlur={event => handleBlur(event)}
+                    onBlur={handleBlur}
                     disabled={props.disabled}
                 />
                 {props.unit ? <div className='input-label__unit'>{props.unit}</div> : null}

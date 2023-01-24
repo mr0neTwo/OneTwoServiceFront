@@ -40,7 +40,7 @@ $maxHeight: 350px;
     transform: translateY(-4px);
     width: 100%;
     padding-top: 10px;
-    border: 1px solid var(--main);
+    border: 1px solid var(--action-accent);
     border-top: none;
     box-sizing: border-box;
     background-color: var(--background);
@@ -48,6 +48,24 @@ $maxHeight: 350px;
     z-index: 2;
     max-height: $maxHeight;
     animation: ani-items 0.5s forwards;
+
+    &_full {
+      border: 1px solid var(--action-accent);
+      border-radius: $borderRadius;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: 30px;
+        width: 8px;
+        height: 8px;
+        background-color: var(--background);
+        border-left: 1px solid var(--action-accent);
+        border-top: 1px solid var(--action-accent);
+        transform: rotate(45deg);
+      }
+    }
   }
 
   &__drop-list-body {
