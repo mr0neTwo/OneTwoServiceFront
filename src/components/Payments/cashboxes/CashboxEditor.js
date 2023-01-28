@@ -12,8 +12,13 @@ import DataCashbox from './DataCashbox'
 
 const CashboxEditor = (props) => {
 
+    const id = 'CashboxEditor'
+
     const clickHandel = (event) => {
-        if (!event.composedPath().map((el) => el.id).includes('cashboxEditorWiondow')) {
+        if (
+            !event.composedPath().map((el) => el.id).includes(id) &&
+            !event.composedPath().map((el) => el.id).includes('CashboxEmployeeEditor')
+        ) {
             props.setVisibleFlag('statusCashboxEditor', false)
         }
     }
@@ -59,11 +64,10 @@ const CashboxEditor = (props) => {
     }
 
     return (
-        <div className="rightBlock">
-            <div className="rightBlockWindow wmn500" id="cashboxEditorWiondow">
-                <div className="createNewTitle">
-                    {props.cashbox.edit ? props.cashbox.title : 'Новая касса'}
-                </div>
+        <div className="modal">
+            <div className="modal__box modal__box_editor" id={id}>
+
+                <h4>{props.cashbox.edit ? props.cashbox.title : 'Новая касса'}</h4>
 
                 <Tabs
                     list={['Общие', 'Доcтуп']}

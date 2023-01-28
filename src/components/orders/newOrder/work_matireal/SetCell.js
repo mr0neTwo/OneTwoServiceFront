@@ -21,7 +21,7 @@ const SetCell = (props) => {
             <div className='nowrap'>
                {props.order.cell || 'Выберете'}
             </div>
-            <Icon icon={ICON.DOWN} className='icon'/>
+            <Icon icon={ICON.DOWN} className='icon icon_24'/>
          </div>
          {props.statusCellEditor ? <CellEditor/> : null}
       </div>

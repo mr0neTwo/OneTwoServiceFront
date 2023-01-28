@@ -3,20 +3,21 @@ import {connect} from 'react-redux'
 
 import EventStatus from './EventsStatus'
 import EventSimple from './EventSimple'
-import {order_event_types} from '../../../../../data/data'
 
 const OrderEvents = props => {
 
-    const values = order_event_types.filter(event => props.event_filter.includes(event.id)).map(event => event.value)
+    const values = props.event_filter.filter(event => event.visible).map(event => event.value)
+
+    const events = props.events.filter(event => values.includes(event.event_type))
 
     return (
         <div className='history-order-editor__events'>
 
-            {props.events.filter(event => values.includes(event.event_type)).map((event, idx) => {
+            {events.map((event, idx) => {
                 if (event.event_type === 'CREATE_ORDER' || event.event_type === 'CHANGE_STATUS') {
-                    return <EventStatus key={event.id} event={event} idx={idx}/>
+                    return <EventStatus key={event.id} event={event} events={events} idx={idx}/>
                 } else {
-                    return <EventSimple key={event.id} event={event} idx={idx}/>
+                    return <EventSimple key={event.id} event={event} events={events} idx={idx}/>
                 }
             })}
 

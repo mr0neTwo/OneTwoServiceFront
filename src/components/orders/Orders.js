@@ -6,12 +6,12 @@ import {addBadges, changeFilterForm, changeFilterState, addCustomFilters} from '
 import {addOrders, changeOrderState} from '../../Redux/actions/orderActions'
 
 
-import Header from './Header'
+import Header from '../Header/Header'
 import Badges from './Badges'
 import TableOrders from './TableOrdrers'
 import CustomPanel from './CustomPanel'
 import Paginate from '../general/Paginate'
-import SetFilter from './setCustomFilter/SetFilter'
+import OrderSearch from './OrderSearch'
 
 
 function Orders(props) {
@@ -51,8 +51,11 @@ function Orders(props) {
     }, [])
 
     return (
-        <>
-            <Header oderSearch={''}/>
+        <div className='main-content'>
+            <Header
+                title='Заказы'
+                search={<OrderSearch/>}
+            />
             <Badges/>
             <div className='content-container'>
                 <CustomPanel/>
@@ -66,7 +69,7 @@ function Orders(props) {
                     func={page => props.changeOrderState({page})}
                 />
             </div>
-        </>
+        </div>
     )
 }
 

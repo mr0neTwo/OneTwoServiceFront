@@ -14,9 +14,9 @@ const AddTags = (props) => {
    }
 
    const mainClassName = useMemo(() => {
-      let className = 'input-label'
+      let className = 'tag'
       if (props.className) className += ` ${props.className}`
-      if (focus) className += ' input-label_focus'
+      if (focus) className += ' tag_active'
       return className
    }, [props.className, focus])
 
@@ -26,29 +26,35 @@ const AddTags = (props) => {
    >
       <div className="label input-label__label">Теги</div>
 
-      <div className='input input-label__input'>
-         <Icon
-             className='icon'
-             icon={ICON.TAG}
-         />
-         {props.tags.map((tag, idx) => 
-         <div className='tag' key={idx}>
-            <div 
-               className='icon_close'
-               onClick={() => props.daleteTag(idx)}
+
+         <div className='tag__box'>
+            <Icon
+                className='icon'
+                icon={ICON.TAG}
             />
-            <div>{tag}</div>
-         </div>)
-         }
-         <input 
-            className=''
-            onKeyPress={event => {if (event.key === 'Enter') {handelPresEnter(event)}}}
-            value={inputValue}
-            onChange={event => setInputValue(event.target.value)}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
-         />
-      </div>
+            {props.tags.map((tag, idx) =>
+            <div className='tag__tag' key={idx}>
+               <div className='nowrap'>{tag}</div>
+               <div
+                  className='tag__icon'
+                  onClick={() => props.daleteTag(idx)}
+               >
+                  <Icon
+                      className='icon'
+                      icon={ICON.CANCEL}
+                  />
+               </div>
+            </div>)
+            }
+            <input
+               className=''
+               onKeyPress={event => {if (event.key === 'Enter') {handelPresEnter(event)}}}
+               value={inputValue}
+               onChange={event => setInputValue(event.target.value)}
+               onFocus={() => setFocus(true)}
+               onBlur={() => setFocus(false)}
+            />
+         </div>
    </div>
    )
 }

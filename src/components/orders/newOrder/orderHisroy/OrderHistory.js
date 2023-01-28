@@ -1,9 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {selectedOrder} from '../../../../Redux/actions/orderActions'
-import {order_event_types} from '../../../../data/data'
-import {ICON} from '../../../../data/icons'
+import {changeOrderState, selectedOrder} from '../../../../Redux/actions/orderActions'
 
 import OrderPrint from './OrderPrint'
 import OrderEvents from './OrderEvetns/OrderEvents'
@@ -19,11 +17,8 @@ const OrderHistory = props => {
                 <OrderPrint/>
                 <TableFields
                     id='orderEvents'
-                    list={order_event_types}
-                    checked_list={props.order.event_filter}
-                    func={props.selectedOrder}
-                    field='event_filter'
-                    icon={ICON.FILTER}
+                    list={props.order.event_filter}
+                    func={event_filter =>  props.changeOrderState({event_filter})}
                 />
             </div>
             {props.order.events.length ? <OrderEvents/> : null}
@@ -37,7 +32,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    selectedOrder
+    selectedOrder,
+    changeOrderState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderHistory)

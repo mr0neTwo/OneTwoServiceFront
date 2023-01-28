@@ -59,6 +59,11 @@
       fill: var(--accent);
     }
 
+    &_active-settings {
+      color: var(--accent);
+      background: var(--secondary);
+    }
+
     &:hover {
       color: var(--accent);
       fill: var(--accent);

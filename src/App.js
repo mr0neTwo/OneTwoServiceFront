@@ -12,6 +12,7 @@ import RefreshPage from './components/general/RefreshPage'
 function App(props) {
 
 
+    // todo: сделать этот запрос асинхроном через midleware
     useEffect(() => props.csrf(), [])
     // props.csrf()
 
@@ -20,11 +21,13 @@ function App(props) {
         if (props.login_status && props.csrfToken) props.addMainData()
     }, [props.login_status])
 
+    if (props.statusRefreshPage ) {
+        return  <RefreshPage/>
+    }
+
     return (
         <div className='main-container'>
-            {Object.values(props.user).length && props.login_status && props.csrfToken ? <Main/> : null}
-            {props.login_status ? null : <Login/>}
-            {props.statusRefreshPage ? <RefreshPage/> : null}
+            {Object.values(props.user).length && props.login_status && props.csrfToken ? <Main/> : <Login/>}
         </div>
     )
 }

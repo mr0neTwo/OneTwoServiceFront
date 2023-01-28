@@ -68,7 +68,7 @@
     padding: 20px 10px 20px 20px;
     gap: 7px;
     max-height: 100%;
-    width: 520px;
+    width: 540px;
     box-sizing: border-box;
   }
 
@@ -83,6 +83,16 @@
     gap: 15px;
     max-height: 100%;
     box-sizing: border-box;
+    overflow: auto;
+  }
+
+  &__body-payment {
+    flex-direction: column;
+    gap: 15px;
+    max-height: 100%;
+    box-sizing: border-box;
+    padding-right: 10px;
+    //width: 406px;
     overflow: auto;
   }
 
@@ -104,7 +114,6 @@
       gap: 15px;
     }
   }
-
 }
 
 @media screen and (max-height: 850px) {

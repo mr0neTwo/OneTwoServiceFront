@@ -27,7 +27,7 @@
   &__drop-list {
     position: absolute;
     overflow: hidden;
-    transform: translateY(26px);
+    transform: translateY(-4px);
     width: 100%;
     padding: 10px 0;
     border: 1px solid var(--secondary);
@@ -215,6 +215,9 @@
   &_active {
 
     .calendar__input, {
+      position: absolute;
+      top: 21px;
+      z-index: 3;
       border-color: var(--action-accent);
     }
 
@@ -227,7 +230,7 @@
     }
 
     .calendar__label {
-      //margin-bottom: 30px;
+      margin-bottom: 30px;
     }
   }
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 
 import {changeCashboxState} from '../../Redux/actions/cashboxAction'
@@ -6,28 +6,28 @@ import {changeCashboxState} from '../../Redux/actions/cashboxAction'
 import Tabs from '../general/Tabs'
 import Cashboxes from './cashboxes/Cashboxes'
 import Salaries from './salaries/Salaries'
-import Loader from '../Loader/Loader'
+
+import Header from '../Header/Header'
 
 const Payments = (props) => {
 
     return (
-        <div className='pageContent'>
+        <div className='main-content'>
+            <Header title='Финансы'/>
 
-            <div className='header'>
-                <span className='headerTitle'>Финансы</span>
+            <div className='content-container g15'>
+                <Tabs
+                    // list={['Платежи', 'Взаиморасчеты', 'Счета', 'Зарплаты']}
+                    list={['Платежи', 'Зарплаты']}
+                    func={idx => props.changeCashboxState({tabs: idx})}
+                    tab={props.tabs}
+                />
+                {props.tabs === 0 ? <Cashboxes/> : null}
+                {/*{props.tabs === 1 ? null : null}*/}
+                {/*{props.tabs === 2 ? null : null}*/}
+                {props.tabs === 1 ? <Salaries/> : null}
+
             </div>
-
-            <Tabs
-                list={['Платежи', 'Взаиморасчеты', 'Счета', 'Зарплаты']}
-                func={idx => props.changeCashboxState({tabs: idx})}
-                tab={props.tabs}
-            />
-            {props.tabs === 0 ? <Cashboxes/> : null}
-            {props.tabs === 1 ? null : null}
-            {props.tabs === 2 ? null : null}
-            {props.tabs === 3 ? <Salaries/> : null}
-
-            {props.statusOrderLoader ? <Loader className='orderLoader'/> : null}
         </div>
 
     )

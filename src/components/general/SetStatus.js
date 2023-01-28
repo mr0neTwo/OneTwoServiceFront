@@ -22,7 +22,7 @@ import {COLORS} from '../../data/colors'
 const SetStatus = props => {
 
     const [listVisible, setVisibleList] = useState(false)
-    const [height, setHeight] = useState(300)
+    const [height, setHeight] = useState(500)
     const [isTop, setIsTop] = useState(false)
 
     const statusRef = useRef(null)
@@ -47,20 +47,21 @@ const SetStatus = props => {
         setVisibleList(false)
     }
 
-    const handleClick = (event) => {
+    const handleClick = () => {
         setVisibleList(!listVisible)
+        if (props.tableOrderRef) {
+            const topTable = props.tableOrderRef.current.offsetTop
+            const bottomTable =  topTable + props.tableOrderRef.current.offsetHeight
+            const distanceToTop = statusRef.current.offsetTop - 5
+            const bottomStatus = statusRef.current.offsetTop + 36
+            const distanceToBottom = bottomTable - bottomStatus - topTable
 
-        const topTable = props.tableOrderRef.current.offsetTop
-        const bottomTable =  topTable + props.tableOrderRef.current.offsetHeight
-        const distanceToTop = statusRef.current.offsetTop - 5
-        const bottomStatus = statusRef.current.offsetTop + 36
-        const distanceToBottom = bottomTable - bottomStatus - topTable
-
-        if (distanceToBottom < distanceToTop) {
-            setHeight(distanceToTop)
-            setIsTop(true)
-        } else {
-            setHeight(distanceToBottom)
+            if (distanceToBottom < distanceToTop) {
+                setHeight(distanceToTop)
+                setIsTop(true)
+            } else {
+                setHeight(distanceToBottom)
+            }
         }
     }
 

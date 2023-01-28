@@ -1,22 +1,26 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import SettingRow from '../../Settings/settingRow'
-import {data_user_menu} from '../../../data/dataUserMenu'
 
-const UserSettingMenu = (props) => {
+import {data_user_menu} from '../../../data/dataUserMenu'
+import {NavLink} from 'react-router-dom'
+
+const UserSettingMenu = () => {
+
     return (
-        <div className = 'settingMenuMain'>
-                {data_user_menu.map(row => <SettingRow row = {row} key = {row.id}/>)}
+        <div className='sidebar__body'>
+            <div>
+                {data_user_menu.map(row => (
+                    <NavLink
+                        className="sidebar__item"
+                        activeClassName="sidebar__item_active-settings"
+                        to={row.url}
+                    >
+                        <span className="didebarItemsText">{row.title}</span>
+                    </NavLink>))
+                }
+            </div>
         </div>
     )
 }
 
-const mapStateToProps = state => ({
 
-})
-
-const mapDispatchToProps = {
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserSettingMenu)
+export default UserSettingMenu

@@ -57,13 +57,17 @@ const LableInput = (props) => {
 
     return (
         <div className={mainClassName}>
-            <div className='label input-label__label'>
-                {props.title}
-                {props.redStar ? <span className={props.value ? '' : 'input-label__red-star'}>*</span> : null}
-            </div>
+            {props.title ?
+                <div className='label input-label__label'>
+                    {props.title}
+                    {props.redStar ? <span className={props.value ? '' : 'input-label__red-star'}>*</span> : null}
+                </div>
+                : null
+            }
             <div className='input input-label__input'>
                 <input
                     className='input-label__text'
+                    type={props.password ? 'password' : null}
                     autoFocus={props.autoFocus}
                     onChange={props.isPhone ? handleChange : props.onChange}
                     value={props.isPhone ? valueOfPhoneInput(props.value) : props.value}

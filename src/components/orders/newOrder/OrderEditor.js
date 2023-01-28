@@ -21,6 +21,8 @@ import {checkObject} from '../../general/utils'
 
 const OrderEditor = (props) => {
 
+    const id = 'OrderEditor'
+
     useEffect(() => {
         props.addClients()
     }, [props.client.filter_name, props.client.filter_phone])
@@ -50,10 +52,10 @@ const OrderEditor = (props) => {
 
     const clickHandel = (event) => {
         if (
-            !event.composedPath().map((el) => el.id).includes('newOrder') &&
+            !event.composedPath().map((el) => el.id).includes(id) &&
             !event.composedPath().map((el) => el.id).includes('ClientEditor') &&
-            !event.composedPath().map((el) => el.id).includes('createNewOrder') &&
-            !event.composedPath().map((el) => el.id).includes('paymentsEditorWiondow') &&
+            !event.composedPath().map((el) => el.id).includes('newOrder') &&
+            !event.composedPath().map((el) => el.id).includes('PaymentsEditor') &&
             !event.composedPath().map((el) => el.id).includes('WriteOfEditor') &&
             !event.composedPath().map((el) => el.id).includes('statusReturnPart')
         ) {
@@ -107,7 +109,7 @@ const OrderEditor = (props) => {
 
     return (
         <div className="modal">
-            <div className="modal__box" id="createNewOrder">
+            <div className="modal__box" id={id}>
                 <div className="modal__body modal__body-order">
 
                     <div className="modal__body-order-form">

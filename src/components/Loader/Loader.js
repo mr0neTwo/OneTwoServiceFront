@@ -4,7 +4,7 @@ import React from 'react'
 
 const Loader = props => {
 
-
+    if (props.invisible) return null
 
     if (props.type === 1) return (
         <div className='loader-container'>

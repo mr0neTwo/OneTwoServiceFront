@@ -1,9 +1,9 @@
 @import 'CSS/var';
 @import 'CSS/fonts';
 
-@import 'CSS/checkboks', 'CSS/button', 'CSS/select', 'CSS/calendar', 'CSS/input';
+@import 'CSS/checkboks', 'CSS/button', 'CSS/select', 'CSS/calendar', 'CSS/input', 'CSS/range';
 @import 'CSS/badges', 'CSS/spiner', 'CSS/filter', 'CSS/modal', 'CSS/orders';
-@import 'CSS/sidebar', 'CSS/tabs';
+@import 'CSS/sidebar', 'CSS/tabs', 'CSS/login', 'CSS/cashbox';
 
 
 
@@ -114,14 +114,19 @@ html, body, #root  {
 
 .main-content {
   display: flex;
-  align-items: center;
   flex-direction: column;
-  padding: 0 $boxPadding $boxPadding $boxPadding/2;
+  padding: $boxPadding $boxPadding $boxPadding $boxPadding/2;
   max-height: inherit;
   width: 100%;
   gap: $boxPadding;
   overflow: auto;
   color: var(--main);
+
+  &_setting {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
 }
 
 
@@ -131,9 +136,16 @@ input, textarea {
   margin: 0;
   border: none;
   outline: none;
-  background: none;
+  background-color: var(--background);
   color: var(--main);
   width: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--secondary);
+  -webkit-box-shadow: 0 0 0 40rem var(--background) inset;
 }
 
 button {
@@ -161,7 +173,7 @@ tr {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  max-height: 40px;
+  max-height: 50px;
   border-bottom: 1px solid var(--secondary);
 }
 
@@ -266,6 +278,10 @@ h5 {
     width: 10px;
     height: 10px;
   }
+  &_12 {
+    width: 12px;
+    height: 12px;
+  }
 
   &_20 {
     width: 20px;
@@ -351,7 +367,7 @@ h5 {
   color: var(--main);
   text-align: left;
 
-  $th-widths: (20, 15, 40, 50, 70, 90, 100, 150, 160);
+  $th-widths: (20, 32, 15, 40, 50, 60, 70, 80, 90, 100, 150, 160, 180);
   @each $width in $th-widths {
     &_w#{$width} {
       width: #{$width}px;
@@ -369,18 +385,18 @@ h5 {
     color: var(--main-darken);
   }
   &_number {
-    padding-left: 10px;
+    //padding-left: 10px;
   }
   &_total {
     padding: 0 10px;
     text-align: right;
   }
   &_green {
-    padding-left: 10px;
+    //padding-left: 10px;
     color: var(--success);
   }
   &_red {
-    padding-left: 10px;
+    //padding-left: 10px;
     color: var(--error);
   }
 
@@ -492,7 +508,7 @@ h5 {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    border: 1px solid var(--main);
+    border: 1px solid var(--action-accent);
     border-radius: $borderRadius;
     background-color: var(--background);
     z-index: 5;
@@ -508,10 +524,10 @@ h5 {
     min-width: min-content;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--main);
+    border-bottom: 1px solid var(--action-accent);
     border-radius: $borderRadius;
     color: var(--main);
-    fill: var(--main);
+    fill: var(--action-accent);
   }
 
   &__drop-items {
@@ -547,7 +563,15 @@ h5 {
   position: relative;
 }
 
-
+.table-container {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  height: 100%;
+  width: inherit;
+  overflow: auto;
+  box-sizing: border-box;
+}
 
 .table-header {
   display: flex;
@@ -632,20 +656,66 @@ h5 {
 
 @keyframes client-cell {
   0% {
-    //display: none;
     opacity: 0;
     left: 3000px;
     align-items: flex-start;
     padding: 0;
   }
   100% {
-    //display: flex;
     opacity: 1;
     left: 0;
     align-items: center;
     padding: 3px;
   }
 }
+
+.receipt {
+  position: relative;
+  top: -6px;
+  padding: 6px;
+  border: 1px solid var(--secondary);
+  border-top: none;
+  background-color: var(--second-bacground);
+
+  &:after {
+    content: "";
+    position: absolute;
+    background-repeat: repeat;
+    height: 5px;
+    background-size: 10px 10px;
+    background-color: var(--second-bacground);
+    background-image: radial-gradient(circle at 5px 5px, var(--background) 5px, transparent 5px);
+    right: 0;
+    left: 0;
+    bottom: -5px;
+  }
+
+  &__hol {
+    position: relative;
+    left: -6px;
+    padding: 0 6px;
+    width: 100%;
+    height: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--secondary);
+    background-color: var(--main-background);
+  }
+
+}
+
+.warning {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+  gap: 10px;
+  fill: var(--orange);
+  border: 1px solid var(--orange);
+  border-radius: $borderRadius;
+}
+
+
 
 @keyframes client-cell-first {
   0% {padding: 0;}
@@ -693,8 +763,24 @@ h5 {
   }
 
   &_date-payment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 10px;
+    grid-gap: 3px;
+    gap: 3px;
+    fill: var(--error);
     color: var(--secondary);
-    @include font-small();
+  }
+
+  &_cashflow-category {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    fill: var(--secondary);
+    color: var(--secondary);
   }
 
   &_text {
@@ -938,10 +1024,48 @@ h5 {
 }
 
 .tag {
-  &__box {
+  margin-bottom: 20px;
+
+    &__box {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      min-height: 30px;
+      flex-wrap: wrap;
+      border: 1px solid var(--main);
+      border-radius: $borderRadius;
+      padding: 3px 6px;
+      gap: 6px;
+      box-sizing: border-box;
+      fill:var(--main);
+      transition: background-color 1s, fill 1s;
+
+      input {
+        width: 100px;
+      }
+  }
+
+  &__icon {
+    cursor:pointer;
+  }
+
+  &__tag {
     display: flex;
-    flex-direction: row;
+    align-items: center;
     gap: 6px;
+    padding: 3px 6px;
+    @include font-regular($weight-medium);
+    background-color: var(--action-accent);;
+    border-radius: 4px;
+    color: var(--background);
+    fill: var(--background);
+  }
+
+  &_active {
+    .tag__box {
+      border-color: var(--action-accent);
+      fill: var(--action-accent);
+    }
   }
 }
 
@@ -950,6 +1074,94 @@ h5 {
   display: flex;
   flex-direction: row;
 }
+
+.temp-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
+.setting-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+  height: 100%;
+  border-radius: $borderRadius;
+  background-color: var(--background);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  overflow: auto;
+  border-radius: $borderRadius;
+  background-color: var(--background);
+
+  &__forms {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+.change-avatar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__border {
+    position: relative;
+    overflow: hidden;
+    width: 250px;
+    height: 250px;
+    border: 1px solid var(--secondary);
+    border-radius: 4px;
+  }
+
+  &__mask {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 6px;
+    border: 2px solid var(--secondary);
+    z-index: 101;
+    left: -2px;
+    top: -2px;
+  }
+
+  &__image {
+    position: absolute;
+  }
+}
+
+.money-movement {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+  padding: 10px 10px 10px 20px;
+
+  &__title {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+    fill: var(--main);
+  }
+}
+
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -996,18 +1208,14 @@ h5 {
   position: relative
 }
 
-.g3 {
-  gap: 3px;
+$gap-sizes: (3, 6, 10, 12, 15);
+@each $size in $gap-sizes {
+  .g#{$size} {
+    gap: #{$size}px;
+  }
 }
 
-.g6 {
-  gap: 6px;
-}
 
-.g10 {
-  gap: 10px;
-}
-.g12 {gap: 12px;}
 
 .jc-c {justify-content: center}
 .jc-sb {justify-content: space-between}

@@ -6,7 +6,7 @@ import {editOperation, deleteOperation, resetOperation} from '../../../../Redux/
 import {ICON} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 import {deleteOrderPart, editOrderPart, resetOrderPart} from '../../../../Redux/actions/orderPartAction'
-import Button from '../../../general/Button'
+import Balance from '../../../general/cell/Balance'
 
 const TableWorksMaterials = (props) => {
 
@@ -58,7 +58,7 @@ const TableWorksMaterials = (props) => {
                 <th className='th th_w50'>Цена</th>
                 <th className='th th_w50'>Скидка</th>
                 <th className='th th_w50'>Сумма</th>
-                <th className='th th_w40'/>
+                <th className='th th_w32'/>
             </tr>
             </thead>
 
@@ -84,7 +84,7 @@ const TableWorksMaterials = (props) => {
                             <td className='td td_number'>{operation.price * operation.amount}</td>
                             <td className='td td_number'>{operation.discount_value / operation.amount}</td>
                             <td className='td td_number'>{operation.total}</td>
-                            <td>
+                            <td className='td'>
                                 {!disabled ?
                                     <div className='tr_set'>
                                         <div
@@ -142,13 +142,19 @@ const TableWorksMaterials = (props) => {
             <tbody>
             <tr className='tr_no-underline'>
                 <td className='td td_total' colSpan='4'>Итого скидка:</td>
-                <td className='td td_number'>{props.order.discount_sum}</td>
-                <td className='td'>руб.</td>
+                <Balance
+                    balance={props.order.discount_sum}
+                    isDifferentColors={true}
+                />
+                <td className='td'/>
             </tr>
             <tr className='tr_no-underline'>
                 <td className='td td_total' colSpan='4'>Итого сумма:</td>
-                <td className='td td_number'>{props.order.price}</td>
-                <td className='td'>руб.</td>
+                <Balance
+                    balance={props.order.price}
+                    isDifferentColors={true}
+                />
+                <td className='td'/>
             </tr>
             </tbody>
         </table>

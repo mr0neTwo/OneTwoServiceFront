@@ -1,5 +1,5 @@
 import React from 'react'
-import {connect} from 'react-redux'
+
 import {compareDates, showDate} from '../../../../general/utils'
 import {COLORS} from '../../../../../data/colors'
 
@@ -60,10 +60,6 @@ const EventStatus = props => {
     )
 }
 
-const mapStateToProps = state => ({
-    events: state.order.events,
-})
 
-const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventStatus)
+export default EventStatus

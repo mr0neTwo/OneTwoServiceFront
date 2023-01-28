@@ -858,7 +858,7 @@ div.tableOrders td {
   margin-bottom: 5px;
 }
 
-.tempPage {
+.temp-page {
   height: 100vh;
   width: 100%;
   display: flex;
@@ -878,7 +878,7 @@ div.tableOrders td {
   overflow: hidden;
 }
 
-.tempContainer {
+.temp-page__body {
   /* background: #000; */
   /* width: 50%; */
   /* color: #fff; */

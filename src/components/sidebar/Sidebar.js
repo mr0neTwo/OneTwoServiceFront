@@ -6,11 +6,15 @@ import MenuGroup from './MenuGroup';
 import LogoUser from './userSettings/LogoUser';
 import {Nav} from '../../data/dataSidebarRows'
 
+const generateGeneralMenu = (permission, userPermission) => permission.filter(row => row.permission_keys.some(key => userPermission.includes(key)))
+
 function Sidebar(props) {
 
-    const generally_menu = Nav.Main.filter(row => row.permission_keys.some(key => props.permission.includes(key)))
-    const report_menu = Nav.Second.filter(row =>row.permission_keys.some(key => props.permission.includes(key)))
-    const setting_menu = Nav.Third.filter(row => row.permission_keys.some(key => props.permission.includes(key)))
+    const generally_menu = generateGeneralMenu(Nav.Main, props.permission)
+    const report_menu = generateGeneralMenu(Nav.Second, props.permission)
+    const setting_menu = generateGeneralMenu(Nav.Third, props.permission)
+    // const report_menu = Nav.Second.filter(row =>row.permission_keys.some(key => props.permission.includes(key)))
+    // const setting_menu = Nav.Third.filter(row => row.permission_keys.some(key => props.permission.includes(key)))
 
 
     return (

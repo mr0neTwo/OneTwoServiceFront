@@ -8,6 +8,7 @@ const initialState = {
 
     first_name: '',
     last_name: '',
+    name: '',
     email: '',
     notes: '',
     phone: '',
@@ -48,13 +49,13 @@ export const employeeReduscer = (state = initialState, action) => {
             }
         }
 
-
         case 'EDIT_EMPLOYEE': {
             return {
                 ...state,
                 edit: action.employee.id,
                 first_name: action.employee.first_name || '',
                 last_name: action.employee.last_name || '',
+                name: action.employee.name || '',
                 email: action.employee.email || '',
                 notes: action.employee.notes || '',
                 phone: action.employee.phone || '',
@@ -76,6 +77,7 @@ export const employeeReduscer = (state = initialState, action) => {
                 edit: 0,
                 first_name: '',
                 last_name: '',
+                name: '',
                 email: '',
                 notes: '',
                 phone: '',

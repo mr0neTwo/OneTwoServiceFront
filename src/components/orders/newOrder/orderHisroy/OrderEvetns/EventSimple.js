@@ -1,5 +1,4 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
 
 import Icon from '../../../../general/Icon'
@@ -48,7 +47,7 @@ const EventSimple = props => {
 
     const lastEvent = props.events[props.idx - 1]
     const style = {
-        borderColor: `var(--${COLORS.STATUS[props.idx ? lastEvent.current_status.group : props.event.current_status.group]})`
+        borderColor: `var(--${COLORS.STATUS[props.event.current_status.group]})`
     }
 
     return (
@@ -108,10 +107,6 @@ const EventSimple = props => {
     )
 }
 
-const mapStateToProps = state => ({
-    events: state.order.events,
-})
 
-const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventSimple)
+export default EventSimple

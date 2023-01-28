@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import {connect} from 'react-redux'
 
-import { editCurrentClient, changeVisibleState} from '../../Redux/actions'
-import {addClients, changeClientState} from '../../Redux/actions/clientAction'
+import { changeVisibleState} from '../../Redux/actions'
+import {addClients, changeClientState, getClient} from '../../Redux/actions/clientAction'
 import {checkObject, showPhone, valueOfPhoneInput} from './utils'
 import Icon from './Icon'
 import {ICON} from '../../data/icons'
@@ -66,8 +66,8 @@ const SetClient = (props) => {
 
     const editClient = (client) => {
         if (!props.disabled) {
-            props.editCurrentClient(client)
-            props.changeVisibleState({'statusClientEditor': true})
+            props.getClient(client.id)
+            // props.changeVisibleState({'statusClientEditor': true})
         }
     }
 
@@ -190,7 +190,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    editCurrentClient,
+    getClient,
     changeClientState,
     changeVisibleState,
     addClients

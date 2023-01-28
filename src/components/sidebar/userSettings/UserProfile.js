@@ -26,11 +26,11 @@ const UserProfile = (props) => {
     }
 
     return (
-        <div className='settingContent jc-c df'>
-            <div className='profbox'>
-                <ChangeAvatar className='ml15 mt15'/>
+        <div className='box ai-c'>
+            <div className='box__forms w250'>
+            <ChangeAvatar/>
+
                 <LableInput
-                    className="w250 mt15"
                     title="Имя"
                     onChange={event => props.changeEmployeeState({first_name: event.target.value})}
                     value={props.employee.first_name}
@@ -40,14 +40,12 @@ const UserProfile = (props) => {
                     disabled={props.employee.deleted}
                 />
                 <LableInput
-                    className="w250 mt15"
                     title="Фамилия"
                     onChange={event => props.changeEmployeeState({last_name: event.target.value})}
                     value={props.employee.last_name}
                     disabled={props.employee.deleted}
                 />
                 <LableInput
-                    className="w250 mt15"
                     title="email"
                     onChange={event => props.changeEmployeeState({email: event.target.value})}
                     value={props.employee.email}
@@ -57,10 +55,9 @@ const UserProfile = (props) => {
                     disabled={props.employee.deleted}
                 />
                 {props.view.errorSameMail ? (
-                    <div className="errorMassageInput">Такой email уже существует</div>
+                    <div className="login__error-message">Такой email уже существует</div>
                 ) : null}
                 <LableInput
-                    className="w250 mt15"
                     title="Телефон"
                     onChange={value => props.changeEmployeeState({phone: value})}
                     value={props.employee.phone}
@@ -68,17 +65,18 @@ const UserProfile = (props) => {
                     isPhone={true}
                 />
                 <LableInput
-                    className="w250 mt15"
                     title="ИНН"
                     onChange={event => props.changeEmployeeState({inn: event.target.value})}
                     value={props.employee.inn}
                     disabled={props.employee.deleted}
                 />
                 <Button
-                    className='blueButton mt15 m0'
+                    size='med'
+                    type='primary'
                     title='Сохранить'
                     onClick={handleSave}
                 />
+
             </div>
         </div>
     )

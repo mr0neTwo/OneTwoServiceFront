@@ -8,9 +8,9 @@ import Logout from './Logout'
 import UserPersonality from './UserPersonality'
 
 
-const UserSetting = (props) => {
+const UserSetting = () => {
     return (
-        <div className='settingPage'>
+        <div className='main-content main-content_setting'>
             <UserSettingMenu/>
             <Switch>
                 <Route path = '/user/profile' component = {UserProfile}/>

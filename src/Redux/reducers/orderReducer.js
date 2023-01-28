@@ -70,7 +70,7 @@ const initialState = {
 
     engineer_work_materials: {},
 
-    event_filter: JSON.parse(localStorage.getItem(key + 'event_filter')) || order_event_types.map(event => event.id),
+    event_filter: JSON.parse(localStorage.getItem(key + 'event_filter')) || order_event_types,
     event_comment: '',
 
     table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || Table.Fields.Order,

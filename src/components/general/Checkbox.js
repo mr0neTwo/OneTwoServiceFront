@@ -48,7 +48,7 @@ import Icon from './Icon'
 */
 const Checkbox = forwardRef((props, ref) => {
 
-    if (props.invisible) return <div/>
+    if (props.invisible) return null
 
     return (
             <div className={`checkbox checkbox_${props.type} ${props.className} ${props.checked ? 'checkbox_checked' : ''}`}>

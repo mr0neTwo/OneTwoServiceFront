@@ -13,8 +13,8 @@ const Logout = (props) => {
     })
 
     return (
-        <div className = 'tempPage'>
-            <div className = 'tempContainer'>
+        <div className = 'temp-page'>
+            <div className = 'temp-page__body'>
                 <h1 className = 'tempTitle'>Выход</h1>
             </div>
         </div>

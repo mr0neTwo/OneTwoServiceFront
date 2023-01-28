@@ -3,7 +3,6 @@ import { getRequestConfig, bad_request } from './actionUtils'
 import {getOrderFilter} from './orderActions'
 import {get_cashbox_filter} from './cashboxAction'
 import {showAlert} from '../actions'
-import {object} from 'prop-types'
 
 
 export function changePaymentState( data ) {
@@ -38,16 +37,17 @@ export function createPayment(context) {
     const state = store.getState()
 
     const now = Math.round(Date.now() / 1000)
-    const cashbox1 = state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).title
-    const cashbox2 = state.payment.target_cashbox_id ? state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.target_cashbox_id).title : ''
+    const cashbox1 = state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox.id).title
+    const cashbox2 = state.payment.target_cashbox.id ? state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.target_cashbox.id).title : ''
 
     const disc = `Перемещение денег из кассы "${cashbox1}" в кассу "${cashbox2}".`
 
     let request_body = {
-        cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
-        cashflow_category_id: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).id : null,
+        // cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
+        // cashflow_category_id: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category.id).id : null,
+        cashflow_category_id: state.payment.direction ? state.payment.cashflow_category.id : null,
         description: state.payment.direction ? state.payment.description : disc + state.payment.description,
-        deposit: state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox_id).balance + state.payment.income - state.payment.outcome,
+        deposit: state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox.id).balance + state.payment.income - state.payment.outcome,
         income: parseFloat(state.payment.income.toString().replace(',', '.')) || 0,
         outcome: -parseFloat(state.payment.outcome.toString().replace(',', '.')) || 0,
         direction: state.payment.direction,
@@ -58,11 +58,11 @@ export function createPayment(context) {
         custom_created_at: state.payment.custom_created_at || now,
         tags: state.payment.tags,
         relation_type: state.payment.relation_type,
-        cashbox_id: state.payment.cashbox_id ? state.payment.cashbox_id : null,
-        client_id: Object.values(state.payment.client).length ? state.payment.client.id : null,
-        employee_id: state.payment.employee_id,
-        order_id: state.payment.order_id ? state.payment.order_id : null,
-        target_cashbox_id: state.payment.direction ? null : state.payment.target_cashbox_id
+        cashbox_id: state.payment.cashbox.id || null,
+        client_id: state.payment.client.id || null,
+        employee_id: state.payment.employee.id || null,
+        order_id: state.payment.order_id || null,
+        target_cashbox_id: state.payment.direction ? null : state.payment.target_cashbox.id
     }
     if (context.type === 'payment') {
         request_body.filter_cashboxes = get_cashbox_filter()
@@ -91,10 +91,12 @@ export function createPayment(context) {
 
     return async dispatch => {
 
-        await  dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {statusOrderLoader: true}
-        })
+        if (context.type === 'payment') {
+            await  dispatch({
+                type: 'CHANGE_PAYMENT_STATE',
+                data: {showLoader: true}
+            })
+        }
 
         await fetch(state.data.url_server + '/payments', request_config)
             .then(response => response.json())
@@ -103,7 +105,7 @@ export function createPayment(context) {
                     if (context.type === 'payment') {
                         dispatch({
                             type: 'CHANGE_PAYMENT_STATE',
-                            data: {payments: data.payments}
+                            data: {payments: data.payments, showLoader: false}
                         })
                         dispatch({
                             type: 'CHANGE_CASHBOX_STATE',
@@ -171,8 +173,8 @@ export function addPayments() {
     return async dispatch => {
 
         await  dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': true}
+            type: 'CHANGE_PAYMENT_STATE',
+            data: {showLoader: true}
         })
 
         await fetch(state.data.url_server + '/get_payments', request_config)
@@ -188,8 +190,8 @@ export function addPayments() {
             .catch(error => bad_request(dispatch, error, 'Запрос платежей не выполнен'))
 
         await  dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': false}
+            type: 'CHANGE_PAYMENT_STATE',
+            data: {showLoader: false}
         })
     }
 }
@@ -226,8 +228,8 @@ export function deletePayment(flag) {
     return async dispatch => {
 
         await  dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': true}
+            type: 'CHANGE_PAYMENT_STATE',
+            data: {showLoader: true}
         })
 
         await fetch(state.data.url_server + '/payments', request_config)
@@ -271,8 +273,8 @@ export function deletePayment(flag) {
         })
 
         await  dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {'statusOrderLoader': false}
+            type: 'CHANGE_PAYMENT_STATE',
+            data: {showLoader: false}
         })
     }
 }

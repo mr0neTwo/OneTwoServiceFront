@@ -36,7 +36,7 @@ const TableRegistrationPart = (props) => {
     }
 
     if (!props.registration.parts.length) {
-        return <div className='tempPage h90'>Выбере запчасть</div>
+        return <div className='temp-page h90'>Выбере запчасть</div>
     }
 
     return (

@@ -14,8 +14,8 @@ const OrderPayments = (props) => {
          direction: 2,
          client: props.order.client,
          description: `Оплата по заказу № ${props.order.id_label}`,
-         cashflow_category: 2,
-         employee_id: props.current_user_id,
+         cashflow_category: props.item_payments.find(item => item.id === 2),
+         employee: props.current_user,
          order_id: props.order.edit,
          context: {type: 'order'}
       })
@@ -28,8 +28,8 @@ const OrderPayments = (props) => {
          direction: 1,
          client: props.order.client,
          description: `Выплата по заказу № ${props.order.id_label}`,
-         cashflow_category: 8,
-         employee_id: props.current_user_id,
+         cashflow_category: props.item_payments.find(item => item.id === 8),
+         employee: props.current_user,
          order_id: props.order.edit,
          context: {type: 'order'}
       })
@@ -62,7 +62,8 @@ const mapStateToProps = state => ({
    employees: state.employee.employees,
    order: state.order,
    view: state.view,
-   current_user_id: state.data.user.id
+   current_user: state.data.user,
+   item_payments: state.data.item_payments
 })
 
 const mapDispatchToProps = {
