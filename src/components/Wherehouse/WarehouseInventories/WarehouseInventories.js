@@ -25,8 +25,8 @@ const WarehouseInventories = props => {
     }
 
     return (
-        <div className = 'contentTab'>
-            <div className='row jc-sb'>
+        <>
+            <div className='row jc-sb mt15'>
                 <div className='row'>
                     <Button
                         id='addInventory'
@@ -64,7 +64,7 @@ const WarehouseInventories = props => {
                 />
                 <div className='ml10'>Всего - {props.inventory.count}</div>
             </div>
-        </div>
+        </>
     )
 }
 

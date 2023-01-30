@@ -16,8 +16,8 @@ const WarehouseBacks = props => {
     }, [props.back.page, props.back.filter_created_at])
 
     return (
-        <div className = 'contentTab'>
-            <div className='row jc-sb'>
+        <>
+            <div className='row jc-sb mt15'>
                 <div className='row'>
                     <ChooseDate
                         className='ml10 h27'
@@ -48,7 +48,7 @@ const WarehouseBacks = props => {
                 />
                 <div className='ml10'>Всего - {props.back.count}</div>
             </div>
-        </div>
+        </>
     )
 }
 
