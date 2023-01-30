@@ -1,4 +1,4 @@
-import {part_table_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 import {includesObject} from '../../components/general/utils'
 
 const initialState = {
@@ -45,7 +45,7 @@ const initialState = {
     filter_name: '',
     filter_warehouse_category: {},
 
-    choosed_headers: JSON.parse(localStorage.getItem('part_choosed_headers')) || part_table_headers
+    choosed_headers: JSON.parse(localStorage.getItem('part_choosed_headers')) || Table.Fields.Part
 }
 
 export const partReducer = (state = initialState, action) => {

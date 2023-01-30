@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 
 const ClientCalls = (props) => {
    return (
-      <div className = 'tempPage'>
-         <div className = 'tempContainer'>
+      <div className = 'temp-page'>
+         <div className = 'temp-page__body'>
             <h1 className = 'tempTitle'>Звонки</h1>
             <p className = 'tempDescription'>Страница на стадии разработки</p>
          </div>

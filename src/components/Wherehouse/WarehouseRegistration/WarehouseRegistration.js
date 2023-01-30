@@ -6,7 +6,7 @@ import Button from '../../general/Button'
 
 import {changeVisibleState} from '../../../Redux/actions'
 import {addRegistration, changeRegistrationState, selectedRegistration} from '../../../Redux/actions/registrationAction'
-import {registrations_table_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 
 import TableRegistration from './TableRegistration'
 import TableFields from '../../general/TableFields'
@@ -47,7 +47,7 @@ const WarehouseRegistration = props => {
                     id='registrationFields'
                     height='185px'
                     classNameMenu='listOption'
-                    list={registrations_table_headers}
+                    list={Table.Fields.Registration}
                     checked_list={props.registration.table_headers}
                     func={props.selectedRegistration}
                     invisible={!props.permissions.includes('see_registrations')}

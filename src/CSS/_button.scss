@@ -1,0 +1,165 @@
+
+.bottom-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  //padding: 10px;
+
+  &__main-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
+.bt {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  border-radius: $borderRadius;
+  align-items: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--background);
+  fill: var(--background);
+
+  &_small {
+    @include font-small;
+    height: 20px;
+    padding: 0 6px;
+    gap: 6px;
+
+    svg {
+      display: block;
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &_med {
+    height: 30px;
+    padding: 0 10px;
+    gap: 8px;
+
+    svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &_large {
+    @include font-large;
+    height: 36px;
+    padding: 0 16px;
+    gap: 10px;
+
+    svg {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &_primary {
+    @include font-regular($weight-medium);
+    background-color: var(--action-accent);
+    fill: var(--background);
+    &:hover {
+      background-color: var(--action-accent-lighten);
+    }
+  }
+
+  &_secondary {
+    fill: var(--secondary);
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+
+    &:hover {
+      color: var(--secondary-lighten);
+      fill: var(--secondary-lighten);
+      border-color: var(--secondary-lighten);
+    }
+  }
+
+  &_tertiary {
+    color: var(--action-accent);
+    border: 1px solid var(--action-accent);
+    fill: var(--action-accent);
+
+    &:hover {
+      color: var(--action-accent-lighten);
+      border: 1px solid var(--action-accent-lighten);
+      fill: var(--action-accent-lighten);
+    }
+  }
+
+  &_secondary-active {
+    color: var(--main);
+    fill: var(--main);
+    border: 1px solid var(--main);
+    background-color: var(--disabled);
+
+    &:hover {
+      color: var(--main-lighten);
+      fill: var(--main-lighten);
+      border: 1px solid var(--main-lighten);
+      background-color: var(--disabled-lighten);
+    }
+  }
+
+  &_destructive {
+    @include font-regular($weight-medium);
+    background-color: var(--error);
+    fill: var(--background);
+
+    &:hover {
+      background-color: var(--error-lighten);
+    }
+  }
+
+  &_create {
+    @include font-regular($weight-medium);
+    background-color: var(--success);
+    fill: var(--background);
+
+    &:hover {
+      background-color: var(--success-lighten)
+    }
+  }
+}
+
+
+.tab-button {
+  &__box {
+    display: flex;
+    flex-direction: row;
+  }
+  &__button {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    height: 30px;
+    box-sizing: border-box;
+    color: var(--action-accent);
+    background-color: var(--background);
+    border: 1px solid var(--action-accent);
+    border-radius: 0 $borderRadius $borderRadius 0;
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
+
+    &_active {
+      @include font-regular($weight-medium);
+      color: var(--background);
+      background-color: var(--action-accent);
+    }
+    &_left {
+      border-radius: $borderRadius 0 0 $borderRadius;
+    }
+    &_right {
+      border-radius: 0 $borderRadius $borderRadius 0;
+    }
+  }
+
+
+}

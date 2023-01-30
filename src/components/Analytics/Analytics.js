@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 
 const Analytics = (props) => {
    return (
-      <div className = 'tempPage'>
-         <div className = 'tempContainer'>
-            <h1 className = 'tempTitle'>Здесь будет аналитика</h1>
-            <p className = 'tempDescription'>Страница на стадии разработки</p>
+      <div className='temp-page'>
+         <div className='temp-page__body'>
+            <h3>Здесь будет аналитика</h3>
+            <h5>Страница на стадии разработки</h5>
          </div>
       </div>
    )

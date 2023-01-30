@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {icon_trush} from '../../../../data/icons'
 
 import {changeBookForm, chooseBookSelected} from '../../../../Redux/actions/bookActions'
+import {ICON} from '../../../../data/icons'
+
 import Icon from '../../../general/Icon'
+
 
 const JoinEquipmets = props => {
     const [listVisible, setlistVisible] = useState(false)
@@ -78,7 +80,7 @@ const JoinEquipmets = props => {
                         <td className="w10">{idx + 1}</td>
                         <td className="noWr">{equipment.title}</td>
                         <td onClick={() => props.chooseBookSelected([equipment], 'list_for_join')}>
-                            <Icon className="icon-s1" icon={icon_trush} color="red"/>
+                            <Icon className="icon-s1" icon={ICON.TRASH} color="red"/>
                         </td>
                     </tr>
                 ))}

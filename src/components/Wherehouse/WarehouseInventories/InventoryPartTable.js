@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {changeInventoryState} from '../../../Redux/actions/actionInventory'
-import {icon_checkmark, icon_cross, icon_minus, icon_trush} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 
@@ -27,7 +27,7 @@ const InventoryPartTable = (props) => {
     }
 
     if (!props.inventory.parts.length) {
-        return <div className='tempPage h90'>Выбере запчасть</div>
+        return <div className='temp-page h90'>Выбере запчасть</div>
     }
 
     const edit = props.inventory.edit
@@ -49,15 +49,15 @@ const InventoryPartTable = (props) => {
         let icon, color
         if (value === null) {
             color = '#aaa'
-            icon = icon_minus
+            icon = ICON.MINUS
         }
         if (value === true) {
             color = '#5cb85c'
-            icon = icon_checkmark
+            icon = ICON.CHECKMARK
         }
         if (value === false) {
             color = '#f74e4d'
-            icon = icon_cross
+            icon = ICON.CROSS
         }
             return (
                 <Icon
@@ -117,7 +117,7 @@ const InventoryPartTable = (props) => {
                         <td>
                             <div className='row'>
                                 <div onClick={() => handleDelete(idx)}>
-                                    <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                    <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
                                 </div>
                             </div>
                         </td>}

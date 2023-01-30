@@ -10,14 +10,6 @@ export function changeOrderPartState( data ) {
     }
 }
 
-export function changeOrderPartForm( value, field ) {
-    return {
-        type: 'CHANGE_ORDER_PART_FORM',
-        field,
-        value
-    }
-}
-
 export function editOrderPart(order_part) {
     return {
         type: 'EDIT_ORDER_PART',
@@ -31,7 +23,6 @@ export function resetOrderPart() {
     }
 }
 
-
 export function selectedOrderPart( value, field, saveToApp=false ) {
     return {
         type: 'SELECTED_ORDER_PART',
@@ -41,7 +32,6 @@ export function selectedOrderPart( value, field, saveToApp=false ) {
     }
 }
 
-
 export function createCustomOrderPart() {
 
     const state = store.getState()
@@ -50,7 +40,7 @@ export function createCustomOrderPart() {
         amount: state.orderPart.amount,
         cost: state.orderPart.cost || 0,
         discount_value: state.orderPart.discount_value || 0,
-        engineer_id: state.orderPart.engineer_id,
+        engineer_id: state.orderPart.engineer.id || 0,
         price: state.orderPart.price || 0,
         total: state.orderPart.total || 0,
         title: state.orderPart.title,
@@ -97,7 +87,6 @@ export function createCustomOrderPart() {
     }
 }
 
-
 export function saveOrderPart() {
 
     const state = store.getState()
@@ -107,7 +96,7 @@ export function saveOrderPart() {
         amount: state.orderPart.amount,
         cost: state.orderPart.cost || 0,
         discount_value: state.orderPart.discount_value || 0,
-        engineer_id: state.orderPart.engineer_id,
+        engineer_id: state.orderPart.engineer.id || 0,
         price: state.orderPart.price || 0,
         total: state.orderPart.total || 0,
         title: state.orderPart.title,

@@ -1,0 +1,48 @@
+
+$transformTime: 0.6s;
+
+.custom-filter {
+  //display: grid;
+  //grid-template-columns: repeat(3, 1fr);
+  //grid-template-rows: repeat(4, 55px);
+  //grid-gap: 10px 20px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+
+  margin-top: 15px;
+  max-width: max-content;
+  padding: 10px;
+  border-radius: $borderRadius;
+  box-sizing: border-box;
+  max-height: 600px;
+  justify-items: center;
+  opacity: 1;
+  transition: margin $transformTime,
+              padding $transformTime,
+              max-height $transformTime,
+              opacity $transformTime * 0.8 $transformTime * 0.2;
+
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.32);
+  //box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.42);
+
+  &_invisible {
+    margin-top: 0;
+    max-height: 0;
+    padding: 0 5px;
+    overflow: hidden;
+    opacity: 0;
+    box-shadow: none;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    grid-column: 1 / span 3;
+  }
+}

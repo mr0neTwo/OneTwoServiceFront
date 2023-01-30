@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import {addWriteOf, changeWriteOfState, selectedWriteOf} from '../../../Redux/actions/writeOfAction'
-import {write_of_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 import {changeVisibleState} from '../../../Redux/actions'
 
 import TableFields from '../../general/TableFields'
@@ -50,7 +50,7 @@ const WarehouseWriteOf = props => {
                     id='writeFields'
                     height='185px'
                     classNameMenu='listOption'
-                    list={write_of_headers}
+                    list={Table.Fields.WriteOf}
                     checked_list={props.writeof.table_headers}
                     func={props.selectedWriteOf}
                 />

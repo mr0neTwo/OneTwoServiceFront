@@ -1,3 +1,7 @@
+import {includesObject} from '../../components/general/utils'
+
+const key = 'filter_'
+
 const initialState = {
 
     clientFilter: {
@@ -16,22 +20,22 @@ const initialState = {
     title: '',
     general: false,
 
-    sort: JSON.parse(localStorage.getItem('sort')) || 'desc',
-    field_sort:  JSON.parse(localStorage.getItem('field_sort')) || 'id',
-    page: JSON.parse(localStorage.getItem('page')) || 0,
+    sort: JSON.parse(localStorage.getItem(key + 'sort')) || 'desc',
+    field_sort:  JSON.parse(localStorage.getItem(key + 'field_sort')) || 'id',
+    page: JSON.parse(localStorage.getItem(key + 'page')) || 0,
 
-    engineer_id: JSON.parse(localStorage.getItem('engineer_id')) || null,
-    overdue: JSON.parse(localStorage.getItem('overdue')) || null,
-    status_id: JSON.parse(localStorage.getItem('status_id')) || null,
-    status_overdue: JSON.parse(localStorage.getItem('status_overdue')) || null,
-    urgent: JSON.parse(localStorage.getItem('urgent')) || null,
-    order_type_id: JSON.parse(localStorage.getItem('order_type_id')) || null,
-    manager_id: JSON.parse(localStorage.getItem('manager_id')) || null,
-    created_at: JSON.parse(localStorage.getItem('created_at')) || null,
-    kindof_good: JSON.parse(localStorage.getItem('kindof_good')) || null,
-    brand: JSON.parse(localStorage.getItem('brand')) || null,
-    subtype: JSON.parse(localStorage.getItem('subtype')) || null,
-    client_id: JSON.parse(localStorage.getItem('client_id')) || null,
+    engineer_id: JSON.parse(localStorage.getItem(key + 'engineer_id')) || null,
+    overdue: JSON.parse(localStorage.getItem(key + 'overdue')) || null,
+    status_id: JSON.parse(localStorage.getItem(key + 'status_id')) || null,
+    status_overdue: JSON.parse(localStorage.getItem(key + 'status_overdue')) || null,
+    urgent: JSON.parse(localStorage.getItem(key + 'urgent')) || null,
+    order_type_id: JSON.parse(localStorage.getItem(key + 'order_type_id')) || null,
+    manager_id: JSON.parse(localStorage.getItem(key + 'manager_id')) || null,
+    created_at: JSON.parse(localStorage.getItem(key + 'created_at')) || null,
+    kindof_good: JSON.parse(localStorage.getItem(key + 'kindof_good')) || null,
+    brand: JSON.parse(localStorage.getItem(key + 'brand')) || null,
+    subtype: JSON.parse(localStorage.getItem(key + 'subtype')) || null,
+    client_id: JSON.parse(localStorage.getItem(key + 'client_id')) || null,
 
     search: '',
 
@@ -45,8 +49,8 @@ const initialState = {
     temp_subtype: null,
     temp_client: {},
 
-    active_badge: JSON.parse(localStorage.getItem('active_badge')) || 0,
-    active_filter: JSON.parse(localStorage.getItem('active_filter')) || 0
+    active_badge: JSON.parse(localStorage.getItem(key + 'active_badge')) || 0,
+    active_filter: JSON.parse(localStorage.getItem(key + 'active_filter')) || 0
 }
 
 export const filterReducer = (state = initialState, action) => {
@@ -64,30 +68,30 @@ export const filterReducer = (state = initialState, action) => {
                 'urgent', 'order_type_id', 'manager_id', 'created_at', 'kindof_good', 'brand', 'subtype', 'client_id',
                 'active_badge', 'active_filter']
             Object.keys(action.data).forEach(field => {
-                if (local_save.includes(field)) localStorage.setItem(field, JSON.stringify(action.data[field]))
+                if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
             })
             return {...Object.assign(state, action.data)}
         }
 
         case 'SELECTED_FILTER': {
-            // Обявим переменную для изменных данных
-            let new_data
-            // Проверим если значения value в списке уже существующих
-            if (action.value.every(val => state[action.field].includes(val))) {
-                // Если есть удалим эти значения
-                new_data = state[action.field].filter(val => !action.value.includes(val))
-            } else {
-                // Если нет добавим эти значения
-                new_data = state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
+                // Обявим переменную для изменных данных
+                let new_data
+                // Проверим если значения value в списке уже существующих
+                if (action.value.every(val => includesObject(val, state[action.field]))) {
+                    // Если есть удалим эти значения
+                    new_data = state[action.field].filter(val => !includesObject(val, action.value))
+                } else {
+                    // Если нет добавим эти значения
+                    new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
+                }
+                // Если флаг saveToApp установлен сохраним данные на локальном хранилище
+                if (action.saveToApp) localStorage.setItem(key + action.field, JSON.stringify(new_data))
+                // Вернем изменненый стейт
+                return {
+                    ...state,
+                    [action.field]: new_data,
+                }
             }
-            // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))
-            // Вернем изменненый стейт
-            return {
-                ...state,
-                [action.field]: new_data,
-            }
-        }
 
         case 'RESET_FILTER':
             return {

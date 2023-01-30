@@ -1,5 +1,5 @@
 import {includesObject} from '../../components/general/utils'
-import {back_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 
 const now = new Date()
 const key = 'back_'
@@ -27,7 +27,7 @@ const initialState = {
     page: 0,
     flag: false,
 
-    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || back_headers,
+    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || Table.Fields.Back,
 }
 
 export const warehouseBackReducer = (state = initialState, action) => {

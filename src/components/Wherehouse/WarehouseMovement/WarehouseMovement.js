@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
-import {movement_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 
 import Button from '../../general/Button'
 import ChooseDate from '../../general/calandar/ChooseDate'
@@ -40,7 +40,7 @@ const WarehouseMovement = props => {
                     id='writeFields'
                     height='185px'
                     classNameMenu='listOption'
-                    list={movement_headers}
+                    list={Table.Fields.Movement}
                     checked_list={props.movement.table_headers}
                     func={props.selectedMovement}
                 />

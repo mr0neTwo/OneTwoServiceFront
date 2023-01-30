@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {showDate} from '../../../general/utils'
-import {icon_clock} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 
 import Icon from '../../../general/Icon'
 
@@ -27,7 +27,7 @@ const EstimatedComeAt = (props) => {
         <td>
             <div className="estimated-top">
                 <Icon
-                    icon={icon_clock}
+                    icon={ICON.CLOCK}
                     className='clockEstimated'
                     color={(props.reqsp.estimated_come_at && props.reqsp.estimated_come_at < (new Date() / 1000) && [13, 14, 15].indexOf(props.reqsp.status.group) !== -1) ? '#f0ad4e' : '#ebebeb'}
                 />

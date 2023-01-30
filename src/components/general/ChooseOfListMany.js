@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react'
 
 import Checkbox from './Checkbox'
 import Icon from './Icon'
-import {icon_down, icon_left} from '../../data/icons'
+import {ICON} from '../../data/icons'
 
 /**
  * id='id'
@@ -89,7 +89,7 @@ const ChooseOfListMany = (props) => {
                 onClick={() => setListVisible(!listVisible)}
             >
                 <div>{showWord(props.checked_list.length)}</div>
-                <Icon icon={listVisible ? icon_down : icon_left} className='icon-s2' color='#282e33'/>
+                <Icon icon={listVisible ? ICON.DOWN : ICON.LEFT} className='icon-s2' color='#282e33'/>
             </div>
             {listVisible ?
                 <div

@@ -1,34 +1,32 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {changeVisibleState} from '../../../../Redux/actions'
 import {createEquipmentBrand, addEquipmentBrand, changeBookState} from '../../../../Redux/actions/bookActions'
-import {icon_cancel, icon_close, icon_down} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
 import {changeOrderState} from '../../../../Redux/actions/orderActions'
+import {checkObject} from '../../../general/utils'
+import Button from '../../../general/Button'
 
 const SetOrderBrand = (props) => {
 
-    const [visibleList, setVisibleList] = useState(false)
-    const [visibleBotton, setVisisbleBotton] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
+    const [buttonVisible, setButtonVisible] = useState(false)
+    const id = 'SetOrderBrand'
 
     useEffect(() => {
         if (Object.values(props.book.equipment_type).length) props.addEquipmentBrand()
     }, [props.book.equipment_type, props.book.filter_brand])
 
-
-    const edit = props.order.edit
-    const disabled = !Object.values(props.book.equipment_type).length
-    const seted = !!Object.values(props.order.brand).length
+    const disabled = !checkObject(props.book.equipment_type)
+    const selected = checkObject(props.order.brand)
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map((el) => el.id).includes('listOrderOfBrand') &&
-            !event.composedPath().map((el) => el.id).includes('optionsOrderTextOfBrand')
-        ) {
-            if (visibleList) {
-                setVisibleList(false)
-                setVisisbleBotton(false)
+        if (!event.composedPath().map((el) => el.id).includes(id)) {
+            if (listVisible) {
+                setListVisible(false)
+                setButtonVisible(false)
             }
         }
     }
@@ -46,85 +44,105 @@ const SetOrderBrand = (props) => {
             subtype: {},
             model: {}
         })
-        props.changeBookState({equipment_brand: {}})
+        props.changeBookState({
+            equipment_brand: {},
+            equipment_subtype: {}
+        })
     }
 
     const setBrand = brand => {
         props.changeOrderState({brand})
         props.changeBookState({equipment_brand: brand, filter_brand: ''})
-        setVisibleList(false)
-        setVisisbleBotton(false)
+        setListVisible(false)
+        setButtonVisible(false)
         props.changeVisibleState({checkedOrderBrand: true})
     }
 
+    const createNewBrand = (event) => {
+        if (event.key === 'Enter') {
+            props.createEquipmentBrand(event.target.value)
+            setButtonVisible(false)
+            setListVisible(false)
+        }
+    }
+
+    const mainClassName = useMemo(() => {
+        let className = 'select'
+        if (props.className) className += ` ${props.className}`
+        if (listVisible) className += ' select_active'
+        if (disabled) className += ' select_disabled'
+        if (!props.view.checkedOrderBrand) className += ' select_error'
+        return className
+    }, [props.className, listVisible, disabled, props.view.checkedOrderBrand])
+
     return (
-        <div>
+        <div
+            id={id}
+            className={mainClassName}
+        >
+            <div className='label select__label'>Бренд</div>
             <button
-                id="optionsOrderTextOfBrand"
-                style={!props.view.checkedOrderBrand ? {borderColor: 'red'} : null}
-                className={disabled ? 'optionsUnavaliable' : 'optionsFilterText'}
-                onClick={() => setVisibleList(true)}
-                disabled={disabled || seted}
+                className='input select__input'
+                onClick={() => setListVisible(true)}
+                disabled={disabled || selected}
             >
                 <input
-                    className={disabled ? 'optionsUnavaliable' : 'optionFilterInput'}
+                    className='w100p'
                     onChange={event => props.changeBookState({filter_brand: event.target.value})}
                     placeholder="Выбирете бренд"
-                    value={seted ? props.order.brand.title : props.book.filter_brand}
-                    disabled={disabled || seted}
+                    value={selected ? props.order.brand.title : props.book.filter_brand}
+                    disabled={disabled || selected}
                 />
-                {seted && props.permissions.includes('edit_info_orders') ?
+                {selected && props.permissions.includes('edit_info_orders') ?
                     <div onClick={reset}>
-                        <Icon icon={icon_cancel} className='icon-close'/>
+                        <Icon icon={ICON.CANCEL} className='icon'/>
                     </div>
                     :
-                    <Icon icon={icon_down} className='icon-s2'/>
+                    <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
                 }
             </button>
-            {!props.view.checkedOrderBrand ? (
-                <div className="errorMassageInput">
-                    {'Необоходимо выбрать из списка'}
-                </div>
-            ) : null}
-            {visibleList && !disabled ? (
-                <div className="listFilter" id="listOrderOfBrand">
-                    {props.book.equipment_brands.map(brand => (
-                        visibleBotton ? null :
-                            <div
-                                key={brand.id}
-                                className="rowGropList"
-                                onClick={() => setBrand(brand)}
-                            >
-                                {brand.title}
-                            </div>
-                    ))}
-                    <div className="btmsts">
-                        {visibleBotton ? (
+
+            {listVisible && !disabled ?
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                        <div className='select__set-items'>
+                            {props.book.equipment_brands.map(brand => (
+                                buttonVisible ? null :
+                                    <div
+                                        key={brand.id}
+                                        className="select__item select__item_option"
+                                        onClick={() => setBrand(brand)}
+                                    >
+                                        {brand.title}
+                                    </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="select__buttons">
+                        {buttonVisible ?
+                            <div className='select__add-input'>
                             <input
-                                className="optionFilterInput"
+                                className="select__add-input"
                                 autoFocus
                                 onChange={event => props.changeBookState({filter_brand: event.target.value})}
-                                onKeyPress={event => {
-                                    if (event.key === 'Enter') {
-                                        props.createEquipmentBrand(event.target.value)
-                                        setVisisbleBotton(false)
-                                    }
-                                }}
-                                onBlur={() => setVisisbleBotton(false)}
+                                onKeyPress={createNewBrand}
+                                onBlur={() => setButtonVisible(false)}
                                 value={props.book.filter_brand}
-                                placeholder="Введите и нажмиете Enter"
                             />
-                        ) : (
-                            <div
-                                className="btnstsTitle"
-                                onClick={() => setVisisbleBotton(true)}
-                            >
-                                Добавить бренд
+                                <div className='select__add-input-text'>Введите название и нижмите Enter</div>
                             </div>
-                        )}
+                            :
+                            <Button
+                                size='small'
+                                type='tertiary'
+                                title='Добавить бренд'
+                                onClick={() => setButtonVisible(true)}
+                            />
+                        }
                     </div>
                 </div>
-            ) : null}
+                : null
+            }
         </div>
     )
 }

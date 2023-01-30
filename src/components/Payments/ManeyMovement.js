@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {addPayments, changePaymentState} from '../../Redux/actions/paymentAction'
-import {icon_stats_docs} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import Icon from '../general/Icon'
 import TablePayments from './TablePayments';
 import Checkbox from '../general/Checkbox';
@@ -10,7 +10,7 @@ import ChooseDate from '../general/calandar/ChooseDate'
 import Button from '../general/Button'
 
 
-const ManeyMovement = (props) => {
+const MoneyMovement = (props) => {
 
     useEffect(() => {
         if (props.current_cashbox) {
@@ -20,30 +20,35 @@ const ManeyMovement = (props) => {
 
     const [showDeleted, setShowDeleted] = useState(false)
 
-    return (
-        <div className='ml30 w100'>
+    if (!props.permissions.includes('see_moving_money')) return null
 
-            <div className='row'>
-                <Icon icon={icon_stats_docs}/>
-                <h3 className='ml5'>{`Движение денег по кассе "${props.current_cashbox ? props.current_cashbox.title : ''}"`}</h3>
+    return (
+        <div className='money-movement'>
+
+            <div className='money-movement__title'>
+                <Icon className='icon' icon={ICON.STATS_DOCS}/>
+                <h4>{`Движение денег по кассе "${props.current_cashbox?.title || ''}"`}</h4>
             </div>
-            <div className='row'>
+            <div className='two-buttons'>
                 <ChooseDate
-                    className='h27'
-                    width='250px'
+                    title='Период'
                     range={true}
                     func={date => props.changePaymentState({filter_created_at: date.map(date => parseInt(date / 1000))})}
                     current_date={props.filter_created_at}
                     ivisible={!props.permissions.includes('see_moving_money_all_time')}
                 />
                 <Button
+                    size='med'
+                    type='primary'
                     title='Применить'
-                    className='blueButton'
                     onClick={() => props.addPayments()}
                     invisible={!props.permissions.includes('see_moving_money_all_time')}
                 />
                 <Checkbox
+                    id='PaymentsShowDeleted'
+                    className='mb5'
                     label='Показать удаленные'
+                    type='slide-three'
                     onChange={event => setShowDeleted(event.target.checked)}
                     value={showDeleted}
                     invisible={!props.permissions.includes('see_delete_payments')}
@@ -67,4 +72,4 @@ const mapDispatchToProps = {
     addPayments
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManeyMovement)
+export default connect(mapStateToProps, mapDispatchToProps)(MoneyMovement)

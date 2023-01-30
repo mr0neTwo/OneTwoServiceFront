@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { icon_search } from '../../data/icons'
+import { ICON } from '../../data/icons'
 
 import Icon from './Icon'
 
@@ -23,7 +23,7 @@ const SearchInput = (props) => {
          />
          <Icon 
             className='icon-s4'
-            icon={icon_search} 
+            icon={ICON.SEARCH}
             color='grey'
          />
       </div>

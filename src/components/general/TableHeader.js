@@ -1,25 +1,35 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
+
+
 import {changeDataState} from '../../Redux/actions/dataAction'
+import Icon from './Icon'
+import {ICON} from '../../data/icons'
 
 
 /**
+ * Заголовок таблицы (ячейка)
+ * @component
+ * @example
+ * <TableHeader
+ * header={header}
+ * headers={props.headers}
+ * changeState={state_object => console.log(state_object)}
+ * field='table_headers'
+ * title_field_sort='sort_field'
+ * title_sort='sort'
+ * sort_field={props.sort_field}
+ * sort={props.sort}
+ * />
  *
- * header={header} // oбъект заголовка
- *
- * headers={props.headers} // список всех выбранных заголовков
- *
- * changeState={props.changeState} // функция изменения state текущего редюсера
- *
- * field='table_field' // поле выбранных заголовков таблицы
- *
- * title_field_sort='sort_field' // поле типа сортировки
- *
- * title_sort='sort' // поле типп сортировки
- *
- * title_sort_field={props.sort_field} // значение поля сортировки
- *
- * sort={props.sort} // значение типа сортировки
+ * header - oбъект заголовка
+ * headers - список всех выбранных заголовков
+ * changeState - функция изменения state текущего редюсера
+ * field - поле выбранных заголовков таблицы default='table_headers'
+ * title_field_sort - поле типа сортировки
+ * title_sort - поле типп сортировки
+ * sort_field - значение поля сортировки default='sort_field'
+ * sort - значение типа сортировки
  *
  */
 
@@ -86,40 +96,56 @@ const TableHeader = (props) => {
         }
     }
 
+    const sortField = () => {
+        if (props.changeState) {
+            props.changeState({
+                [props.title_sort_field || 'sort_field']: props.header.field,
+                [props.title_sort || 'sort']: props.sort === 'asc' ? 'desc' : 'asc'
+            })
+        }
+    }
+
+    const getSortIcon = () => {
+        if (props.sort_field === props.header.field) {
+            if (props.sort === 'asc') {
+                return <Icon className='icon' icon={ICON.SORT_ASC}/>
+            } else {
+                return <Icon className='icon' icon={ICON.SORT_DESC}/>
+            }
+        } else {
+            return null
+        }
+    }
+
     return (
-        <th
-            className='tableColumnHeader'
-            // style={{minWidth: `${columnWidth}px`}}
-            style={{width: `${columnWidth}px`}}
-        >
-            <div className='row'>
+        <th style={{minWidth: `${columnWidth}px`}} >
+            <div className='table-header' >
                 <div
-                    className='ml5 w100'
+                    className='table-header__content'
                     draggable
-                    onClick={!props.changeState ? null : () => props.changeState({
-                        [props.title_sort_field || 'sort_field']: props.header.field,
-                        [props.title_sort || 'sort']: props.sort === 'asc' ? 'desc' : 'asc'
-                    })}
+                    onClick={sortField}
                     onDragEnd={props.headers ? handleEndDrag : null}
                 >
-                    <span>{props.header.title}</span>
-                    <span>
-                        {props.sort_field === props.header.field ? (props.sort === 'asc' ? '↓' : '↑') : null}
-                    </span>
+                    <div className='table-header__title'>{props.header.title}</div>
+                    <div>{getSortIcon()}</div>
                 </div>
                 {props.headers ?
                     <div className='row'>
                         <div
-                            style={{height: '40px'}}
-                            className='curResize'
+                            className='table-header__resize'
                             onMouseDown={handleDragStart}
-                        />
+                        >
+                            <Icon
+                                icon={ICON.RESIZE}
+                                className='icon'
+                            />
+                        </div>
                         <div
                             style={{display: props.data.position_over === props.header.order ? 'block' : 'none'}}
-                            className='dragOver'
+                            className='table-header__dragOver'
                         />
                         <div
-                            className='overArea'
+                            className='table-header__overArea'
                             onDragOver={() => handleDragOver(props.header.order)}
                         />
                     </div>: null}

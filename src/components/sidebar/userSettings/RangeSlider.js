@@ -1,11 +1,10 @@
-
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
 
 const RangeSlider = (props) => {
 
     return (
-        <div className={`${props.className} rangebox`}>
+        <div className={`${props.className} range`}>
             <input
                 type="range"
                 className="participants"
@@ -15,17 +14,6 @@ const RangeSlider = (props) => {
                 onChange={event => props.onChange(event.target.value)}
                 disabled={props.disabled}
             />
-            <span
-                className="rangeslider"
-                style={{
-                    top: '-8px',
-                    left: `${props.value - 0.15*props.value}%`,
-                    display: props.disabled ? 'none': 'flex'
-                }}
-            >
-                {props.value}
-            </span>
-            <div className='rangeline'/>
         </div>
     )
 }

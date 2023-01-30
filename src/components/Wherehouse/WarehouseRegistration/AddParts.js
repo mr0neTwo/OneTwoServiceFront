@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Icon from '../../general/Icon'
 
 import {addParts, changePartState} from '../../../Redux/actions/partAction'
-import {icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 import {changeRegistrationState} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 import Button from '../../general/Button'
@@ -78,7 +78,7 @@ const AddParts = (props) => {
                     />
                     <Icon
                         className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
+                        icon={showList ? ICON.LEFT : ICON.DOWN}
                     />
                 </div>
                 {showList ?

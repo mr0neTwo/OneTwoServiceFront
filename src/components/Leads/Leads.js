@@ -44,13 +44,13 @@ const Leads = () => {
 
 
     return (
-        <div className="tempPage">
-            <div className="tempContainer">
-                <h1 className="tempTitle">Здесь будут обращения</h1>
-                <p className="tempDescription">Страница на стадии разработки</p>
-                <button onClick={handleOnCkick} className="dataDownload">
-                    Загрузить заказ
-                </button>
+        <div className="temp-page">
+            <div className="temp-page__body">
+                <h3>Здесь будут обращения</h3>
+                <h5>Страница на стадии разработки</h5>
+                {/*<button onClick={handleOnCkick} className="dataDownload">*/}
+                {/*    Загрузить заказ*/}
+                {/*</button>*/}
             </div>
         </div>
     )

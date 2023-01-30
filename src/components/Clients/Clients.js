@@ -6,7 +6,7 @@ const Clients = (props) => {
     return (
         <div className='pageContent'>
 
-            <div className='Header'>
+            <div className='header'>
                 <span className='headerTitle'>Клиенты</span>
             </div>
             <TableClients/>

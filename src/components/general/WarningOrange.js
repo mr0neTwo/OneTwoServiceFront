@@ -1,16 +1,19 @@
 import React from 'react'
 
 import Icon from './Icon'
-import { icon_warning } from '../../data/icons'
+import { ICON } from '../../data/icons'
 
 const WarningOrange = (props) => {
+
    return (
-      <div 
-         className='warningOrange'
-         style={{width: props.width}}
+      <div
+          style={{width: props.width}}
+          className='warning'
       >
-         <div><Icon icon={icon_warning} color='#efac4e'/></div>
-         <div className='ml10'>{props.text}</div>
+         <div>
+            <Icon icon={ICON.WARNING} className='icon icon_32'/>
+         </div>
+         <div>{props.text}</div>
       </div>
    )
 }

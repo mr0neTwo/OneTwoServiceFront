@@ -1,4 +1,4 @@
-import {registrations_table_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 import {includesObject} from '../../components/general/utils'
 
 const now = new Date()
@@ -33,7 +33,7 @@ const initialState = {
     where_to_buy: '',
     prices: [],
 
-    table_headers: JSON.parse(localStorage.getItem('registration_table_headers')) || registrations_table_headers,
+    table_headers: JSON.parse(localStorage.getItem('registration_table_headers')) || Table.Fields.Registration,
 
     showDeleted: false,
     filter_created_at: JSON.parse(localStorage.getItem('registration_filter_created_at')) ||  [

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 
 
 import {showDate, showRangeDate} from '../utils'
 
 import Icon from '../Icon'
-import {icon_calendar} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 import CalendarTime from './CalendarTime'
 import CalendarNavi from './CalendarNavi'
 import CalendarOption from './CalendarOption'
@@ -53,8 +53,10 @@ const ChooseDate = (props) => {
     const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
+
+
         // Скрываем меню выбора месяца при клику вне меню
-        if (!event.composedPath().map(el => el.id).includes('monthList')) {
+        if (!event.composedPath().map(el => el.id).includes('calendarMonth')) {
             if (visibleListMonth) {
                 setVisibleListMonth(false)
             }
@@ -66,7 +68,7 @@ const ChooseDate = (props) => {
             }
         }
         // Скрываем клендарь при клике вне календаря
-        if (!event.composedPath().map(el => el.id).includes('listCalendarOption')) {
+        if (!event.composedPath().map(el => el.id).includes('calendarList')) {
             if (listVisible) {
                 setListVisible(false)
             }
@@ -175,38 +177,38 @@ const ChooseDate = (props) => {
      */
     const dayClassName = (day) => {
         // Общий стиль для всег дней
-        const class1 = 'calendarDay'
+        const class1 = 'calendar__day'
         // Стиль для дней за пределами отображаемого месяца
-        const class2 =  day.getMonth() === current_date.getMonth() ? '' : 'calgr'
+        const class2 =  day.getMonth() === current_date.getMonth() ? '' : 'calendar__day_out'
         // Если задан режим выбора диапазона дат
         if (props.range) {
             // Если сущестует уже выбранный диапазон
             if (props.current_date && props.current_date[0] && props.current_date[1]) {
                 // Стиль для крайних дней уже выбранного диапазона дат
                 const class3 = compareDates(new Date(props.current_date[0] * 1000), day) ||
-                               compareDates(new Date(props.current_date[1] * 1000), day) ? 'settedDay' : ''
+                               compareDates(new Date(props.current_date[1] * 1000), day) ? 'calendar__day_selected' : ''
                 // Стиль для дня внутри уже выбранного диапазона дат
-                const class4 = props.current_date[0] < day/1000 && day/1000 < props.current_date[1] ? 'settedSecondDay' : ''
+                const class4 = props.current_date[0] < day/1000 && day/1000 < props.current_date[1] ? 'calendar__day_between' : ''
                 return [class1, class2, class3, class4].join(' ')
             // Если диапазон дат еще не выбран
             } else {
                 // Функция для определения попадает ли день в выбираемый диапазон дат
                 const showSelected = (day) => {
                     if (firstDay && secondDay) {
-                        return  firstDay/1000 < day/1000 && day/1000 <= secondDay/1000 ||
-                            firstDay/1000 > day/1000 && day/1000 >= secondDay/1000
+                        return  firstDay/1000 < day/1000 && day/1000 < secondDay/1000 ||
+                            firstDay/1000 > day/1000 && day/1000 > secondDay/1000
                     } else { return false }
                 }
                 // Стиль для первого выбрнного дня
-                const class3 = compareDates(firstDay || new Date(0), day) ? 'settedDay' : ''
+                const class3 = compareDates(firstDay || new Date(0), day) ? 'calendar__day_selected' : ''
                 // Стиль для ней попадающих в выбираемый диапазон
-                const class4 = showSelected(day) ? 'settedSecondDay' : ''
+                const class4 = showSelected(day) ? 'calendar__day_between' : ''
                 return [class1, class2, class3, class4].join(' ')
             }
         // Если задан режим выбора одной даты
         } else {
             // Стиль для выбранной даты
-            const class3 = compareDates(new Date(props.current_date), day) ? 'settedDay' : ''
+            const class3 = compareDates(new Date(props.current_date), day) ? 'calendar__day_selected' : ''
             return [class1, class2, class3].join(' ')
         }
     }
@@ -224,22 +226,25 @@ const ChooseDate = (props) => {
         }
     }
 
-    return props.invisible ? <div/> :(
+    if (props.invisible) return  <div/>
+
+    return (
         <div
-            className={props.className}
-            style={{width: props.width}}
+            className={`calendar ${listVisible || visibleCalendar ? 'calendar_active': ''} ${props.className}`}
         >
-            <div className='lableImput'>{props.title}</div>
+            <div className='label calendar__label'>{props.title}</div>
             <div
-                className='dateContaner'
+                className='input calendar__input'
                 onClick={handleChangeDate}
             >
-                <Icon
-                    className='icon-s2 mlr5'
-                    icon={icon_calendar}
-                    color='gray'
-                />
-                <div>{title}</div>
+                <div className='row g6'>
+                    <Icon
+                        className='icon calendar__icon'
+                        icon={ICON.CALENDAR}
+                    />
+                    <div>{title}</div>
+                </div>
+                <Icon icon={ICON.DOWN} className={`icon icon_24 calendar__icon-down ${listVisible ? 'icon_rotate-90' : ''}`}/>
             </div>
 
             <CalendarOption
@@ -253,7 +258,7 @@ const ChooseDate = (props) => {
 
 
             {visibleCalendar && !props.disabled ?
-                <div className={props.showTop ? 'calendar_top' : 'calendar_down'} id='calendar'>
+                <div className='calendar__date-select' id={'calendar'}>
 
                     <CalendarNavi
                         func={data => props.func(data)}
@@ -263,7 +268,7 @@ const ChooseDate = (props) => {
                         visibleListMonth={visibleListMonth}
                     />
 
-                    <div className='row'>
+                    <div className='calendar__days'>
                         {weekDays.map((day, idx) => (
                             <div
                                 key={idx}
@@ -272,9 +277,6 @@ const ChooseDate = (props) => {
                                 {day}
                             </div>
                         ))}
-                    </div>
-
-                    <div className='calendarDays'>
                         {current_days.map((day, idx) => (
                             <div
                                 key={idx}
@@ -287,6 +289,7 @@ const ChooseDate = (props) => {
                             </div>
                         ))}
                     </div>
+
                     {props.time ?
                         <CalendarTime
                             func={data => props.func(data)}

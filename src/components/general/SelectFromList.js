@@ -1,16 +1,14 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {connect} from 'react-redux'
 
 import Icon from './Icon'
 import {changeVisibleState} from '../../Redux/actions'
 import PropTypes from "prop-types";
-import {icon_down, icon_left} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import {checkObject} from './utils'
 
 
 /**
- * id='idElement'
- *
  * title='Наменование'
  *
  * className='className'
@@ -20,8 +18,6 @@ import {checkObject} from './utils'
  * setElement={props.setElement}
  *
  * current_object={props.current_object}
- *
- * width={'250px'}
  *
  * checkedFlag='checkedFlag'
  *
@@ -38,11 +34,11 @@ const SelectFromList = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
 
+    const elementRef = useRef()
+
     const clickHandel = (event) => {
-        if (!event.composedPath().map(el => el.id).includes(`chooseOfList${props.id}`)) {
-            if (listVisible) {
-                setListVisible(false)
-            }
+        if (elementRef.current && listVisible && !elementRef.current.contains(event.target)) {
+            setListVisible(false)
         }
     }
 
@@ -71,48 +67,51 @@ const SelectFromList = (props) => {
         }
     })
 
+    const mainClassName = useMemo(() => {
+        let className = 'select'
+        if (props.className) className += ` ${props.className}`
+        if (listVisible) className += ' select_active'
+        if (props.checkedFlag && !props.view[props.checkedFlag]) className += ' select_error'
+        return className
+    }, [props.className, listVisible, props.checkedFlag, props.view[props.checkedFlag]])
 
-    return props.invisible ? <div/> :
+    if (props.invisible) return null
+
+    return (
         <div
-            className={`h52 ${props.className}`}
-            style={{width: props.width || '250px'}}
-            id={`selectFromList${props.id}`}
+            ref={elementRef}
+            className={mainClassName}
         >
-            <div className='lableImput'>{props.title}{props.checkedFlag ? <span className='redStar'>*</span> : null}</div>
-            <div
-                className='optionsButton'
-                onClick={props.disabled ? null : () => setListVisible(!listVisible)}
-                style={props.checkedFlag && !props.view[props.checkedFlag] ? {borderColor: 'red'} : null}
-            >
-                <div className='noWr'>{getTitle}</div>
-                <Icon
-                    className='icon-s4'
-                    icon={listVisible ? icon_left : icon_down}
-                />
+            <div className='label select__label'>
+                {props.title}
+                {props.checkedFlag ? <span className={checkObject(props.current_object) ? '' : 'input-label__red-star'}>*</span> : null}
             </div>
-            {props.checkedFlag && !props.view[props.checkedFlag] ?
-                <div className='errorMassageInput'>
-                    {props.errorMassage || 'Необходимо выбрать'}
-                </div> : null}
+            <div
+                className='input select__input'
+                onClick={props.disabled ? null : () => setListVisible(!listVisible)}
+            >
+                <div className='nowrap'>{getTitle}</div>
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
+            </div>
 
             {listVisible ?
-                <div
-                    className='listOptionsChoose'
-                    style={{width: props.width || '250px'}}
-                >
-                    {props.list.map(element => {
-                        return (
-                            <div
-                                key={element.id}
-                                className='options'
-                                onClick={() => handleClick(element)}
-                            >
-                                {element.title || element.name || `${element.last_name} ${element.first_name}`}
-                            </div>
-                        )
-                    })}
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                        {props.list.map(element => {
+                            return (
+                                <div
+                                    key={element.id}
+                                    className='select__item select__item_option'
+                                    onClick={() => handleClick(element)}
+                                >
+                                    {element.title || element.name || `${element.last_name} ${element.first_name}`}
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div> : null}
         </div>
+    )
 
 }
 

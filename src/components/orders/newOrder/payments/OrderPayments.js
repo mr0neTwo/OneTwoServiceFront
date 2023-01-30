@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import {editCurrentClient, changeVisibleState} from '../../../../Redux/actions'
@@ -14,8 +14,8 @@ const OrderPayments = (props) => {
          direction: 2,
          client: props.order.client,
          description: `Оплата по заказу № ${props.order.id_label}`,
-         cashflow_category: 2,
-         employee_id: props.current_user_id,
+         cashflow_category: props.item_payments.find(item => item.id === 2),
+         employee: props.current_user,
          order_id: props.order.edit,
          context: {type: 'order'}
       })
@@ -28,8 +28,8 @@ const OrderPayments = (props) => {
          direction: 1,
          client: props.order.client,
          description: `Выплата по заказу № ${props.order.id_label}`,
-         cashflow_category: 8,
-         employee_id: props.current_user_id,
+         cashflow_category: props.item_payments.find(item => item.id === 8),
+         employee: props.current_user,
          order_id: props.order.edit,
          context: {type: 'order'}
       })
@@ -38,21 +38,19 @@ const OrderPayments = (props) => {
    }
 
    return (
-      <div className = 'contentTab'>
-         <div className='row mt15' id='btorderpay'>
+      <div className = 'form-order-editor'>
+         <div className='form-order-editor__payment-buttons'>
             <Button
-               className='greenButton'
-               title='Предоплата'
-               onClick={ handleIncome }
-               invisible={false}
-               disabled={false}
+                size='med'
+                type='create'
+                title='Предоплата'
+                onClick={ handleIncome }
             />
             <Button
-               className='greenButton bcr ml10'
-               title='Выплата'
-               onClick={ handleOutcome }
-               invisible={false}
-               disabled={false}
+                size='med'
+                type='destructive'
+                title='Выплата'
+                onClick={ handleOutcome }
             />
          </div>
          <TableOrderPayments/>
@@ -64,7 +62,8 @@ const mapStateToProps = state => ({
    employees: state.employee.employees,
    order: state.order,
    view: state.view,
-   current_user_id: state.data.user.id
+   current_user: state.data.user,
+   item_payments: state.data.item_payments
 })
 
 const mapDispatchToProps = {

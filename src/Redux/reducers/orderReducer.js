@@ -1,5 +1,8 @@
 import {order_event_types} from '../../data/data'
-import dataTableHeader from '../../data/dataTableHeader'
+import {Table} from '../../data/tableHeaders'
+import {includesObject} from '../../components/general/utils'
+
+const key = 'order_'
 
 const initialState = {
 
@@ -16,16 +19,16 @@ const initialState = {
     closed_at: 0,
     assigned_at: 0,
     duration: 0,
-    estimated_done_at: parseInt(Date.now() / 1000) + 4 * 24 * 3600,
+    estimated_done_at: Math.round(Date.now() / 1000) + 4 * 24 * 3600,
     scheduled_for: 0,
     warranty_date: 0,
     status_deadline: 0,
 
-    ad_campaign_id: 1,
+    ad_campaign: {},
     branch_id: 0,
     status: {},
     client: {},
-    order_type_id: 1,
+    order_type: {},
     closed_by_id: 0,
     created_by_id: 0,
     manager: {},
@@ -65,19 +68,31 @@ const initialState = {
     urgent: false,
     warranty_measures: false,
 
-    event_filter: JSON.parse(localStorage.getItem('event_filter')) || order_event_types.map(event => event.id),
+    engineer_work_materials: {},
+
+    event_filter: JSON.parse(localStorage.getItem(key + 'event_filter')) || order_event_types,
     event_comment: '',
 
-    tableFields: JSON.parse(localStorage.getItem('tableFields')) || dataTableHeader,
+    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || Table.Fields.Order,
 
     position_cursor: 0,
-    position_over: null
+    position_over: null,
+
+    sort: JSON.parse(localStorage.getItem(key + 'sort')) || 'desc',
+    field_sort:  JSON.parse(localStorage.getItem(key + 'field_sort')) || 'id',
+    page: JSON.parse(localStorage.getItem(key + 'page')) || 0,
+
+    spinner: false
 }
 
 export const orderReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case 'CHANGE_ORDER_STATE': {
+            const session_save = ['table_headers', 'event_filter', 'sort', 'field_sort', 'page']
+            Object.keys(action.data).forEach(field => {
+                if (session_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 
@@ -85,15 +100,15 @@ export const orderReducer = (state = initialState, action) => {
             // Обявим переменную для изменных данных
             let new_data
             // Проверим если значения value в списке уже существующих
-            if (action.value.every(val => state[action.field].includes(val))) {
+            if (action.value.every(val => includesObject(val, state[action.field]))) {
                 // Если есть удалим эти значения
-                new_data = state[action.field].filter(val => !action.value.includes(val))
+                new_data = state[action.field].filter(val => !includesObject(val, action.value))
             } else {
                 // Если нет добавим эти значения
-                new_data = state[action.field].concat(action.value.filter(val => !state[action.field].includes(val)))
+                new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem(key + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
             return {
                 ...state,
@@ -197,11 +212,11 @@ export const orderReducer = (state = initialState, action) => {
                 warranty_date: 0,
                 status_deadline: 0,
 
-                ad_campaign_id: 1,
+                ad_campaign: {},
                 branch_id: 0,
                 status_id: 0,
                 client: {},
-                order_type_id: 1,
+                order_type: {},
                 closed_by_id: 0,
                 created_by_id: 0,
                 manager: {},
@@ -241,6 +256,7 @@ export const orderReducer = (state = initialState, action) => {
                 urgent: false,
                 warranty_measures: false,
 
+                engineer_work_materials: {},
 
                 equipments: [{
                     kindof_good: {},
@@ -271,11 +287,11 @@ export const orderReducer = (state = initialState, action) => {
                 warranty_date: action.order.warranty_date,
                 status_deadline: action.order.status_deadline,
 
-                ad_campaign_id: action.order.ad_campaign.id,
+                ad_campaign: action.order.ad_campaign,
                 branch_id: action.order.branch.id,
                 status: action.order.status,
                 client: action.order.client,
-                order_type_id: action.order.order_type.id,
+                order_type: action.order.order_type,
                 closed_by_id: action.order.closed_by_id,
                 created_by_id: action.order.created_by_id,
                 manager: action.order.manager,

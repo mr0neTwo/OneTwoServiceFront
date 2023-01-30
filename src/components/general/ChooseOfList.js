@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Icon from './Icon'
 import {setVisibleFlag} from '../../Redux/actions'
 import PropTypes from "prop-types";
-import {icon_down, icon_left} from '../../data/icons'
+import {ICON} from '../../data/icons'
 
 
 /**
@@ -93,7 +93,7 @@ const ChooseOfList = (props) => {
                 </div>
                 <Icon
                     className='icon-s4'
-                    icon={listVisible ? icon_left : icon_down}
+                    icon={listVisible ? ICON.LEFT : ICON.DOWN}
                 />
             </div>
             {props.checkedFlag && !props.checked ? <div

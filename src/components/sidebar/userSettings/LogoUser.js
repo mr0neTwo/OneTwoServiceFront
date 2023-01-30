@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
+
 import {editEmployee} from '../../../Redux/actions/employeeAction'
 
 
@@ -9,13 +10,11 @@ function LogoUser(props) {
     return (
         <Link to='/user'>
             <div
-                className='avatar'
-                // onClick={() => props.editEmployee(props.user.id)}
+                className='sidebar__avatar'
             >
-
                 <img
                     src={`${process.env.REACT_APP_LOCAL_SOURCE}/${props.user.avatar}`}
-                    className='imgAvatar'
+                    className='sidebar__img-avatar'
                     alt='User avatar'
                 />
             </div>

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 import Icon from '../../../general/Icon'
-import {icon_down, icon_print} from '../../../../data/icons'
+import {ICON} from '../../../../data/icons'
 import Button from '../../../general/Button'
 import Checkbox from '../../../general/Checkbox'
 import {setVisibleFlag} from '../../../../Redux/actions'
@@ -11,8 +11,10 @@ const OrderPrint = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
 
+    const id = 'orderPrint'
+
     const clickHandel = (event) => {
-        if (!event.composedPath().map(el => el.id).includes('orderPrint') ) {
+        if (!event.composedPath().map(el => el.id).includes(id) ) {
             if (listVisible) {
                 setListVisible(false)
             }}
@@ -36,33 +38,44 @@ const OrderPrint = (props) => {
     }
 
     return (
-        <div style={{width: '67px', height: '25px'}} id='orderPrint'>
-            <div
-                className='row'
+        <div className='field-options' id={id}>
+            <Button
+                id={id + 'Button'}
+                size='med'
+                type='tertiary'
                 onClick={() => setListVisible(!listVisible)}
-            >
-                <div className='whiteButton m0 pd05 ml10'>
-                    <Icon icon={icon_print} className='icon-s4 pd1'/>
-                    <Icon icon={icon_down} className='icon-s4 pd1'/>
-                </div>
-            </div>
+                icon={ICON.PRINT}
+            />
             {listVisible ?
-                <div className='listprint'>
-                    <Checkbox
-                        label='Приемная этикетка'
-                        onChange={handleCheckSticker}
-                        checked={props.checkOrderSticker}
-                    />
-                    <Button
-                        className='blueButton ml30'
-                        title='Печать'
-                        onClick={handlePrint}
-                        invisible={!props.order.edit}
-                    />
+                <div className='field-options__drop-list'>
+                    <div
+                        className='field-options__title'
+                        onClick={() => setListVisible(false)}
+                    >
+                        <div className='nowrap'>Напечатать</div>
+                        <Icon className='icon' icon={ICON.PRINT}/>
+                    </div>
+                    <div className='field-options__drop-items'>
+                        <Checkbox
+                            id={id + 'Checkbox'}
+                            type='slide-one'
+                            label='Приемная этикетка'
+                            onChange={handleCheckSticker}
+                            checked={props.checkOrderSticker}
+                        />
+                    </div>
+                    <div className='field-options__buttons'>
+                        <Button
+                            size='med'
+                            type='primary'
+                            title='Печать'
+                            onClick={handlePrint}
+                            invisible={!props.order.edit}
+                        />
+                    </div>
                 </div>
                 : null
             }
-
         </div>
     )
 }

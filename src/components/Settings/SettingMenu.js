@@ -15,7 +15,7 @@ function SettingMenu(props) {
                         row.group_name === 'generally_setting' && props.permission.includes(row.permission_key))} 
                     key = {2011}
                     />
-                <hr className = 'hrMenu' />
+                <hr className = 'hr-menu' />
                 <SettingGroup 
                     group = {data_setting_menu.filter(row =>
                         row.group_name === 'app_setting' && props.permission.includes(row.permission_key))}  

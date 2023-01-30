@@ -1,6 +1,7 @@
 import React from 'react'
-import {connect} from 'react-redux'
+
 import {compareDates, showDate} from '../../../../general/utils'
+import {COLORS} from '../../../../../data/colors'
 
 
 const EventStatus = props => {
@@ -12,44 +13,53 @@ const EventStatus = props => {
 
     const time = new Date(props.event.created_at * 1000).toLocaleString('ru', optionsShowDate)
 
-    const need_date = !props.idx || !compareDates(props.event.created_at, props.events[props.idx - 1].created_at)
+    const lastEvent = props.events[props.idx - 1]
+    const need_date = !props.idx || !compareDates(props.event.created_at, lastEvent.created_at)
+    const style = {
+        borderColor: `var(--${COLORS.STATUS[props.idx ? lastEvent.current_status.group : props.event.current_status.group]})`
+    }
 
     return (
 
         <div>
             {props.event.event_type === 'CREATE_ORDER' && need_date ?
-                <div className='dateEvent'>{showDate(props.event.created_at, false)}</div>
+                <div className='history-order-editor__event-date'>{showDate(props.event.created_at, false)}</div>
                 : null
             }
+
+
+            {props.event.event_type === 'CHANGE_STATUS' && need_date ?
+                <div
+                    className='history-order-editor__event history-order-editor__event-date'
+                    style={style}
+                >
+                    {showDate(props.event.created_at, false)}
+                </div>
+                : null
+            }
+
             <div
-                className='orderEvent'
-                style={{borderColor: props.event.current_status.color}}
+                className='history-order-editor__event-status'
+                style={{borderColor: `var(--${COLORS.STATUS[props.event.current_status.group]})`}}
             >
-                {props.event.event_type === 'CHANGE_STATUS' && need_date ?
-                    <div className='dateEvent'>{showDate(props.event.created_at)}</div>
-                    : null
-                }
-                <div className='eventElement evFerst'>
+                <div className='history-order-editor__item'>
                     <div className='row jc-sb'>
                         <div
-                            className='statusListRow mt0'
-                            style={{backgroundColor: props.event.current_status.color}}
+                            className='history-order-editor__item-status'
+                            style={{backgroundColor: `var(--${COLORS.STATUS[props.event.current_status.group]})` }}
                             title={props.event.employee.name}
                         >
                             {props.event.changed[0].new.title}
                         </div>
-                        <div className='cgr'>{time}</div>
+                        <div className=''>{time}</div>
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }
 
-const mapStateToProps = state => ({
-    events: state.order.events,
-})
 
-const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventStatus)
+export default EventStatus

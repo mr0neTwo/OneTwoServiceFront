@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import {icon_down, icon_right} from '../../../data/icons';
+import {ICON} from '../../../data/icons';
 
 import Icon from '../../general/Icon';
 
@@ -26,7 +26,7 @@ const WarehouseCategory = props => {
             >
                 <td className='row w100 pd5'>
                     {props.category.categories.length ?
-                        <Icon className='icon-s1 pd1' icon={visibleList ? icon_down : icon_right}/>
+                        <Icon className='icon-s1 pd1' icon={visibleList ? ICON.DOWN : ICON.RIGHT}/>
                         : <div className='ml15'/>
                     }
                     <div className={props.category.deleted ? 'rowDeleted noWr' : 'noWr'}>{props.category.title}</div>

@@ -1,5 +1,5 @@
 import {includesObject} from '../../components/general/utils'
-import {inventory_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 
 const now = new Date()
 const key = 'inventory_'
@@ -30,7 +30,7 @@ const initialState = {
     ],
     page: 0,
 
-    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || inventory_headers,
+    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || Table.Fields.Inventory,
 }
 
 /*

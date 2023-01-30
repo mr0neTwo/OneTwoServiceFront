@@ -6,7 +6,7 @@ import {editPayroll} from '../../../Redux/actions/payrollActions'
 
 import {showDate} from '../../general/utils'
 import Icon from '../../general/Icon'
-import {icon_warning} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 const TablePayrolls = (props) => {
 
@@ -59,7 +59,7 @@ const TablePayrolls = (props) => {
                                     <div title={`Добавлено задним числом\n${showDate(payroll.created_at)}`}>
                                         <Icon
                                             className='icon-s2 ml5'
-                                            icon={icon_warning}
+                                            icon={ICON.WARNING}
                                             color='red'
                                         />
                                     </div> : null}

@@ -24,7 +24,7 @@ const Tabs = (props) => {
                 {props.list.map((tab, idx) => (
                     <div
                         key={idx}
-                        className={props.tab === idx ? 'tabOn' : 'tab'}
+                        className={props.tab === idx ? 'tabs__tab tabs__tab_active' : 'tabs__tab'}
                         onClick={() => props.func(idx)}
                     >
                         {tab}

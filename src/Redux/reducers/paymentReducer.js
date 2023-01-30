@@ -8,7 +8,7 @@ const initialState = {
     sum: 0,
     title: '',
 
-    cashflow_category: '',
+    cashflow_category: {},
     description: '',
 
     deposit: 0,
@@ -27,22 +27,20 @@ const initialState = {
 
     relation_type: 0,
     relation_id: null,
-    cashbox_id: 0,
-    client_id: 0,
-    employee_id: 0,
-    order_id: 0,
-    target_cashbox_id: 0,
 
+    target_cashbox: {},
     cashbox: {},
     client: {},
     employee: {},
-    order: {},
+    order_id: 0,
 
     filter_created_at: [
         parseInt(now.setHours(0, 0, 0, 0) / 1000),
         parseInt(now.setHours(23, 59, 59, 999) / 1000)
     ],
     filter_tags: [],
+
+    showLoader: false,
 
     current_type: 0,
     context: {}
@@ -97,7 +95,7 @@ export const paymentReducer = (state = initialState, action) => {
                 sum: 0,
                 title: '',
 
-                cashflow_category: '',
+                cashflow_category: {},
                 description: '',
 
                 deposit: 0,
@@ -116,13 +114,12 @@ export const paymentReducer = (state = initialState, action) => {
 
                 relation_type: 0,
                 relation_id: null,
-                cashbox_id: 0,
-                client_id: 0,
-                employee_id: 0,
-                order_id: 0,
-                target_cashbox_id: 0,
 
+                target_cashbox: {},
+                cashbox: {},
                 client: {},
+                employee: {},
+                order_id: 0,
 
                 context: {}
             }
@@ -153,11 +150,12 @@ export const paymentReducer = (state = initialState, action) => {
 
                 relation_type: action.payment.relation_type,
                 relation_id: action.payment.relation_id,
+
                 cashbox: action.payment.cashbox,
                 client: action.payment.client,
                 employee: action.payment.employee,
                 order: action.payment.order,
-                target_cashbox_id: action.payment.target_cashbox_id,
+                target_cashbox: action.payment.target_cashbox,
             }
         }
 

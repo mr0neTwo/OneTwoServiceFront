@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 
-import {icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import {checkObject} from '../../general/utils'
 import {addRemain, changeRemainState} from '../../../Redux/actions/remainAction'
@@ -66,7 +66,7 @@ const AddMovements = (props) => {
                     />
                     <Icon
                         className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
+                        icon={showList ? ICON.LEFT : ICON.DOWN}
                     />
                 </div>
                 {!disabled && showList ?

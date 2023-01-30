@@ -1,53 +1,77 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 import PropTypes from "prop-types";
 
 import Icon from './Icon'
 
 /**
- * Чек бокс с подписью
- *
+ * Чекбокс с подписью
+ * @component
+ * @example
+ * <Checkbox
+ * id='id'
  * className='className'
- *
- * label='label'
- *
- * onChange={() => console.log('change')}
- *
+ * type='squared-three'
+ * onChange={event => console.log(event.target.changed)}
  * checked={props.checked}
- *
- * icon={icon}
- *
+ * ref={ref}
+ * icon={ICON.ICON_NAME}
  * iconClassName='iconClassName'
- *
  * iconColor='black'
- *
  * disabled={false}
- *
  * invisible={false}
+ * />
  *
- * @returns {JSX.Element}
+ * id - id компонента
+ * className - стиль контейнера компонента
+ * func - Функция возвращающая список выбранных статусов
+ * type - тип компонента
+ * onChange - функция именения состояния
+ * checked - текущее состояние true или false
+ * ref - ссылка на элемент
+ * icon - Иконка перед текстом
+ * iconClassName - стиль иконки
+ * iconColor - цвет иконки
+ * disabled - заблокировать
+ * invisible -  не отображать
  *
- */
+ * types:
+ * 1. slide-one
+ * 2. slide-two
+ * 3. slide-three
+ * 4. rounded-one
+ * 5. rounded-two
+ * 6. squared-one
+ * 7. squared-two
+ * 8. squared-three
+ * 9. squared-four
+ *
+*/
+const Checkbox = forwardRef((props, ref) => {
 
-const Checkbox = (props) => {
+    if (props.invisible) return null
 
-   return (
-      props.invisible ? <div/> :
-      <div className={`checkbox ${props.className}`}>
-         <input 
-            type='checkbox'
-            onChange={props.onChange}
-            checked={props.checked}
-            disabled={props.disabled}
-         />
-         <label>
-             {props.icon ? <Icon className={props.iconClassName} icon={props.icon} color={props.iconColor}/> : null}
-             <span className='ml2 noWr'>{props.label}</span>
-         </label>
-      </div>
-   )
-}
+    return (
+            <div className={`checkbox checkbox_${props.type} ${props.className} ${props.checked ? 'checkbox_checked' : ''}`}>
+                <div className='checkbox__box'>
+                    <input
+                        id={props.id}
+                        type="checkbox"
+                        ref={ref}
+                        onChange={props.onChange}
+                        checked={props.checked}
+                        disabled={props.disabled}
+                    />
+                    <label htmlFor={props.id}/>
+                </div>
+                <div className='checkbox__label'>
+                    {props.icon ? <Icon className={props.iconClassName} icon={props.icon} color={props.iconColor}/> : null}
+                    <div className='nowrap'>{props.label}</div>
+                </div>
+            </div>
+    )
+})
 
-Checkbox.propTypes ={
+Checkbox.propTypes = {
     className: PropTypes.string,
     label: PropTypes.string,
     onChange: PropTypes.func,
@@ -56,11 +80,5 @@ Checkbox.propTypes ={
     invisible: PropTypes.bool
 }
 
- export default Checkbox
+export default Checkbox
 
-// className='className'
-// label='label'
-// onChange={() => console.log('change')}
-// checked={props.checked}
-// disabled={false}
-// invisible={false}

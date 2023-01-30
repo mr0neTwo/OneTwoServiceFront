@@ -31,11 +31,29 @@ import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor
 import InventoryEditorPreview from './Wherehouse/WarehouseInventories/InventoryEditorPreview'
 import InventoryEditor from './Wherehouse/WarehouseInventories/InventoryEditor'
 import RequestSparePartEditor from './Wherehouse/RequestSpareParts/RequestSparePartEditor'
+import PaymentsEditor from './Payments/PaymentsEditor'
+import StikerToPrint from './orders/newOrder/orderHisroy/StikerToPrint'
+import CashboxEditor from './Payments/cashboxes/CashboxEditor'
 
+// const dictionary = {
+//     'order': OrderModal
+// }
 
+// const Modal = ({typeOfModal}) => {
+//     const isOrder = typeOfModal === 'order'
+//     return dictionary[typeOfModal](isOrder ? 'push' : '') || null
+//     // switch (typeOfModal) {
+//     //     case 'order':
+//     //         return <OrderModal></OrderModal>
+//     //     default:
+//     //         return <></>
+//     // }
+// }
 
 function Main(props) {
 
+
+    // todo: перенести в всю загрузку данных в maindate
     useEffect(() => {
         props.addMainData()
         props.addStatus()
@@ -49,27 +67,28 @@ function Main(props) {
 
 
     return (
-        <div>
+        <div className="main-box">
             <Sidebar/>
-            <div className='contentMain'>
-                <Alerts/>
-                <Switch>
-                    <Route path='/tasks' component={TaskManager}/>
-                    <Route path='/leans' component={Leads}/>
-                    <Route path='/orders' component={Orders}/>
-                    <Route path='/shops' component={Shops}/>
-                    <Route path='/payments' component={Payments}/>
-                    <Route path='/warehouse' component={Warehouse}/>
-                    <Route path='/clients' component={Clients}/>
-                    <Route path='/analytics' component={Analytics}/>
-                    <Route path='/reports' component={Reports}/>
-                    <Route path='/telephony' component={Telephony}/>
-                    <Route path='/settings' component={Settings}/>
-                    <Route path='/user' component={UserSetting}/>
+            <Alerts/>
+            <Switch>
+                <Route path='/tasks' component={TaskManager}/>
+                <Route path='/leans' component={Leads}/>
+                <Route path='/orders' component={Orders}/>
+                <Route path='/shops' component={Shops}/>
+                <Route path='/payments' component={Payments}/>
+                <Route path='/warehouse' component={Warehouse}/>
+                <Route path='/clients' component={Clients}/>
+                <Route path='/analytics' component={Analytics}/>
+                <Route path='/reports' component={Reports}/>
+                <Route path='/telephony' component={Telephony}/>
+                <Route path='/settings' component={Settings}/>
+                <Route path='/user' component={UserSetting}/>
 
-                    <Redirect from='/' to='/leans'/>
-                </Switch>
-            </div>
+                <Redirect from='/' to='/leans'/>
+            </Switch>
+            {/*{props.view.isOpenModal ? <Modal type={props.view.typeOfModal} /> :  <></> }*/}
+
+            {/*// todo: сделать эту лапшу через react portal*/}
             {props.view.statusWriteOfEditor ? <WriteOfEditor/> : null}
             {props.view.statusRegistrationEditor ? <RegistrationEditor/> : null}
             {props.view.statusClientEditor ? <ClientEditor/> : null}
@@ -80,6 +99,8 @@ function Main(props) {
             {props.view.statusInventoryEditor ? <InventoryEditor/> : null}
             {props.view.statusInventoryEditorPreview ? <InventoryEditorPreview/> : null}
             {props.view.statusReqSparePartEditor ? <RequestSparePartEditor/> : null}
+            {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
+            {props.view.statusCashboxEditor ? <CashboxEditor/> : null}
         </div>
     )
 }

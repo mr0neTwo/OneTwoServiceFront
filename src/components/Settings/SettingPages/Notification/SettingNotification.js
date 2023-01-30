@@ -21,7 +21,7 @@ const SettingNotification = props => {
   return (
     <div className='settingContent'>
 
-        <div className='Header'>
+        <div className='header'>
             <span className='headerTitle'>Оповещения</span>
         </div>
 

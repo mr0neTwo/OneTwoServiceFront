@@ -2,33 +2,32 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import {changeVisibleState} from '../../../../Redux/actions'
-import {changeOrderPartForm, createCustomOrderPart, deleteOrderPart} from '../../../../Redux/actions/orderPartAction'
+import {changeOrderPartState, createCustomOrderPart, deleteOrderPart} from '../../../../Redux/actions/orderPartAction'
 import {resetOrderPart, saveOrderPart} from '../../../../Redux/actions/orderPartAction'
 
 
 import LableInput from '../../../general/LableInput'
 import LableArea from '../../../general/LableArea'
 import BottomButtons from '../../../general/BottomButtons'
-import ChooseOfList from '../../../general/ChooseOfList'
 import ChooseButton from '../../../general/ChooseButton'
-import ReturnOrderPart from './ReturnOrderPart'
+import SelectFromList from '../../../general/SelectFromList'
+import {checkObject} from '../../../general/utils'
 
 const OrderPartEditor = (props) => {
+
+    const id = 'OrderPartEditor'
 
     const handleClose = () => {
         props.changeVisibleState({
             inputOrderPartEngineerChecked: true,
-            inputOrderPartTitleChacked: true,
+            inputOrderPartTitleChecked: true,
             statusOrderPartEditor: false
         })
         props.resetOrderPart()
     }
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map((el) => el.id).includes('orderPartEditorWindow') &&
-            !event.composedPath().map((el) => el.id).includes('statusReturnPart')
-        ) {
+        if (!event.composedPath().map((el) => el.id).includes(id)) {
             handleClose()
         }
     }
@@ -46,7 +45,7 @@ const OrderPartEditor = (props) => {
         // Если считаем процент то, умножаем стоимость товара price на количество amount и на процент discount/100, если нет отставляем просто сумму скидки discount
         const discount = props.orderPart.percent ?  props.orderPart.price * props.orderPart.amount * props.orderPart.discount / 100 : props.orderPart.discount
         // Заносим получивешееся значение в state
-        props.changeOrderPartForm(discount, 'discount_value')
+        props.changeOrderPartState({discount_value: discount})
         // Перечисляем зависимости
     }, [props.orderPart.discount, props.orderPart.percent, props.orderPart.amount])
 
@@ -56,28 +55,28 @@ const OrderPartEditor = (props) => {
         // Умнажаем стомость товар price на количество amount и отнимаем общуу скидку discount_value
         const total = props.orderPart.price * props.orderPart.amount - props.orderPart.discount_value
         // Заносим данные в state
-        props.changeOrderPartForm(total , 'total')
+        props.changeOrderPartState({total})
         // Перечисляем зависимости
     }, [props.orderPart.price, props.orderPart.discount_value, props.orderPart.amount])
 
 
     const handleCreate = () => {
-        if (props.orderPart.title && props.orderPart.engineer_id) {
+        if (props.orderPart.title && checkObject(props.orderPart.engineer)) {
             props.createCustomOrderPart()
             handleClose()
         } else {
-            if (!props.orderPart.title) props.changeVisibleState({inputOrderPartTitleChacked: false})
-            if (!props.orderPart.engineer_id) props.changeVisibleState({inputOrderPartEngineerChecked: false})
+            if (!props.orderPart.title) props.changeVisibleState({inputOrderPartTitleChecked: false})
+            if (!checkObject(props.orderPart.engineer)) props.changeVisibleState({inputOrderPartEngineerChecked: false})
         }
     }
 
     const handleSave = () => {
-        if (props.orderPart.title && props.orderPart.engineer_id) {
+        if (props.orderPart.title && checkObject(props.orderPart.engineer)) {
             props.saveOrderPart()
             handleClose()
         } else {
-            if (!props.orderPart.title) props.changeVisibleState({inputOrderPartTitleChacked: false})
-            if (!props.orderPart.engineer_id) props.changeVisibleState({inputOrderPartEngineerChecked: false})
+            if (!props.orderPart.title) props.changeVisibleState({inputOrderPartTitleChecked: false})
+            if (!checkObject(props.orderPart.engineer)) props.changeVisibleState({inputOrderPartEngineerChecked: false})
         }
     }
 
@@ -90,103 +89,89 @@ const OrderPartEditor = (props) => {
     } : null
 
     return (
-        <div className='rightBlock'>
-            <div className='rightBlockWindow mwp' id='orderPartEditorWindow'>
-                <div className='createNewTitle fsz20'>{props.orderPart.edit ? props.orderPart.title : 'Добавить материал'}</div>
+        <div className='modal'>
+            <div className='modal__box modal__box_editor' id={id}>
+                <h4>{props.orderPart.edit ? props.orderPart.title : 'Добавить материал'}</h4>
 
-                <div className='contentEditor'>
+                <div className='modal__body modal__body-editor'>
+                    <div className='modal__forms'>
                     <LableInput
-                        className='mt15'
                         title='Наименование'
-                        onChange={event => props.changeOrderPartForm(event.target.value, 'title')}
+                        onChange={event => props.changeOrderPartState({title: event.target.value})}
                         value={props.orderPart.title}
-                        checkedFlag='inputOrderPartTitleChacked'
-                        checked={props.view.inputOrderPartTitleChacked}
+                        checkedFlag='inputOrderPartTitleChecked'
                         disabled={props.orderPart.deleted}
-                        invisible={props.orderPart.edit}
                         redStar={true}
                     />
                     <LableInput
-                        className='w70 mt15'
-                        title='Цена'
-                        onChange={event => props.changeOrderPartForm(event.target.value.replace(/[^0-9.]/g, ''), 'price')}
-                        value={props.orderPart.price}
-                        unit='руб.'
-                        disabled={props.orderPart.deleted}
-                    />
-                    <LableInput
-                        className='w70 mt15'
                         title='Количество'
-                        onChange={event => props.changeOrderPartForm(parseInt(event.target.value.replace(/[^0-9.]/g, '')), 'amount')}
+                        onChange={event => props.changeOrderPartState(parseInt({amount: event.target.value.replace(/[^0-9.]/g, '')}))}
                         value={props.orderPart.amount}
-                        unit=' '
                         disabled={props.orderPart.deleted}
                     />
                     <LableInput
-                        className='w70 mt15'
+                        title='Цена'
+                        onChange={event => props.changeOrderPartState({price: event.target.value.replace(/[^0-9.]/g, '')})}
+                        value={props.orderPart.price}
+                        unit='руб'
+                        disabled={props.orderPart.deleted}
+                    />
+                    <LableInput
                         title='Себестоимость'
-                        onChange={event => props.changeOrderPartForm(event.target.value.replace(/[^0-9.]/g, ''), 'cost')}
+                        onChange={event => props.changeOrderPartState({cost: event.target.value.replace(/[^0-9.]/g, '')})}
                         value={props.orderPart.cost}
-                        unit='руб.'
+                        unit='руб'
                         disabled={props.orderPart.deleted || !props.permissions.includes('edit_buy_cost')}
                         invisible={!props.permissions.includes('see_buy_cost')}
                     />
-                    <div className='row al-itm-fe'>
+                    <div className='two-buttons'>
                         <LableInput
-                            className='w70 mt15'
                             title='Скидка'
-                            onChange={event => props.changeOrderPartForm(event.target.value.replace(/[^0-9]/g, ''), 'discount')}
+                            onChange={event => props.changeOrderPartState({discount: event.target.value.replace(/[^0-9]/g, '')})}
                             value={props.orderPart.discount}
-                            unit=' '
                             disabled={props.orderPart.deleted}
                         />
                         <ChooseButton
-                            className='ml30'
-                            name={['руб.', '%']}
-                            func1 = {() => props.changeOrderPartForm(false, 'percent')}
-                            func2 = {() => props.changeOrderPartForm(true, 'percent')}
+                            name={['руб', '%']}
+                            func1 = {() => props.changeOrderPartState({percent: false})}
+                            func2 = {() => props.changeOrderPartState({percent: true})}
                             disabled={props.orderPart.deleted}
                         />
                     </div>
-                    <div className='row al-itm-fe'>
+                    <div className='two-buttons'>
                         <LableInput
-                            className='w70 mt15'
                             title='Гарантия'
-                            onChange={event => props.changeOrderPartForm(event.target.value.replace(/[^0-9]/g, '') * props.orderPart.warranty_value, 'warranty_period')}
-                            value={parseInt(props.orderPart.warranty_period / props.orderPart.warranty_value)}
-                            unit=' '
+                            onChange={event => props.changeOrderPartState({
+                                warranty_period: event.target.value.replace(/[^0-9]/g, '') * props.orderPart.warranty_value
+                            })}
+                            value={Math.round(props.orderPart.warranty_period / props.orderPart.warranty_value)}
                             disabled={props.orderPart.deleted}
                         />
                         <ChooseButton
-                            className='ml30'
                             name={['Дни', 'Мес']}
-                            func1 = {() => props.changeOrderPartForm(24*60*60, 'warranty_value')}
-                            func2 = {() => props.changeOrderPartForm(30*24*60*60, 'warranty_value')}
+                            func1 = {() => props.changeOrderPartState({warranty_value: 24*60*60})}
+                            func2 = {() => props.changeOrderPartState({warranty_value: 30*24*60*60})}
                             disabled={props.orderPart.deleted}
                         />
                     </div>
-                    <ChooseOfList
-                        id={24}
+                    </div>
+                    <SelectFromList
+                        className='w220'
                         title='Исполнитель'
-                        className='mt15'
                         list={props.employees.filter(employee => employee.role.permissions.includes('in_list_engineers'))}
-                        field='engineer_id'
-                        setElement={props.changeOrderPartForm}
-                        current_id={props.orderPart.engineer_id}
-                        employee={true}
-                        width={'250px'}
+                        setElement={engineer => props.changeOrderPartState({engineer})}
+                        current_object={props.orderPart.engineer}
                         checkedFlag='inputOrderPartEngineerChecked'
-                        checked={props.view.inputOrderPartEngineerChecked}
+                        noChoosed='Выберете сотрудника'
                         disabled={props.orderPart.deleted}
                     />
                     <LableArea
-                        className='w250 mt15'
                         title='Коментарий'
-                        onChange={event => props.changeOrderPartForm(event.target.value, 'comment')}
+                        onChange={event => props.changeOrderPartState({comment: event.target.value})}
                         value={props.orderPart.comment}
                         disabled={props.orderPart.deleted}
                     />
-                    <div className='mt15'>Сумма скидки: {props.orderPart.discount_value}</div>
+                    <div>Сумма скидки: {props.orderPart.discount_value}</div>
                     <div>Итого: {props.orderPart.total}</div>
 
 
@@ -214,7 +199,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     resetOrderPart,
-    changeOrderPartForm,
+    changeOrderPartState,
     createCustomOrderPart,
     saveOrderPart,
     deleteOrderPart,

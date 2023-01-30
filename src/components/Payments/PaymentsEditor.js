@@ -10,14 +10,17 @@ import {addClients} from '../../Redux/actions/clientAction'
 import BottomButtons from '../general/BottomButtons'
 import ChooseButton from '../general/ChooseButton'
 import Receipt from './Receipt'
-import ChooseOfList from '../general/ChooseOfList'
 import LableArea from '../general/LableArea'
 import AddTags from '../general/AddTags'
 import ChooseDate from '../general/calandar/ChooseDate'
 import SetClient from '../general/SetClient'
+import SelectFromList from '../general/SelectFromList'
+import {checkObject} from '../general/utils'
 
 
 const PaymentsEditor = (props) => {
+
+    const id = 'PaymentsEditor'
 
     const handleClose = () => {
         props.changeVisibleState({
@@ -33,9 +36,8 @@ const PaymentsEditor = (props) => {
 
     const clickHandel = (event) => {
 
-        if (!event.composedPath().map((el) => el.id).includes('paymentsEditorWiondow') &&
-            !event.composedPath().map((el) => el.id).includes('createNewOrder') &&
-            !event.composedPath().map((el) => el.id).includes('344')
+        if (!event.composedPath().map((el) => el.id).includes(id) &&
+            !event.composedPath().map((el) => el.id).includes('OrderEditor')
         ) {
             handleClose()
         }
@@ -53,30 +55,31 @@ const PaymentsEditor = (props) => {
     }, [props.client.filter_name, props.client.filter_phone])
 
 
-    const hangleCreate = () => {
+    const handleCreate = () => {
         if (
             // Проверим внесена ли сумма
             (props.payment.income || props.payment.outcome) &&
             // Проверим выбрана ли касса при direction (приход или расход) или выбрана ли целевая касса при перемещение дененг в дргую касса
-            ((props.payment.cashbox_id && props.payment.direction) || (props.payment.target_cashbox_id && !props.payment.direction)) &&
+            ( (checkObject(props.payment.cashbox) && props.payment.direction) ||
+                    (checkObject(props.payment.target_cashbox) && !props.payment.direction)) &&
             // Преовеним введен ли коментарий
             props.payment.description &&
             // Проверим выбрана ли категория если это приход или расход
-            (props.payment.cashflow_category || !props.payment.direction) &&
+            (checkObject(props.payment.cashflow_category) || !props.payment.direction) &&
             // Проверим выбран ли сотрудник
-            props.payment.employee_id
+            checkObject(props.payment.employee)
         ) {
             props.createPayment(props.payment.context)
         } else {
             if (!(props.payment.income || props.payment.outcome))
                 props.changeVisibleState({'inputPaymentSumChecked': false})
-            if (!(props.payment.cashbox_id && props.payment.direction || props.payment.target_cashbox_id && !props.payment.direction))
+            if (!(checkObject(props.payment.cashbox) && props.payment.direction || checkObject(props.payment.target_cashbox) && !props.payment.direction))
                 props.changeVisibleState({'inputPaymentCashboxChecked': false})
             if (!props.payment.description)
                 props.changeVisibleState({'inputPaymentDescChecked': false})
-            if (!props.payment.cashflow_category)
+            if (!checkObject(props.payment.cashflow_category))
                 props.changeVisibleState({'inputPaymentCashflowChecked': false})
-            if (!props.payment.employee_id)
+            if (!checkObject(props.payment.employee))
                 props.changeVisibleState({'inputPaymentEmployeeChecked': false})
         }
     }
@@ -89,21 +92,17 @@ const PaymentsEditor = (props) => {
     const cashboxes = props.cashboxes.filter(cashbox =>
         cashbox.type === props.payment.current_type &&
         (props.payment.direction || cashbox.id !== props.payment.cashbox_id)
-        // (cashbox.isGlobal || cashbox.branch_id === props.current_branch_id)
     )
 
     return (
-        <div className="rightBlock">
-            <div className="rightBlockWindow wmn500" id="paymentsEditorWiondow">
-                <div className="createNewTitle">
-                    {title[props.payment.direction]}
-                </div>
+        <div className="modal modal_z20">
+            <div className="modal__box modal__box_editor" id={id}>
+                <h4>{title[props.payment.direction]}</h4>
 
-                <div className='contentEditor'>
+                <div className='modal__body modal__body-payment'>
 
-                    <div className='row al-itm-fe'>
+                    <div className='two-buttons'>
                         <ChooseButton
-                            className='mt15 mr-rg-20'
                             title='Дата и время'
                             name={['Текущее', 'Заданное']}
                             func1={() => {
@@ -118,8 +117,6 @@ const PaymentsEditor = (props) => {
                             disabled={!props.permissions.includes('backdating')}
                         />
                         <ChooseDate
-                            className='h31'
-                            width='250px'
                             func={date => props.changePaymentState({custom_created_at: parseInt(date / 1000)})}
                             current_date={props.payment.custom_created_at * 1000}
                             time={true}
@@ -127,48 +124,64 @@ const PaymentsEditor = (props) => {
                         />
                     </div>
                     <SetClient
-                        id='paymentClient'
-                        title='Имя поставщика'
+                        id='paymentEditorClient'
+                        title='Имя клиента'
                         setClient={client => props.changePaymentState({client})}
                         client={props.payment.client}
                         disabled={!!props.order_edit}
                     />
                     <Receipt/>
 
-                    <div className='row mt15 al-itm-fs'>
+                    <div className='two-buttons'>
                         <ChooseButton
-                            className=''
                             title='Форма оплаты'
                             name={['Нал.', 'Безнал.']}
                             func1={() => {
                                 props.changePaymentState({
-                                    [props.payment.direction ? 'cashbox_id' : 'target_cashbox_id']: 0,
+                                    [props.payment.direction ? 'cashbox' : 'target_cashbox']: {},
                                     current_type: 0
                                 })
                             }}
                             func2={() => {
                                 props.changePaymentState({
-                                    [props.payment.direction ? 'cashbox_id' : 'target_cashbox_id']: 0,
+                                    [props.payment.direction ? 'cashbox' : 'target_cashbox']: {},
                                     current_type: 1
                                 })
                             }}
                             checked={!props.current_cashbox.type}
                         />
-                        <ChooseOfList
-                            id={20}
+                        <SelectFromList
                             title='Касса'
-                            className='ml10 h52'
                             list={cashboxes}
-                            setElement={cashbox => props.changePaymentState({[props.payment.direction ? 'cashbox_id' : 'target_cashbox_id'] : cashbox})}
-                            current_id={props.payment.direction ? props.payment.cashbox_id : props.payment.target_cashbox_id}
-                            width={'250px'}
+                            setElement={cashbox => props.changePaymentState({[props.payment.direction ? 'cashbox' : 'target_cashbox'] : cashbox})}
+                            current_object={props.payment.direction ? props.payment.cashbox : props.payment.target_cashbox}
                             checkedFlag='inputPaymentCashboxChecked'
-                            checked={props.view.inputPaymentCashboxChecked}
+                            noChoosed='Выберете кассу'
                             disabled={props.payment.deleted}
                         />
                     </div>
+                    <SelectFromList
+                        title='Статья'
+                        className='w220'
+                        list={props.item_payments.filter(item => item.direction === props.payment.direction)}
+                        setElement={cashflow_category => props.changePaymentState({cashflow_category})}
+                        current_object={props.payment.cashflow_category}
+                        checkedFlag='inputPaymentCashflowChecked'
+                        noChoosed='Выберете статью'
+                        disabled={props.payment.deleted}
+                        invisible={!props.payment.direction}
+                    />
+                    <SelectFromList
+                        title='Кассир'
+                        className='w220'
+                        list={props.employees.filter(employee => !employee.deleted)}
+                        setElement={employee => props.changePaymentState({employee})}
+                        current_object={props.payment.employee}
+                        checkedFlag='inputPaymentEmployeeChecked'
+                        noChoosed='Выберете сотрудника'
+                        disabled={!props.permissions.includes('choose_emploees')}
+                    />
                     <LableArea
-                        className='mt15'
                         title='Коментарий'
                         onChange={event => props.changePaymentState({description: event.target.value})}
                         value={props.payment.description}
@@ -177,48 +190,16 @@ const PaymentsEditor = (props) => {
                         redStar={true}
                         disabled={props.payment.deleted}
                     />
-                    <ChooseOfList
-                        id={41}
-                        title='Статья'
-                        className='mt15 h52'
-                        list={props.item_payments.filter(item => item.direction === props.payment.direction)}
-                        field='cashflow_category'
-                        setElement={category => props.changePaymentState({cashflow_category: category})}
-                        current_id={props.payment.cashflow_category}
-                        width={'250px'}
-                        checkedFlag='inputPaymentCashflowChecked'
-                        checked={props.view.inputPaymentCashflowChecked}
-                        disabled={props.payment.deleted}
-                        invisible={!props.payment.direction}
-                    />
-                    <ChooseOfList
-                        id={22}
-                        title='Кассир'
-                        className='mt15 h52'
-                        list={props.employees.filter(employee => !employee.deleted)}
-                        field='employee_id'
-                        setElement={employee => props.changePaymentState({employee_id: employee})}
-                        current_id={props.payment.employee_id}
-                        width={'250px'}
-                        employee={true}
-                        checkedFlag='inputPaymentEmployeeChecked'
-                        checked={props.view.inputPaymentEmployeeChecked}
-                        disabled={!props.permissions.includes('choose_emploees')}
-                    />
                     <AddTags
-                        className='mt15'
                         tags={props.payment.tags}
                         addTag={props.addPaymentTag}
                         daleteTag={props.deletePaymentTag}
                     />
-
                 </div>
-
 
                 <BottomButtons
                     edit={props.payment.edit}
-                    create={hangleCreate}
-                    // save={hangleSave}
+                    create={handleCreate}
                     delete={props.permissions.includes('edit_cash') ? () => props.deleteCashbox(true) : null}
                     recover={props.permissions.includes('edit_cash') ? () => props.deleteCashbox(false) : null}
                     close={handleClose}

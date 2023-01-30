@@ -14,7 +14,10 @@ const FilterEditor = props => {
     }
 
     const clickHandel = event => {
-        if (!event.composedPath().map((el) => el.id).includes('createNewFilterWindow')) {
+        if (
+            !event.composedPath().map((el) => el.id).includes('createNewFilter') &&
+            !event.composedPath().map((el) => el.id).includes('customFilterCreate')
+        ) {
             handleClose()
         }
     }
@@ -35,23 +38,24 @@ const FilterEditor = props => {
     }
 
     return (
-        <div className="rightBlock">
-            <div className="rightBlockWindow" id="createNewFilterWindow">
+        <div className="modal">
+            <div className="modal__box modal__box_editor" id="createNewFilter">
 
-                <div className="createNewTitle w515">{props.filter.active_filter ? props.filter.title : 'Новый фильтр'}</div>
+                <h4>{props.filter.active_filter ? props.filter.title : 'Новый фильтр'}</h4>
 
-                <div className="contentEditor">
+                <div className="modal__body modal__body_filter">
                     <LableInput
-                         className='mt15'
                          title='Наименование'
                          onChange={event => props.changeFilterState({title: event.target.value})}
+                         autoFoucus={true}
                          value={props.filter.title}
                          checkedFlag='inputFilterTitleChecked'
                          checked={props.inputFilterTitleChecked}
                          redStar={true}
                     />
                     <Checkbox
-                        className='mt15'
+                        id='id'
+                        type='slide-one'
                         label='Общий'
                         onChange={event => props.changeFilterState({general: event.target.checked})}
                         checked={props.filter.general}

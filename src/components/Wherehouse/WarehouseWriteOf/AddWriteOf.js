@@ -6,12 +6,14 @@ import {changeVisibleState} from '../../../Redux/actions'
 import {addRemain, changeRemainState} from '../../../Redux/actions/remainAction'
 import {changeWriteOfState} from '../../../Redux/actions/writeOfAction'
 
-import {icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 import {checkObject} from '../../general/utils'
 
 const AddWriteOf = (props) => {
+
+    const id = 'AddWriteOf'
 
     useEffect(() => {
         props.addRemain()
@@ -22,10 +24,7 @@ const AddWriteOf = (props) => {
     const disabled = !checkObject(props.remain.filter_warehouse)
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map(el => el.id).includes('listRemainWriteOf') &&
-            !event.composedPath().map(el => el.id).includes('remainWriteOf')
-        ) {
+        if (!event.composedPath().map(el => el.id).includes(id)) {
             setShowList(false)
         }
     }
@@ -48,56 +47,65 @@ const AddWriteOf = (props) => {
     if (props.writeof.edit || props.writeof.inventory_id) return <div/>
 
     return (
-        <div className='w100 h52'>
+        <div
+            id={id}
+            className={`select ${showList ? 'select_active' : ''}`}
+        >
+            <div className='label select__label'>Наименование товара</div>
 
-            <div className='lableImput mt15'>Наименование товара</div>
 
-            <div className='blockInput'>
                 <div
-                    id='remainWriteOf'
-                    className='orderInputBox'
+                    className='input select__input'
                     onClick={disabled ? null : () => setShowList(true) }
                 >
-                    <input
-                        className='optionFilterInput'
-                        onChange={event => props.changeRemainState({filter_title: event.target.value})}
-                        value={props.remain.filter_title}
-                        disabled={disabled}
-                    />
-                    <Icon
-                        className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
-                    />
+                    <div className='select__input-container-in'>
+                        <Icon
+                            className='icon select__icon-search'
+                            icon={ICON.SEARCH}
+                        />
+                        <input
+                            className='optionFilterInput'
+                            onChange={event => props.changeRemainState({filter_title: event.target.value})}
+                            value={props.remain.filter_title}
+                            disabled={disabled}
+                        />
+                    </div>
+                    <Icon icon={ICON.DOWN} className={`icon icon_24 ${showList ? 'icon_rotate-90' : ''}`}/>
                 </div>
+
                 {!disabled && showList ?
-                    <div className='listFilter'>
-                        <table id='listRemainWriteOf'>
-                            <thead>
-                                <tr>
-                                    <th>Наименование</th>
-                                    <th className='w70'>Адрес</th>
-                                    <th className='w70 tac'>Количество</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {remains.map((remain, idx) => (
-                                <tr
-                                    key={idx}
-                                    onClick={() => handleSet(remain)}
-                                >
-                                    <td>
-                                        <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
-                                        <div className='orderDate noWr'>{remain.description}</div>
-                                    </td>
-                                    <td className='tac'>{remain.cell}</td>
-                                    <td className='tac'>{remain.count}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                    <div className='select__drop-list'>
+                        <div className='select__drop-list-body'>
+                            <div className='select__set-items'>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th className='th'>Наименование</th>
+                                            <th className='th th_w70'>Адрес</th>
+                                            <th className='th th_w70'>Количество</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {remains.map((remain, idx) => (
+                                        <tr
+                                            key={idx}
+                                            className='tr'
+                                            onClick={() => handleSet(remain)}
+                                        >
+                                            <td className='td'>
+                                                <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
+                                                <div className='cell_date-payment'>{remain.description}</div>
+                                            </td>
+                                            <td className='td td_number'>{remain.cell}</td>
+                                            <td className='td td_number'>{remain.count}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>: null}
 
-            </div>
         </div>
     )
 }

@@ -8,8 +8,8 @@ import { resetNotEvent, saveNotEvent, selectedNotEvent} from '../../../../Redux/
 import BottomButtons from '../../../general/BottomButtons'
 import ChooseOfList from '../../../general/ChooseOfList'
 import ChooseButton from '../../../general/ChooseButton'
-import ChooseStatuses from '../../../general/ChooseStatuses'
 import {eventsClients} from '../../../../data/events'
+import SelectStatuses from '../../../general/SelectStatuses'
 
 
 const NotEventEditor = props => {
@@ -82,11 +82,12 @@ const NotEventEditor = props => {
                             noChoosed='Не задано'
                             disabled={props.notEvent.deleted}
                         />
-                        <ChooseStatuses
-                            className='mt15 ml15 h27'
+                        <SelectStatuses
+                            id='notification-editor'
+                            className='ml15'
                             func={value => props.selectedNotEvent(value, 'statuses')}
+                            func_clear={() => props.changeNotEventForm([], 'statuses')}
                             current_list={props.notEvent.statuses}
-                            invisible={props.notEvent.event !== 'ORDER_STATUS_CHANGED_TO'}
                             range={[0, 7]}
                         />
                     </div>

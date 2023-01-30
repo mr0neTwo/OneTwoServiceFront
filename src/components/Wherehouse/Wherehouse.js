@@ -79,7 +79,7 @@ const Warehouse = (props) => {
     return (
         <div className='pageContent ml5'>
 
-            <div className='Header al-itm-ct'>
+            <div className='header al-itm-ct'>
                 <div className='headerTitle'>Склады</div>
             </div>
 

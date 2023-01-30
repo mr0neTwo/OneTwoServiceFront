@@ -1,5 +1,5 @@
 import {includesObject} from '../../components/general/utils'
-import {movement_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 
 const current_key = 'movement_'
 const now = new Date()
@@ -25,7 +25,7 @@ const initialState = {
     ],
     page: 0,
 
-    table_headers: JSON.parse(localStorage.getItem(current_key + 'table_headers')) || movement_headers,
+    table_headers: JSON.parse(localStorage.getItem(current_key + 'table_headers')) || Table.Fields.Movement,
 
 }
 

@@ -5,7 +5,7 @@ const initialState = {
    amount: 1,
    cost: 0,
    discount_value: 0,
-   engineer_id: 0,
+   engineer: {},
    price: 0,
    total: 0,
    title: '',
@@ -24,6 +24,14 @@ const initialState = {
  
 export const operationReducer = (state = initialState, action) => {
    switch (action.type){
+
+      case 'CHANGE_OPERATION_STATE': {
+         // const session_save = ['table_headers']
+         // Object.keys(action.data).forEach(field => {
+         //    if (session_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
+         // })
+         return {...Object.assign(state, action.data)}
+      }
  
       case 'CHANGE_OPERATION_FORM': {
          return {
@@ -39,13 +47,13 @@ export const operationReducer = (state = initialState, action) => {
             amount: action.operation.amount,
             cost: action.operation.cost,
             discount_value: action.operation.discount_value,
-            engineer_id: action.operation.engineer_id,
+            engineer: action.operation.engineer,
             price: action.operation.price,
             total: action.operation.total,
             title: action.operation.title,
             comment: action.operation.comment,
             percent: action.operation.percent,
-            discount: action.operation.discount,
+            discount: action.operation.discount || 0,
             warranty: action.operation.warranty,
             warranty_period: action.operation.warranty_period,
             created_at: action.operation.created_at,

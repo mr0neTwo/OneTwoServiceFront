@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import {addBacks, changeBackState, selectedBack} from '../../../Redux/actions/warehouseBackActions'
-import {back_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 
 import ChooseDate from '../../general/calandar/ChooseDate'
 import TableFields from '../../general/TableFields'
@@ -31,7 +31,7 @@ const WarehouseBacks = props => {
                     id='backFields'
                     height='185px'
                     classNameMenu='listOption'
-                    list={back_headers}
+                    list={Table.Fields.Back}
                     checked_list={props.back.table_headers}
                     func={props.selectedBack}
                 />

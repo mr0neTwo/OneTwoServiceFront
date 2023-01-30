@@ -1,20 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, {useMemo, useState} from 'react'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { setVisibleFlag } from '../../Redux/actions'
-import { valueOfPhoneInput } from './utils'
+import {changeVisibleState} from '../../Redux/actions'
+import {valueOfPhoneInput} from './utils'
 
 /**
  *  className='className'
  *
- *  inputClassName='inputClassName'
- *
- *  width='250px'
- *
  *  title='title'
- *
- *  name='name'
  *
  *  onChange={event => console.log(event.target.value)}
  *
@@ -24,13 +18,9 @@ import { valueOfPhoneInput } from './utils'
  *
  *  checkedFlag='flagName'
  *
- *  checked={props.view.flagName}
- *
  *  disabled={false}
  *
  *  redStar={false}
- *
- *  errorMassage='errorMassage'
  *
  *  isPhone={false}
  *
@@ -42,33 +32,53 @@ import { valueOfPhoneInput } from './utils'
 
 const LableInput = (props) => {
 
-   const handleChange = (event) => {
-      const out = event.target.value.replace(/[^0-9]/g, '')
-      if (out.length < 12) props.onChange(out)
-   }
+    const [focus, setFocus] = useState(false)
 
-   return props.invisible ? <div/> : (
-      <div className={props.className}>
-            <div className='lableImput'>{props.title}{props.redStar ? <span className='redStar'>*</span> : null}</div>
-            <div className='row'>
-               <input 
-                  className={`${props.unit ? 'numberInput' : 'textInput'} ${props.disabled ? 'ds' : null} ${props.inputClassName}`}
-                  style={{
-                     width: props.width ? props.width : null,
-                     borderColor: props.checkedFlag && !props.checked  ? 'red' : null
-                  }}
-                  name={props.name}
-                  onChange={props.isPhone ? handleChange : props.onChange}
-                  value={props.isPhone ? valueOfPhoneInput(props.value) : props.value}
-                  onBlur={props.checkedFlag ? event => props.setVisibleFlag(props.checkedFlag, !!event.target.value) : null}
-                  // style={props.checkedFlag && !props.checked  ? {borderColor: 'red'} : null}
-                  disabled={props.disabled}
-               />
-               {props.unit ? <div className='ml5'>{props.unit}</div> : null}
+    const handleChange = (event) => {
+        const out = event.target.value.replace(/[^0-9]/g, '')
+        if (out.length < 12) props.onChange(out)
+    }
+
+    const handleBlur = (event) => {
+        if (props.checkedFlag) props.changeVisibleState({[props.checkedFlag]: !!event.target.value})
+        setFocus(false)
+    }
+
+    const mainClassName = useMemo(() => {
+        let className = 'input-label'
+        if (props.className) className += ` ${props.className}`
+        if (focus) className += ' input-label_focus'
+        if (props.unit) className += ' input-label_unit'
+        if (props.checkedFlag && !props.view[props.checkedFlag]) className += ' input-label_error'
+        return className
+    }, [props.className, focus, props.checkedFlag, props.view[props.checkedFlag]])
+
+    if (props.invisible) return <div/>
+
+    return (
+        <div className={mainClassName}>
+            {props.title ?
+                <div className='label input-label__label'>
+                    {props.title}
+                    {props.redStar ? <span className={props.value ? '' : 'input-label__red-star'}>*</span> : null}
+                </div>
+                : null
+            }
+            <div className='input input-label__input'>
+                <input
+                    className='input-label__text'
+                    type={props.password ? 'password' : null}
+                    autoFocus={props.autoFocus}
+                    onChange={props.isPhone ? handleChange : props.onChange}
+                    value={props.isPhone ? valueOfPhoneInput(props.value) : props.value}
+                    onFocus={() => setFocus(true)}
+                    onBlur={handleBlur}
+                    disabled={props.disabled}
+                />
+                {props.unit ? <div className='input-label__unit'>{props.unit}</div> : null}
             </div>
-         {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо заполнить'}</div> : null}
-      </div>
-   )
+        </div>
+    )
 }
 
 LableInput.propTypes = {
@@ -89,14 +99,14 @@ LableInput.propTypes = {
 }
 
 const mapStateToProps = state => ({
-   // checked: state.view[props.checkedFlag]
-   })
+    view: state.view
+})
 
 const mapDispatchToProps = {
-   setVisibleFlag
+    changeVisibleState
 }
-  
- export default connect(mapStateToProps, mapDispatchToProps)(LableInput)
+
+export default connect(mapStateToProps, mapDispatchToProps)(LableInput)
 
 
 //  className=''

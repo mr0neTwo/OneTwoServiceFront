@@ -1,5 +1,5 @@
 import {includesObject} from '../../components/general/utils'
-import {request_spare_part_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 import {request_event_types} from '../../data/data'
 
 const now = new Date()
@@ -39,7 +39,7 @@ const initialState = {
     page: 0,
 
     event_filter: JSON.parse(localStorage.getItem(key + 'event_filter')) || request_event_types,
-    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || request_spare_part_headers,
+    table_headers: JSON.parse(localStorage.getItem(key + 'table_headers')) || Table.Fields.RequestSparePart,
 }
 
 export const requestSparePartsReducer = (state = initialState, action) => {

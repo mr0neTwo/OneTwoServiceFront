@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {changeReqSparePartState} from '../../../Redux/actions/requestSparePartsAction'
 import {addParts, changePartState} from '../../../Redux/actions/partAction'
-import {icon_bug, icon_down, icon_left} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 import {changeVisibleState} from '../../../Redux/actions'
 
 import Icon from '../../general/Icon'
@@ -49,7 +49,7 @@ const SetPart = (props) => {
                         <div>
                             <Icon
                                 className='icon-client'
-                                icon={icon_bug}
+                                icon={ICON.BUG}
                             />
                             <span
                                 className='partCardName'
@@ -100,7 +100,7 @@ const SetPart = (props) => {
                     />
                     <Icon
                         className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
+                        icon={showList ? ICON.LEFT : ICON.DOWN}
                     />
                 </div>
                 {showList ?

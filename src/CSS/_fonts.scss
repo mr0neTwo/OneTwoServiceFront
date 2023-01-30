@@ -1,0 +1,44 @@
+
+/* Шрифты*/
+@font-face {
+  font-family: Inter;
+  src: url('Inter/Inter-VariableFont.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+}
+%font {
+  font-family: Inter, serif;
+  font-style: normal;
+}
+
+@mixin font-regular($weight: 400) {
+  @extend %font;
+  font-weight: $weight;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.05px;
+}
+@mixin font-small($weight: 400) {
+  @extend %font;
+  font-weight: $weight;
+  font-size: 11px;
+  line-height: 13px;
+  letter-spacing: 0.05px;
+}
+@mixin font-large($weight: 400) {
+  @extend %font;
+  font-weight: $weight;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.13px;
+}
+
+/*Fonts*/
+.fr-med { @include font-regular($weight-medium) }
+.fr-bold { @include font-regular($weight-bold) }
+.fs-def { @include font-small }
+.fs-med { @include font-small($weight-medium) }
+.fs-bold { @include font-small($weight-bold) }
+.fl-def { @include font-large }
+.fl-med { @include font-large($weight-medium) }
+.fl-bold { @include font-large($weight-bold) }

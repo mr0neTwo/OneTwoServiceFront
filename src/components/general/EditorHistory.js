@@ -1,15 +1,6 @@
 import React from 'react'
 import {compareDates, showDate} from './utils'
-import {
-    icon_arrow_down, icon_arrow_right,
-    icon_briefcase,
-    icon_bubble,
-    icon_bug,
-    icon_calendar, icon_coin_dollar,
-    icon_letter, icon_loop, icon_pencil,
-    icon_trush,
-    icon_user
-} from '../../data/icons'
+import {ICON} from '../../data/icons'
 import Icon from './Icon'
 
 
@@ -106,24 +97,24 @@ const EventSimple = props => {
             return list_type.some(ev_type => event_type.indexOf(ev_type) !== -1)
         }
         let list_type = ['ENGINEER', 'MANAGER', 'CLIENT', 'EXECUTOR', 'SUPPLER']
-        if (checkEvent(list_type, event_type)) return icon_user
+        if (checkEvent(list_type, event_type)) return ICON.USER
         list_type = ['ESTIMATED']
-        if (checkEvent(list_type, event_type)) return icon_calendar
+        if (checkEvent(list_type, event_type)) return ICON.CALENDAR
         list_type = ['OPERATION']
-        if (checkEvent(list_type, event_type)) return icon_briefcase
+        if (checkEvent(list_type, event_type)) return ICON.BRIEFCASE
         list_type = ['PART']
-        if (checkEvent(list_type, event_type)) return icon_bug
+        if (checkEvent(list_type, event_type)) return ICON.BUG
         list_type = ['DELETE']
-        if (checkEvent(list_type, event_type)) return icon_trush
+        if (checkEvent(list_type, event_type)) return ICON.TRASH
         list_type = ['COMMENT', 'SMS']
-        if (checkEvent(list_type, event_type)) return  icon_bubble
+        if (checkEvent(list_type, event_type)) return  ICON.BUBBLE
         list_type = ['EMAIL']
-        if (checkEvent(list_type, event_type)) return icon_letter
+        if (checkEvent(list_type, event_type)) return ICON.LETTER
         list_type = ['MOVE_TO']
-        if (checkEvent(list_type, event_type)) return icon_loop
+        if (checkEvent(list_type, event_type)) return ICON.LOOP
         list_type = ['ADD_PAYMENT']
-        if (checkEvent(list_type, event_type)) return icon_coin_dollar
-        return icon_pencil
+        if (checkEvent(list_type, event_type)) return ICON.COIN_DOLLAR
+        return ICON.PENCIL
     }
 
     const checkLength = (event) => {
@@ -190,7 +181,7 @@ const EventSimple = props => {
                             {event.current && event.current.title ?
                                 <Icon
                                     className='icon-sm8 mlr5'
-                                    icon={checkLength(event) ? icon_arrow_down : icon_arrow_right}
+                                    icon={checkLength(event) ? ICON.ARROW_DOWN : ICON.ARROW_RIGHT}
                                 /> : null}
                             <div style={{whiteSpace: "pre-wrap"}}>{event.new.title}</div>
                         </div>

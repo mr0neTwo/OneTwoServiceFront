@@ -19,7 +19,7 @@ import GroupServiceEditor from './GroupServiceEditor'
 import ServiceEditor from './ServiceEditor'
 import ServicePrice from './ServicePrice'
 import {includesObject} from '../../../general/utils'
-import {service_table_headers} from '../../../../data/tableHeaders'
+import {Table} from '../../../../data/tableHeaders'
 
 const SettingServicePrices = (props) => {
 
@@ -43,7 +43,7 @@ const SettingServicePrices = (props) => {
     const services = props.dict_service.filter(service => showDeleted | !service.deleted)
     const count_services = services.length
 
-    const tableFields = service_table_headers.filter(header => includesObject(header, props.dictService.chosed_fields))
+    const tableFields = Table.Fields.Service.filter(header => includesObject(header, props.dictService.chosed_fields))
     const tableMarginFields = props.discount_margin.filter(margin => margin.margin_type === 1).map((margin, idx) => (
         {
             id: idx + 6,
@@ -70,7 +70,7 @@ const SettingServicePrices = (props) => {
     return (
         <div className='settingContent'>
 
-            <div className='Header'>
+            <div className='header'>
                 <span className='headerTitle'>Перечень работ и услуг</span>
             </div>
 
@@ -131,7 +131,7 @@ const SettingServicePrices = (props) => {
                                 id='service'
                                 height='185px'
                                 classNameMenu='listOption'
-                                list={service_table_headers.concat(tableMarginFields)}
+                                list={Table.Fields.Service.concat(tableMarginFields)}
                                 checked_list={props.dictService.chosed_fields}
                                 func={props.selectedService}
                                 field='chosed_fields'

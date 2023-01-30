@@ -11,7 +11,7 @@ import ChooseButton from '../../../general/ChooseButton'
 import LableInput from '../../../general/LableInput'
 import BottomButtons from '../../../general/BottomButtons'
 import Icon from '../../../general/Icon'
-import { icon_trush } from '../../../../data/icons'
+import { ICON } from '../../../../data/icons'
 
 
 const SalaryRuleReducer = (props) => {
@@ -132,7 +132,7 @@ const SalaryRuleReducer = (props) => {
                   <div onClick={() => props.deleteSalaryCountCoef(idx)}>
                      <Icon 
                         className='icon-s2 ml10'
-                        icon={icon_trush} 
+                        icon={ICON.TRASH}
                      /> 
                   </div> : null}
                </div>

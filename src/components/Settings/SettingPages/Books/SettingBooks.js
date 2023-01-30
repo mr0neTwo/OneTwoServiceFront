@@ -23,7 +23,7 @@ const SettingBooks = (props) => {
     return (
         <div className='settingContent'>
 
-            <div className='Header'>
+            <div className='header'>
                 <span className='headerTitle'>Справочники</span>
             </div>
             <div className='settingPageBody'>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import {icon_arrow_buttom} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import LableInput from '../../general/LableInput'
 import Icon from '../../general/Icon'
@@ -51,7 +51,7 @@ const TablePartPrices = (props) => {
                         >
                             <Icon
                                 className='icon-s2'
-                                icon={icon_arrow_buttom}
+                                icon={ICON.ARROW_BOTTOM}
                                 color='#282e32'
                             />
                         </th>
@@ -69,7 +69,7 @@ const TablePartPrices = (props) => {
                         >
                             <Icon
                                 className='icon-s2'
-                                icon={icon_arrow_buttom}
+                                icon={ICON.ARROW_BOTTOM}
                                 color='#282e32'
                             />
                         </td>

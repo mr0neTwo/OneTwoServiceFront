@@ -19,6 +19,8 @@ import Tabs from '../../general/Tabs'
 
 const ClientEditor = (props) => {
 
+    const id = 'ClientEditor'
+
     const handleClose = () => {
         props.resetClient()
         props.changeVisibleState({
@@ -33,7 +35,7 @@ const ClientEditor = (props) => {
     
     const clickHandel = (event) => {
         if (
-            !event.composedPath().map((el) => el.id).includes('clientEditor') &&
+            !event.composedPath().map((el) => el.id).includes(id) &&
             !event.composedPath().map((el) => el.id).includes('newClient')
         ) {
             handleClose()
@@ -47,10 +49,10 @@ const ClientEditor = (props) => {
         }
     })
 
-    const handelCreateClient = () => {
+    const handleCreateClient = () => {
         if (
             props.client.name &&
-            props.view.inputClientPhoneChecked.every((ph) => ph) &&
+            props.client.phone.every(phone => phone.number.replace(/[^0-9]/g, '').length === 11) &&
             check0_100(props.client.discount_materials) &&
             check0_100(props.client.discount_goods) &&
             check0_100(props.client.discount_services)
@@ -108,42 +110,39 @@ const ClientEditor = (props) => {
     }
 
     return (
-        <div className="rightBlock">
-            <div className="rightBlockWindow mw50" id="clientEditor">
-                <div className="createNewTitle">
-                    {props.client.edit ? props.client.name : 'Новый клиент'}
-                </div>
+        <div className="modal modal_z20">
+            <div className="modal__box modal__box_editor" id={id}>
+                <h4>{props.client.edit ? props.client.name : 'Новый клиент'}</h4>
 
-                <div className='contentEditor'>
-                    {props.client.edit ?
-                        <div>
-                            <Tabs
-                                className='mt15'
-                                list={['Общие', 'Баланс', 'Обращения', 'Заказы', 'Платежи', 'Звонки', 'SMS', 'Задачи']}
-                                tab={props.client.tabs}
-                                func={idx => props.changeClientState({tabs: idx})}
-                            />
-                            {props.client.tabs === 0 ? <ClientInfo/> : null}
-                            {props.client.tabs === 1 ? <ClientBalans/> : null}
-                            {props.client.tabs === 2 ? <ClientLeads/> : null}
-                            {props.client.tabs === 3 ? <ClientOrder /> : null}
-                            {props.client.tabs === 4 ? <ClientPayments /> : null}
-                            {props.client.tabs === 5 ? <ClientCalls /> : null}
-                            {props.client.tabs === 6 ? <ClientSMS /> : null}
-                            {props.client.tabs === 7 ? <ClientTask /> : null}
-                        </div>
-                        :
+                <div className='modal__body modal__body-client'>
+                    {/*{props.client.edit ?*/}
+                    {/*    <div>*/}
+                    {/*        <Tabs*/}
+                    {/*            list={['Общие', 'Баланс', 'Обращения', 'Заказы', 'Платежи', 'Звонки', 'SMS', 'Задачи']}*/}
+                    {/*            tab={props.client.tabs}*/}
+                    {/*            func={idx => props.changeClientState({tabs: idx})}*/}
+                    {/*        />*/}
+                    {/*        {props.client.tabs === 0 ? <ClientInfo/> : null}*/}
+                    {/*        {props.client.tabs === 1 ? <ClientBalans/> : null}*/}
+                    {/*        {props.client.tabs === 2 ? <ClientLeads/> : null}*/}
+                    {/*        {props.client.tabs === 3 ? <ClientOrder /> : null}*/}
+                    {/*        {props.client.tabs === 4 ? <ClientPayments /> : null}*/}
+                    {/*        {props.client.tabs === 5 ? <ClientCalls /> : null}*/}
+                    {/*        {props.client.tabs === 6 ? <ClientSMS /> : null}*/}
+                    {/*        {props.client.tabs === 7 ? <ClientTask /> : null}*/}
+                    {/*    </div>*/}
+                    {/*    :*/}
                         <ClientInfo/>
-                        }
+                {/*        }*/}
                 </div>
 
                 <BottomButtons
                     edit={props.client.edit}
-                    create={handelCreateClient}
+                    create={handleCreateClient}
                     save={handelSaveClient}
                     delete={props.permissions.includes('delete_client') ? () => props.deleteClient(true) : null}
                     recover={props.permissions.includes('recover_client') ? () => props.deleteClient(false) : null}
-                    close={() => props.changeVisibleState({statusClientEditor: false})}
+                    close={handleClose}
                     deleted={props.client.deleted}
                 />
             </div>

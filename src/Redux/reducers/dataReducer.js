@@ -1,11 +1,9 @@
-import {data_menu_rows} from '../../data/dataSidebarRows'
-
 const initialState = {
 
     alerts: [],
 
-    menuRows: data_menu_rows,
-    current_menu_row: '',
+    // menuRows: data_menu_rows,
+    // current_menu_row: '',
 
     user: JSON.parse(sessionStorage.getItem('user')) || {},
     status: [],

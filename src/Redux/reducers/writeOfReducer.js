@@ -1,5 +1,5 @@
 import {includesObject} from '../../components/general/utils'
-import {write_of_headers} from '../../data/tableHeaders'
+import {Table} from '../../data/tableHeaders'
 const now = new Date()
 
 const initialState = {
@@ -25,7 +25,7 @@ const initialState = {
     ],
     page: 0,
 
-    table_headers: JSON.parse(localStorage.getItem('write_of_table_headers')) || write_of_headers,
+    table_headers: JSON.parse(localStorage.getItem('write_of_table_headers')) || Table.Fields.WriteOf,
 }
 
 /*

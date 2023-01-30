@@ -1,66 +1,69 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
-import { setVisibleFlag } from '../../Redux/actions'
+import {setVisibleFlag} from '../../Redux/actions'
 import {changePaymentState} from '../../Redux/actions/paymentAction'
+import LableInput from '../general/LableInput'
 
 const Receipt = (props) => {
 
-   const cashbox = props.payment.cashbox_id ? props.cashboxes.find(cashbox => cashbox.id === props.payment.cashbox_id).title : ''
+    const cashbox = props.payment.cashbox_id ? props.cashboxes.find(cashbox => cashbox.id === props.payment.cashbox_id).title : ''
 
-   const disc = [`Перемещение денег из кассы "${cashbox}"`, 'Выплата денег из кассы', 'Внесение денег в кассу']
+    const disc = [`Перемещение денег из кассы "${cashbox}"`, 'Выплата денег из кассы', 'Внесение денег в кассу']
 
-   const sum = props.payment.outcome ?  props.payment.outcome : props.payment.income
-   
-   return (
-      <div className='receiptBox'>
-               <div className='receipt mt15'>
-                  <table>
-                     <thead>
-                        <tr>
-                           <th>Наименование</th>
-                           <th className='tae w80'>Сумма, руб.</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr>
-                           <td>{props.payment.edit ? props.payment.description : disc[props.payment.direction]}</td>
-                           <td className='eal'>
-                              {props.payment.edit ? <div>{ sum }</div> :
-                              <input 
-                                 className='w70'
-                                 style={ props.inputPaymentSumChecked ? null : {borderColor: 'red'} }
-                                 onChange={event => props.changePaymentState({
-                                    [props.payment.direction === 2 ? 'income' : 'outcome']: event.target.value.replace(/[^0-9.,]/g, '')
-                                 })}
-                                 value={ sum }
-                                 onBlur={() => props.setVisibleFlag('inputPaymentSumChecked', props.payment.direction === 2 ? !!props.payment.income : !!props.payment.outcome)}
-                                 disabled={props.payment.context.type === 'closed_order'}
-                              />}
-                           </td>
-                        </tr>
-                        <tr>
-                           <td className='tae'>Итого:</td>
-                           <td className='eal'>
-                              <div className='sum'>{`${ sum } руб`}</div>
-                           </td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </div>
-           </div>
-   )
+    const sum = props.payment.outcome ? props.payment.outcome : props.payment.income
+
+    return (
+        <div>
+            <div className='receipt__hol'/>
+            <div className='receipt'>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th className='th'>Наименование</th>
+                        <th className='th th_w70'>Сумма</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td className='td'>{props.payment.edit ? props.payment.description : disc[props.payment.direction]}</td>
+                        <td className='td'>
+                            {props.payment.edit ? <div>{sum}</div> :
+                                <LableInput
+                                    className='w70'
+                                    onChange={event => props.changePaymentState({
+                                        [props.payment.direction === 2 ? 'income' : 'outcome']: event.target.value.replace(/[^0-9.,]/g, '')
+                                    })}
+                                    value={sum}
+                                    checkedFlag='inputPaymentSumChecked'
+                                    disabled={props.payment.context.type === 'closed_order'}
+                                />
+                            }
+                        </td>
+                    </tr>
+                    <tr className='tr_no-underline'>
+                        <td className='td td_total'>Итого:</td>
+                        <td className='td'>
+                            <div className=''>{`${sum} руб`}</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
 }
 
 const mapStateToProps = state => ({
-   payment: state.payment,
-   inputPaymentSumChecked: state.view.inputPaymentSumChecked,
-   cashboxes: state.cashbox.cashboxes
+    payment: state.payment,
+    inputPaymentSumChecked: state.view.inputPaymentSumChecked,
+    cashboxes: state.cashbox.cashboxes
 })
 
 const mapDispatchToProps = {
-   changePaymentState,
-   setVisibleFlag
+    changePaymentState,
+    setVisibleFlag
 }
-  
- export default connect(mapStateToProps, mapDispatchToProps)(Receipt)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Receipt)

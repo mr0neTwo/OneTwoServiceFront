@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import {changeRegistrationState, deleteRegistrationPart, editRegistrationPart} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
-import {icon_pencil, icon_trush} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 import Checkbox from '../../general/Checkbox'
@@ -36,7 +36,7 @@ const TableRegistrationPart = (props) => {
     }
 
     if (!props.registration.parts.length) {
-        return <div className='tempPage h90'>Выбере запчасть</div>
+        return <div className='temp-page h90'>Выбере запчасть</div>
     }
 
     return (
@@ -74,11 +74,11 @@ const TableRegistrationPart = (props) => {
                                 <td>
                                     <div className='row'>
                                         <div onClick={() => handleEdit(idx, part)}>
-                                            <Icon className='icon-s2 curP ml5' icon={icon_pencil}/>
+                                            <Icon className='icon-s2 curP ml5' icon={ICON.PENCIL}/>
                                         </div>
                                         {!disabled ?
                                             <div onClick={() => props.deleteRegistrationPart(idx)}>
-                                                <Icon className='icon-s2 curP ml5' icon={icon_trush}/>
+                                                <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
                                             </div> : null}
                                     </div>
                                 </td>

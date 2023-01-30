@@ -1,5 +1,7 @@
 
-import React, {useState} from 'react'
+import React, {forwardRef, useState} from 'react'
+import Icon from '../Icon'
+import {ICON} from '../../../data/icons'
 
 const CalendarNavi = props => {
 
@@ -17,74 +19,89 @@ const CalendarNavi = props => {
 
     return (
         <div>
-        <div className='calendarNavi'>
+        <div className='calendar__nav'>
             <div
-                className='nextB'
+                className='calendar__nav-next'
                 onClick={() => props.setCurrent_day(new Date(props.current_date.setMonth(props.current_date.getMonth() - 1)))}
             >
-                {'<'}
+                <Icon
+                    className='icon'
+                    icon={ICON.LEFT}
+                />
             </div>
 
-            <div className='row'>
+            <div className='calendar__nav-body'>
                 <div
-                    className='currMonth'
+                    className='calendar__nav-month'
                     onClick={() => props.setVisibleListMonth(!props.visibleListMonth)}
                 >
                     <div>{months[props.current_date.getMonth()]}</div>
-                    <div className='gu'>&#6662;</div>
+                    <Icon
+                        className='icon icon_20'
+                        icon={ICON.DOWN}
+                    />
+                    {props.visibleListMonth ?
+                        <div className='calendar__month-list' id='calendarMonth'>
+                            {months.map((month, idx) => (
+                                <div
+                                    key={idx}
+                                    className='calendar__item'
+                                    onClick={() => {
+                                        props.setCurrent_day(new Date(props.current_date.setMonth(idx)))
+                                        props.setVisibleListMonth(!props.visibleListMonth)
+                                    }}
+                                >
+                                    {month}
+                                </div>
+                            ))}
+                        </div> : null}
                 </div>
 
                 {visibleInputYear ?
                     <input
-                        className='optionFilterInput w30'
                         autoFocus
                         onChange={event => handleInputYear(event.target.value)}
                         value={props.current_date.getFullYear()}
                         onBlur={() => setVisibleInputYear(false)}
                     /> :
                     <div
-                        className='pd5'
+                        className=''
                         onDoubleClick={() => setVisibleInputYear(true)}
                     >
                         {props.current_date.getFullYear()}
                     </div>}
-                <div className='nextY'>
+                <div className='calendar__nav-year-buttons'>
                     <div
-                        className='gy'
+                        className=''
                         onClick={() => props.setCurrent_day(new Date(props.current_date.setFullYear(props.current_date.getFullYear() + 1)))}
                     >
-                        &#9650;
+                        <Icon
+                            className='icon icon_20 icon_rotate-180'
+                            icon={ICON.DOWN}
+                        />
                     </div>
                     <div
-                        className='gy'
+                        className=''
                         onClick={() => props.setCurrent_day(new Date(props.current_date.setFullYear(props.current_date.getFullYear() - 1)))}
                     >
-                        &#9660;
+                        <Icon
+                            className='icon icon_20'
+                            icon={ICON.DOWN}
+                        />
                     </div>
                 </div>
             </div>
             <div
-                className='nextB'
+                className='calendar__nav-next'
                 onClick={() => props.setCurrent_day(new Date(props.current_date.setMonth(props.current_date.getMonth() + 1)))}
             >
-                {'>'}
+                <Icon
+                    className='icon'
+                    icon={ICON.RIGHT}
+                />
             </div>
         </div>
-        {props.visibleListMonth ?
-            <div className='monthList' id='monthList'>
-                    {months.map((month, idx) => (
-                        <div
-                            key={idx}
-                            className='month'
-                            onClick={() => {
-                                props.setCurrent_day(new Date(props.current_date.setMonth(idx)))
-                                props.setVisibleListMonth(!props.visibleListMonth)
-                            }}
-                        >
-                            {month}
-                        </div>
-                    ))}
-                </div> : null}
+
         </div>
     )
 }

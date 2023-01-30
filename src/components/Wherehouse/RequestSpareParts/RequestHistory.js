@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import {selectedReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
 import {request_event_types} from '../../../data/data'
-import {icon_filter} from '../../../data/icons'
+import {ICON} from '../../../data/icons'
 
 import EditorHistory from '../../general/EditorHistory'
 import TableFields from '../../general/TableFields'
@@ -21,7 +21,7 @@ const RequestHistory = (props) => {
                     checked_list={props.reqsp.event_filter}
                     func={props.selectedReqSparePart}
                     field='event_filter'
-                    icon={icon_filter}
+                    icon={ICON.FILTER}
                 />
             </div>
             <EditorHistory

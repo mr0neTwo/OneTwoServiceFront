@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 const SettingMarkening = (props) => {
   return (
     <div className='settingContent'>
-      <div className="tempPage">
-        <div className="tempContainer">
-          <h1 className="tempTitle">Здесь будут маркетинг</h1>
-          <p className="tempDescription">Страница на стадии разработки</p>
+      <div className="temp-page">
+        <div className="temp-page__body">
+          <h3>Здесь будут маркетинг</h3>
+          <h5>Страница на стадии разработки</h5>
         </div>
       </div>
     </div>

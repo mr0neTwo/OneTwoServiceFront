@@ -1,34 +1,26 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
 
 import Icon from '../../../../general/Icon'
-import {
-    icon_arrow_down,
-    icon_arrow_right,
-    icon_briefcase,
-    icon_bubble,
-    icon_bug,
-    icon_calendar, icon_coin_dollar
-} from '../../../../../data/icons'
-import {icon_letter, icon_loop, icon_pencil, icon_trush, icon_user} from '../../../../../data/icons'
+import {ICON} from '../../../../../data/icons'
 import {compareDates, showDate} from '../../../../general/utils'
+import {COLORS} from '../../../../../data/colors'
 
 
 const EventSimple = props => {
 
     const chooseIcon = (event_type) => {
         let list_type = ['ASSIGN_ENGINEER', 'CHANGE_ENGINEER', 'ASSIGN_MANAGER', 'CHANGE_MANAGER', 'ADD_CLIENT', 'CHANGE_CLIENT']
-        if (list_type.includes(event_type)) return icon_user
-        if (event_type === 'CHANGE_ESTIMATED_DONE_AT') return icon_calendar
-        if (event_type === 'ADD_OPERATION') return icon_briefcase
-        if (event_type === 'ADD_ORDER_PART') return icon_bug
-        if (['DELETE_OPERATION', 'DELETE_ORDER_PART', 'DELETE_PAYMENT'].includes(event_type)) return icon_trush
-        if (['ADD_COMMENT', 'SEND_SMS'].includes(event_type)) return  icon_bubble
-        if (event_type === 'SEND_EMAIL') return icon_letter
-        if (event_type === 'MOVE_TO') return icon_loop
-        if (event_type === 'ADD_PAYMENT') return icon_coin_dollar
-        return icon_pencil
+        if (list_type.includes(event_type)) return ICON.USER
+        if (event_type === 'CHANGE_ESTIMATED_DONE_AT') return ICON.CALENDAR
+        if (event_type === 'ADD_OPERATION') return ICON.BRIEFCASE
+        if (event_type === 'ADD_ORDER_PART') return ICON.BUG
+        if (['DELETE_OPERATION', 'DELETE_ORDER_PART', 'DELETE_PAYMENT'].includes(event_type)) return ICON.TRASH
+        if (['ADD_COMMENT', 'SEND_SMS'].includes(event_type)) return  ICON.BUBBLE
+        if (event_type === 'SEND_EMAIL') return ICON.LETTER
+        if (event_type === 'MOVE_TO') return ICON.LOOP
+        if (event_type === 'ADD_PAYMENT') return ICON.COIN_DOLLAR
+        return ICON.PENCIL
     }
 
     const checkLength = (event) => {
@@ -53,49 +45,56 @@ const EventSimple = props => {
 
     const time = new Date(props.event.created_at * 1000).toLocaleString('ru', optionsShowDate)
 
+    const lastEvent = props.events[props.idx - 1]
+    const style = {
+        borderColor: `var(--${COLORS.STATUS[props.event.current_status.group]})`
+    }
+
     return (
 
         <div
-            className='orderEvent'
-            style={{borderColor: props.event.current_status.color}}
+            className='history-order-editor__event'
+            style={style}
         >
-            {!props.idx || !compareDates(props.event.created_at, props.events[props.idx - 1].created_at) ?
-                <div className='dateEvent'>{showDate(props.event.created_at, false)}</div>
+            {!props.idx || !compareDates(props.event.created_at, lastEvent.created_at) ?
+                <div className='history-order-editor__event-date'>{showDate(props.event.created_at, false)}</div>
                 : null
             }
-            <div className='eventElement'>
+            <div className='history-order-editor__item'>
                 {props.event.changed.map((event, idx) => (
                     <div key={idx}>
-                        <div className='row jc-sb'>
-                            <div className='row'>
+                        <div className='history-order-editor__title-box'>
+                            <div
+                                className='history-order-editor__title'
+                                style={{marginLeft: idx ? '30px': null}}
+                            >
                                 <div
                                     style={{
-                                        backgroundColor: props.event.current_status.color,
+                                        backgroundColor: `var(--${COLORS.STATUS[props.event.current_status.group]})`,
                                         display: idx ? 'none': null,
                                         marginLeft: idx ? '30px': null
                                     }}
-                                    className='boxHistoryIcon'
+                                    className='history-order-editor__icon'
                                     title={props.employee}
                                 >
-                                    <Icon className='icon-s2' icon={chooseIcon(props.event.event_type)} color='white'/>
+                                    <Icon
+                                        className='icon'
+                                        icon={chooseIcon(props.event.event_type)}
+                                    />
                                 </div>
-                                <div
-                                    className='ml10 txtb'
-                                    style={{marginLeft: idx ? '28px': null}}
-                                >
-                                    {event.title}
-                                </div>
+                                <div>{event.title}</div>
                             </div>
-                            <div className='cgr'>{time}</div>
+                            <div>{time}</div>
                         </div>
+
                         <div
-                            className={`${checkLength(event) ? null : 'row'} ml30`}
+                            className={`history-order-editor__message ${checkLength(event) ? 'history-order-editor__message_colm' : ''}`}
                         >
                             {event.current && event.current.title ? <div className=''>{event.current.title}</div> : null}
                             {event.current && event.current.title ?
                                 <Icon
-                                    className='icon-sm8 mlr5'
-                                    icon={checkLength(event) ? icon_arrow_down : icon_arrow_right}
+                                    className='icon icon_10'
+                                    icon={checkLength(event) ? ICON.ARROW_DOWN : ICON.ARROW_RIGHT}
                                 /> : null}
                             <div style={{whiteSpace: "pre-wrap"}}>{event.new.title}</div>
                         </div>
@@ -108,10 +107,6 @@ const EventSimple = props => {
     )
 }
 
-const mapStateToProps = state => ({
-    events: state.order.events,
-})
 
-const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventSimple)
+export default EventSimple

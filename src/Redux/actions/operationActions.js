@@ -4,6 +4,13 @@ import {getOrderFilter} from './orderActions'
 import {showAlert} from '../actions'
 
 
+export function changeOperationState(data) {
+    return {
+        type: 'CHANGE_OPERATION_STATE',
+        data
+    }
+}
+
 export function changeOperationForm(value, field) {
     return {
         type: 'CHANGE_OPERATION_FORM',
@@ -62,7 +69,7 @@ export function createOperation(service) {
         amount: 1,
         cost: service.cost || 0,
         discount_value: discount_value,
-        engineer_id: state.operation.engineer_id,
+        engineer_id: state.operation.engineer.id || null,
         price: service.price || 0,
         total: state.order.client.discount_service_type ? price : price - discount_value,
         title: service.title,
@@ -122,7 +129,7 @@ export function createCustomOperation() {
         amount: state.operation.amount,
         cost: state.operation.cost || 0,
         discount_value: state.operation.discount_value || 0,
-        engineer_id: state.operation.engineer_id,
+        engineer_id: state.operation.engineer.id || null,
         total: state.operation.total || 0,
         comment: state.operation.comment,
         percent: state.operation.percent,
@@ -180,7 +187,7 @@ export function saveOperation() {
         amount: state.operation.amount,
         cost: state.operation.cost || 0,
         discount_value: state.operation.discount_value || 0,
-        engineer_id: state.operation.engineer_id,
+        engineer_id: state.operation.engineer.id || null,
         total: state.operation.total || 0,
         comment: state.operation.comment,
         percent: state.operation.percent,

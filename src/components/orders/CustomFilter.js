@@ -3,6 +3,9 @@ import {connect} from 'react-redux'
 
 import {changeFilterState} from '../../Redux/actions/filterAction'
 import {addClientToTempFilter} from '../../Redux/actions/clientAction'
+import Button from '../general/Button'
+import {ICON} from '../../data/icons'
+import {changeOrderState} from '../../Redux/actions/orderActions'
 
 const CustomFilter = props => {
 
@@ -14,10 +17,10 @@ const CustomFilter = props => {
                 active_filter: props.data.id,
                 active_badge: 0,
                 search: '',
-                temp_statuses: props.data.filters.status_id || [],
-                temp_order_types: props.data.filters.order_type_id || [],
-                temp_managers: props.data.filters.manager_id || [],
-                temp_engineers: props.data.filters.engineer_id || [],
+                temp_statuses: props.data.filters.status_id ? props.data.filters.status_id.map(status_id => ({id: status_id})) : [],
+                temp_order_types: props.data.filters.order_type_id ? props.data.filters.order_type_id.map(order_type_id => ({id: order_type_id})) : [],
+                temp_managers: props.data.filters.manager_id ? props.data.filters.manager_id.map(manager_id => ({id: manager_id})) : [],
+                temp_engineers: props.data.filters.engineer_id ? props.data.filters.engineer_id.map(engineer_id => ({id: engineer_id})) : [],
                 temp_created_at: props.data.filters.created_at || [0, 0],
                 temp_kindof_good_id: props.data.filters.kindof_good,
                 temp_brand: props.data.filters.brand,
@@ -27,7 +30,6 @@ const CustomFilter = props => {
         } else {
             props.changeFilterState({
                 active_filter: 0,
-                page: 0,
                 engineer_id: null,
                 overdue: null,
                 status_id: null,
@@ -41,20 +43,19 @@ const CustomFilter = props => {
                 subtype: null,
                 client_id: null,
             })
+            props.changeOrderState({page: 0})
         }
     }
 
+    const isActive = props.data.id === props.filter.active_filter
+
     return (
-        <div
-            className='customFilter ml5'
+        <Button
+            size='med'
+            type={isActive ? 'secondary-active' : 'secondary'}
+            title= {props.data.title}
             onClick={handleChoose}
-            style={{
-                backgroundColor: props.data.id === props.filter.active_filter ? '#eeeeef' : 'white',
-                opacity: props.data.id === props.filter.active_filter || props.filter.active_filter === 0 ? 1 : 0.5
-            }}
-        >
-            {props.data.title}
-        </div>
+        />
     )
 }
 
@@ -64,7 +65,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     changeFilterState,
-    addClientToTempFilter
+    addClientToTempFilter,
+    changeOrderState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomFilter)

@@ -1,45 +1,47 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {connect} from 'react-redux'
 
-import { editCurrentClient, changeVisibleState} from '../../Redux/actions'
-import {addClients, changeClientState} from '../../Redux/actions/clientAction'
-import {showPhone} from './utils'
+import { changeVisibleState} from '../../Redux/actions'
+import {addClients, changeClientState, getClient} from '../../Redux/actions/clientAction'
+import {checkObject, showPhone, valueOfPhoneInput} from './utils'
 import Icon from './Icon'
-import {icon_client, icon_down, icon_left} from '../../data/icons'
+import {ICON} from '../../data/icons'
 
 
 /**
+ *
+ * <SetClient
  * id='idElement'
- *
- * title='title'
- *
- * setClient={client => console.log(client)} // Функция над объектом клиента
- *
- * client={props.client} // объект клиента в state
- *
+ * setClient={client => console.log(client)}
+ * client={props.client}
  * checkedFlag='flagName'
- *
- * checked={props.view.flagName}
- *
  * redStar={false}
- *
- * errorMassage='errorMassage'
- *
  * disabled={false}
+ * />
+ *
+ * id - id элеметна
+ * setClient - Функция над объектом клиента
+ * client -  текущий клиент
+ * checkedFlag - имя флага для проверки
+ * checked - ссылка на флаг
+ * redStar - отображать красную звездочку
+ * disabled - заблокировать
  *
  * @returns {JSX.Element}
  *
  */
 const SetClient = (props) => {
 
-    const [showList, setShowList] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
+
+    const id = `SetClient${props.id}`
 
     const clickHandel = (event) => {
         if (
-            !event.composedPath().map(el => el.id).includes(`list${props.id}`) &&
+            !event.composedPath().map(el => el.id).includes(id) &&
             !event.composedPath().map(el => el.id).includes(props.id)
         ) {
-            setShowList(false)
+            setListVisible(false)
         }
     }
 
@@ -55,103 +57,127 @@ const SetClient = (props) => {
         }
     })
 
-    const editClient = (client) => {
+    const handleNewClient = () => {
         if (!props.disabled) {
-            props.editCurrentClient(client)
+            props.changeClientState({ad_campaign: props.ad_campaign[0]})
             props.changeVisibleState({'statusClientEditor': true})
         }
     }
+
+    const editClient = (client) => {
+        if (!props.disabled) {
+            props.getClient(client.id)
+            // props.changeVisibleState({'statusClientEditor': true})
+        }
+    }
+
+    const mainClassName = useMemo(() => {
+        let className = 'select'
+        if (props.className) className += ` ${props.className}`
+        if (listVisible) className += ' select_active'
+        if (props.disabled) className += ' select_disabled'
+        if (!props.view[props.checkedFlag]) className += ' select_error'
+        return className
+    }, [props.className, listVisible, props.disabled, props.view])
+
     if (props.invisible) return <div/>
 
-    if (Object.values(props.client).length) {
+    if (checkObject(props.client)) {
         return (
-            <div className = 'mt15'>
-                <div className = 'clientCard'>
-                    <div>
-                        <div>
+            <div className={`client-card ${props.className}`}>
+                <div className='label client-card_label'>Клиент</div>
+                <div className = 'client-card__card'>
+                    <div className='client-card__name-row'>
+                        <div
+                            id='newClient'
+                            className='client-card__name'
+                            onClick={() => editClient(props.client)}
+                        >
                             <Icon
-                                className='icon-client'
-                                icon={icon_client}
+                                className='icon'
+                                icon={ICON.CLIENT}
                             />
-                            <span
-                                className='clientCardName'
-                                onClick={() => editClient(props.client)}
-                            >
-                                {props.client.name}
-                            </span>
+                            <div>{props.client.name}</div>
                         </div>
-                        <div>
-                            <span className='clientCardTitle'>Телефон:</span>
-                            <span className='clientCardText'> {props.client.phone[0] ? showPhone(props.client.phone[0].number) : null}</span>
-                        </div>
-                        <div>
-                            <span className='clientCardTitle'>Баланс: </span>
-                            <span className='clientCardText'>000 (клиет должет нам)</span>
+                        <div
+                            className='client-card__icon-cancel'
+                            onClick={props.disabled ? null : () => props.setClient({})}
+                        >
+                            <Icon
+                                className='icon'
+                                icon={ICON.CANCEL}
+                            />
                         </div>
                     </div>
-                    <div
-                        className='crossButtom'
-                        onClick={props.disabled ? null : () => props.setClient({})}
-                    >
-                        &#9587;
+
+                    <div>
+                        <span className=''>Телефон:</span>
+                        <span className=''> {props.client.phone[0] ? showPhone(props.client.phone[0].number) : null}</span>
                     </div>
+                    <div>
+                        <span className=''>Баланс: </span>
+                        <span className=''>000 (клиет должет нам)</span>
+                    </div>
+
                 </div>
             </div>
         )
     }
 
     return (
-        <div className='w400 h52'>
+        <div
+            id={id}
+            className={mainClassName}
+        >
 
-            <div className='lableImput mt15'>{props.title || 'Имя клиента'}{props.redStar ? <span className='redStar'>*</span> : null}</div>
+            <div className='label select__label'>
+                {'Имя клиента'}
+                {props.redStar ? <span className={checkObject(props.client) ? '' : 'input-label__red-star'}>*</span> : null}
+            </div>
 
-            <div className='blockInput'>
+
+            <div
+                id={props.id}
+                className='input select__input'
+                onClick={() => setListVisible(true)}
+            >
+                <input
+                    className='w100p'
+                    onChange={event => props.changeClientState({filter_name: event.target.value})}
+                    disabled={props.disabled}
+                />
                 <div
-                    id={props.id}
-                    className='orderInputBox'
-                    style={{borderColor: props.checkedFlag && !props.checked  ? 'red' : null}}
-                    onClick={() => setShowList(true)}
+                    id='newClient'
+                    onClick={handleNewClient}
                 >
-                    <input
-                        className='optionFilterInput'
-                        onChange={event => props.changeClientState({filter_name: event.target.value})}
-                        disabled={props.disabled}
-                    />
-                    <div
-                        className='simbolButton'
-                        onClick={props.disabled ? null : () => props.changeVisibleState({'statusClientEditor': true})}
-                    >
-                        +
-                    </div>
-                    <Icon
-                        className='icon-s4'
-                        icon={showList ? icon_left : icon_down}
-                    />
+                    <Icon icon={ICON.PLUS} className='icon'/>
                 </div>
-                {props.checkedFlag && !props.checked ? <div className='errorMassageInput'>{props.errorMassage ? props.errorMassage : 'Необходимо выбрать'}</div> : null}
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
+            </div>
 
-                {showList ?
-                    <div className='listFilter' id={`list${props.id}`}>
+            {listVisible ?
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
                         {props.clients.map(client => (
                             <div
-                                className='rowGropList'
+                                className='select__item select__item_option select__item_client'
                                 key={client.id}
                                 onClick={() => {
-                                    setShowList(false)
-                                    // props.editCurrentClient(client)
+                                    setListVisible(false)
                                     props.setClient(client)
                                     if (props.checkedFlag) props.changeVisibleState({[props.checkedFlag]: true})
                                 }}
                             >
-                                <div>{client.name}</div>
-                                <div className='orderDate'>
+                                <div className='nowrap'>{client.name}</div>
+                                <div className='select__item_phone'>
                                     {client.phone[0] ? showPhone(client.phone[0].number) : null}
                                 </div>
                             </div>
                         ))}
-                    </div> : null}
-
-            </div>
+                    </div>
+                </div>
+                : null
+            }
         </div>
     )
 }
@@ -159,11 +185,12 @@ const SetClient = (props) => {
 const mapStateToProps = state => ({
     clients: state.client.clients,
     filter_name: state.client.filter_name,
-    view: state.view
+    view: state.view,
+    ad_campaign: state.data.ad_campaign
 })
 
 const mapDispatchToProps = {
-    editCurrentClient,
+    getClient,
     changeClientState,
     changeVisibleState,
     addClients

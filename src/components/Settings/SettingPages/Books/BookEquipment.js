@@ -230,7 +230,7 @@ const BookEquipment = (props) => {
                             ))
                             :
                             <div className="clPage">
-                                <div className="tempContainer">Выберете группу</div>
+                                <div className="temp-page__body">Выберете группу</div>
                             </div>
                         }
                     </div>
@@ -279,7 +279,7 @@ const BookEquipment = (props) => {
                             ))
                             :
                             <div className="clPage">
-                                <div className="tempContainer">Выберете бренд</div>
+                                <div className="temp-page__body">Выберете бренд</div>
                             </div>
                         }
                     </div>
@@ -321,7 +321,7 @@ const BookEquipment = (props) => {
                             ))
                             :
                             <div className="clPage">
-                                <div className="tempContainer">Выберете модуль / серию</div>
+                                <div className="temp-page__body">Выберете модуль / серию</div>
                             </div>
                         }
                     </div>

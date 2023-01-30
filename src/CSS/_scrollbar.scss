@@ -1,0 +1,135 @@
+
+
+
+  // Simple
+  //&--simple::-webkit-scrollbar {
+  //  width: 6px;
+  //  height: 6px;
+  //}
+  //&--simple::-webkit-scrollbar-track {
+  //  border-radius: 10px;
+  //  background: rgba(0,0,0,0.1);
+  //}
+  //&--simple::-webkit-scrollbar-thumb{
+  //  border-radius: 10px;
+  //  background: rgba(0,0,0,0.2);
+  //}
+  //&--simple::-webkit-scrollbar-thumb:hover{
+  //  background: rgba(0,0,0,0.4);
+  //}
+  //&--simple::-webkit-scrollbar-thumb:active{
+  //  background: rgba(0,0,0,.9);
+  //}
+
+  // Grey
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background: rgba(0,0,0,0.05);
+  }
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: linear-gradient(left, #999, #888);
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.8);
+  }
+::-webkit-scrollbar-thumb:hover{
+    background: linear-gradient(left, #888, #777);
+  }
+//
+//  // White
+//  &--white::-webkit-scrollbar {
+//    width: 8px;
+//    height: 8px;
+//  }
+//  &--white::-webkit-scrollbar-track {
+//    border-radius: 10px;
+//    background: rgba(0,0,0,0.1);
+//    border: 1px solid #ccc;
+//  }
+//  &--white::-webkit-scrollbar-thumb {
+//    border-radius: 10px;
+//    background: linear-gradient(left, #fff, #e4e4e4);
+//    border: 1px solid #aaa;
+//  }
+//  &--white::-webkit-scrollbar-thumb:hover {
+//    background: #fff;
+//  }
+//  &--white::-webkit-scrollbar-thumb:active{
+//    background: linear-gradient(left, #22ADD4, #1E98BA);
+//  }
+//
+//  // Square
+//  &--square::-webkit-scrollbar {
+//    width: 10px;
+//    height: 10px;
+//  }
+//  &--square::-webkit-scrollbar-track {
+//    background: rgba(0,0,0,0.1);
+//    box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+//  }
+//  &--square::-webkit-scrollbar-thumb {
+//    background: linear-gradient(left, rgba(0,0,0,0.1), rgba(0,0,0,0.15));
+//    border: 1px solid rgba(0,0,0,0.2);
+//  }
+//  &--square::-webkit-scrollbar-thumb:hover {
+//    background: linear-gradient(left, rgba(0,0,0,0.3), rgba(0,0,0,0.4));
+//  }
+//
+//  // Black
+//  &--black::-webkit-scrollbar {
+//    width: 10px;
+//    height: 10px;
+//  }
+//  &--black::-webkit-scrollbar-track {
+//    border-radius: 10px;
+//    background: #444;
+//    box-shadow: 0 0 1px 1px #111, inset 0 0 4px rgba(0,0,0,0.3);
+//  }
+//  &--black::-webkit-scrollbar-thumb {
+//    border-radius: 10px;
+//    background: linear-gradient(left, #3e3e3e, #111, #000);
+//    box-shadow: inset 0 0 1px 1px #646464;
+//  }
+//
+//  // Itunes
+//  &--itunes::-webkit-scrollbar {
+//    width: 10px;
+//    height: 10px;
+//  }
+//  &--itunes::-webkit-scrollbar-track {
+//    border-radius: 10px;
+//    background: #eee;
+//    box-shadow: 0 0 1px 1px #bbb, inset 0 0 7px rgba(0,0,0,0.3)
+//  }
+//  &--itunes::-webkit-scrollbar-thumb {
+//    border-radius: 10px;
+//    background: linear-gradient(left, #96A6BF, #63738C);
+//    box-shadow: inset 0 0 1px 1px #5C6670;
+//  }
+//  &--itunes::-webkit-scrollbar-thumb:hover {
+//    background: linear-gradient(left, #8391A6, #536175);
+//  }
+//
+//  // Sublime
+//  &--sublime::-webkit-scrollbar {
+//    width: 10px;
+//    height: 10px;
+//  }
+//  &--sublime::-webkit-scrollbar-track {
+//    border-radius: 10px;
+//    background: linear-gradient(left, #212121, #323232);
+//    box-shadow: 0 0 1px 1px #111;
+//  }
+//  &--sublime::-webkit-scrollbar-thumb {
+//    border-radius: 10px;
+//    background: linear-gradient(left, #4A4A4A, #404040);
+//    box-shadow: inset 0 0 1px 1px #191919;
+//  }
+//  &--sublime::-webkit-scrollbar-thumb:hover {
+//    background: linear-gradient(left, #555555, #4e4e4e);
+//  }
+//}

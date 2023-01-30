@@ -1,17 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 
-import {changeVisibleState, setVisibleFlag} from '../../Redux/actions'
+import {changeVisibleState} from '../../Redux/actions'
 import {changeFilterState} from '../../Redux/actions/filterAction'
-import {changeOrderState} from '../../Redux/actions/orderActions'
-import {icon_filter} from '../../data/icons'
+import {changeOrderState, selectedOrder} from '../../Redux/actions/orderActions'
+import {ICON} from '../../data/icons'
 
 import CustomFilter from './CustomFilter'
 import SetFilter from './setCustomFilter/SetFilter'
 import Button from '../general/Button'
-import TableOrderFields from './TableOrderFields'
+import TableFields from '../general/TableFields'
 
 const CustomPanel = (props) => {
+
+    const [invisible, setInvisible] = useState('custom-filter_invisible')
 
     const newOrder = () => {
         // Посчитаем ориентировочную дату готовности
@@ -31,42 +33,45 @@ const CustomPanel = (props) => {
     }
 
     const handleEditFilter = () => {
-        props.setVisibleFlag('statusSetCustomFilter', 'change')
+        // props.changeVisibleState({statusSetCustomFilter: !props.statusSetCustomFilter})
+        setInvisible(invisible ? '' : 'custom-filter_invisible')
         props.changeFilterState({active_badge: 0,  active_filter: 0})
     }
 
     return (
-        <div className='mainCustomPanel '>
-            <div className='customPanel'>
-                <div className='row al-itm-ct'>
+        <div>
+        <div className='row jc-sb'>
+                <div className='custom-filters-container'>
                     <Button
-                        id='addOrder'
-                        className='greenButton h29'
-                        title='+ Заказ'
+                        id='newOrder'
+                        className='fw-bold'
+                        size='med'
+                        type='create'
+                        title='Создать'
                         onClick={newOrder}
                         invisible={!props.permissions.includes('create_orders')}
                     />
-                    <div className='customFilters ml15'>
-                        <Button
-                            className='customFilter'
-                            title='Фильтр'
-                            onClick={handleEditFilter}
-                            icon={icon_filter}
-                            iconClassName='icon-s2'
-                            iconColor='282e33'
-                        />
-                        {props.customFilters.map(filter => {
-                            return (
-                                <CustomFilter data={filter} key={filter.id}/>
-                            )
-                        })}
-                    </div>
+                    <Button
+                        size='med'
+                        type='tertiary'
+                        title='Фильтр'
+                        onClick={handleEditFilter}
+                        icon={ICON.FILTER}
+                    />
+
+                    { props.customFilters.map(filter => <CustomFilter key={filter.id} data={filter} />) }
+
                 </div>
-                <TableOrderFields/>
-            </div>
-            {props.statusSetCustomFilter ? <SetFilter/> : null}
+                <TableFields
+                    id='orders'
+                    className='ml10'
+                    list={props.order.table_headers}
+                    func={table_headers =>  props.changeOrderState({table_headers})}
+                />
         </div>
-    )
+        <SetFilter invisible={invisible}/>
+        </div>
+)
 }
 
 const mapStateToProps = state => ({
@@ -75,15 +80,15 @@ const mapStateToProps = state => ({
     permissions: state.data.user.role.permissions,
     statusOrderEditor: state.view.statusOrderEditor,
     user: state.data.user,
-    edit: state.order.edit,
+    order: state.order,
     schedule: state.branch.current_branch.schedule
 })
 
 const mapDispatchToProps = {
-    setVisibleFlag,
     changeOrderState,
     changeFilterState,
-    changeVisibleState
+    changeVisibleState,
+    selectedOrder
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomPanel)

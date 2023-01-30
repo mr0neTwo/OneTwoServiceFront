@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import {addWarehouseCategories, changeWarehouseForm} from '../../../Redux/actions/warehouseAction';
 import {addParts, changePartState, choosePartSelected} from '../../../Redux/actions/partAction'
 import {changeVisibleState, setVisibleFlag} from '../../../Redux/actions';
-import {part_table_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 
 import Button from '../../general/Button';
 import WarehouseCategoryEditor from './WarehouseCategoryEditor';
@@ -84,7 +84,7 @@ const WarehouseParts = props => {
                             id='part'
                             height='185px'
                             classNameMenu='listOption'
-                            list={part_table_headers}
+                            list={Table.Fields.Part}
                             checked_list={props.part.choosed_headers}
                             func={props.choosePartSelected}
                             field='choosed_headers'

@@ -1,86 +1,98 @@
-import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import {connect} from 'react-redux'
 
-import { showDate } from '../../../general/utils'
-import { icon_warning } from '../../../../data/icons'
+import {showDate} from '../../../general/utils'
+import {ICON} from '../../../../data/icons'
 import Icon from '../../../general/Icon'
+
 import {setPayment, setVisibleFlag} from '../../../../Redux/actions'
 import PaymentCard from '../../../Payments/PaymentCard'
+import CreatedAt from '../../../general/cell/CreateAt'
+import Money from '../../../general/cell/Money'
+import Balance from '../../../general/cell/Balance'
 
 const TableOrderPayments = (props) => {
 
-   return (
-      <div className = 'mt15'>
-         <table>
-            <thead>
-               <tr>
-                  <th className='w160'>Дата и время</th>
-                  <th>Описание</th>
-                  <th className='w91 tac'>Сумма</th>
-               </tr>
-            </thead>
-            <tbody>
-               {props.order.payments.filter(payment => !payment.deleted).map(payment => (
-                  <tr
-                     key={payment.id}
-                     className={payment.deleted ? 'rowDeleted redBorder' : null}
-                     onDoubleClick={() => {
-                         props.setPayment(payment)
-                         props.setVisibleFlag('statusPaymentsCard', true)
-                     }}
-                  >
-                     <td>
-                        <div>{payment.employee.name}</div>
-                        <div className='row'>
-                           <div className='cgr'>{showDate(payment.custom_created_at)}</div>
-                           {payment.created_at !== payment.custom_created_at ?
-                              <div title={`Платеж добавлен задним числом\n${showDate(payment.created_at)}` }>
-                              <Icon 
-                                 className='icon-s2 ml5'
-                                 icon={icon_warning} 
-                                 color='red' 
-                              /> 
-                           </div> : null}
-                        </div>
-                     </td>
-                     <td>{payment.description}</td>
-                     {payment.direction === 2 ?
-                     <td className='greenFont tac'>{payment.income}</td> :
-                     <td className='redFont tac'>{payment.outcome}</td>}
-                  </tr>
-                  
-               ))}
-                <tr className='ss'>
-                  <td></td>
-                  <td className='tae'>Итого платежей:</td>
-                  <td className='tae'>{props.order.payed} руб.</td>
-               </tr>
-               <tr className='ss'>
-                  <td></td>
-                  <td className='tae'>Заказ на сумму:</td>
-                  <td className='tae'>{props.order.price} руб.</td>
-               </tr>
-               <tr className='ss'>
-                  <td></td>
-                  <td className='tae'>
-                     {props.order.missed_payments > 0 ? 'Клиент должен нам:' : 'Мы должны клиенту'}
-                  </td>
-                  <td
-                      className='tae'
-                      style={{color: props.order.missed_payments > 0 ? '#5cb85c' : '#f74e4d'}}
-                  >
-                     {Math.abs(props.order.missed_payments)} руб.
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-        {props.statusPaymentsCard ? <PaymentCard/> : null}
-      </div>
-   )
+    const getColor = (amount) => {
+        if (amount > 0) return 'td_green'
+        else if (amount < 0) return 'td_red'
+        else return 'td_number'
+    }
+
+    if (!props.order.payments.length) {
+        return (
+            <div className='empty_table'>Нет платежей</div>
+        )
+    }
+
+    return (
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th className='th th_w180'>Дата и время</th>
+                    <th className='th'>Описание</th>
+                    <th className='th th_w70'>Сумма</th>
+                </tr>
+                </thead>
+                <tbody>
+                {props.order.payments.filter(payment => !payment.deleted).map(payment => (
+                    <tr
+                        key={payment.id}
+                        className={payment.deleted ? 'rowDeleted redBorder' : 'tr'}
+                        onDoubleClick={() => {
+                            props.setPayment(payment)
+                            props.setVisibleFlag('statusPaymentsCard', true)
+                        }}
+                    >
+                        <CreatedAt
+                            creator={payment.employee.name}
+                            date={payment.created_at}
+                            customDate={payment.custom_created_at}
+                        />
+                        <td className='td'>{payment.description}</td>
+                        <Money
+                            income={payment.income}
+                            outcome={payment.outcome}
+                        />
+                    </tr>
+
+                ))}
+                <tr className='tr_no-underline'>
+                    <td/>
+                    <td className='td td_total'>Итого платежей:</td>
+                    <Balance
+                        balance={props.order.payed}
+                        isDifferentColors={true}
+                    />
+                </tr>
+                <tr className='tr_no-underline'>
+                    <td/>
+                    <td className='td td_total'>Заказ на сумму:</td>
+                    <Balance
+                        balance={props.order.price}
+                        isDifferentColors={true}
+                    />
+                </tr>
+                <tr className='tr_no-underline'>
+                    <td/>
+                    <td className='td td_total'>
+                        {props.order.missed_payments > 0 ? 'Клиент должен нам:' : 'Мы должны клиенту'}
+                    </td>
+                    <Balance
+                        balance={props.order.missed_payments}
+                        isDifferentColors={true}
+                    />
+                </tr>
+                </tbody>
+            </table>
+            {props.statusPaymentsCard ? <PaymentCard/> : null}
+        </div>
+    )
 }
 
 const mapStateToProps = state => ({
-   order: state.order,
+    order: state.order,
     statusPaymentsCard: state.view.statusPaymentsCard
 })
 
@@ -88,5 +100,5 @@ const mapDispatchToProps = {
     setPayment,
     setVisibleFlag
 }
-  
- export default connect(mapStateToProps, mapDispatchToProps)(TableOrderPayments)
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableOrderPayments)

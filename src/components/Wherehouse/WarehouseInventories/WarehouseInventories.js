@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 
 import {addInventory, changeInventoryState, selectedInventory} from '../../../Redux/actions/actionInventory'
-import {inventory_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 
 import Button from '../../general/Button'
 import ChooseDate from '../../general/calandar/ChooseDate'
@@ -47,7 +47,7 @@ const WarehouseInventories = props => {
                     id='inventoryFields'
                     height='185px'
                     classNameMenu='listOption'
-                    list={inventory_headers}
+                    list={Table.Fields.Inventory}
                     checked_list={props.inventory.table_headers}
                     func={props.selectedInventory}
                 />

@@ -5,7 +5,7 @@ import {
   changeMaindataForm,
   saveGenerallyInfo,
 } from '../../../../Redux/actions'
-import { icon_house } from '../../../../data/icons'
+import { ICON } from '../../../../data/icons'
 import LableInput from '../../../general/LableInput'
 import LableArea from '../../../general/LableArea'
 
@@ -14,7 +14,7 @@ const MainData = (props) => {
     <div className="settingSubpage">
       <div className="formRow">
         <svg className="icon-table" viewBox="0 0 32 32">
-          <path d={icon_house} />
+          <path d={ICON.HOUSE} />
         </svg>
         <h4>Реквизиты компании</h4>
       </div>

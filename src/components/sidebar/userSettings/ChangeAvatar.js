@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Compress from 'react-image-file-resizer'
 
 import {changeEmployeeState, saveAvatar} from '../../../Redux/actions/employeeAction'
+
 import Button from '../../general/Button'
 import RangeSlider from './RangeSlider'
 
@@ -62,6 +63,13 @@ const ChangeAvatar = (props) => {
         }
     }
 
+    const handleScale = (scale) => {
+        const positionX = avaPosition[0] * scale / 100
+        const positionY = avaPosition[1] * scale / 100
+        setAvaPosition([positionX, positionY])
+
+    }
+
     useEffect(() => {
         if (img.current && img.current.clientWidth) {
             setOriginalSize(img.current.clientWidth)
@@ -91,37 +99,44 @@ const ChangeAvatar = (props) => {
 
     return (
 
-        <div className={`${props.className} boxAvatar`}>
-            <div className='lableImput'>Изменить аватар</div>
-            <div>{`Size: ${img.current ? img.current.clientWidth: 0}x${img.current ? img.current.clientHeight: 0}`}</div>
-            <div className='borderMask'>
-                <div className='mask'
+        <div className={`${props.className} change-avatar`}>
+
+            <div>
+                <div className='label'>Изменить аватар</div>
+                <div className='cs'>{`Size: ${img.current ? img.current.clientWidth: 0}x${img.current ? img.current.clientHeight: 0}`}</div>
+            </div>
+
+            <div className='change-avatar__border'>
+                <div className='change-avatar__mask'
                      draggable={false}
                      onMouseDown={handleDragStart}
+
                 />
                 <img
                     style={{
                         left: avaPosition[0],
                         top: avaPosition[1],
                     }}
+                    onMouseDown={handleDragStart}
                     src={props.employee.img || `${process.env.REACT_APP_LOCAL_SOURCE}/${props.employee.avatar}`}
                     ref={img}
-                    className='editAvaImg'
+                    className='change-avatar__image'
+                    alt='image'
                 />
             </div>
 
             <RangeSlider
                 className='mt15'
-                onChange={value => props.changeEmployeeState({scale_img: value})}
+                onChange={scale =>  props.changeEmployeeState({scale_img: scale})}
                 value={props.employee.scale_img}
                 disabled={!props.employee.img }
             />
 
-            <div className='row mt15'>
+            <div className='two-buttons'>
 
-                <label className="labelAva"> Загрузить
+                <label className="bt bt_med bt_create"> Загрузить
                     <input
-                        className='addAva'
+                        className=''
                         type='file'
                         accept=".jpg,.jpeg"
                         onChange={fileHandler}
@@ -129,12 +144,14 @@ const ChangeAvatar = (props) => {
                     />
                 </label>
                 <Button
-                    className='greenButton bcr ml15'
+                    size='med'
+                    type='destructive'
                     title='Очистить'
                     onClick={clear}
                 />
                 <Button
-                    className='blueButton '
+                    size='med'
+                    type='primary'
                     title='Сохранить'
                     onClick={save}
                 />

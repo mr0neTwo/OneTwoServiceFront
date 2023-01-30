@@ -7,7 +7,7 @@ import {addWarehouseCategories} from '../../../Redux/actions/warehouseAction'
 import SelectFromList from '../../general/SelectFromList'
 import ChooseCategory from '../WarehouseParts/ChooseCategory'
 import TableFields from '../../general/TableFields'
-import {remain_headers} from '../../../data/tableHeaders'
+import {Table} from '../../../data/tableHeaders'
 import TableRemains from './TableRemains'
 import {checkObject} from '../../general/utils'
 import {addDiscountMargin} from '../../../Redux/actions/priceAction'
@@ -82,7 +82,7 @@ const WarehouseRemains = (props) => {
                     id='fremains'
                     classNameMenu='listOption'
                     height='200px'
-                    list={remain_headers.concat(tableMarginHeaders)}
+                    list={Table.Fields.Remain.concat(tableMarginHeaders)}
                     checked_list={props.remain.table_headers}
                     func={props.selectedRemain}
                 />
