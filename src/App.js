@@ -28,6 +28,7 @@ function App(props) {
     return (
         <div className='main-container'>
             {Object.values(props.user).length && props.login_status && props.csrfToken ? <Main/> : <Login/>}
+            <div id='rightModal'/>
         </div>
     )
 }

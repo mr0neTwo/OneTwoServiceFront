@@ -56,3 +56,11 @@ export const Payment = {
         }
     ]
 }
+
+export const Modal = {
+    Type: {
+        ORDER: 0,
+        PAYMENT: 1,
+        PART: 2
+    }
+}

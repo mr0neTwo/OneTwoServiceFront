@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import {addRemain, changeRemainState, selectedRemain} from '../../../Redux/actions/remainAction'
 import {addWarehouseCategories} from '../../../Redux/actions/warehouseAction'
@@ -7,12 +7,10 @@ import {addWarehouseCategories} from '../../../Redux/actions/warehouseAction'
 import SelectFromList from '../../general/SelectFromList'
 import ChooseCategory from '../WarehouseParts/ChooseCategory'
 import TableFields from '../../general/TableFields'
-import {Table} from '../../../data/tableHeaders'
 import TableRemains from './TableRemains'
 import {checkObject} from '../../general/utils'
 import {addDiscountMargin} from '../../../Redux/actions/priceAction'
 import Paginate from '../../general/Paginate'
-import Search from '../Search'
 
 
 const WarehouseRemains = (props) => {
@@ -22,7 +20,7 @@ const WarehouseRemains = (props) => {
     }, [props.warehouse.showDeleted])
 
     useEffect(() => {
-        if (checkObject(props.remain.filter_warehouse))  props.addRemain()
+        if (checkObject(props.remain.filter_warehouse)) props.addRemain()
     }, [
         props.remain.page,
         props.remain.filter_warehouse,
@@ -31,35 +29,43 @@ const WarehouseRemains = (props) => {
         props.remain.filter_title
     ])
 
+    useEffect(() => {
+        const tableMarginHeaders = props.discount_margin
+            .filter(margin => margin.margin_type === 2)
+            .filter(margin => !props.remain.table_headers.map(header => header.field).includes(`price_${margin.id}`))
+            .map((margin, idx) => {
+            return {
+                id: idx + 15,
+                title: margin.title,
+                field: `price_${margin.id}`,
+                visible: true,
+                width: 50,
+                order: idx + 15
+            }
+        })
 
-    const tableMarginHeaders = props.discount_margin.filter(margin => margin.margin_type === 2).map((margin, idx) => {
-        return  {
-            id: idx + 15,
-            margin_id: margin.id,
-            title: margin.title,
-            field: 'where_to_buy',
-            width: 50,
-            order: idx + 15
+        if (tableMarginHeaders.length) {
+            props.changeRemainState({table_headers: props.remain.table_headers.concat(tableMarginHeaders)})
         }
-    })
+
+    }, [])
+
 
     return (
-        <>
-            <div className='row jc-sb mt15'>
-                <div className='row al-itm-fe'>
+        <div className='box'>
+            <div className='row jc-sb'>
+                <div className='two-buttons'>
                     <SelectFromList
                         id='selWarRem'
                         title='Склад'
-                        className=''
+                        className='w220'
                         list={props.warehouse.warehouses}
                         setElement={warehouse => props.changeRemainState({filter_warehouse: warehouse})}
                         current_object={props.remain.filter_warehouse}
                         noChoosed='Выберете склад'
-                        width={'210px'}
                     />
                     <ChooseCategory
-                        className='ml10'
-                        width={'210px'}
+                        className='w220'
                         setCategory={category => props.changeRemainState({filter_category: category})}
                         current_category={props.remain.filter_category}
                         disabled={false}
@@ -67,40 +73,30 @@ const WarehouseRemains = (props) => {
                     <SelectFromList
                         id='selTypeOption'
                         title='Фильтр'
-                        className='ml10'
+                        className='w220'
                         list={props.remain.type_option}
                         setElement={warehouse => props.changeRemainState({filter_type: warehouse})}
                         current_object={props.remain.filter_type}
-                        width={'210px'}
                     />
-                    <Search
-                        className='ml15 pd2'
-                        func={search => props.changeRemainState({filter_title: search})}
-                    />
+
                 </div>
                 <TableFields
-                    id='fremains'
-                    classNameMenu='listOption'
-                    height='200px'
-                    list={Table.Fields.Remain.concat(tableMarginHeaders)}
-                    checked_list={props.remain.table_headers}
-                    func={props.selectedRemain}
+                    id='remains'
+                    list={props.remain.table_headers}
+                    func={table_headers => props.changeRemainState({table_headers})}
                 />
             </div>
 
-            {checkObject(props.remain.filter_warehouse) ? <TableRemains/> : <div className='makeChoice'>Выбирете склад</div>}
-            <div className='row'>
-                <Paginate
-                    allItems={props.remain.remains_count}
-                    onPage={50}
-                    count={2}
-                    count_start_end={2}
-                    navigation={true}
-                    func={page => props.changeRemainState({page})}
-                />
-                <div className='ml10'>Всего - {props.remain.remains_count}</div>
-            </div>
-        </>
+            <TableRemains/>
+            <Paginate
+                allItems={props.remain.remains_count}
+                onPage={50}
+                count={2}
+                count_start_end={2}
+                navigation={true}
+                func={page => props.changeRemainState({page})}
+            />
+        </div>
     )
 }
 

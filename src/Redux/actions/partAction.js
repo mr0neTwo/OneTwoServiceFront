@@ -1,6 +1,8 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
 
+import {Modal} from '../../data/data'
+
 export function changePartState( data ) {
     return {
         type: 'CHANGE_PART_STATE',
@@ -99,7 +101,7 @@ export function getPart(part_id) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusPartEditor: true}
+                        data: {isRightModalOpen: true, modalType: Modal.Type.PART}
                     })
                 } else {
                     console.warn(data.message)

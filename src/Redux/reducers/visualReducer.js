@@ -120,7 +120,10 @@ const initialState = {
 
    errorSameMail: false,
    errorSameLogin: false,
-   statusRefreshPage: false
+   statusRefreshPage: false,
+
+   modalType: '',
+   isRightModalOpen: false
 }
 
 // todo: переписать ненужные функции

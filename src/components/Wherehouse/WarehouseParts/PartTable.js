@@ -2,8 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import PartName from '../WarehouseRemains/cell/PartName'
-import PartImag from '../WarehouseRemains/cell/PartImag'
-import PartDoc from '../WarehouseRemains/cell/PartDoc'
+import PartImag from '../../general/cell/Imag'
+import Doc from '../../general/cell/Doc'
 import {changePartState, getPart} from '../../../Redux/actions/partAction'
 import TableHeader from '../../general/TableHeader'
 
@@ -17,7 +17,7 @@ function PartTable(props) {
             case 1: return <PartName key={header.id} header={header} part={part}/>
             case 7: return <PartImag key={header.id} header={header} part={part}/>
             case 8: return <td key={header.id}>{part.warehouse_category.title}</td>
-            case 9: return <PartDoc key={header.id} header={header} part={part}/>
+            case 9: return <Doc key={header.id} header={header} part={part}/>
             default: return <td key={header.id}>{part[header.field]}</td>
         }
     }

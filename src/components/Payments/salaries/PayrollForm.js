@@ -8,6 +8,7 @@ import ChooseOfList from '../../general/ChooseOfList'
 import LableArea from '../../general/LableArea'
 import LableInput from '../../general/LableInput'
 import ChooseDate from '../../general/calandar/ChooseDate'
+import SelectFromList from '../../general/SelectFromList'
 
 const PayrollForm = (props) => {
 
@@ -16,10 +17,9 @@ const PayrollForm = (props) => {
     const cashboxes = props.cashboxes.filter(cashbox => cashbox.type === props.payroll.payment_cashbox_type)
 
     return (
-        <div className=''>
-            <div className='row al-itm-fe'>
+        <div className='box__forms w400'>
+            <div className='two-buttons'>
                 <ChooseButton
-                    className='mt15 mr-rg-20'
                     title='Дата и время'
                     name={['Текущее', 'Заданное']}
                     func1={() => {
@@ -31,90 +31,79 @@ const PayrollForm = (props) => {
                         props.changePayrollState({custom_created_at: parseInt(new Date() / 1000)})
                     }}
                     checked={true}
-                    // disabled={!props.permissions.includes('backdating')}
                 />
                 <ChooseDate
-                    className='h31'
-                    width='250px'
+                    title='Выбрать дату'
                     func={date => props.changePayrollState({custom_created_at: parseInt(date / 1000)})}
                     current_date={props.payroll.custom_created_at * 1000}
                     invisible={!chooseData}
                 />
             </div>
             <LableInput
-                className='mt15'
-                width='70px'
+                className='w130'
                 title='Сумма'
                 onChange={event => props.changePayrollState({[props.payroll.direction === 2 ? 'income' : 'outcome']: parseFloat(event.target.value.replace(/[^0-9.]/g, ''))})}
                 value={props.payroll.outcome ? props.payroll.outcome : props.payroll.income}
                 unit='руб.'
                 checkedFlag='inputPayrollSumChecked'
-                checked={props.view.inputPayrollSumChecked}
                 disabled={props.payroll.deleted}
                 redStar={true}
             />
-            <ChooseOfList
-                id='employeePayroll'
+            <SelectFromList
                 title='Сотрудник'
-                className='mt15'
+                className='w220'
                 list={props.employees}
-                setElement={id => props.changePayrollState({employee_id: id})}
-                current_id={props.payroll.employee_id}
-                width={'250px'}
-                employee={true}
+                setElement={employee => props.changePayrollState({employee})}
+                current_object={props.payroll.employee}
                 checkedFlag='inputPayrollEmployeeChecked'
-                checked={props.view.inputPayrollEmployeeChecked}
+                noChoosed='Выберете сотрудника'
                 disabled={props.payroll.deleted}
             />
-            <LableArea
-                className='mt15'
-                title='Коментарий'
-                onChange={event => props.changePayrollState({description: event.target.value})}
-                value={props.payroll.description}
-                checkedFlag='inputPayrollDescChecked'
-                checked={props.view.inputPayrollDescChecked}
-                redStar={true}
-                disabled={props.payroll.deleted}
-            />
+
+
             {props.payroll.relation_type === 12 ?
-                <div>
-                    <div className='orderFormTitle mt15'>Данные платежа</div>
-                    <div className='row mt15 al-itm-fs'>
+                <div className='box__forms'>
+                    <h5>Данные платежа</h5>
+                    <div className='two-buttons'>
                         <ChooseButton
-                            className=''
                             title='Форма оплаты'
                             name={['Нал.', 'Безнал.']}
                             func1={() => {props.changePayrollState({payment_cashbox_type: 0})}}
                             func2={() => {props.changePayrollState({payment_cashbox_type: 1})}}
                             checked={!props.payroll.payment_cashbox_type}
                         />
-                        <ChooseOfList
-                            id={20}
+                        <SelectFromList
                             title='Касса'
-                            className='ml10 h52'
+                            className='w220'
                             list={cashboxes}
-                            setElement={cashbox_id => props.changePayrollState({payment_cashbox_id : cashbox_id})}
-                            current_id={props.payroll.payment_cashbox_id }
-                            width={'250px'}
+                            setElement={cashbox => props.changePayrollState({payment_cashbox : cashbox})}
+                            current_object={props.payroll.payment_cashbox}
                             checkedFlag='inputPaymentCashboxChecked'
-                            checked={props.view.inputPaymentCashboxChecked}
+                            noChoosed='Выберете кассу'
                             disabled={props.payroll.deleted}
                         />
                     </div>
-                    <ChooseOfList
-                        id={41}
+                    <SelectFromList
                         title='Статья'
-                        className='mt15 h52'
+                        className='w220'
                         list={props.item_payments.filter(item => item.direction === 1)}
                         setElement={category => props.changePayrollState({payment_cashflow_category: category})}
-                        current_id={props.payroll.payment_cashflow_category}
-                        width={'250px'}
+                        current_object={props.payroll.payment_cashflow_category}
                         checkedFlag='inputPaymentCashflowChecked'
-                        checked={props.view.inputPaymentCashflowChecked}
+                        noChoosed='Выберете статью'
                         disabled={props.payroll.deleted}
                     />
                 </div>
-                : null}
+                : null
+            }
+            <LableArea
+                title='Коментарий'
+                onChange={event => props.changePayrollState({description: event.target.value})}
+                value={props.payroll.description}
+                checkedFlag='inputPayrollDescChecked'
+                redStar={true}
+                disabled={props.payroll.deleted}
+            />
         </div>
     )
 }

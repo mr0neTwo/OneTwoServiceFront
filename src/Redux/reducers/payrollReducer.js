@@ -16,10 +16,10 @@ const initialState = {
    custom_created_at: null,      // Дата установленая пользователем
    relation_type: 0,             // Тип начисления
    relation_id: 0,               // id связанного события
-   employee_id: 0,               // Сотрудник
+   employee: {},                 // Сотрудник
    order_id: null,               // Заказ
 
-   setted_employee: 0,           // Выбранный сотрудник
+   setted_employee: {},          // Выбранный сотрудник
    showDeleted: false,           // Показать удаленные
 
    filter_created_at: [
@@ -27,8 +27,8 @@ const initialState = {
       parseInt(now.setHours(23, 59, 59, 999) / 1000)
    ],
    payment_cashbox_type: 0,      // Тип платежа (для создания платежа при выплате ЗП)
-   payment_cashbox_id: 0,        // id кассы (для создания платежа при выплате ЗП)
-   payment_cashflow_category: 0, // категория расходов (для создания платежа при выплате ЗП)
+   payment_cashbox: {},          // кассa (для создания платежа при выплате ЗП)
+   payment_cashflow_category: {},// категория расходов (для создания платежа при выплате ЗП)
 
    month_balance: 0
 }
@@ -54,7 +54,7 @@ export const payrollReducer = (state = initialState, action) => {
             custom_created_at: action.payroll.custom_created_at, 
             relation_type: action.payroll.relation_type, 
             relation_id: action.payroll.relation_id,  
-            employee_id: action.payroll.employee_id,
+            employee: action.payroll.employee,
             order_id: action.payroll.order_id
          }
       }
@@ -73,12 +73,12 @@ export const payrollReducer = (state = initialState, action) => {
             custom_created_at: null,
             relation_type: 0,       
             relation_id: 0,         
-            employee_id: 0,         
+            employee: {},
             order_id: null,
 
             payment_cashbox_type: 0,
-            payment_cashbox_id: 0,
-            payment_cashflow_category: 0
+            payment_cashbox_id: {},
+            payment_cashflow_category: {}
          }
       }
 

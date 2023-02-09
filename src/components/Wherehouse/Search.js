@@ -20,14 +20,13 @@ const Search = (props) => {
     if (props.invisible) return <div/>
 
     return (
-        <div className={`boxSearch w250 ${props.className}`}>
+        <div className='input-container w200'>
             <Icon
-                className='icon-s2 pd5'
+                className='icon'
                 icon={ICON.SEARCH}
-                color='grey'
+                color='var(--secondary)'
             />
             <input
-                className='searchInput '
                 onChange={handleChange}
                 value={value}
                 onKeyPress={handlePressKey}

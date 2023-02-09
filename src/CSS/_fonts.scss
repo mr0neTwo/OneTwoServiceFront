@@ -11,21 +11,21 @@
   font-style: normal;
 }
 
-@mixin font-regular($weight: 400) {
+@mixin font-regular($weight: $weight-default) {
   @extend %font;
   font-weight: $weight;
   font-size: 13px;
   line-height: 16px;
   letter-spacing: 0.05px;
 }
-@mixin font-small($weight: 400) {
+@mixin font-small($weight: $weight-default) {
   @extend %font;
   font-weight: $weight;
   font-size: 11px;
   line-height: 13px;
   letter-spacing: 0.05px;
 }
-@mixin font-large($weight: 400) {
+@mixin font-large($weight: $weight-default) {
   @extend %font;
   font-weight: $weight;
   font-size: 15px;
