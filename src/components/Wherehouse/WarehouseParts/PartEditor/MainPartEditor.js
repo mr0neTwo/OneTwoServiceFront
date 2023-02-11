@@ -1,7 +1,10 @@
 import React from 'react'
+
 import EditPart from './EditPart'
 import EditPrices from './EditPrices'
 import Specifications from './Specifications'
+import EditResidueRules from "./EditResidueRules";
+import EditPartSalary from "./EditPartSalary";
 
 const MainPartEditor = () => {
 
@@ -10,8 +13,8 @@ const MainPartEditor = () => {
             <EditPart/>
             <Specifications/>
             <EditPrices/>
-            {/*<EditResidueRules/>*/}
-            {/*<EditPartSalary/>*/}
+            <EditResidueRules/>
+            <EditPartSalary/>
         </div>
     )
 }

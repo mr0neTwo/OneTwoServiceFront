@@ -724,6 +724,7 @@ h5 {
   fill: var(--orange);
   border: 1px solid var(--orange);
   border-radius: $borderRadius;
+  box-sizing: border-box;
 }
 
 
@@ -1314,6 +1315,14 @@ h5 {
   height: 0;
   width: 100%;
   border-bottom: 1px solid var(--secondary);
+}
+
+.remain {
+  padding: 10px;
+  border: 1px solid var(--main);
+  border-radius: $borderRadius;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 

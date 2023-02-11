@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import PropTypes from "prop-types"
+import {Payment} from "../../data/data";
 
 /**
  *
@@ -26,10 +27,10 @@ const ChooseButton = (props) => {
 
     const [stateButton, setStateButton] = useState(props.checked ? props.checked : false)
 
+    if (props.invisible) return null
 
-
-    return props.invisible ? (<div/>) : (
-        <div className={`tab-button ${props.className}`}>
+    return  (
+        <div className={`tab-button ${props.className || ''}`}>
             <div className='label'>{props.title}</div>
             <div className='tab-button__box'>
                 <div

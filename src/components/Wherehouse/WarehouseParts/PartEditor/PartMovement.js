@@ -7,6 +7,8 @@ import {getWriteOf} from '../../../../Redux/actions/writeOfAction'
 import {getRegistration} from '../../../../Redux/actions/registrationAction'
 import {getMovement} from '../../../../Redux/actions/warehouseMovementAction'
 import {getBack} from '../../../../Redux/actions/warehouseBackActions'
+import {Payment} from "../../../../data/data";
+import Data from "../../../general/cell/Data";
 
 
 const PartMovement = (props) => {
@@ -47,22 +49,21 @@ const PartMovement = (props) => {
     }
 
     return (
-        <div className=''>
+        <div className='modal__block-forms'>
             <MultyButton
-                className='mt15'
                 name={['Все', 'Приход', 'Расход']}
                 func1 ={() => setDirection(0)}
-                func2 ={() => setDirection(2)}
-                func3 ={() => setDirection(1)}
+                func2 ={() => setDirection(Payment.Direction.OUTCOME)}
+                func3 ={() => setDirection(Payment.Direction.INCOME)}
             />
 
-            <table className='mt15'>
+            <table>
                 <thead>
                     <tr>
-                        <th className='w150'>Документ</th>
-                        <th className='w300'>Описание</th>
-                        <th className='w70'>Приход</th>
-                        <th className='w70'>Расход</th>
+                        <th className='th th_w160'>Документ</th>
+                        <th className='th'>Описание</th>
+                        <th className='th th_w70'>Приход</th>
+                        <th className='th th_w70'>Расход</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,18 +74,18 @@ const PartMovement = (props) => {
                             <div>
                                 <span>{`${movement.relatedObject.title} №`}</span>
                                 <span
-                                    className='link'
+                                    className='cell_label'
                                     onClick={() => handleClick(movement)}
                                 >
                                     {movement.relatedObject.label}
                                 </span>
                             </div>
-                            <div className='orderDate'>{showDate(movement.created_at)}</div>
+                            <div className='cs'>{showDate(movement.created_at)}</div>
                         </td>
 
-                        <td className='wsn pd5'>{movement.description}</td>
-                        <td className='tac'>{movement.income || ''}</td>
-                        <td className='tac'>{movement.outcome || ''}</td>
+                        <Data data={movement.description}/>
+                        <td className='td td_green'>{movement.income || ''}</td>
+                        <td className='td td_red'>{movement.outcome || ''}</td>
                     </tr>
                 ))}
                 </tbody>

@@ -16,9 +16,8 @@ const PartRemains = (props) => {
     }, [show, props.part.remains])
 
     return (
-        <div className=''>
+        <div className='modal__block-forms'>
             <ChooseButton
-                className='mt15'
                 title= 'Подпись'
                 name={['В наличии', 'Все']}
                 func1 = {() => setShow(1)}

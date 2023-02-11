@@ -5,11 +5,7 @@ import {changePartState, resetPart, createPart, savePart, deletePart, getPart} f
 import {changeVisibleState} from '../../../../Redux/actions'
 
 import BottomButtons from '../../../general/BottomButtons'
-import EditPart from './EditPart'
 import Tabs from '../../../general/Tabs'
-import EditPrices from './EditPrices'
-import EditResidueRules from './EditResidueRules'
-import EditPartSalary from './EditPartSalary'
 import PartRemains from './PartRemains'
 import PartMovement from './PartMovement'
 import WarehouseRemains from './WarehouseRemains'

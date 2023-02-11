@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom'
 import React from 'react'
 import {connect} from 'react-redux'
 
@@ -18,14 +17,13 @@ const RightModal = (props) => {
 
     if (!props.view.isRightModalOpen) return null
 
-    return ReactDOM.createPortal(
+    return (
         <div className="modal">
             <div className='modal_right'>
                 <div>{getModal()}</div>
             </div>
 
-        </div>,
-        document.getElementById('rightModal'))
+        </div>)
 
 }
 

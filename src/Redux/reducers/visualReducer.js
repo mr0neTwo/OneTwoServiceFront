@@ -46,7 +46,6 @@ const initialState = {
    statusRegistrationEditor: false,
    statusRegistrationPartEditor: false,
    statusRemainEditor: false,
-   statusResidueRuleEditor: false,
    statusOrderNotFound: false,
    statusWriteOfEditor: false,
    statusPartEditor: false,
@@ -123,7 +122,9 @@ const initialState = {
    statusRefreshPage: false,
 
    modalType: '',
-   isRightModalOpen: false
+   modalCentralType: '',
+   isRightModalOpen: false,
+   isCentralModalOpen: false,
 }
 
 // todo: переписать ненужные функции
@@ -268,10 +269,6 @@ export const visualReducer = (state = initialState, action) => {
             checkedOrderSubtype: checked_list_subtype
          }
       }
-
-
-      
-
 
       default: return state
    }

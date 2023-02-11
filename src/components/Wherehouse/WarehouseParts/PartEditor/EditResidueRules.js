@@ -5,31 +5,30 @@ import {changeVisibleState} from '../../../../Redux/actions'
 
 import Button from '../../../general/Button'
 import TableResidueRules from './TableResidueRules'
-import ResidueRuleEditor from './ResidueRuleEditor'
+import {Modal} from "../../../../data/data";
 
 const EditResidueRules = (props) => {
     return (
-        <div className=''>
-            <h3>Контроль остатков</h3>
+        <div className='modal__block-forms'>
+            <h5>Контроль остатков</h5>
             <Button
-                className='greenButton mt15'
-                title='+ Правило'
-                onClick={() => props.changeVisibleState({statusResidueRuleEditor: true})}
+                id='ResidueRuleEditor'
+                size='med'
+                type='create'
+                title='Правило'
+                onClick={() => props.changeVisibleState({
+                    isCentralModalOpen: true,
+                    modalCentralType: Modal.Type.RESIDUE_RULE
+                })}
             />
-            {props.residue_rules.filter(rule => rule.min_residue || rule.necessary_amount).length ?
-                <TableResidueRules/>
-                :
-                <div className='tac pd10'>Пока не создано ни одного првила</div>
-            }
-            {props.statusResidueRuleEditor ? <ResidueRuleEditor/> : null}
-            <div className='sip_line mt5'/>
+            <TableResidueRules/>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
     residue_rules: state.part.residue_rules,
-    statusResidueRuleEditor: state.view.statusResidueRuleEditor
+    view: state.view
 })
 
 const mapDispatchToProps = {

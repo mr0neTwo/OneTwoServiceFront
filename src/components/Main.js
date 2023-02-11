@@ -34,6 +34,7 @@ import PaymentsEditor from './Payments/PaymentsEditor'
 import CashboxEditor from './Payments/cashboxes/CashboxEditor'
 import PaypolleEditor from './Payments/salaries/PaypolleEditor'
 import RightModal from './general/RightModal'
+import CentralModal from "./general/CentralModal";
 
 
 function Main(props) {
@@ -73,7 +74,7 @@ function Main(props) {
                 <Redirect from='/' to='/leans'/>
             </Switch>
             <RightModal/>
-
+            <CentralModal/>
             {/*// todo: сделать эту лапшу через react portal*/}
             {props.view.statusWriteOfEditor ? <WriteOfEditor/> : null}
             {props.view.statusRegistrationEditor ? <RegistrationEditor/> : null}
