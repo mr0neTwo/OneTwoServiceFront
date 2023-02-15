@@ -16,7 +16,6 @@ const initialState = {
    statusOrderEditor: false,
    statusClientEditor: false,
    statusAdCampaignClient: false,
-   checkedOrderClient: false,
    statusBranchEditor: false,
    statusChooseIcon: false,
    statusEquipmentEditor: false,
@@ -56,6 +55,7 @@ const initialState = {
    statusInventoryEditorPreview: false,
    statusReqSparePartEditor: false,
 
+   checkedOrderClient: true,
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
    inputClientDiscServChecked: true,
