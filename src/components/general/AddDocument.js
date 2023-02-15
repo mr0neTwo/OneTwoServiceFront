@@ -17,44 +17,36 @@ const AddDocument = (props) => {
 
     return (
 
-        <div className={props.className}>
-            <div className='lableImput'>{props.title}</div>
+        <div className={`add-doc ${props.className || ''}`}>
+            {props.value ?
+                <div className='nowrap w130'>{fileName}</div>
+                : (props.url ?
+                    <a
+                        className='nowrap w130'
+                        href={`${process.env.PUBLIC_URL}/${props.url}`}
+                    >
+                        Datasheet.pdf
+                    </a>
+                    : null)
+            }
+            <label className="bt bt_med bt_primary">
 
-            <div className='row'>
-                {props.value ?
-                    <div className='noWr w150'>{fileName}</div>
-                    : (props.url ?
-                        <a
-                            className='noWr w150'
-                            href={`${process.env.PUBLIC_URL}/${props.url}`}
-                            target='_blank'
-                        >
-                            Datasheet.pdf
-                        </a>
-                        : null)
-                }
-                    <label className="label">
+                <div className=''>
+                    {props.value || props.url ? 'Изменить файл' : 'Добавить файл'}
+                </div>
 
-                        {props.value || props.url ?
-                            <div className='whiteBlueBotton'>Изменить файл</div>
-                            :
-                            <div className='whiteBlueBotton'>Добавить файл</div>
-                        }
+                <input
+                    type='file'
+                    accept='application/pdf'
+                    onChange={fileHandler}
+                    disabled={props.disabled}
+                />
+            </label>
 
-                        <input
-                            className='addDoc'
-                            type='file'
-                            accept='application/pdf'
-                            onChange={fileHandler}
-                            disabled={props.disabled}
-                        />
-                    </label>
 
-            </div>
         </div>
     )
 }
-
 
 
 export default AddDocument

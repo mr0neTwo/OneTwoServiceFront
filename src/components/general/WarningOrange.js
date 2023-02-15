@@ -7,7 +7,7 @@ const WarningOrange = (props) => {
 
    return (
       <div
-          style={{width: props.width}}
+          style={{width: props.width || '100%'}}
           className='warning'
       >
          <div>

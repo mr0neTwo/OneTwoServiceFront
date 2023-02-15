@@ -22,7 +22,6 @@ import OrderEditor from './orders/newOrder/OrderEditor'
 import UserSetting from './sidebar/userSettings/UserSetting'
 import Alerts from './Alerts/Alerts'
 import Warehouse from './Wherehouse/Wherehouse'
-import PartEditor from './Wherehouse/WarehouseParts/PartEditor/PartEditor'
 import WriteOfEditor from './Wherehouse/WarehouseWriteOf/WriteOfEditor'
 import RegistrationEditor from './Wherehouse/WarehouseRegistration/RegistrationEditor'
 import ClientEditor from './Clients/ClientEditor/ClientEditor'
@@ -32,23 +31,11 @@ import InventoryEditorPreview from './Wherehouse/WarehouseInventories/InventoryE
 import InventoryEditor from './Wherehouse/WarehouseInventories/InventoryEditor'
 import RequestSparePartEditor from './Wherehouse/RequestSpareParts/RequestSparePartEditor'
 import PaymentsEditor from './Payments/PaymentsEditor'
-import StikerToPrint from './orders/newOrder/orderHisroy/StikerToPrint'
 import CashboxEditor from './Payments/cashboxes/CashboxEditor'
+import PaypolleEditor from './Payments/salaries/PaypolleEditor'
+import RightModal from './general/RightModal'
+import CentralModal from "./general/CentralModal";
 
-// const dictionary = {
-//     'order': OrderModal
-// }
-
-// const Modal = ({typeOfModal}) => {
-//     const isOrder = typeOfModal === 'order'
-//     return dictionary[typeOfModal](isOrder ? 'push' : '') || null
-//     // switch (typeOfModal) {
-//     //     case 'order':
-//     //         return <OrderModal></OrderModal>
-//     //     default:
-//     //         return <></>
-//     // }
-// }
 
 function Main(props) {
 
@@ -86,13 +73,12 @@ function Main(props) {
 
                 <Redirect from='/' to='/leans'/>
             </Switch>
-            {/*{props.view.isOpenModal ? <Modal type={props.view.typeOfModal} /> :  <></> }*/}
-
+            <RightModal/>
+            <CentralModal/>
             {/*// todo: сделать эту лапшу через react portal*/}
             {props.view.statusWriteOfEditor ? <WriteOfEditor/> : null}
             {props.view.statusRegistrationEditor ? <RegistrationEditor/> : null}
             {props.view.statusClientEditor ? <ClientEditor/> : null}
-            {props.view.statusPartEditor ? <PartEditor/> : null}
             {props.view.statusOrderEditor ? <OrderEditor/> : null}
             {props.view.statusMovementEditor ? <WarehouseMovementEditor/> : null}
             {props.view.statusBackEditor ? <WarehouseBackEditor/> : null}
@@ -101,6 +87,7 @@ function Main(props) {
             {props.view.statusReqSparePartEditor ? <RequestSparePartEditor/> : null}
             {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
             {props.view.statusCashboxEditor ? <CashboxEditor/> : null}
+            {props.view.statusPayrollEditor ? <PaypolleEditor/> : null}
         </div>
     )
 }

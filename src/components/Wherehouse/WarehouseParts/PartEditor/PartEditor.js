@@ -5,35 +5,28 @@ import {changePartState, resetPart, createPart, savePart, deletePart, getPart} f
 import {changeVisibleState} from '../../../../Redux/actions'
 
 import BottomButtons from '../../../general/BottomButtons'
-import EditPart from './EditPart'
 import Tabs from '../../../general/Tabs'
-import EditPrices from './EditPrices'
-import EditResidueRules from './EditResidueRules'
-import EditPartSalary from './EditPartSalary'
 import PartRemains from './PartRemains'
 import PartMovement from './PartMovement'
 import WarehouseRemains from './WarehouseRemains'
+import MainPartEditor from './MainPartEditor'
 
 
 const PartEditor = props => {
 
+    const componentId = 'PartEditor'
+
     const handleClose = () => {
         props.changeVisibleState({
-            statusPartEditor: false,
+            isRightModalOpen: false,
+            modalType: '',
             inputWPartTitleChecked: true
         })
         props.resetPart()
     }
 
     const clickHandel = event => {
-        if (
-            !event.composedPath().map((el) => el.id).includes('wpartEditorWindow') &&
-            !event.composedPath().map((el) => el.id).includes('writeOfEditor') &&
-            !event.composedPath().map((el) => el.id).includes('registrationEditor') &&
-            !event.composedPath().map((el) => el.id).includes('clientEditor') &&
-            !event.composedPath().map((el) => el.id).includes('statusBackEditor') &&
-            !event.composedPath().map((el) => el.id).includes('btaddWP')
-        ) {
+        if ( !event.composedPath().map((el) => el.id).some(element_id => element_id?.includes('Editor'))) {
             handleClose()
         }
     }
@@ -63,8 +56,8 @@ const PartEditor = props => {
         }
     }
 
-    const can_delete = props.permissions.includes('delete_parts')
-    const can_recover = props.permissions.includes('recover_parts')
+    const canDelete = props.permissions.includes('delete_parts')
+    const canRecover = props.permissions.includes('recover_parts')
 
     const list = useMemo(() => {
         let current_list = ['Общие', 'История']
@@ -79,7 +72,10 @@ const PartEditor = props => {
     }, [props.permissions])
 
     const tabs = useMemo(() => {
-        let current_tabs = [(<div><EditPart/><EditPrices/><EditResidueRules/><EditPartSalary/></div>), (<PartMovement/>)]
+        let current_tabs = [
+            (<MainPartEditor/>),
+            (<PartMovement/>)
+        ]
         if (props.permissions.includes('see_registrations')) {
             current_tabs.push((<PartRemains/>))
         }
@@ -90,14 +86,13 @@ const PartEditor = props => {
     }, [props.permissions])
 
     return (
-        <div className={`rightBlock ${props.view.statusReqSparePartEditor ? 'z99999' : 'z99'}`}>
-            <div className='rightBlockWindow' id='wpartEditorWindow'>
-                <div className='createNewTitle'>{props.part.edit ? props.part.title : 'Новый товар'}</div>
+            <div className='modal__box-right' id={componentId}>
+                <h4>{props.part.edit ? props.part.title : 'Новый товар'}</h4>
 
-                <div className='contentEditor w600'>
+                <div className='modal__body-right'>
 
                     {!props.part.edit ? tabs[0] :
-                        <div>
+                        <>
                             <Tabs
                                 list={list}
                                 tab={props.part.tabs}
@@ -105,7 +100,7 @@ const PartEditor = props => {
                             />
 
                             {tabs[props.part.tabs]}
-                        </div>
+                        </>
                     }
                 </div>
 
@@ -114,12 +109,11 @@ const PartEditor = props => {
                     deleted={props.part.deleted}
                     create={handleCreate}
                     save={handleSave}
-                    delete={can_delete ? () => props.deletePart(true) : null}
-                    recover={can_recover ? () => props.deletePart(false) : null}
+                    delete={canDelete ? () => props.deletePart(true) : null}
+                    recover={canRecover ? () => props.deletePart(false) : null}
                     close={handleClose}
                 />
             </div>
-        </div>
     )
 }
 

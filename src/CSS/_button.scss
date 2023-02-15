@@ -20,6 +20,7 @@
   align-items: center;
   white-space: nowrap;
   text-overflow: ellipsis;
+  flex-shrink: 0;
   color: var(--background);
   fill: var(--background);
 
@@ -37,7 +38,7 @@
   }
 
   &_med {
-    height: 30px;
+    height: 30px !important;
     padding: 0 10px;
     gap: 8px;
 
@@ -144,7 +145,6 @@
     color: var(--action-accent);
     background-color: var(--background);
     border: 1px solid var(--action-accent);
-    border-radius: 0 $borderRadius $borderRadius 0;
     cursor: pointer;
     transition: background-color .2s, color .2s;
 
@@ -155,6 +155,10 @@
     }
     &_left {
       border-radius: $borderRadius 0 0 $borderRadius;
+    }
+    &_center {
+      border-left:none;
+      border-right:none;
     }
     &_right {
       border-radius: 0 $borderRadius $borderRadius 0;

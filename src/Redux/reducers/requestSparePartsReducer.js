@@ -50,7 +50,6 @@ export const requestSparePartsReducer = (state = initialState, action) => {
             Object.keys(action.data).forEach(field => {
                 if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
             })
-            console.log(action.data)
             return {...Object.assign(state, action.data)}
         }
 

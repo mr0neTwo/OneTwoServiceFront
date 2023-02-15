@@ -50,7 +50,7 @@ const MoneyMovement = (props) => {
                     label='Показать удаленные'
                     type='slide-three'
                     onChange={event => setShowDeleted(event.target.checked)}
-                    value={showDeleted}
+                    checked={showDeleted}
                     invisible={!props.permissions.includes('see_delete_payments')}
                 />
             </div>

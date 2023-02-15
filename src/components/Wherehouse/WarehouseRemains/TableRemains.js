@@ -1,34 +1,40 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {useHistory} from 'react-router-dom'
 
 import {changeRemainState} from '../../../Redux/actions/remainAction'
 
 import TableHeader from '../../general/TableHeader'
-import PartName from './cell/PartName'
-import PartPrice from './cell/PartPrice'
-import PartImag from './cell/PartImag'
-import PartDoc from './cell/PartDoc'
-import PartCount from './cell/PartCount'
+import Imag from '../../general/cell/Imag'
+import Doc from '../../general/cell/Doc'
+import PartCount from '../../general/cell/PartCount'
 import {getPart} from '../../../Redux/actions/partAction'
+import {checkObject} from '../../general/utils'
+import Data from '../../general/cell/Data'
+import Label from '../../general/cell/Label'
 
 const TableRemains = (props) => {
 
     const chooseCell = (header, remain) => {
 
-        if (header.id > 14) return <PartPrice key={header.id}  header={header} remain={remain}/>
+        if (!header.visible) return null
+
+        if (header.id > 14) return <Data key={header.id} data={remain[header.field] || 0}/>
 
         switch (header.id) {
-            case 1: return <PartName key={header.id} header={header} remain={remain}/>
-            case 7: return <PartImag key={header.id} header={header} remain={remain}/>
-            case 8: return <PartDoc key={header.id} header={header} remain={remain}/>
-            case 9: return <PartCount key={header.id} header={header} remain={remain}/>
-            default: return <td key={header.id}>{remain[header.field]}</td>
+            case 1: return <Label key={header.id} label={remain.title} func={() => props.getPart(remain.part_id)}/>
+            case 7: return <Imag key={header.id} image_url={remain.image_url} title={remain.title} />
+            case 8: return <Doc key={header.id} doc_url={props.doc_url}/>
+            case 9: return <PartCount key={header.id} min_residue={remain.min_residue} count={remain.count}/>
+            default: return <Data key={header.id} data={remain[header.field]} />
         }
     }
 
+    if (!checkObject(props.remain.filter_warehouse)) return <div className='empty_table'>Выберите склад</div>
+
+    if (!props.remain.warehouse_remains.length) return <div className='empty_table'>Запчастей не найдено</div>
+
     return (
-        <div className="tableOrdersBox mt15">
+        <div className="table-orders-container">
             <table id="tableWarehouse">
                 <thead className="tableThead">
                     <tr>

@@ -6,10 +6,18 @@ import Property from '../Property'
 
 const Specifications = (props) => {
     return (
-        <div className = 'mt15'>
-            <div className='lableImput'>Характеристики</div>
-            <div className='mwmc'>
+        <div className = 'modal__block-forms'>
+
+            <div className='w420'>
+                <h5>Характеристики</h5>
                 <table>
+                    <thead>
+                        <tr>
+                            <th className='w200'/>
+                            <th className='w200'/>
+                            <th className='w20'/>
+                        </tr>
+                    </thead>
                     <tbody>
                         {props.part.specifications.map((property, idx) => (
                             <Property
@@ -23,7 +31,8 @@ const Specifications = (props) => {
                 </table>
             </div>
             <Button
-                className='whiteBlueBotton'
+                size='med'
+                type='tertiary'
                 title='+ Свойство'
                 onClick={() => props.addPartProperty()}
                 disabled={props.part.deleted}

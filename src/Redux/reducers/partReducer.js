@@ -37,7 +37,6 @@ const initialState = {
     min_residue: 0,
     necessary_amount: 0,
 
-    visible_option: false,
     warranty_value: 30*24*60*60,
 
     page: 0,
@@ -81,8 +80,7 @@ export const partReducer = (state = initialState, action) => {
                 residue_rules: action.part.residue_rules,
                 remains: action.part.remains,
                 part_movements: action.part.part_movements,
-                warehouse_remains: action.part.warehouse_remains,
-                visible_option: !!(action.part.earnings_percent || action.part.earnings_sum)
+                warehouse_remains: action.part.warehouse_remains
             }
         }
 
@@ -110,7 +108,6 @@ export const partReducer = (state = initialState, action) => {
                 remains: [],
                 part_movements: [],
                 warehouse_remains: [],
-                visible_option: false,
                 warranty_value: 30*24*60*60,
             }
         }

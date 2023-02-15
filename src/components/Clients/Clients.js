@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import TableClients from './TableClients'
+// import TableClients from './TableClients'
 
 const Clients = (props) => {
     return (
@@ -9,7 +9,7 @@ const Clients = (props) => {
             <div className='header'>
                 <span className='headerTitle'>Клиенты</span>
             </div>
-            <TableClients/>
+            {/*<TableClients/>*/}
         </div>
     )
 }

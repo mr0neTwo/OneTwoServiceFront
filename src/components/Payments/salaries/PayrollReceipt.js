@@ -1,36 +1,39 @@
-
-
 import React from 'react'
 import { connect } from 'react-redux'
 
 import { showDate, showName } from '../../general/utils'
+import Money from '../../general/cell/Money'
+import Balance from '../../general/cell/Balance'
 
 const PayrollReceipt = (props) => {
    return (
-      <div className = ''>
-        <div className='mt15'>
-           <span className='txtb'>Дата:</span>
-           <span className='ml5'>{showDate(props.payroll.created_at)}</span>
+      <div className='box__forms'>
+        <div>
+           <span>Дата: </span>
+           <span>{showDate(props.payroll.created_at)}</span>
         </div>
-        <div className='mt15'>
-           <span className='txtb'>Сумма:</span>
-           <span className='ml5'>{props.payroll.direction == 2 ? props.payroll.income : props.payroll.outcome} руб.</span>
+        <div>
+           <span>Сумма: </span>
+           <Balance
+               balance={props.payroll.income || props.payroll.outcome}
+               isDifferentColors={true}
+               inline={true}
+           />
         </div>
-        <div className='mt15'>
-           <span className='txtb'>Сотрудник:</span>
-           <span className='ml5'>{showName(props.employees.find(employee => employee.id === props.payroll.employee_id))}</span>
+        <div>
+           <span>Сотрудник: </span>
+           <span>{props.payroll.employee.name}</span>
         </div>
-        <div className='mt15'>
-           <span className='txtb'>Комментарий:</span>
-           <span className='ml5'>{props.payroll.description}</span>
+        <div>
+           <span>Комментарий: </span>
+           <span>{props.payroll.description}</span>
         </div>
       </div>
    )
 }
 
 const mapStateToProps = state => ({
-   payroll: state.payroll,
-   employees: state.employee.employees
+   payroll: state.payroll
 })
 
 const mapDispatchToProps = {

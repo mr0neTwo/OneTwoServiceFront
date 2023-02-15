@@ -17,25 +17,21 @@ const Salaries = (props) => {
    }, [])
 
    return (
-      <div className = 'contentTab'>
-         <p>Поместим график сюда</p>
+      <div className='box'>
 
-         {props.permissions.includes('see_all_payrolls') ? 
-         <div className='row al-itm-fs'>
-            <div className='w250'>
-               <TableSalaryEmployees/>
-            </div>
-            <div className='ml30'>
-               {props.payroll.setted_employee ? <EmployeeSalary/> : null}
-            </div>         
-         </div> : (props.payroll.setted_employee ? <EmployeeSalary/> : null) }
+         {/*<p>Поместим график сюда</p>*/}
+
+         <div className='box__payroll'>
+            <TableSalaryEmployees/>
+            <EmployeeSalary/>
+         </div>
+
       </div>
    )
 }
 
 const mapStateToProps = state => ({
    payroll: state.payroll,
-   permissions: state.data.user.role.permissions,
    user_id: state.data.user.id
 })
 

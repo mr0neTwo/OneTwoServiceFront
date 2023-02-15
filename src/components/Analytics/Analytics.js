@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const Analytics = (props) => {
+
    return (
       <div className='temp-page'>
          <div className='temp-page__body'>
