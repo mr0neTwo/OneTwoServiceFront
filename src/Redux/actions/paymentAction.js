@@ -37,17 +37,13 @@ export function createPayment(context) {
     const state = store.getState()
 
     const now = Math.round(Date.now() / 1000)
-    const cashbox1 = state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox.id).title
-    const cashbox2 = state.payment.target_cashbox.id ? state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.target_cashbox.id).title : ''
 
-    const disc = `Перемещение денег из кассы "${cashbox1}" в кассу "${cashbox2}".`
+    const desc = `Перемещение денег из кассы "${state.payment.cashbox.title}" в кассу "${state.payment.target_cashbox.title}".`
 
     let request_body = {
-        // cashflow_category: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category).title : null,
-        // cashflow_category_id: state.payment.direction ? state.data.item_payments.find(item => item.id === state.payment.cashflow_category.id).id : null,
         cashflow_category_id: state.payment.direction ? state.payment.cashflow_category.id : null,
-        description: state.payment.direction ? state.payment.description : disc + state.payment.description,
-        deposit: state.cashbox.cashboxes.find(cashbox => cashbox.id === state.payment.cashbox.id).balance + state.payment.income - state.payment.outcome,
+        description: state.payment.direction ? state.payment.description : desc + state.payment.description,
+        deposit: state.payment.cashbox.balance + state.payment.income - state.payment.outcome,
         income: parseFloat(state.payment.income.toString().replace(',', '.')) || 0,
         outcome: -parseFloat(state.payment.outcome.toString().replace(',', '.')) || 0,
         direction: state.payment.direction,
@@ -58,9 +54,9 @@ export function createPayment(context) {
         custom_created_at: state.payment.custom_created_at || now,
         tags: state.payment.tags,
         relation_type: state.payment.relation_type,
-        cashbox_id: state.payment.cashbox.id || null,
-        client_id: state.payment.client.id || null,
-        employee_id: state.payment.employee.id || null,
+        cashbox_id: state.payment.cashbox?.id,
+        client_id: state.payment.client?.id,
+        employee_id: state.payment.employee?.id,
         order_id: state.payment.order_id || null,
         target_cashbox_id: state.payment.direction ? null : state.payment.target_cashbox.id
     }

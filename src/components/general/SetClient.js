@@ -76,11 +76,11 @@ const SetClient = (props) => {
         if (props.className) className += ` ${props.className}`
         if (listVisible) className += ' select_active'
         if (props.disabled) className += ' select_disabled'
-        if (!props.view[props.checkedFlag]) className += ' select_error'
+        if (props.checkedFlag && !props.view[props.checkedFlag]) className += ' select_error'
         return className
     }, [props.className, listVisible, props.disabled, props.view])
 
-    if (props.invisible) return <div/>
+    if (props.invisible) return null
 
     if (checkObject(props.client)) {
         return (

@@ -37,7 +37,8 @@ const PaymentsEditor = (props) => {
     const clickHandel = (event) => {
 
         if (!event.composedPath().map((el) => el.id).includes(id) &&
-            !event.composedPath().map((el) => el.id).includes('OrderEditor')
+            !event.composedPath().map((el) => el.id).includes('OrderEditor') &&
+            !event.composedPath().map((el) => el.id).some(element_id => element_id?.includes('status'))
         ) {
             handleClose()
         }
@@ -56,30 +57,33 @@ const PaymentsEditor = (props) => {
 
 
     const handleCreate = () => {
+        const isSum = Boolean(props.payment.income || props.payment.outcome)
+        const isDescription = Boolean(props.payment.description)
+        const isCashflowCatecory = Boolean(checkObject(props.payment.cashflow_category) || !props.payment.direction)
+        const isEmployee = Boolean(checkObject(props.payment.employee))
+
+        // Проверим выбрана ли касса при direction (приход или расход) или выбрана ли целевая касса при перемещение дененг в дргую касса
+        const isCheckbox = Boolean((checkObject(props.payment.cashbox) && props.payment.direction) ||
+            (checkObject(props.payment.target_cashbox) && !props.payment.direction))
+
         if (
-            // Проверим внесена ли сумма
-            (props.payment.income || props.payment.outcome) &&
-            // Проверим выбрана ли касса при direction (приход или расход) или выбрана ли целевая касса при перемещение дененг в дргую касса
-            ( (checkObject(props.payment.cashbox) && props.payment.direction) ||
-                    (checkObject(props.payment.target_cashbox) && !props.payment.direction)) &&
-            // Преовеним введен ли коментарий
-            props.payment.description &&
-            // Проверим выбрана ли категория если это приход или расход
-            (checkObject(props.payment.cashflow_category) || !props.payment.direction) &&
-            // Проверим выбран ли сотрудник
-            checkObject(props.payment.employee)
+            isSum &&
+            isCheckbox &&
+            isDescription &&
+            isCashflowCatecory &&
+            isEmployee
         ) {
             props.createPayment(props.payment.context)
         } else {
-            if (!(props.payment.income || props.payment.outcome))
+            if (!isSum)
                 props.changeVisibleState({'inputPaymentSumChecked': false})
-            if (!(checkObject(props.payment.cashbox) && props.payment.direction || checkObject(props.payment.target_cashbox) && !props.payment.direction))
+            if (!isCheckbox)
                 props.changeVisibleState({'inputPaymentCashboxChecked': false})
-            if (!props.payment.description)
+            if (!isDescription)
                 props.changeVisibleState({'inputPaymentDescChecked': false})
-            if (!checkObject(props.payment.cashflow_category))
+            if (!isCashflowCatecory)
                 props.changeVisibleState({'inputPaymentCashflowChecked': false})
-            if (!checkObject(props.payment.employee))
+            if (!isEmployee)
                 props.changeVisibleState({'inputPaymentEmployeeChecked': false})
         }
     }
@@ -91,7 +95,7 @@ const PaymentsEditor = (props) => {
 
     const cashboxes = props.cashboxes.filter(cashbox =>
         cashbox.type === props.payment.current_type &&
-        (props.payment.direction || cashbox.id !== props.payment.cashbox_id)
+        (props.payment.direction || cashbox.id !== props.payment.cashbox.id)
     )
 
     return (
@@ -129,6 +133,7 @@ const PaymentsEditor = (props) => {
                         setClient={client => props.changePaymentState({client})}
                         client={props.payment.client}
                         disabled={!!props.order_edit}
+                        invisible={!props.payment.direction}
                     />
                     <Receipt/>
 

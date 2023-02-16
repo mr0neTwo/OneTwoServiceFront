@@ -51,8 +51,8 @@ const Cashbox = (props) => {
             direction: 2,
             context: {type: 'payment'},
             current_type: props.cashbox.type,
-            employee_id: props.user.id,
-            cashbox_id: props.cashbox.id
+            employee: props.user,
+            cashbox: props.cashbox
         })
         props.changeVisibleState({'statusPaymentsEditor': true})
     }
@@ -62,8 +62,8 @@ const Cashbox = (props) => {
             direction: 1,
             context: {type: 'payment'},
             current_type: props.cashbox.type,
-            employee_id: props.user.id,
-            cashbox_id: props.cashbox.id
+            employee: props.user,
+            cashbox: props.cashbox
         })
         props.changeVisibleState({'statusPaymentsEditor': true})
     }
@@ -73,8 +73,8 @@ const Cashbox = (props) => {
             direction: 0,
             context: {type: 'payment'},
             current_type: props.cashbox.type,
-            employee_id: props.user.id,
-            cashbox_id: props.cashbox.id
+            employee: props.user,
+            cashbox: props.cashbox
         })
         props.changeVisibleState({'statusPaymentsEditor': true})
     }

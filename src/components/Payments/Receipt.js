@@ -4,12 +4,14 @@ import {connect} from 'react-redux'
 import {setVisibleFlag} from '../../Redux/actions'
 import {changePaymentState} from '../../Redux/actions/paymentAction'
 import LableInput from '../general/LableInput'
-
 const Receipt = (props) => {
 
-    const cashbox = props.payment.cashbox_id ? props.cashboxes.find(cashbox => cashbox.id === props.payment.cashbox_id).title : ''
 
-    const disc = [`Перемещение денег из кассы "${cashbox}"`, 'Выплата денег из кассы', 'Внесение денег в кассу']
+    const desc = [
+        `Перемещение денег из кассы "${props.payment.cashbox.title}"`,
+        'Выплата денег из кассы',
+        'Внесение денег в кассу'
+    ]
 
     const sum = props.payment.outcome ? props.payment.outcome : props.payment.income
 
@@ -27,7 +29,7 @@ const Receipt = (props) => {
                     </thead>
                     <tbody>
                     <tr>
-                        <td className='td'>{props.payment.edit ? props.payment.description : disc[props.payment.direction]}</td>
+                        <td className='td'>{props.payment.edit ? props.payment.description : desc[props.payment.direction]}</td>
                         <td className='td'>
                             {props.payment.edit ? <div>{sum}</div> :
                                 <LableInput

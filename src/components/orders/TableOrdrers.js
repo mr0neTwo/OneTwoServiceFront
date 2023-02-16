@@ -1,7 +1,6 @@
 import React, {useEffect, useMemo, useRef} from 'react'
 import {connect} from 'react-redux'
 
-
 import {
     addOrders,
     changeOrderState,
@@ -25,6 +24,7 @@ import EstimatedDoneAt from '../general/cell/EstimatedDoneAt'
 import Status from '../general/cell/Status'
 import Data from '../general/cell/Data'
 import Client from '../general/cell/Client'
+import {changePaymentState} from "../../Redux/actions/paymentAction";
 
 
 const TableOrders = props => {
@@ -55,6 +55,37 @@ const TableOrders = props => {
             props.resetOrder()
             props.changeVisibleState({needToResetOrder: false})
         }
+    }
+
+    //todo: написать эту функцию через midleware
+    const handleSetStatus = (status, order) => {
+
+        const paymentRequiredGroup = 6
+
+        if (status.group === paymentRequiredGroup && order.price !== order.payed) {
+
+            const isIncome = order.price > order.payed
+            const cahsflowCategory = props.item_payments.find(item => item.id === (isIncome ? 2 : 8))
+
+            props.changePaymentState({
+                direction: isIncome ? 2 : 1,
+                [isIncome ? 'income': 'outcome']: Math.abs(order.missed_payments),
+                client: order.client,
+                description: isIncome ? `Оплата по заказу № ${order.id_label}` : `Выплата по заказу № ${order.id_label}`,
+                cashflow_category: cahsflowCategory,
+                employee: props.current_user,
+                order_id: order.id || order.id,
+                context: {
+                    type: 'closed_order',
+                    order_id: order.id,
+                    status_id: status.id
+                }
+            })
+            props.changeVisibleState({'statusPaymentsEditor': true})
+        } else {
+            props.changeStatus(status.id, order.id)
+        }
+
     }
 
     const listOfGroups = useMemo(() => props.status_group.filter(group => group.id < 8),
@@ -93,7 +124,7 @@ const TableOrders = props => {
                     id={order.id * order.status.id}
                     status={order.status}
                     listOfGroups={listOfGroups}
-                    changeStatus = {status => props.changeStatus(status.id, order.id)}
+                    changeStatus = {status => handleSetStatus(status, order)}
                     tableOrderRef={tableOrderRef}
                 />
             )
@@ -158,13 +189,16 @@ const mapStateToProps = state => ({
     user: state.data.user,
     view: state.view,
     mainFilter: state.filter.mainFilter,
-    status_group: state.data.status_group
+    status_group: state.data.status_group,
+    current_user: state.data.user,
+    item_payments: state.data.item_payments
 })
 
 const mapDispatchToProps = {
     addOrders,
     initStatusMenuVisible: initStatusMenuVisibleAction,
     changeVisibleState,
+    changePaymentState,
     editOrder,
     changeBookState,
     resetOrder,

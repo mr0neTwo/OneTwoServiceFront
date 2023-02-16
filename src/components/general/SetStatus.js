@@ -65,8 +65,6 @@ const SetStatus = props => {
         }
     }
 
-
-
     return (
         <div
             id={`status_${props.id}`}
@@ -106,8 +104,6 @@ const SetStatus = props => {
 const Status = props => {
 
     const [hover, setHover] = useState(false)
-
-
 
     return (
         <div
