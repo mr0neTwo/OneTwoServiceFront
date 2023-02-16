@@ -2,27 +2,32 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
 
-import {setVisibleFlag} from '../../../Redux/actions'
+import {changeVisibleState} from '../../../Redux/actions'
 import {resetPayroll, changePayrollState, createPayroll, deletePayroll} from '../../../Redux/actions/payrollActions'
 import BottomButtons from '../../general/BottomButtons'
 
 import PayrollForm from './PayrollForm';
 import PayrollReceipt from './PayrollReceipt'
+import {checkObject} from '../../general/utils'
 
 
-const PaypolleEditor = (props) => {
+const PayrollEditor = (props) => {
 
     const handleClose = () => {
-        props.setVisibleFlag('statusPayrollEditor', false)
-        props.setVisibleFlag('inputPayrollDescChecked', true)
-        props.setVisibleFlag('inputPayrollEmployeeChecked', true)
-        props.setVisibleFlag('inputPaymentCashboxChecked', true)
-        props.setVisibleFlag('inputPaymentCashflowChecked', true)
+        props.changeVisibleState({
+            statusPayrollEditor: false,
+            inputPayrollDescChecked: true,
+            inputPayrollEmployeeChecked: true,
+            inputPaymentCashboxChecked: true,
+            inputPaymentCashflowChecked: true
+        })
         props.resetPayroll()
     }
 
+    const id = 'PayrollEditor'
+
     const clickHandel = (event) => {
-        if (!event.composedPath().map((el) => el.id).includes('payrollEditorWiondow')) {
+        if (!event.composedPath().map((el) => el.id).includes(id)) {
             handleClose()
         }
     }
@@ -38,7 +43,7 @@ const PaypolleEditor = (props) => {
     const hangleCreate = () => {
         if (
             (props.payroll.income || props.payroll.outcome) &&
-            props.payroll.employee_id &&
+            checkObject(props.payroll.employee) &&
             props.payroll.description &&
             (props.payroll.relation_type !== 12 || props.payroll.payment_cashbox_id) &&
             (props.payroll.relation_type !== 12 || props.payroll.payment_cashflow_category)
@@ -46,39 +51,19 @@ const PaypolleEditor = (props) => {
             props.createPayroll()
         } else {
             if (!(props.payroll.income || props.payroll.outcome)) {
-                props.setVisibleFlag('inputPayrollSumChecked', false)
+                props.changeVisibleState({inputPayrollSumChecked: false})
             }
-            if (!props.payroll.employee_id) {
-                props.setVisibleFlag('inputPayrollEmployeeChecked', false)
+            if (!checkObject(props.payroll.employee)) {
+                props.changeVisibleState({inputPayrollEmployeeChecked: false})
             }
             if (!props.payroll.description) {
-                props.setVisibleFlag('inputPayrollDescChecked', false)
+                props.changeVisibleState({inputPayrollDescChecked: false})
             }
             if (!props.payroll.payment_cashbox_id) {
-                props.setVisibleFlag('inputPaymentCashboxChecked', false)
+                props.changeVisibleState({inputPaymentCashboxChecked: false})
             }
             if (!props.payroll.payment_cashflow_category) {
-                props.setVisibleFlag('inputPaymentCashflowChecked', false)
-            }
-        }
-    }
-
-    const hangleSave = () => {
-        if (
-            (props.payrolle.income || props.payrolle.outcome) &&
-            props.payroll.employee_id &&
-            props.payroll.description
-        ) {
-            // props.createPayment()
-        } else {
-            if (!(props.payrolle.income || props.payrolle.outcome)) {
-                props.setVisibleFlag('inputPayrollSumChecked', false)
-            }
-            if (!props.payroll.employee_id) {
-                props.setVisibleFlag('inputPayrollEmployeeChecked', false)
-            }
-            if (!props.payroll.description) {
-                props.setVisibleFlag('inputPayrollDescChecked', false)
+                props.changeVisibleState({inputPaymentCashflowChecked: false})
             }
         }
     }
@@ -89,13 +74,13 @@ const PaypolleEditor = (props) => {
     const type_payrolls = ['', 'Cоздания заказа', 'Закрытие заказа', 'Ведение заказа', 'Работа', 'Работа', 'Продажа', 'Оклад', '', 'Премия', 'Взыскания', 'Возврат']
 
     return (
-        <div className="rightBlock">
-            <div className="rightBlockWindow w500" id="payrollEditorWiondow">
-                <div className="createNewTitle">
+        <div className="modal">
+            <div className="modal__box modal__box_editor" id={id}>
+                <h4>
                     {props.payroll.edit ? type_payrolls[props.payroll.relation_type] : (title[props.payroll.direction])}
-                </div>
+                </h4>
 
-                <div className='contentEditor'>
+                <div className='modal__body modal__body-payment'>
 
                     {props.payroll.edit ? <PayrollReceipt/> : <PayrollForm/>}
 
@@ -104,7 +89,6 @@ const PaypolleEditor = (props) => {
                 <BottomButtons
                     edit={props.payroll.edit}
                     create={hangleCreate}
-                    // save={ hangleSave }
                     delete={props.permissions.includes('delete_payrolls') ? () => props.deletePayroll(true) : null}
                     recover={props.permissions.includes('recover_payrolls') ? () => props.deletePayroll(false) : null}
                     close={handleClose}
@@ -124,10 +108,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     changePayrollState,
-    setVisibleFlag,
+    changeVisibleState,
     resetPayroll,
     createPayroll,
     deletePayroll
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PaypolleEditor)
+export default connect(mapStateToProps, mapDispatchToProps)(PayrollEditor)

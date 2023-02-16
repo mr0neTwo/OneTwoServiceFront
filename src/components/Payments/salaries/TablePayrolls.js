@@ -7,6 +7,9 @@ import {editPayroll} from '../../../Redux/actions/payrollActions'
 import {showDate} from '../../general/utils'
 import Icon from '../../general/Icon'
 import {ICON} from '../../../data/icons'
+import CreatedAt from '../../general/cell/CreateAt'
+import Money from '../../general/cell/Money'
+import Balance from '../../general/cell/Balance'
 
 const TablePayrolls = (props) => {
 
@@ -34,53 +37,53 @@ const TablePayrolls = (props) => {
 
 
     return (
-        <table>
-            <thead>
-            <tr>
-                <th className='w135'>Дата</th>
-                <th>Описание</th>
-                <th className='w91'>Приход, руб.</th>
-                <th className='w91'>Расход, руб.</th>
-                <th className='w91'>Баланс, руб.</th>
-            </tr>
-            </thead>
-            <tbody>
-            {props.payrolls.map(payroll => (
-                <tr
-                    key={payroll.id}
-                    className={payroll.deleted ? 'rowDeleted redBorder' : null}
-                    onDoubleClick={() => editPayroll(payroll)}
-                >
-                    <td className='pd-lr-5'>
-                        <div>
-                            <div className='row'>
-                                <div>{type_payrolls[payroll.relation_type]}</div>
-                                {payroll.created_at !== payroll.custom_created_at ?
-                                    <div title={`Добавлено задним числом\n${showDate(payroll.created_at)}`}>
-                                        <Icon
-                                            className='icon-s2 ml5'
-                                            icon={ICON.WARNING}
-                                            color='red'
-                                        />
-                                    </div> : null}
-                            </div>
-                            <div className='cgr'>{showDate(payroll.custom_created_at)}</div>
-                        </div>
-                    </td>
-                    <td className='pd-lr-5'>{payroll.description}</td>
-                    <td className={payroll.income ? 'greenFont tac' : 'tac'}>{payroll.income}</td>
-                    <td className={payroll.outcome ? 'redFont tac' : 'tac'}>{payroll.outcome}</td>
-                    <td className='tac'>{payroll.deposit ? payroll.deposit.toFixed(2) : 0}</td>
+        <div className='table-orders-container'>
+            <table>
+                <thead>
+                <tr>
+                    <th className='th th_w180'>Дата</th>
+                    <th className='th'>Описание</th>
+                    <th className='th th_w80'>Приход</th>
+                    <th className='th th_w80'>Расход</th>
+                    <th className='th th_w80'>Баланс</th>
                 </tr>
-            ))}
-            <tr>
-                <td colSpan='2'>Всего - {props.payrolls.length}</td>
-                <td className='txtb tac'>{incomeSum.toFixed(2)} руб.</td>
-                <td className='txtb tac'>{outcomeSum.toFixed(2)} руб.</td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {props.payrolls.map(payroll => (
+                    <tr
+                        key={payroll.id}
+                        className={payroll.deleted ? 'tr tr_deleted' : 'tr'}
+                        onDoubleClick={() => editPayroll(payroll)}
+                    >
+                        <CreatedAt
+                            creator={type_payrolls[payroll.relation_type]}
+                            date={payroll.created_at}
+                            customDate={payroll.custom_created_at}
+                        />
+                        <td className='td'>{payroll.description}</td>
+                        <Money income={payroll.income}/>
+                        <Money outcome={payroll.outcome}/>
+                        <Balance
+                            balance={payroll.deposit}
+                            isDifferentColors={true}
+                        />
+                    </tr>
+                ))}
+                <tr>
+                    <td colSpan='2'>Всего - {props.payrolls.length}</td>
+                    <Balance
+                        balance={incomeSum}
+                        isDifferentColors={true}
+                    />
+                    <Balance
+                        balance={outcomeSum}
+                        isDifferentColors={true}
+                    />
+                    <td/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
     )
 }

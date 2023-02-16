@@ -1,5 +1,14 @@
 import React from 'react'
 
+/**
+ *
+ * @example
+ * <Data
+ *   data={'data'}
+ * />
+ *
+ * data - данные
+ */
 const Data = props => {
     return (
         <td>

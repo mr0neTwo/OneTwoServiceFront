@@ -24,9 +24,14 @@ const CustomPanel = (props) => {
             let week_day = estimated_done_at.getDay() || 7 // вычеслим текущий день недели
             if (props.schedule.find(day => day.week_day === week_day).work_day) i++ // Если день рабочий, довим шаг цикла
         }
+
+        const defaultOrderTypeId = 1
+        const defaultEmployeeId = 0
+
         props.changeOrderState({
             manager: props.user,
-            engineer: {id: 0, first_name: 'назначен', last_name: 'Не'},
+            engineer: props.employees.find(employee => employee.id === defaultEmployeeId),
+            order_type: props.order_types.find(order_type => order_type.id === defaultOrderTypeId),
             estimated_done_at: parseInt(estimated_done_at / 1000)
         })
         props.changeVisibleState({statusOrderEditor: true})
@@ -81,6 +86,8 @@ const mapStateToProps = state => ({
     statusOrderEditor: state.view.statusOrderEditor,
     user: state.data.user,
     order: state.order,
+    order_types: state.data.order_type,
+    employees: state.employee.employees,
     schedule: state.branch.current_branch.schedule
 })
 

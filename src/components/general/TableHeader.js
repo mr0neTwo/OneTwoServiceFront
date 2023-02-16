@@ -117,6 +117,8 @@ const TableHeader = (props) => {
         }
     }
 
+    if (!props.header.visible) return null
+
     return (
         <th style={{minWidth: `${columnWidth}px`}} >
             <div className='table-header' >

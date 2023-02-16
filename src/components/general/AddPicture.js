@@ -29,30 +29,33 @@ const AddPicture = (props) => {
         }
         reader.readAsDataURL(event.target.files[0])
     }
-   return (
+    return (
 
-      <div className={props.className}>
-            <div className='lableImput'>{props.title}</div>
-            
-            <div className={props.value || props.url ? 'showPicture' : 'addPicture'}>
-               <label className="label">
-                 {props.value || props.url ? <img src={props.value || `${process.env.PUBLIC_URL}/${props.url}`} className='showPicture'/> :
-                 <i className="material-icons">attach_file</i>
-                  }
-                  <input 
-                     className=''
-                     type='file'
-                     accept="image/*"
-                     onChange={fileHandler}
-                     disabled={props.disabled}
-                  />
-               </label>
+        <div className={`add-picture ${props.className || ''}`}>
+
+            <div className={props.value || props.url ? 'add-picture__show' : 'add-picture__add'}>
+
+                <label className="add-picture__label">
+                    {props.value || props.url ?
+                        <img
+                            src={props.value || `${process.env.PUBLIC_URL}/${props.url}`}
+                            alt={'Изображение'}
+                        />
+                        :
+                        <i>Добавить изображение</i>
+                    }
+                    <input
+                        type='file'
+                        accept="image/*"
+                        onChange={fileHandler}
+                        disabled={props.disabled}
+                    />
+                </label>
 
             </div>
-      </div>
-   )
+        </div>
+    )
 }
 
 
-  
- export default AddPicture
+export default AddPicture

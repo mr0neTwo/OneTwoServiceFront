@@ -30,7 +30,7 @@ const CreatedAt = (props) => {
                 <div
                     className='cell_date-payment'
                 >
-                    <div>{showDate(props.customDate || props.date)}</div>
+                    <div className='nowrap'>{showDate(props.customDate || props.date)}</div>
                     {check ?
                         <div title={`Платеж добавлен задним числом\n${showDate(props.date)}` }>
                             <Icon

@@ -1,9 +1,8 @@
-import React, {useState} from 'react'
-import { connect } from 'react-redux'
+import React, {useMemo, useState} from 'react'
+import {connect} from 'react-redux'
 
-import { changeVisibleState } from '../../Redux/actions'
+import {changeVisibleState} from '../../Redux/actions'
 import PropTypes from "prop-types";
-
 
 /**
  *
@@ -36,32 +35,34 @@ const LableArea = (props) => {
         setFocus(false)
     }
 
-   return (
-      <div
-          className={`
-              input-label ${props.className} 
-              ${focus ? 'input-label_focus' : ''} 
-              ${props.checkedFlag && !props.checked ? 'input-label_error' : ''}
-          `}
-      >
-          <div className='label input-label__label'>
-              {props.title}
-              {props.redStar ? <span className={props.value ? '' : 'input-label__red-star'}>*</span> : null}
-          </div>
-            <textarea 
-               className='textarea'
-               autoFocus={props.autoFocus}
-               onChange={props.onChange}
-               value={props.value}
-               onFocus={() => setFocus(true)}
-               onBlur={handleBlur}
-               disabled={props.disabled}
+    const mainClassName = useMemo(() => {
+        let className = 'input-label'
+        if (props.className) className += ` ${props.className}`
+        if (focus) className += ' input-label_focus'
+        if (props.checkedFlag && !props.view[props.checkedFlag]) className += ' input-label_error'
+        return className
+    }, [props.className, focus, props.checkedFlag, props.view[props.checkedFlag]])
+
+    return (
+        <div className={mainClassName}>
+            <div className='label input-label__label'>
+                {props.title}
+                {props.redStar ? <span className={props.value ? '' : 'input-label__red-star'}>*</span> : null}
+            </div>
+            <textarea
+                className='textarea'
+                autoFocus={props.autoFocus}
+                onChange={props.onChange}
+                value={props.value}
+                onFocus={() => setFocus(true)}
+                onBlur={handleBlur}
+                disabled={props.disabled}
             />
-      </div>
-   )
+        </div>
+    )
 }
 
-LableArea.propTypes ={
+LableArea.propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
     onChange: PropTypes.func,
@@ -74,14 +75,14 @@ LableArea.propTypes ={
 }
 
 const mapStateToProps = state => ({
-   // checked: state.view[props.checkedFlag]
-   })
+    view: state.view
+})
 
 const mapDispatchToProps = {
     changeVisibleState
 }
-  
- export default connect(mapStateToProps, mapDispatchToProps)(LableArea)
+
+export default connect(mapStateToProps, mapDispatchToProps)(LableArea)
 
 // className=''
 // title=''

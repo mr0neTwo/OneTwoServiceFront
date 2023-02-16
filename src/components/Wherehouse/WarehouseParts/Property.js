@@ -13,11 +13,10 @@ const Property = (props) => {
     const disabled = props.part.deleted
 
     return (
-        <tr className='fillcol'>
-            <td>
+        <tr className='tr tr_tools'>
+            <td className='td'>
                 {titleVisible && !disabled ?
                     <input
-                        className='optionFilterInput'
                         onChange={event => props.changePartProperty(event.target.value, props.idx, 'title')}
                         value={props.title}
                         autoFocus={true}
@@ -34,10 +33,9 @@ const Property = (props) => {
                     </div>
                 }
             </td>
-            <td>
+            <td className='td'>
                 {valueVisible && !disabled ?
                     <input
-                        className='optionFilterInput'
                         onChange={event => props.changePartProperty(event.target.value, props.idx, 'value')}
                         value={props.value}
                         autoFocus={true}
@@ -55,9 +53,10 @@ const Property = (props) => {
                 }
             </td>
             <td
+                className='td td_red cur-p'
                 onClick={disabled ? null : () => props.deletePartProperty(props.idx)}
             >
-                <Icon icon={ICON.TRASH} className='icon-s1'/>
+                <Icon icon={ICON.TRASH} className='icon'/>
             </td>
 
         </tr>

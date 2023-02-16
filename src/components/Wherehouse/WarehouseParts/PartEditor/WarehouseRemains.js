@@ -28,7 +28,7 @@ const WarehouseRemains = (props) => {
                 {props.part.warehouse_remains.map((remain, idx) => (
                     <tr key={idx}>
                         <td>
-                            <Icon className='icon-s2' icon={remain.warehouse.branch.icon} color={remain.warehouse.branch.color}/>
+                            <Icon className='icon' icon={remain.warehouse.branch.icon} color={remain.warehouse.branch.color}/>
                         </td>
                         <td>{remain.warehouse.title}</td>
                         <td className='tac'>{remain.count}</td>

@@ -1,6 +1,8 @@
 import store from '../store'
 import {getRequestConfig, bad_request} from './actionUtils'
 
+import {Modal} from '../../data/data'
+
 export function changePartState( data ) {
     return {
         type: 'CHANGE_PART_STATE',
@@ -59,9 +61,15 @@ export function resetResidueRule() {
 }
 
 export function editResidueRule(residue_rule) {
-    return {
-        type: 'EDIT_RESIDUE_RULE',
-        residue_rule
+    return dispatch => {
+        dispatch({
+            type: 'EDIT_RESIDUE_RULE',
+            residue_rule
+        })
+        dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {isCentralModalOpen: true, modalCentralType: Modal.Type.RESIDUE_RULE}
+        })
     }
 }
 
@@ -99,7 +107,7 @@ export function getPart(part_id) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusPartEditor: true}
+                        data: {isRightModalOpen: true, modalType: Modal.Type.PART}
                     })
                 } else {
                     console.warn(data.message)
@@ -318,7 +326,7 @@ export function createResidueRule() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusResidueRuleEditor: false}
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                     dispatch({
                         type: 'RESET_RESIDUE_RULE'
@@ -357,7 +365,7 @@ export function saveResidueRule() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusResidueRuleEditor: false}
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                     dispatch({
                         type: 'RESET_RESIDUE_RULE'
@@ -393,7 +401,7 @@ export function deleteResidueRule() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusResidueRuleEditor: false}
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                     dispatch({
                         type: 'RESET_RESIDUE_RULE'

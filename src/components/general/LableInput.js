@@ -53,7 +53,7 @@ const LableInput = (props) => {
         return className
     }, [props.className, focus, props.checkedFlag, props.view[props.checkedFlag]])
 
-    if (props.invisible) return <div/>
+    if (props.invisible) return null
 
     return (
         <div className={mainClassName}>

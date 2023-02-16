@@ -5,6 +5,7 @@
   flex-direction: row;
   align-items: center;
   height: 30px;
+  flex-shrink: 0;
   border-bottom: 1px solid var(--secondary);
 
   &__tab {

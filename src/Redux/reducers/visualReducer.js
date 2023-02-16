@@ -16,7 +16,6 @@ const initialState = {
    statusOrderEditor: false,
    statusClientEditor: false,
    statusAdCampaignClient: false,
-   checkedOrderClient: false,
    statusBranchEditor: false,
    statusChooseIcon: false,
    statusEquipmentEditor: false,
@@ -46,7 +45,6 @@ const initialState = {
    statusRegistrationEditor: false,
    statusRegistrationPartEditor: false,
    statusRemainEditor: false,
-   statusResidueRuleEditor: false,
    statusOrderNotFound: false,
    statusWriteOfEditor: false,
    statusPartEditor: false,
@@ -57,6 +55,7 @@ const initialState = {
    statusInventoryEditorPreview: false,
    statusReqSparePartEditor: false,
 
+   checkedOrderClient: true,
    inputClientNameChecked: true,
    inputClientPhoneChecked: [true],
    inputClientDiscServChecked: true,
@@ -120,7 +119,12 @@ const initialState = {
 
    errorSameMail: false,
    errorSameLogin: false,
-   statusRefreshPage: false
+   statusRefreshPage: false,
+
+   modalType: '',
+   modalCentralType: '',
+   isRightModalOpen: false,
+   isCentralModalOpen: false,
 }
 
 // todo: переписать ненужные функции
@@ -265,10 +269,6 @@ export const visualReducer = (state = initialState, action) => {
             checkedOrderSubtype: checked_list_subtype
          }
       }
-
-
-      
-
 
       default: return state
    }

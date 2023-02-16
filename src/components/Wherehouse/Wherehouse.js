@@ -1,7 +1,7 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import {connect} from 'react-redux'
 
-import {addWarehouse, changeWarehouseForm} from '../../Redux/actions/warehouseAction'
+import {addWarehouse, changeWarehouseState} from '../../Redux/actions/warehouseAction'
 
 import Tabs from '../general/Tabs'
 import WarehouseParts from './WarehouseParts/WarehouseParts';
@@ -12,6 +12,9 @@ import WarehouseInventories from './WarehouseInventories/WarehouseInventories';
 import WarehouseRemains from './WarehouseRemains/WarehouseRemains';
 import WarehouseBacks from './WarehouseBacks/WarehouseBacks';
 import RequestSpareParts from './RequestSpareParts/RequestSpareParts'
+import Header from '../Header/Header'
+import Search from './Search'
+import {changeRemainState} from '../../Redux/actions/remainAction'
 
 
 const Warehouse = (props) => {
@@ -74,24 +77,30 @@ const Warehouse = (props) => {
         return current_list
     }, [props.permissions])
 
+    const getSearch = (tab) => {
+        switch (tab) {
+            case 0:
+                return <Search func={search => props.changeRemainState({filter_title: search})}/>
+            default: return null
+        }
+    }
+
 
 
     return (
-        <div className='pageContent ml5'>
-
-            <div className='header al-itm-ct'>
-                <div className='headerTitle'>Склады</div>
-            </div>
-
-            <Tabs
-                className='mt15'
-                list={list}
-                func={idx => props.changeWarehouseForm(idx, 'tabs')}
-                tab={props.tabs}
+        <div className='main-content'>
+            <Header
+                title='Склады'
+                search={getSearch(props.tabs)}
             />
-            {tabs[props.tabs]}
-
-
+            <div className='content-container'>
+                <Tabs
+                    list={list}
+                    func={idx => props.changeWarehouseState({tabs: idx})}
+                    tab={props.tabs}
+                />
+                {tabs[props.tabs]}
+            </div>
         </div>
     )
 }
@@ -103,8 +112,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changeWarehouseForm,
-    addWarehouse
+    changeWarehouseState,
+    addWarehouse,
+    changeRemainState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Warehouse)

@@ -37,7 +37,7 @@ function getFilter() {
     const state = store.getState()
     return {
         custom_created_at: state.payroll.filter_created_at,
-        employee_id: state.payroll.setted_employee,
+        employee_id: state.payroll.setted_employee.id,
         deleted: state.payroll.showDeleted
     }
 }
@@ -72,7 +72,7 @@ export function addMonthBalance() {
 
     const request_config = getRequestConfig({
         custom_created_at: currentMonth(),
-        employee_id: state.payroll.setted_employee
+        employee_id: state.payroll.setted_employee.id
     })
 
     return dispatch => {
@@ -110,11 +110,11 @@ export function createPayroll() {
         custom_created_at: state.payroll.custom_created_at || now,
         relation_type: state.payroll.relation_type,
         relation_id: state.payroll.relation_id,
-        employee_id: state.payroll.employee_id,
+        employee_id: state.payroll.employee.id,
         order_id: state.payroll.order_id,
         payment: state.payroll.relation_type === 12 ? {
-            cashbox_id: state.payroll.payment_cashbox_id,
-            cashflow_category: state.payroll.payment_cashflow_category
+            cashbox_id: state.payroll.payment_cashbox.id,
+            cashflow_category: state.payroll.payment_cashflow_category.id
         } : null,
         filter: getFilter()
     })

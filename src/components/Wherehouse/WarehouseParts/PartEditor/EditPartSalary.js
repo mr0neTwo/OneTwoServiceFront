@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { connect } from 'react-redux'
+
 import WarningOrange from '../../../general/WarningOrange'
 import Checkbox from '../../../general/Checkbox'
 import LableInput from '../../../general/LableInput'
@@ -7,33 +8,37 @@ import {changePartState} from '../../../../Redux/actions/partAction'
 
 const EditPartSalary = (props) => {
 
+    const isEarning = Boolean(props.part.earnings_percent || props.part.earnings_percent)
+    const [showOptions, setShowOptions] = useState(isEarning)
+
+    const textWarning = 'Заполните эти поля, если хотите, чтобы за продажу товара из этой категории продавец ' +
+        'получал нестандартное вознаграждение. В противном случае, оставьте эти поля пустыми, и при расчете ' +
+        'ЗП будут учитываться общие правила расчета вознаграждения, заданные в карточке продавца'
+
     return (
-        <div className='mt15'>
-            <h3>Вознаграждение</h3>
-            <WarningOrange text='Заполните эти поля, если хотите, чтобы за продажу товара из этой категории продавец получал нестандартное вознаграждение. В противном случае, оставьте эти поля пустыми, и при расчете ЗП будут учитываться общие правила расчета вознаграждения, заданные в карточке продавца'/>
+        <div className='modal__block-forms'>
+            <h5>Вознаграждение</h5>
+            <WarningOrange text={textWarning}/>
             <Checkbox
-                className='mt15'
+                id='EditPartSalaryOption'
+                type='slide-three'
                 label='Добавить вознаграждение'
-                onChange={event => props.changePartState({visible_option: event.target.checked})}
-                checked={props.part.visible_option}
+                onChange={() => setShowOptions(!showOptions)}
+                checked={showOptions}
             />
-            {props.part.visible_option ?
-                <div>
+            {showOptions ?
+                <div className='two-buttons'>
                     <LableInput
-                        className='mt15'
-                        width='150px'
                         title='Процент'
                         onChange={event => props.changePartState({earnings_percent: event.target.value})}
                         value={props.part.earnings_percent}
                         unit='%'
                     />
                     <LableInput
-                        className='mt15'
-                        width='150px'
                         title='Сумма'
                         onChange={event => props.changePartState({earnings_sum: event.target.value})}
                         value={props.part.earnings_sum}
-                        unit='руб.'
+                        unit='руб'
                     />
                 </div>
             : null}

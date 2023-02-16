@@ -3,6 +3,20 @@ import React from 'react'
 import {ICON} from '../../../data/icons'
 import Icon from '../Icon'
 
+
+/**
+ *
+ * @example
+ * <Label
+ *   func={() => console.log('click')}
+ *   label={order.label}
+ *   urgent={false}
+ * />
+ *
+ * func - функция
+ * label - номер
+ * urgent - срочно
+ */
 const Label = props => {
     return (
         <td>

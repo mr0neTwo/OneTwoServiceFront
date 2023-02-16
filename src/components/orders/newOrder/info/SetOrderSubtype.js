@@ -149,15 +149,13 @@ const Subtype = (props) => {
     const [showPictute, setShowPicture] = useState(false)
 
     return (
-        <div className='select__item select__item_option'>
-            <div
-                className=""
-                onClick={props.onClick}
-                onMouseOver={() => setShowPicture(true)}
-                onMouseOut={() => setShowPicture(false)}
-            >
-                {props.subtype.title}
-            </div>
+        <div
+            className='select__item select__item_option'
+            onClick={props.onClick}
+            onMouseOver={() => setShowPicture(true)}
+            onMouseOut={() => setShowPicture(false)}
+        >
+            <div>{props.subtype.title}</div>
             {showPictute && props.subtype.url ?
                 <div className='select__item_img-box'>
                     <img className='select__item_img' src={`${process.env.PUBLIC_URL}/${props.subtype.url}`}/>

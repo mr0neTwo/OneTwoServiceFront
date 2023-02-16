@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {changePartState} from '../../../../Redux/actions/partAction'
+import LableInput from '../../../general/LableInput'
 
 const EditPrices = (props) => {
 
@@ -30,20 +31,27 @@ const EditPrices = (props) => {
 
     return (
         <div>
-            <h3>Цены</h3>
-            <div className='mxc'>
+            <h5>Цены</h5>
+            <div className='w290'>
                 <table>
+                    <thead>
+                    <tr className='tr_no-underline'>
+                        <th className=''/>
+                        <th className='w70'/>
+                    </tr>
+                    </thead>
                     <tbody>
                     {props.discount_margin.filter(margin => margin.margin_type === 2).map(margin => {
                         const price = props.part.prices.find(price => price.margin.id === margin.id)
                         return (
                             <tr
+                                className='tr'
                                 key={margin.id}
                             >
-                                <td>{margin.title}</td>
-                                <td>
-                                    <input
-                                        className='w70 ml5'
+                                <td className='td'>{margin.title}</td>
+                                <td className='td'>
+                                    <LableInput
+                                        className='w70'
                                         onChange={event => handleChange(event.target.value, margin.id)}
                                         value={price ? price.cost : 0}
                                     />
