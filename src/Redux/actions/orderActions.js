@@ -111,11 +111,11 @@ export function createOrder() {
     const request_config = getRequestConfig({
         estimated_done_at: state.order.estimated_done_at,
 
-        order_type_id: state.order.order_type.id  || null,
+        order_type_id: state.order.order_type?.id,
         client_id: state.order.client.id  || null,
         ad_campaign_id: state.order.ad_campaign.id  || null,
         manager_id: state.order.manager.id  || null,
-        engineer_id: state.order.engineer.id || null,
+        engineer_id: state.order.engineer?.id,
         created_by_id: state.data.user.id,
         branch_id: state.branch.current_branch.id,
         status_id: 1,

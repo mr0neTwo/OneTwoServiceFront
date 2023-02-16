@@ -1,5 +1,5 @@
 import React, { useEffect, useRef} from 'react'
-import ReactPaginate from 'react-paginate'
+// import ReactPaginate from 'react-paginate'
 import { connect } from 'react-redux'
 
 import { chooseBookSelected } from '../../../../Redux/actions/bookActions'
@@ -81,22 +81,22 @@ const DictTable = (props) => {
                </tbody>
             </table>
             </div>
-            <ReactPaginate
-               pageCount={ props.count % 20 > 0 ? ( props.count / 20 ) :  props.count / 20 - 1} 
-               marginPagesDisplayed={2}
-               pageRangeDisplayed={5}
-               onPageChange={ props.onPageChange }
-               forcePage={ props.page }
-               previousLabel={'<'}
-               nextLabel={'>'}
-               breakLabel={'...'}
-               breakClassName={'pages-pagination'}
-               containerClassName={'pagination'}
-               pageClassName={'pages-pagination'}
-               activeClassName={'active'}
-               nextClassName={'pages-pagination'}
-               previousClassName={'pages-pagination'}
-            />
+            {/*<ReactPaginate*/}
+            {/*   pageCount={ props.count % 20 > 0 ? ( props.count / 20 ) :  props.count / 20 - 1} */}
+            {/*   marginPagesDisplayed={2}*/}
+            {/*   pageRangeDisplayed={5}*/}
+            {/*   onPageChange={ props.onPageChange }*/}
+            {/*   forcePage={ props.page }*/}
+            {/*   previousLabel={'<'}*/}
+            {/*   nextLabel={'>'}*/}
+            {/*   breakLabel={'...'}*/}
+            {/*   breakClassName={'pages-pagination'}*/}
+            {/*   containerClassName={'pagination'}*/}
+            {/*   pageClassName={'pages-pagination'}*/}
+            {/*   activeClassName={'active'}*/}
+            {/*   nextClassName={'pages-pagination'}*/}
+            {/*   previousClassName={'pages-pagination'}*/}
+            {/*/>*/}
             <div>Всего - {props.count}</div>
           </div>
    )
