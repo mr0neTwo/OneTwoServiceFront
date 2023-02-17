@@ -4,8 +4,6 @@ import {connect} from 'react-redux'
 import {changeReqSparePartState, getReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
 
 import TableHeader from '../../general/TableHeader'
-import Label from './cell/Label'
-import CreatedAt from './cell/CreatedAt'
 import EstimatedComeAt from './cell/EstimatedComeAt'
 import Status from './cell/Status'
 import Executor from './cell/Executor'
@@ -13,16 +11,48 @@ import Client from './cell/Client'
 import Order from './cell/Order'
 import Price from './cell/Price'
 import SparePart from './cell/SparePart'
+import Label from "../../general/cell/Label";
+import CreatedAt from "../../general/cell/CreateAt";
+import EstimatedDoneAt from "../../general/cell/EstimatedDoneAt";
 
 const RequestSparePartTable = (props) => {
 
     const chooseCell = (header, reqsp) => {
 
         switch (header.id) {
-            case 1: return <Label key={header.id} reqsp={reqsp} getReqSparePart={props.getReqSparePart}/>
-            case 2: return <CreatedAt key={header.id} reqsp={reqsp}/>
-            case 3: return <EstimatedComeAt key={header.id} reqsp={reqsp} request_spare_part_id={reqsp.id}/>
-            case 4: return <SparePart key={header.id} reqsp={reqsp}/>
+
+            case 1:
+                return (
+                    <Label
+                        key={header.id}
+                        label={reqsp.label}
+                        func={() => props.getReqSparePart}
+                    />
+                )
+
+            case 2:
+                return (
+                    <CreatedAt
+                        key={header.id}
+                        creator={reqsp.created_by.name}
+                        date={reqsp.created_at}
+                    />
+                )
+
+            case 3:
+                return (
+                    <EstimatedDoneAt
+                        key={header.id}
+                        estimatedDoneAt={reqsp.estimated_come_at}
+                        statusGroupId={reqsp.status.group}
+                        listStatusGroup={[13, 14, 15]}
+                    />
+                )
+
+            case 4:
+                return (
+                    <SparePart key={header.id} reqsp={reqsp}/>
+                )
             case 5: return <td key={header.id}><Status status={reqsp.status} request_spare_part_id={reqsp.id}/></td>
             case 7: return <Price key={header.id} reqsp={reqsp}/>
             case 9: return <Executor key={header.id} reqsp={reqsp}/>

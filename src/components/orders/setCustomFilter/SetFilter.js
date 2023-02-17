@@ -47,9 +47,7 @@ const SetFilter = props => {
 
 
     return (
-        <div
-            className={`custom-filter ${props.invisible}`}
-        >
+        <div className={`custom-filter ${props.invisible || ''}`}>
             <SelectStatuses
                 id='customFilterStatus'
                 func={value => props.selectedFilter(value, 'temp_statuses')}
@@ -65,13 +63,12 @@ const SetFilter = props => {
                 checked_list={props.filter.temp_order_types}
                 func={value => props.selectedFilter(value, 'temp_order_types')}
             />
-
             <ChooseDate
                 title='Дата'
-                range={true}
-                allDate={true}
                 func={date => props.changeFilterState({temp_created_at: date.map(date => parseInt(date / 1000))})}
                 current_date={props.filter.temp_created_at}
+                range={true}
+                allDate={true}
                 time={false}
             />
             <SetGroup/>

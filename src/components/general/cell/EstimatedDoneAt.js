@@ -5,20 +5,32 @@ import {showDate} from '../utils'
 
 import Icon from '../Icon'
 
+
+/**
+ * @example
+ * <EstimatedDoneAt
+ *   estimatedDoneAt={props.estimatedDoneAt}
+ *   statusGroupId={props.statusGroupId}
+ *   listStatusGroup={props.listStatuses}
+ * />
+ *
+ * estimatedDoneAt - дата готовности
+ * statusGroupId - группа текущего статуса
+ * listStatusGroup - список групп при которых отображать время просрочки
+ */
 const EstimatedDoneAt = (props) => {
 
     if (!props.estimatedDoneAt) return <td/>
 
-    const listTargetStatusIds = [1, 2, 3] // Id статусов, при которых отображается время просрочки
     const iconColor = (props.estimatedDoneAt < (new Date() / 1000) &&
-        listTargetStatusIds.indexOf(props.statusGroupId) !== -1) ? 'var(--orange)' : 'var(--main)'
+        props.listStatusGroup.indexOf(props.statusGroupId) !== -1) ? 'var(--orange)' : 'var(--main)'
 
 
     const getDateEstimated = (datestamp, statusGroup) => {
 
         const diff = datestamp - (new Date() / 1000)
 
-        if (!datestamp || listTargetStatusIds.indexOf(statusGroup) === -1) return '-'
+        if (!datestamp || props.listStatusGroup.indexOf(statusGroup) === -1) return '-'
 
         const deltaMinutes = Math.round(diff / 60)
         if (Math.abs(deltaMinutes) < 60) return `${deltaMinutes}м.`

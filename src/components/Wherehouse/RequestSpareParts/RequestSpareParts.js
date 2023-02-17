@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
-import {addReqSparePart, changeReqSparePartState, selectedReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
-import {Table} from '../../../data/tableHeaders'
+import {addReqSparePart, changeReqSparePartState} from '../../../Redux/actions/requestSparePartsAction'
 
 import TableFields from '../../general/TableFields'
 import Paginate from '../../general/Paginate'
@@ -34,49 +33,44 @@ const RequestSpareParts = props => {
         props.changeVisibleState({statusReqSparePartEditor: true})
     }
 
+    const table_headers = props.reqsp.table_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 6)
+
     return (
-        <>
-            <div className='row jc-sb al-itm-fs mt15'>
-                <div className='row'>
+        <div className='box'>
+            <div className='row jc-sb'>
+                <div className='two-buttons'>
                     <Button
                         id='newReqSparePart'
-                        title='+ Запрос'
-                        className='greenButton h31'
+                        size='med'
+                        type='create'
+                        title='Запрос'
                         onClick={handleNewReqSparePart}
                     />
                     <Button
-                        className='customFilter ml15'
+                        size='med'
+                        type='tertiary'
                         title='Фильтр'
                         onClick={() => setShowFilet(!showFilter)}
                         icon={ICON.FILTER}
-                        iconClassName='icon-s2'
-                        iconColor='282e33'
                     />
                 </div>
                 <TableFields
-                    id='tableFields'
-                    className='h31'
-                    height='185px'
-                    classNameMenu='listOption'
-                    list={Table.Fields.RequestSparePart.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 6)}
-                    checked_list={props.reqsp.table_headers}
-                    func={props.selectedReqSparePart}
+                    id='requests'
+                    list={table_headers}
+                    func={table_headers => props.changeReqSparePartState({table_headers})}
                 />
             </div>
             <RequestSparePartFilter invisible={showFilter}/>
             <RequestSparePartTable/>
-            <div className='row'>
-                <Paginate
-                    allItems={props.reqsp.count}
-                    onPage={50}
-                    count={2}
-                    count_start_end={2}
-                    navigation={true}
-                    func={page => props.changeReqSparePartState({page})}
-                />
-                <div className='ml10'>Всего - {props.reqsp.count}</div>
-            </div>
-        </>
+            <Paginate
+                allItems={props.reqsp.count}
+                onPage={50}
+                count={2}
+                count_start_end={2}
+                navigation={true}
+                func={page => props.changeReqSparePartState({page})}
+            />
+        </div>
     )
 }
 
@@ -87,7 +81,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     addReqSparePart,
-    selectedReqSparePart,
     changeReqSparePartState,
     changeVisibleState
 }

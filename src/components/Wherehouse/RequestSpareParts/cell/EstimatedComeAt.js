@@ -28,7 +28,7 @@ const EstimatedComeAt = (props) => {
             <div className="estimated-top">
                 <Icon
                     icon={ICON.CLOCK}
-                    className='clockEstimated'
+                    className='icon'
                     color={(props.reqsp.estimated_come_at && props.reqsp.estimated_come_at < (new Date() / 1000) && [13, 14, 15].indexOf(props.reqsp.status.group) !== -1) ? '#f0ad4e' : '#ebebeb'}
                 />
                 <span>{getDateEstimated(props.reqsp.estimated_come_at, props.reqsp.status.group)}</span>

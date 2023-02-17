@@ -15,72 +15,51 @@ const RequestSparePartFilter = (props) => {
         props.addClients()
     }, [props.filter_name])
 
-    if (props.invisible) return <div/>
+    if (props.invisible) return null
 
     return (
-        <div className='setCustomFilter'>
-            <div className="row jc-c al-itm-bl">
-                <div className="jc-sb w100 m10">
-                    <SelectStatuses
-                        id='status'
-                        className='mt15'
-                        func={value => props.selectedReqSparePart(value, 'filter_status')}
-                        current_list={props.reqsp.filter_status}
-                        width={'100%'}
-                        invisible={false}
-                        range={[12, 18]}
-                    />
-
-
-                    <SelectFromListMany
-                        id='created_by'
-                        className='mt15'
-                        width='100%'
-                        title='Создал'
-                        mainLable='Все'
-                        list={props.employees}
-                        checked_list={props.reqsp.filter_created_by}
-                        func={list => props.selectedReqSparePart(list, 'filter_created_by')}
-                        employee={true}
-                    />
-
-                </div>
-                <div className="jc-sb w100 m10">
-                    <ChooseWithSearch
-                        id='supplier'
-                        className='mt15'
-                        width='100%'
-                        title='Поставщик'
-                        list={props.clients}
-                        current_element={props.reqsp.filter_supplier}
-                        setElement={supplier => props.changeReqSparePartState({filter_supplier: supplier})}
-                        filter={props.filter_name}
-                        changeFilter={filter => props.changeClientState({filter_name: filter})}
-                        placeholder='Введите имя'
-                    />
-                    <SelectFromListMany
-                        id='executor'
-                        className='mt15'
-                        width='100%'
-                        title='Исполнитель'
-                        mainLable='Все'
-                        list={props.employees}
-                        checked_list={props.reqsp.filter_executor}
-                        func={list => props.selectedReqSparePart(list, 'filter_executor')}
-                        employee={true}
-                    />
-
-                </div>
-                <ChooseDate
-                    title='Период'
-                    className='mt15 h49'
-                    width='100%'
-                    range={true}
-                    allDate={true}
-                    func={date => props.changeReqSparePartState({filter_created_at: date.map(date => Math.round(date / 1000))})}
-                    current_date={props.reqsp.filter_created_at}
-                />
-            </div>
+        <div className='custom-filter'>
+            <SelectStatuses
+                id='status'
+                func={value => props.selectedReqSparePart(value, 'filter_status')}
+                func_clear={() => props.changeReqSparePartState({filter_status: []})}
+                current_list={props.reqsp.filter_status}
+                range={[12, 18]}
+            />
+            <SelectFromListMany
+                id='created_by'
+                title='Создал'
+                mainLabel='Все'
+                list={props.employees}
+                checked_list={props.reqsp.filter_created_by}
+                func={list => props.selectedReqSparePart(list, 'filter_created_by')}
+            />
+            <ChooseWithSearch
+                id='supplier'
+                title='Поставщик'
+                list={props.clients}
+                current_element={props.reqsp.filter_supplier}
+                setElement={supplier => props.changeReqSparePartState({filter_supplier: supplier})}
+                filter={props.filter_name}
+                changeFilter={filter => props.changeClientState({filter_name: filter})}
+                placeholder='Введите имя'
+            />
+            <SelectFromListMany
+                id='executor'
+                title='Исполнитель'
+                mainLabel='Все'
+                list={props.employees}
+                checked_list={props.reqsp.filter_executor}
+                func={list => props.selectedReqSparePart(list, 'filter_executor')}
+            />
+            <ChooseDate
+                title='Период'
+                func={date => props.changeReqSparePartState({filter_created_at: date.map(date => Math.round(date / 1000))})}
+                current_date={props.reqsp.filter_created_at}
+                range={true}
+                allDate={true}
+                time={false}
+            />
         </div>
     )
 }

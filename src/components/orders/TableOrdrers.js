@@ -116,6 +116,7 @@ const TableOrders = props => {
                     key={field.id}
                     estimatedDoneAt={order.estimated_done_at}
                     statusGroupId={order.status.group}
+                    listStatusGroup={[1, 2, 3]}
                 />
             )
             case 4: return (
