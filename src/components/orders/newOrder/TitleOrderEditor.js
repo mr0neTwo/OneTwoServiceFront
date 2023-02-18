@@ -86,7 +86,8 @@ const mapStateToProps = state => ({
     order: state.order,
     current_branch: state.branch.current_branch,
     current_user: state.data.user,
-    status_group: state.data.status_group
+    status_group: state.data.status_group,
+    item_payments: state.data.item_payments
 })
 
 const mapDispatchToProps = {

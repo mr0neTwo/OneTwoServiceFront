@@ -87,12 +87,10 @@ export function createPayment(context) {
 
     return async dispatch => {
 
-        if (context.type === 'payment') {
-            await  dispatch({
-                type: 'CHANGE_PAYMENT_STATE',
-                data: {showLoader: true}
-            })
-        }
+        await  dispatch({
+            type: 'CHANGE_PAYMENT_STATE',
+            data: {showLoader: true}
+        })
 
         await fetch(state.data.url_server + '/payments', request_config)
             .then(response => response.json())
@@ -101,7 +99,7 @@ export function createPayment(context) {
                     if (context.type === 'payment') {
                         dispatch({
                             type: 'CHANGE_PAYMENT_STATE',
-                            data: {payments: data.payments, showLoader: false}
+                            data: {showLoader: false}
                         })
                         dispatch({
                             type: 'CHANGE_CASHBOX_STATE',
@@ -152,6 +150,11 @@ export function createPayment(context) {
         await dispatch({
             type: 'CHANGE_VISIBLE_STATE',
             data: {statusOrderLoader: false, statusPaymentsEditor: false}
+        })
+
+        await dispatch({
+            type: 'CHANGE_PAYMENT_STATE',
+            data: {showLoader: false}
         })
     }
 }
