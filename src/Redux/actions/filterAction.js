@@ -140,7 +140,7 @@ export function createCustomFilter() {
                     dispatch({
                         type: 'RESET_DATA_FILTER'
                     })
-                    showAlert(dispatch, 'alert-success', 'Фильтр успешно создан')
+                    showAlert(dispatch, 'success', 'Фильтр успешно создан')
                 } else {
                     console.warn(data.message)
                 }
@@ -182,7 +182,7 @@ export function deleteFilter() {
                     dispatch({
                         type: 'RESET_DATA_FILTER'
                     })
-                    showAlert(dispatch, 'alert-success', 'Фильтр успешно удален')
+                    showAlert(dispatch, 'success', 'Фильтр успешно удален')
                 } else {
                     console.warn(data.message)
                 }

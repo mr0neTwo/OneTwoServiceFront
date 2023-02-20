@@ -26,5 +26,20 @@ export const COLORS = {
         16: 'purple',
         17: 'secondary',
         18: 'disabled'
+    },
+    NAME: {
+        SUCCESS: 'var(--success)',
+        BACKGROUND: 'var(--background)',
+        SECOND_BACKGROUND:'var(--second-bacground)',
+        MAIN_BACKGROUND: 'var(--main-background)',
+        ACCENT: 'var(--accent)',
+        MAIN: 'var(--main)',
+        SECONDARY: 'var(--secondary)',
+        DISABLED: 'var(--disabled)',
+        ACTION_ACCENT: 'var(--action-accent)',
+        WARNING: 'var(--warning)',
+        ERROR: 'var(--error)',
+        ORANGE: 'var(--orange)',
+        PURPLE: 'var(--purple)'
     }
 }

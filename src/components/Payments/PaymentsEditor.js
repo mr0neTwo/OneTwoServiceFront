@@ -16,7 +16,6 @@ import ChooseDate from '../general/calandar/ChooseDate'
 import SetClient from '../general/SetClient'
 import SelectFromList from '../general/SelectFromList'
 import {checkObject} from '../general/utils'
-import Loader from "../Loader/Loader";
 
 
 const PaymentsEditor = (props) => {
@@ -98,8 +97,6 @@ const PaymentsEditor = (props) => {
         cashbox.type === props.payment.current_type &&
         (props.payment.direction || cashbox.id !== props.payment.cashbox.id)
     )
-
-    if (props.payment.showLoader) return <Loader/>
 
     return (
         <div className="modal modal_z20">

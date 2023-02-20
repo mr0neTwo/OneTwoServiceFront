@@ -26,5 +26,5 @@ export function bad_request(dispatch, error, message = '') {
             data: {statusRefreshPage: true, statusOrderLoader: false}
         })
     }
-    showAlert(dispatch, 'alert-danger', message)
+    showAlert(dispatch, 'danger', message)
 }

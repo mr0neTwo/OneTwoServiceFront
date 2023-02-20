@@ -105,7 +105,7 @@ export function createOperation(service) {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
-                    showAlert(dispatch, 'alert-success', 'Операция успешно добалена')
+                    showAlert(dispatch, 'success', 'Операция успешно добалена')
                 } else {
                     console.warn(data.message)
                 }
@@ -161,7 +161,7 @@ export function createCustomOperation() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
-                    showAlert(dispatch, 'alert-success', 'Операция успешно добалена')
+                    showAlert(dispatch, 'success', 'Операция успешно добалена')
                 } else {
                     console.warn(data.message)
                 }
@@ -217,7 +217,7 @@ export function saveOperation() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
-                    showAlert(dispatch, 'alert-success', 'Операция успешно изменена')
+                    showAlert(dispatch, 'success', 'Операция успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
@@ -262,7 +262,7 @@ export function deleteOperation(flag) {
                         data: {events: data.events || []}
                     })
                     const text = flag ? 'Операция успешно удалена' : 'Операция успшно восстановлена'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }

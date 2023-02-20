@@ -82,7 +82,7 @@ const SetStatus = props => {
                     className={`drop-list-statuses ${isTop ? 'drop-list-statuses-top' : ''}`}
                     style={{maxHeight: `${height}px`}}
                 >
-                    {props.listOfGroups.filter(group => group.statuses.length).map(group => (
+                    {props.listOfGroups.filter(group => group.statuses?.length).map(group => (
                         <div key={group.id} className='colm g3'>
                             <div>{group.name}</div>
                             {group.statuses.map(status => (

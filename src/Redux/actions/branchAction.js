@@ -112,7 +112,7 @@ export function createBranch() {
                     dispatch({
                         type: 'RESET_BRANCH'
                     })
-                    showAlert(dispatch, 'alert-success', 'Филиал успешно создан')
+                    showAlert(dispatch, 'success', 'Филиал успешно создан')
                 } else {
                     console.warn(data.message)
                 }
@@ -161,7 +161,7 @@ export function saveBranch() {
                     dispatch({
                         type: 'RESET_BRANCH'
                     })
-                    showAlert(dispatch, 'alert-success', 'Филиал успешно изменен')
+                    showAlert(dispatch, 'success', 'Филиал успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
@@ -200,7 +200,7 @@ export function deleteBranch(flag) {
                         type: 'RESET_BRANCH'
                     })
                     const text = flag ? 'Филиал успешно удален' : 'Филиал упешно восстановлен'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }

@@ -255,7 +255,7 @@ export function addEventComment() {
                         type: 'CHANGE_REQUEST_SPARE_PARTS_STATE',
                         data: {events: data.events || [], event_comment: ''}
                     })
-                    showAlert(dispatch, 'alert-success', 'Комментарий успешно добавлен')
+                    showAlert(dispatch, 'success', 'Комментарий успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
@@ -299,7 +299,7 @@ export function changeStatus(status_id, request_spare_part_id) {
                         type: 'CHANGE_REQUEST_SPARE_PARTS_STATE',
                         data: {request_spare_parts: data.request_spare_parts, count: data.count}
                     })
-                    showAlert(dispatch, 'alert-success', 'Статус успешно изменен')
+                    showAlert(dispatch, 'success', 'Статус успешно изменен')
                 } else {
                     console.warn(data.message)
                 }

@@ -136,7 +136,7 @@ export function createPayroll() {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusPayrollEditor: false}
                     })
-                    showAlert(dispatch, 'alert-success', 'Начисление успешно создано')
+                    showAlert(dispatch, 'success', 'Начисление успешно создано')
                 } else {
                     console.warn(data.message)
                 }
@@ -174,7 +174,7 @@ export function deletePayroll(flag) {
                         data: {statusPayrollEditor: false}
                     })
                     const text = flag ? 'Начисление успешно удалено' : 'Начисление успешно восстановленно'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }

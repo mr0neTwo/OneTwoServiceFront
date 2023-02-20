@@ -73,7 +73,7 @@ export function createCustomOrderPart() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
-                    showAlert(dispatch, 'alert-success', 'Запчасть успешно добавлена')
+                    showAlert(dispatch, 'success', 'Запчасть успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
@@ -128,7 +128,7 @@ export function saveOrderPart() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
-                    showAlert(dispatch, 'alert-success', 'Запчасть успешно изменена')
+                    showAlert(dispatch, 'success', 'Запчасть успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
@@ -176,7 +176,7 @@ export function deleteOrderPart(flag) {
                         data: {ordersShow: data.orders, events: data.events || []}
                     })
                     const text = flag ? 'Запчасть успешно удалена' : 'Запчасть успешно восстановлена'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }

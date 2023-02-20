@@ -12,8 +12,6 @@ import {
 import {changeVisibleState, initStatusMenuVisibleAction} from '../../Redux/actions'
 import {changeBookState} from '../../Redux/actions/bookActions'
 
-
-
 import Equipment from '../general/cell/Equipment'
 import StikerToPrint from './newOrder/orderHisroy/StikerToPrint'
 import TableHeader from '../general/TableHeader'

@@ -102,7 +102,7 @@ export function createCashbox() {
                     dispatch({
                         type: 'RESET_CASHBOX'
                     })
-                    showAlert(dispatch, 'alert-success', 'Касса успешно создана')
+                    showAlert(dispatch, 'success', 'Касса успешно создана')
                 } else {
                     console.warn(data.message)
                 }
@@ -149,7 +149,7 @@ export function saveEditCashbox() {
                     dispatch({
                         type: 'RESET_CASHBOX'
                     })
-                    showAlert(dispatch, 'alert-success', 'Касса успешно изменена')
+                    showAlert(dispatch, 'success', 'Касса успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
@@ -187,7 +187,7 @@ export function deleteCashbox(flag) {
                         type: 'RESET_CASHBOX'
                     })
                     const text = flag ? 'Касса успешно удалена' : 'Касса успешно восстановлена'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }

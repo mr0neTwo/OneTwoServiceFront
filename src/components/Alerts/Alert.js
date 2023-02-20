@@ -4,23 +4,20 @@ import Icon from '../general/Icon'
 
 const Alert = (props) => {
 
-    let icon, color
-    if (props.type === 'alert-success') {
+    let icon
+    if (props.type === 'success') {
         icon = ICON.CHECK_MARKER
-        color = '#155724'
     }
-    if (props.type === 'alert-warning') {
+    if (props.type === 'warning') {
         icon = ICON.WARNING
-        color = '#856404'
     }
-    if (props.type === 'alert-danger') {
+    if (props.type === 'danger') {
         icon = ICON.CROSS
-        color = '#721c24'
     }
 
     return (
-        <div className={`alert ${props.type}`}>
-            <Icon icon={icon} color={color} className='icon-s2 mr5'/>
+        <div className={`alert__message alert__message_${props.type}`}>
+            <Icon icon={icon} className='icon'/>
             <div>{props.text}</div>
         </div>
     )

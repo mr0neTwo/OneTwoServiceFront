@@ -1,21 +1,25 @@
-import React from 'react'
+import React, {useMemo} from 'react'
 import {connect} from 'react-redux'
 
-import {changeReqSparePartState, getReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
+import {changeReqSparePartState, changeStatus, getReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
 
 import TableHeader from '../../general/TableHeader'
-import EstimatedComeAt from './cell/EstimatedComeAt'
-import Status from './cell/Status'
 import Executor from './cell/Executor'
 import Client from './cell/Client'
 import Order from './cell/Order'
 import Price from './cell/Price'
-import SparePart from './cell/SparePart'
+import SparePart from '../../general/cell/SparePart'
 import Label from "../../general/cell/Label";
 import CreatedAt from "../../general/cell/CreateAt";
 import EstimatedDoneAt from "../../general/cell/EstimatedDoneAt";
+import SetStatus from "../../general/SetStatus";
+import Money from "../../general/cell/Money";
+import Balance from "../../general/cell/Balance";
 
 const RequestSparePartTable = (props) => {
+
+    const listOfGroup = useMemo(() => props.status_group.filter(group => [13, 14, 15, 16, 17, 18].indexOf(group.type_group) !== -1),
+        [props.status_group]) // группы статусов запросов запчастей
 
     const chooseCell = (header, reqsp) => {
 
@@ -51,10 +55,24 @@ const RequestSparePartTable = (props) => {
 
             case 4:
                 return (
-                    <SparePart key={header.id} reqsp={reqsp}/>
+                    <SparePart
+                        key={header.id}
+                        title={reqsp.part.title}
+                        description={reqsp.part.description}
+                    />
                 )
-            case 5: return <td key={header.id}><Status status={reqsp.status} request_spare_part_id={reqsp.id}/></td>
-            case 7: return <Price key={header.id} reqsp={reqsp}/>
+            case 5:
+                return (
+                <td key={header.id}>
+                    <SetStatus
+                        id={reqsp.id * reqsp.status.id}
+                        status={reqsp.status}
+                        listOfGroups={listOfGroup}
+                        changeStatus = {status => props.changeStatus(status.id, reqsp.id)}
+                    />
+                </td>
+            )
+            case 7:return <Balance key={header.id} balance={reqsp.amount * reqsp.cost + reqsp.delivery_cost}/>
             case 9: return <Executor key={header.id} reqsp={reqsp}/>
             case 10: return <Client key={header.id} client={reqsp.client}/>
             case 11: return <Client key={header.id} client={reqsp.supplier}/>
@@ -103,12 +121,15 @@ const RequestSparePartTable = (props) => {
 
 const mapStateToProps = state => ({
     reqsp: state.reqsp,
-    permissions: state.data.user.role.permissions
+    permissions: state.data.user.role.permissions,
+    status_group: state.data.status_group
+
 })
 
 const mapDispatchToProps = {
     changeReqSparePartState,
-    getReqSparePart
+    getReqSparePart,
+    changeStatus
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestSparePartTable)

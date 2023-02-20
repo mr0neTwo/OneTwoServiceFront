@@ -72,7 +72,7 @@ export function createEType() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Тип успешно добавлен')
+                    showAlert(dispatch, 'success', 'Тип успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
@@ -124,7 +124,7 @@ export function createEbrand() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Бренд успешно добавлен')
+                    showAlert(dispatch, 'success', 'Бренд успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
@@ -177,7 +177,7 @@ export function createESubtype() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Модуль/серия успешно добавлен')
+                    showAlert(dispatch, 'success', 'Модуль/серия успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
@@ -229,7 +229,7 @@ export function createEModel() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Модель успешно добавлена')
+                    showAlert(dispatch, 'success', 'Модель успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
@@ -280,7 +280,7 @@ export function createEquipmentType(title) {
                             data: {filter_type: '', equipment_type: data.equipment_type},
                         })
                     }
-                    showAlert(dispatch, 'alert-success', 'Тип успешно добавлен')
+                    showAlert(dispatch, 'success', 'Тип успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
@@ -364,7 +364,7 @@ export function createEquipmentBrand(title) {
                             data: {filter_brand: '', equipment_brand: data.brand},
                         })
                     }
-                    showAlert(dispatch, 'alert-success', 'Бренд успешно добавлен')
+                    showAlert(dispatch, 'success', 'Бренд успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
@@ -447,7 +447,7 @@ export function cteateEquipmentSubtype(title) {
                             data: {filter_subtype: '', equipment_subtype: data.subtype},
                         })
                     }
-                    showAlert(dispatch, 'alert-success', 'Модуль/серия успешно добавлена')
+                    showAlert(dispatch, 'success', 'Модуль/серия успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
@@ -530,7 +530,7 @@ export function createEquipmentModel(title) {
                             data: {filter_model: '', equipment_model: data.model},
                         })
                     }
-                    showAlert(dispatch, 'alert-success', 'Модель успешно добавлена')
+                    showAlert(dispatch, 'success', 'Модель успешно добавлена')
                 } else {
                     console.warn(data.message)
                 }
@@ -614,7 +614,7 @@ export function seveEquipmentType() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Тип успешно изменен')
+                    showAlert(dispatch, 'success', 'Тип успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
@@ -667,7 +667,7 @@ export function seveEquipmentBrand() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Бренд успешно изменен')
+                    showAlert(dispatch, 'success', 'Бренд успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
@@ -722,7 +722,7 @@ export function seveEquipmentSubtype() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Модуль/серия успешно изменена')
+                    showAlert(dispatch, 'success', 'Модуль/серия успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
@@ -776,7 +776,7 @@ export function seveEquipmentModel() {
                     dispatch({
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
-                    showAlert(dispatch, 'alert-success', 'Модель успешно изменена')
+                    showAlert(dispatch, 'success', 'Модель успешно изменена')
                 } else {
                     console.warn(data.message)
                 }
@@ -824,7 +824,7 @@ export function deleteEquipmentType(flag) {
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
                     const text = flag ? 'Тип успешно удален' : 'Тип упешно восстановлен'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }
@@ -873,7 +873,7 @@ export function deleteEquipmentBrand(flag) {
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
                     const text = flag ? 'Бренд успешно удален' : 'Бренд упешно восстановлен'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, '-success', text)
                 } else {
                     console.warn(data.message)
                 }
@@ -922,7 +922,7 @@ export function deleteEquipmentSubtype(flag) {
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
                     const text = flag ? 'Модуль/серия успешно удалена' : 'Модуль/серия упешно восстановлена'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }
@@ -972,7 +972,7 @@ export function deleteEquipmentModel(flag) {
                         type: 'RESET_BOOK_EQUIPMENT',
                     })
                     const text = flag ? 'Модель успешно удалена' : 'Модель упешно восстановлена'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }

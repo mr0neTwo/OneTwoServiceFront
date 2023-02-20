@@ -65,3 +65,4 @@ export const Modal = {
         RESIDUE_RULE: 3
     }
 }
+

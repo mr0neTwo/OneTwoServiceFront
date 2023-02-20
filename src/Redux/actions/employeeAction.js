@@ -86,7 +86,7 @@ export function createEmployee() {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusEmployeeEditor: false}
                     })
-                    showAlert(dispatch, 'alert-success', 'Сотрудник успешно создан')
+                    showAlert(dispatch, 'success', 'Сотрудник успешно создан')
                 } else {
                     console.warn(data.message)
                 }
@@ -131,7 +131,7 @@ export function saveEditEmployee() {
                         type: 'CHANGE_VISIBLE_STATE',
                         data: {statusEmployeeEditor: false}
                     })
-                    showAlert(dispatch, 'alert-success', 'Сотрудник успешно изменен')
+                    showAlert(dispatch, 'success', 'Сотрудник успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
@@ -166,7 +166,7 @@ export function deleteEmployee(flag) {
                         data: {statusEmployeeEditor: false}
                     })
                     const text = flag ? 'Сотрудник упешно удален' : 'Сотрудник успешно восстановлен'
-                    showAlert(dispatch, 'alert-success', text)
+                    showAlert(dispatch, 'success', text)
                 } else {
                     console.warn(data.message)
                 }
@@ -198,7 +198,7 @@ export function saveAvatar(data) {
                         type: 'CHANGE_DATA_STATE',
                         data: {user: data.user},
                     })
-                    showAlert(dispatch, 'alert-success', 'Аватарка успшно изменена')
+                    showAlert(dispatch, 'success', 'Аватарка успшно изменена')
                 } else {
                     console.warn(data.message)
                 }

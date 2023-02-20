@@ -4,7 +4,7 @@ import Alert from './Alert'
 
 const Alerts = (props) => {
     return (
-        <div className='alertAria'>
+        <div className='alert'>
             {props.alerts.length ? props.alerts.map(alert =>(
                 <Alert text={alert.text} type={alert.type} key={alert.id}/>
             )) : null}

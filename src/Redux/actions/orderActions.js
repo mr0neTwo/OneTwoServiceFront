@@ -164,7 +164,7 @@ export function createOrder() {
                         type: 'CHANGE_FILTER_STATE',
                         data: {badges: data.badges}
                     })
-                    showAlert(dispatch, 'alert-success', 'Заказ успешно создан')
+                    showAlert(dispatch, 'success', 'Заказ успешно создан')
                 } else {
                     console.warn(data.message)
                 }
@@ -238,7 +238,7 @@ export function changeStatus(status_id, order_id) {
                         type: 'CHANGE_FILTER_STATE',
                         data: {badges: data.badges}
                     })
-                    showAlert(dispatch, 'alert-success', 'Статус успешно изменен')
+                    showAlert(dispatch, 'success', 'Статус успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
@@ -315,7 +315,7 @@ export function saveOrder() {
                         type: 'CHANGE_FILTER_STATE',
                         data: {badges: data.badges}
                     })
-                    showAlert(dispatch, 'alert-success', 'Заказ успешно изменен')
+                    showAlert(dispatch, 'success', 'Заказ успешно изменен')
                 } else {
                     console.warn(data.message)
                 }
@@ -401,7 +401,7 @@ export function addEventComment() {
                         type: 'CHANGE_ORDER_STATE',
                         data: {events: data.events || [], event_comment: ''}
                     })
-                    showAlert(dispatch, 'alert-success', 'Комментарий успешно добавлен')
+                    showAlert(dispatch, 'success', 'Комментарий успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }

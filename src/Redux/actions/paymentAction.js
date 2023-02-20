@@ -87,9 +87,9 @@ export function createPayment(context) {
 
     return async dispatch => {
 
-        await  dispatch({
-            type: 'CHANGE_PAYMENT_STATE',
-            data: {showLoader: true}
+        await dispatch({
+            type: 'CHANGE_VISIBLE_STATE',
+            data: {statusPaymentsEditor: false}
         })
 
         await fetch(state.data.url_server + '/payments', request_config)
@@ -97,10 +97,10 @@ export function createPayment(context) {
             .then(data => {
                 if (data.success) {
                     if (context.type === 'payment') {
-                        dispatch({
-                            type: 'CHANGE_PAYMENT_STATE',
-                            data: {showLoader: false}
-                        })
+                        // dispatch({
+                        //     type: 'CHANGE_PAYMENT_STATE',
+                        //     data: {showLoader: false}
+                        // })
                         dispatch({
                             type: 'CHANGE_CASHBOX_STATE',
                             data: {cashboxes: data.cashboxes},
@@ -136,7 +136,7 @@ export function createPayment(context) {
                             data: {badges: data.badges}
                         })
                     }
-                    showAlert(dispatch, 'alert-success', 'Платеж успешно добавлен')
+                    showAlert(dispatch, 'success', 'Платеж успешно добавлен')
                 } else {
                     console.warn(data.message)
                 }
@@ -147,15 +147,6 @@ export function createPayment(context) {
             type: 'RESET_PAYMENTS'
         })
 
-        await dispatch({
-            type: 'CHANGE_VISIBLE_STATE',
-            data: {statusOrderLoader: false, statusPaymentsEditor: false}
-        })
-
-        await dispatch({
-            type: 'CHANGE_PAYMENT_STATE',
-            data: {showLoader: false}
-        })
     }
 }
 
@@ -263,7 +254,7 @@ export function deletePayment(flag) {
                     })
                 }
                 const text = flag ? 'Платеж успешно удален' : 'Платеж упешно восстановлен'
-                showAlert(dispatch, 'alert-success', text)
+                showAlert(dispatch, 'success', text)
             })
             .catch(error => bad_request(dispatch, error, 'Запрос удаление платежа не выполнен'))
 
