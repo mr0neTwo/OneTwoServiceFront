@@ -57,7 +57,7 @@ const ClientAnotherInfo = (props) => {
                     name={['Фиксированная', 'От типа цены']}
                     func1={() => props.changeClientState({discount_materials_type: false})}
                     func2={() => props.changeClientState({discount_materials_type: true})}
-                    checked={true}
+                    checked={props.client.discount_materials_type}
                     disabled={props.client.deleted}
                 />
                 {props.client.discount_materials_type ? (
@@ -84,7 +84,7 @@ const ClientAnotherInfo = (props) => {
                     name={['Фиксированная', 'От типа цены']}
                     func1={() => props.changeClientState({discount_good_type: false})}
                     func2={() => props.changeClientState({discount_good_type: true})}
-                    checked={true}
+                    checked={props.client.discount_good_type}
                     disabled={props.client.deleted}
                 />
                 {props.client.discount_good_type ? (

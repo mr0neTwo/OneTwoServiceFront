@@ -50,7 +50,7 @@ export function createOperation(service) {
         if (state.order.client.discount_service_type) {
             const price = state.price.service_prices.find(price =>
                 price.service_id === service.id &&
-                price.discount_margin_id === state.order.client.discount_service_margin_id
+                price.discount_margin_id === state.order.client.discount_service_margin.id
             )
             if (price) return price.cost
             return 0
