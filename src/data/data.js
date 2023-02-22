@@ -62,7 +62,8 @@ export const Modal = {
         ORDER: 0,
         PAYMENT: 1,
         PART: 2,
-        RESIDUE_RULE: 3
+        RESIDUE_RULE: 3,
+        REQUEST_SPARE_PART: 4
     }
 }
 

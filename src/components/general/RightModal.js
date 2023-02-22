@@ -4,14 +4,19 @@ import {connect} from 'react-redux'
 
 import {Modal} from '../../data/data'
 import PartEditor from '../Wherehouse/WarehouseParts/PartEditor/PartEditor'
+import RequestSparePartEditor from "../Wherehouse/RequestSpareParts/RequestSparePartEditor";
 
 
 const RightModal = (props) => {
 
     const getModal = () => {
         switch (props.view.modalType) {
+
             case Modal.Type.PART:
                 return <PartEditor/>
+
+            case Modal.Type.REQUEST_SPARE_PART:
+                return <RequestSparePartEditor/>
         }
     }
 

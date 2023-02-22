@@ -4,17 +4,14 @@ import {connect} from 'react-redux'
 import {changeReqSparePartState, changeStatus, getReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
 
 import TableHeader from '../../general/TableHeader'
-import Executor from './cell/Executor'
-import Client from './cell/Client'
-import Order from './cell/Order'
-import Price from './cell/Price'
 import SparePart from '../../general/cell/SparePart'
-import Label from "../../general/cell/Label";
-import CreatedAt from "../../general/cell/CreateAt";
-import EstimatedDoneAt from "../../general/cell/EstimatedDoneAt";
-import SetStatus from "../../general/SetStatus";
-import Money from "../../general/cell/Money";
-import Balance from "../../general/cell/Balance";
+import Client from '../../general/cell/Client'
+import Label from "../../general/cell/Label"
+import CreatedAt from "../../general/cell/CreateAt"
+import EstimatedDoneAt from "../../general/cell/EstimatedDoneAt"
+import SetStatus from "../../general/SetStatus"
+import Balance from "../../general/cell/Balance"
+import Data from "../../general/cell/Data"
 
 const RequestSparePartTable = (props) => {
 
@@ -23,6 +20,8 @@ const RequestSparePartTable = (props) => {
 
     const chooseCell = (header, reqsp) => {
 
+        if (!header.visible) return null
+
         switch (header.id) {
 
             case 1:
@@ -30,7 +29,7 @@ const RequestSparePartTable = (props) => {
                     <Label
                         key={header.id}
                         label={reqsp.label}
-                        func={() => props.getReqSparePart}
+                        func={() => props.getReqSparePart(reqsp.id)}
                     />
                 )
 
@@ -73,11 +72,11 @@ const RequestSparePartTable = (props) => {
                 </td>
             )
             case 7:return <Balance key={header.id} balance={reqsp.amount * reqsp.cost + reqsp.delivery_cost}/>
-            case 9: return <Executor key={header.id} reqsp={reqsp}/>
+            case 9: return <Data key={header.id} data={reqsp.executor.name}/>
             case 10: return <Client key={header.id} client={reqsp.client}/>
             case 11: return <Client key={header.id} client={reqsp.supplier}/>
-            case 12: return <Order key={header.id} reqsp={reqsp}/>
-            default: return <td key={header.id}>{reqsp[header.field]}</td>
+            case 12: return <Data key={header.id} data={reqsp.order.id_label}/>
+            default: return <Data key={header.id} data={reqsp[header.field]}/>
         }
     }
 
@@ -87,8 +86,8 @@ const RequestSparePartTable = (props) => {
     const table_headers = props.reqsp.table_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 6)
 
     return (
-        <div className='tableOrdersBox mt15'>
-            <table id='tableWarehouse'>
+        <div className='table-orders-container'>
+            <table>
                 <thead>
                 <tr>
                     {table_headers.map(header => (

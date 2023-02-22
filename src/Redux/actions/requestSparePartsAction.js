@@ -2,6 +2,7 @@ import store from '../store'
 
 import { getRequestConfig, bad_request } from './actionUtils'
 import {showAlert} from '../actions'
+import {Modal} from "../../data/data";
 
 export function changeReqSparePartState( data ) {
     return {
@@ -67,7 +68,7 @@ export function getReqSparePart(request_spare_part_id) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusReqSparePartEditor: true}
+                        data: {isRightModalOpen: true, modalType: Modal.Type.REQUEST_SPARE_PART}
                     })
                 } else {
                     console.warn(data.message)

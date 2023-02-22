@@ -11,6 +11,7 @@ import Button from '../../general/Button'
 import {changeVisibleState} from '../../../Redux/actions'
 import {ICON} from '../../../data/icons'
 import RequestSparePartFilter from './RequestSparePartFilter'
+import {Modal} from "../../../data/data";
 
 const RequestSpareParts = props => {
 
@@ -30,7 +31,7 @@ const RequestSpareParts = props => {
 
     const handleNewReqSparePart = () => {
         props.changeReqSparePartState({executor: {id: 0, name: 'Не назначен'}})
-        props.changeVisibleState({statusReqSparePartEditor: true})
+        props.changeVisibleState({isRightModalOpen: true, modalType: Modal.Type.REQUEST_SPARE_PART})
     }
 
     const table_headers = props.reqsp.table_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 6)
@@ -40,7 +41,7 @@ const RequestSpareParts = props => {
             <div className='row jc-sb'>
                 <div className='two-buttons'>
                     <Button
-                        id='newReqSparePart'
+                        id='RequestSparePartEditor'
                         size='med'
                         type='create'
                         title='Запрос'

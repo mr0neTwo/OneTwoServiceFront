@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import {showPhone} from '../utils'
+import {checkObject, showPhone} from '../utils'
 import Button from '../Button'
 import {ICON} from '../../../data/icons'
 
@@ -9,6 +9,8 @@ import {ICON} from '../../../data/icons'
 const Client = props => {
 
     if (!props.permissions.includes('see_client')) return <td/>
+
+    if (!checkObject(props.client)) return <td/>
 
     return  (
         <td className='p-r'>

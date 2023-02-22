@@ -23,8 +23,8 @@ function PartTable(props) {
     }
 
     return (
-        <div className="tableWarehouseBox mt15">
-            <table id='tableWarehouse'>
+        <div className="tableWarehouseBox">
+            <table>
                 <thead>
                     <tr>
                         {props.part.choosed_headers.map(header => (

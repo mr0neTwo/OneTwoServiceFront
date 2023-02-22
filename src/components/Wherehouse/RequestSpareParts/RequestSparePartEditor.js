@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {addParts} from '../../../Redux/actions/partAction'
-import {changeReqSparePartState, createReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
+import {changeReqSparePartState, changeStatus, createReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
 import {deleteReqSparePart, resetReqSparePart, saveReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
 import {checkObject} from '../../general/utils'
 import {changeVisibleState} from '../../../Redux/actions'
@@ -18,11 +18,13 @@ import {addClients, changeClientState} from '../../../Redux/actions/clientAction
 import {addOrders} from '../../../Redux/actions/orderActions'
 import {changeFilterState, resetFilter} from '../../../Redux/actions/filterAction'
 import LableInput from '../../general/LableInput'
-import Status from './cell/Status'
 import RequestHistory from './RequestHistory'
+import SetStatus from "../../general/SetStatus";
 
 
 const RequestSparePartEditor = (props) => {
+
+    const componentId = 'RequestSparePartEditor'
 
     const [chooseData, setChooseData] = useState(!!props.reqsp.estimated_come_at)
 
@@ -41,17 +43,14 @@ const RequestSparePartEditor = (props) => {
     const handleClose = () => {
         props.resetReqSparePart()
         props.changeVisibleState({
-            statusReqSparePartEditor: false,
+            isRightModalOpen: false,
+            modalType: '',
             inputRequestSparePart: true
         })
     }
 
     const clickHandel = event => {
-        if (
-            !event.composedPath().map((el) => el.id).includes('statusReqSparePartEditor') &&
-            !event.composedPath().map((el) => el.id).includes('newReqSparePart') &&
-            !event.composedPath().map((el) => el.id).includes('wpartEditorWindow')
-        ) {
+        if (!event.composedPath().map((el) => el.id).includes(componentId)) {
             handleClose()
         }
     }
@@ -84,25 +83,30 @@ const RequestSparePartEditor = (props) => {
         }
     }
 
+    const listOfGroup = useMemo(() => props.status_group.filter(group => [13, 14, 15, 16, 17, 18].indexOf(group.type_group) !== -1),
+        [props.status_group]) // группы статусов запросов запчастей
+
     return (
-        <div className='rightBlock z999'>
-            <div className='rightBlockWindow wmn700' id='statusReqSparePartEditor'>
-                <div className='row h100 al-itm-fs'>
-                    <div className='mr5'>
-                    <div className='createNewTitle al-itm-ct'>
-                        <span>{props.reqsp.edit ? `Запрос ${props.reqsp.label}` : 'Новый запрос'}</span>
-                        <span className='ml5'>
+        <div className='modal__box-right' id={componentId}>
+            <div className='row'>
+                <div>
+
+                    <div className='two-buttons'>
+                        <h4 className='nowrap'>{props.reqsp.edit ? `Запрос ${props.reqsp.label}` : 'Новый запрос'}</h4>
                             {props.reqsp.edit ?
-                                <Status
+                                <SetStatus
+                                    id={props.reqsp.edit}
                                     status={props.reqsp.status}
-                                    request_spare_part_id={props.reqsp.edit}/>
-                                : null}
-                        </span>
+                                    listOfGroups={listOfGroup}
+                                    changeStatus = {status => props.changeStatus(status.id, props.reqsp.edit)}
+                                />
+                                : null
+                            }
                     </div>
 
-                    <div className='contentEditor'>
+                    <div className='modal__body-right'>
                         <SetPart/>
-                        <div className='row al-itm-fe'>
+                        <div className='two-buttons'>
                             <ChooseButton
                                 className='mt15 mr-rg-20'
                                 title='Дата поставки'
@@ -118,8 +122,7 @@ const RequestSparePartEditor = (props) => {
                                 checked={!chooseData}
                             />
                             <ChooseDate
-                                className='h31'
-                                width='250px'
+                               title='Дата'
                                 func={date => props.changeReqSparePartState({estimated_come_at: Math.round(date / 1000)})}
                                 current_date={props.reqsp.estimated_come_at * 1000}
                                 time={false}
@@ -220,20 +223,19 @@ const RequestSparePartEditor = (props) => {
                                 </div>
                             </div> : null}
                     </div>
-                    </div>
-                    {props.reqsp.edit ? <RequestHistory/> : null}
                 </div>
-
-                <BottomButtons
-                    edit={props.reqsp.edit}
-                    deleted={props.reqsp.deleted}
-                    create={handleCreate}
-                    save={handleSave}
-                    delete={() => props.deleteReqSparePart(true)}
-                    recover={() => props.deleteReqSparePart(false)}
-                    close={handleClose}
-                />
+                {props.reqsp.edit ? <RequestHistory/> : null}
             </div>
+
+            <BottomButtons
+                edit={props.reqsp.edit}
+                deleted={props.reqsp.deleted}
+                create={handleCreate}
+                save={handleSave}
+                delete={() => props.deleteReqSparePart(true)}
+                recover={() => props.deleteReqSparePart(false)}
+                close={handleClose}
+            />
         </div>
     )
 }
@@ -243,6 +245,7 @@ const mapStateToProps = state => ({
     search: state.filter.search,
     reqsp: state.reqsp,
     client: state.client,
+    status_group: state.data.status_group,
     permissions: state.data.user.role.permissions,
     employees: state.employee.employees.filter(employee => !employee.deleted)
 })
@@ -259,7 +262,8 @@ const mapDispatchToProps = {
     changeFilterState,
     createReqSparePart,
     saveReqSparePart,
-    deleteReqSparePart
+    deleteReqSparePart,
+    changeStatus
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestSparePartEditor)

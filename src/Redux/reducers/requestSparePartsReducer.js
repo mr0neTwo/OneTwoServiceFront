@@ -30,11 +30,11 @@ const initialState = {
 
     event_comment: '',
 
-    show_deleted: false,
-    filter_status: [],
-    filter_created_by: [],
-    filter_executor: [],
-    filter_supplier: {},
+    show_deleted: JSON.parse(localStorage.getItem(key + 'show_deleted')) || false,
+    filter_status: JSON.parse(localStorage.getItem(key + 'filter_status')) || [],
+    filter_created_by: JSON.parse(localStorage.getItem(key + 'filter_created_by')) || [],
+    filter_executor: JSON.parse(localStorage.getItem(key + 'filter_executor')) || [],
+    filter_supplier: JSON.parse(localStorage.getItem(key + 'filter_supplier')) || {},
     filter_created_at: JSON.parse(localStorage.getItem(key + 'filter_created_at')) || [0, 0],
     page: 0,
 
@@ -46,7 +46,8 @@ export const requestSparePartsReducer = (state = initialState, action) => {
     switch (action.type){
 
         case 'CHANGE_REQUEST_SPARE_PARTS_STATE': {
-            const local_save = ['filter_created_at', 'table_headers', 'event_filter']
+            const local_save = ['filter_created_at', 'table_headers', 'event_filter', 'show_deleted', 'filter_status',
+                'filter_created_by', 'filter_executor', 'filter_supplier']
             Object.keys(action.data).forEach(field => {
                 if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
             })
@@ -113,7 +114,7 @@ export const requestSparePartsReducer = (state = initialState, action) => {
                 new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem(action.field, JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem(key + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
 
             return {
