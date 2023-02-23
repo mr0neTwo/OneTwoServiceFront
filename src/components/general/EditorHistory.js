@@ -20,8 +20,7 @@ const EditorHistory = (props) => {
     const events = props.events.filter(event => values.includes(event.event_type))
 
     return (
-        <div className='contentEditor mt15'>
-            <div className='ml30 h100'>
+        <div className='history-order-editor__events'>
                 {events.map((event, idx) => {
                     if (event.event_type.indexOf('CREATE') !== -1 || event.event_type === 'CHANGE_STATUS') {
                         return (
@@ -43,7 +42,6 @@ const EditorHistory = (props) => {
                         )
                     }
                 })}
-            </div>
         </div>
     )
 }

@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import {selectedReqSparePart} from '../../../Redux/actions/requestSparePartsAction'
-import {request_event_types} from '../../../data/data'
-import {ICON} from '../../../data/icons'
+import {changeRegistrationState} from "../../../Redux/actions/registrationAction"
+
 
 import EditorHistory from '../../general/EditorHistory'
 import TableFields from '../../general/TableFields'
@@ -11,17 +10,12 @@ import AddComment from './AddComment'
 
 const RequestHistory = (props) => {
     return (
-        <div className = 'orderHistory'>
-            <div className='jc-c'>
+        <div className = 'history-order-editor'>
+            <div className='history-order-editor__buttons'>
                 <TableFields
                     id='requestEvents'
-                    height='200px'
-                    classNameMenu='aventFilterMenu'
-                    list={request_event_types}
-                    checked_list={props.reqsp.event_filter}
-                    func={props.selectedReqSparePart}
-                    field='event_filter'
-                    icon={ICON.FILTER}
+                    list={props.reqsp.event_filter}
+                    func={event_filter => props.changeRegistrationState({event_filter})}
                 />
             </div>
             <EditorHistory
@@ -38,7 +32,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    selectedReqSparePart
+    changeRegistrationState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestHistory)

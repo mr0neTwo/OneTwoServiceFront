@@ -1712,6 +1712,10 @@ input[type=range]:hover::-moz-range-track {
   box-sizing: border-box;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);
 }
+.modal__box-right_history {
+  flex-direction: row;
+  width: 800px;
+}
 .modal__body-right {
   display: flex;
   flex-direction: column;

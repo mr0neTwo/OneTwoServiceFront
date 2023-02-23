@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import { changeVisibleState} from '../../Redux/actions'
 import {addClients, changeClientState, getClient} from '../../Redux/actions/clientAction'
-import {checkObject, showPhone, valueOfPhoneInput} from './utils'
+import {checkObject, showPhone} from './utils'
 import Icon from './Icon'
 import {ICON} from '../../data/icons'
 
@@ -34,13 +34,10 @@ const SetClient = (props) => {
 
     const [listVisible, setListVisible] = useState(false)
 
-    const id = `SetClient${props.id}`
+    const componentId = `SetClient${props.id}`
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map(el => el.id).includes(id) &&
-            !event.composedPath().map(el => el.id).includes(props.id)
-        ) {
+        if (!event.composedPath().map(el => el.id).includes(componentId)) {
             setListVisible(false)
         }
     }
@@ -84,7 +81,7 @@ const SetClient = (props) => {
 
     if (checkObject(props.client)) {
         return (
-            <div className={`client-card ${props.className}`}>
+            <div className={`client-card ${props.className || ''}`}>
                 <div className='label client-card_label'>Клиент</div>
                 <div className = 'client-card__card'>
                     <div className='client-card__name-row'>
@@ -126,7 +123,7 @@ const SetClient = (props) => {
 
     return (
         <div
-            id={id}
+            id={componentId}
             className={mainClassName}
         >
 
@@ -137,7 +134,6 @@ const SetClient = (props) => {
 
 
             <div
-                id={props.id}
                 className='input select__input'
                 onClick={() => setListVisible(true)}
             >

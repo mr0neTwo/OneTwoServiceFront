@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {changeReqSparePartState} from '../../../Redux/actions/requestSparePartsAction'
@@ -11,21 +11,19 @@ import Button from '../../general/Button'
 import {checkObject} from '../../general/utils'
 
 
-
 const SetPart = (props) => {
+
+    const componentId = 'SetPart'
 
     useEffect(() => {
         props.addParts()
     }, [props.part.filter_name])
 
-    const [showList, setShowList] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map(el => el.id).includes('listPart') &&
-            !event.composedPath().map(el => el.id).includes('spareParts')
-        ) {
-            setShowList(false)
+        if (!event.composedPath().map(el => el.id).includes(componentId)) {
+            setListVisible(false)
         }
     }
 
@@ -41,38 +39,50 @@ const SetPart = (props) => {
         props.changePartState({warehouse_category: props.warehouse.warehouse_categories})
     }
 
+    const mainClassName = useMemo(() => {
+        let className = 'select'
+        if (props.className) className += ` ${props.className}`
+        if (listVisible) className += ' select_active'
+        if (props.disabled) className += ' select_disabled'
+        if (props.checkedFlag && !props.view[props.checkedFlag]) className += ' select_error'
+        return className
+    }, [props.className, listVisible, props.disabled, props.view])
+
     if (checkObject(props.reqsp.part)) {
         return (
-            <div className = 'mt15 w400'>
-                <div className='partCard'>
-                    <div>
-                        <div>
+            <div className={`client-card ${props.className || ''}`}>
+                <div className='client-card__card'>
+                    <div className='client-card__name-row'>
+                        <div
+                            id=''
+                            className='client-card__name'
+                            onClick={() => console.log(props.reqsp.part)}
+                        >
                             <Icon
-                                className='icon-client'
+                                className='icon'
                                 icon={ICON.BUG}
                             />
-                            <span
-                                className='partCardName'
-                                onClick={() => console.log(props.reqsp.part)}
-                            >
-                                {props.reqsp.part.title}
-                            </span>
+                            <div>{props.reqsp.part.title}</div>
                         </div>
-                        <div className='noWr w350'>{props.reqsp.part.description}</div>
-                        <div className='noWr w350'>
-                            <span>Артукул: </span>
-                            <span>{props.reqsp.part.article}</span>
-                        </div>
-                        <div className='noWr w350'>
-                            <span>Код: </span>
-                            <span>{props.reqsp.part.code}</span>
+                        <div
+                            className='client-card__icon-cancel'
+                            onClick={props.disabled ? null : () => props.changeReqSparePartState({part: {}})}
+                        >
+                            <Icon
+                                className='icon'
+                                icon={ICON.CANCEL}
+                            />
                         </div>
                     </div>
-                    <div
-                        className='crossButtom'
-                        onClick={() => props.changeReqSparePartState({part: {}})}
-                    >
-                        &#9587;
+
+                    <div className=''>{props.reqsp.part.description}</div>
+                    <div className=''>
+                        <span>Артукул: </span>
+                        <span>{props.reqsp.part.article}</span>
+                    </div>
+                    <div className=''>
+                        <span>Код: </span>
+                        <span>{props.reqsp.part.code}</span>
                     </div>
                 </div>
             </div>
@@ -83,50 +93,54 @@ const SetPart = (props) => {
     if (props.invisible) return <div/>
 
     return (
-        <div id='spareParts' className='w400 h52'>
+        <div
+            id={componentId}
+            className={mainClassName}
+        >
 
-            <div className='lableImput mt15'>Наименование товара</div>
+            <div className='lableImput'>Наименование товара</div>
 
-            <div className='blockInput'>
-                <div
-                    id='Parts'
-                    className='orderInputBox'
-                    style={{borderColor: props.view.inputRequestSparePart  ?  null : 'red'}}
-                    onClick={props.reqsp.edit ? null : () => setShowList(true)}
-                >
-                    <input
-                        className='optionFilterInput'
-                        onChange={event => props.changePartState({filter_name: event.target.value})}
-                    />
-                    <Icon
-                        className='icon-s4'
-                        icon={showList ? ICON.LEFT : ICON.DOWN}
-                    />
-                </div>
-                {showList ?
-                    <div className='listFilter' id='listPart'>
+            <div
+                className='input select__input'
+                onClick={() => setListVisible(true)}
+            >
+                <input
+                    className='optionFilterInput'
+                    onChange={event => props.changePartState({filter_name: event.target.value})}
+                />
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
+            </div>
+
+            {listVisible ?
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
                         {props.part.parts.map(part => (
                             <div
-                                className='rowGropList'
+                                className='select__item select__item_option select__item_client'
                                 key={part.id}
                                 onClick={() => props.changeReqSparePartState({part})}
                             >
-                                <div>{(part.marking !== part.title) && !!part.marking ? `${part.title } (${part.marking})`: part.title}</div>
-                                <div className='orderDate ml30 noWr'>
+                                <div className='nowrap'>{(part.marking !== part.title) && !!part.marking ? `${part.title} (${part.marking})` : part.title}</div>
+                                <div className='select__item_phone'>
                                     {part.description}
                                 </div>
                             </div>
                         ))}
-                        <div className='btmst'>
+                        <div className='select__buttons'>
                             <Button
-                                id='btaddWP'
+                                id='PartEditor'
+                                size='med'
+                                type='tertiary'
                                 title='+ Запчасть'
                                 className='whiteButton'
                                 onClick={handleNewPart}
                             />
                         </div>
-                    </div> : null}
-            </div>
+                    </div>
+                </div>
+                : null
+            }
+
         </div>
     )
 }
