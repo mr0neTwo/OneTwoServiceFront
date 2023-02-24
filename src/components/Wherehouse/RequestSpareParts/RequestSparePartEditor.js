@@ -88,7 +88,7 @@ const RequestSparePartEditor = (props) => {
 
     return (
         <div className='modal__box-right modal__box-right_history' id={componentId}>
-            <div className='modal__body-right'>
+            <div className='modal__body-right modal__body-right_history'>
 
                 <div className='two-buttons'>
                     <h4 className='nowrap'>{props.reqsp.edit ? `Запрос ${props.reqsp.label}` : 'Новый запрос'}</h4>

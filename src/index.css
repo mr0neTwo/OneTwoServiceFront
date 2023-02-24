@@ -1714,7 +1714,9 @@ input[type=range]:hover::-moz-range-track {
 }
 .modal__box-right_history {
   flex-direction: row;
-  width: 800px;
+  width: 840px;
+  padding: 0;
+  gap: 0;
 }
 .modal__body-right {
   display: flex;
@@ -1723,6 +1725,11 @@ input[type=range]:hover::-moz-range-track {
   overflow: auto;
   padding-right: 10px;
   gap: 15px;
+  box-sizing: border-box;
+}
+.modal__body-right_history {
+  width: 100%;
+  padding: 20px;
 }
 .modal__body {
   display: flex;
@@ -1896,6 +1903,7 @@ input[type=range]:hover::-moz-range-track {
   height: 100%;
   border-left: 1px solid var(--secondary);
   border-radius: 0 6px 6px 0;
+  flex-shrink: 0;
 }
 .history-order-editor__buttons {
   display: flex;
@@ -1908,7 +1916,6 @@ input[type=range]:hover::-moz-range-track {
   display: flex;
   flex-direction: column;
   padding-left: 10px;
-  max-height: 685px;
   height: 100%;
   overflow: auto;
   color: var(--main-darken);

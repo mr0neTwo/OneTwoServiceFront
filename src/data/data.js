@@ -39,7 +39,7 @@ export const request_event_types = [
     {id: 13, visible: true, title: 'Статус изменен', value: 'CHANGE_STATUS'},
     {id: 14, visible: true, title: 'Добавлен комментарий', value: 'ADD_COMMENT'},
     {id: 15, visible: true, title: 'Изменен срок поставки', value: 'CHANGE_ESTIMATED_COME_AT'},
-    {id: 15, visible: true, title: 'Установлен срок поставки', value: 'ADD_ESTIMATED_COME_AT'}
+    {id: 16, visible: true, title: 'Установлен срок поставки', value: 'ADD_ESTIMATED_COME_AT'}
 ]
 
 export const Payment = {

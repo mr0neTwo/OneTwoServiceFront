@@ -60,6 +60,4 @@ const EventStatus = props => {
     )
 }
 
-
-
 export default EventStatus

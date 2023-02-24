@@ -59,7 +59,9 @@
 
     &_history {
       flex-direction: row;
-      width: 800px;
+      width: 840px;
+      padding: 0;
+      gap: 0;
     }
   }
 
@@ -70,6 +72,12 @@
     overflow: auto;
     padding-right: 10px;
     gap: 15px;
+    box-sizing: border-box;
+
+    &_history {
+      width: 100%;
+      padding: 20px;
+    }
   }
 
   &__body {

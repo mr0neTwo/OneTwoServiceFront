@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import {changeRegistrationState} from "../../../Redux/actions/registrationAction"
-
+import {changeReqSparePartState} from "../../../Redux/actions/requestSparePartsAction";
 
 import EditorHistory from '../../general/EditorHistory'
 import TableFields from '../../general/TableFields'
@@ -15,7 +14,7 @@ const RequestHistory = (props) => {
                 <TableFields
                     id='requestEvents'
                     list={props.reqsp.event_filter}
-                    func={event_filter => props.changeRegistrationState({event_filter})}
+                    func={event_filter => props.changeReqSparePartState({event_filter})}
                 />
             </div>
             <EditorHistory
@@ -32,7 +31,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changeRegistrationState
+    changeReqSparePartState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestHistory)

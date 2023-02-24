@@ -57,7 +57,9 @@ const EventSimple = props => {
             style={style}
         >
             {!props.idx || !compareDates(props.event.created_at, lastEvent.created_at) ?
-                <div className='history-order-editor__event-date'>{showDate(props.event.created_at, false)}</div>
+                <div className='history-order-editor__event-date'>
+                    {showDate(props.event.created_at, false)}
+                </div>
                 : null
             }
             <div className='history-order-editor__item'>
