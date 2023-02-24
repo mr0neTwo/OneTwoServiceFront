@@ -3,14 +3,19 @@ import {connect} from 'react-redux'
 
 import {Modal} from '../../data/data'
 import ResidueRuleEditor from "../Wherehouse/WarehouseParts/PartEditor/ResidueRuleEditor";
+import RegistrationPartEditor from "../Wherehouse/WarehouseRegistration/RegistrationPartEditor";
 
 
 const CentralModal = (props) => {
 
     const getModal = () => {
         switch (props.view.modalCentralType) {
+
             case Modal.Type.RESIDUE_RULE:
                 return <ResidueRuleEditor/>
+
+            case Modal.Type.REGISTRATION_PART:
+                return <RegistrationPartEditor/>
         }
     }
 

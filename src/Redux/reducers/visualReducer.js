@@ -42,7 +42,6 @@ const initialState = {
    statusNotTemplateEditor: false,
    statusNotEventEditor: false,
    needToResetOrder: false,
-   statusRegistrationEditor: false,
    statusRegistrationPartEditor: false,
    statusRemainEditor: false,
    statusOrderNotFound: false,

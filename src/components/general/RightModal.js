@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {Modal} from '../../data/data'
 import PartEditor from '../Wherehouse/WarehouseParts/PartEditor/PartEditor'
 import RequestSparePartEditor from "../Wherehouse/RequestSpareParts/RequestSparePartEditor";
+import RegistrationEditor from "../Wherehouse/WarehouseRegistration/RegistrationEditor";
 
 
 const RightModal = (props) => {
@@ -17,6 +18,9 @@ const RightModal = (props) => {
 
             case Modal.Type.REQUEST_SPARE_PART:
                 return <RequestSparePartEditor/>
+
+            case Modal.Type.REGISTRATION:
+                return <RegistrationEditor/>
         }
     }
 

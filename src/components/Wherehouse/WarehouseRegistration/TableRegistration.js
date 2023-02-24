@@ -1,11 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import {showDate, showName} from '../../general/utils'
 import {changeRegistrationState, getRegistration} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 
 import TableHeader from '../../general/TableHeader'
+import Label from "../../general/cell/Label";
+import CreateAt from "../../general/cell/CreateAt";
+import Client from "../../general/cell/Client";
+import IconTitle from "../../general/cell/IconTitle";
+import {ICON} from "../../../data/icons";
+import {COLORS} from "../../../data/colors";
+import Balance from "../../general/cell/Balance";
+import Data from "../../general/cell/Data";
 
 const TableRegistration = (props) => {
 
@@ -13,25 +21,43 @@ const TableRegistration = (props) => {
     const chooseCell = (header, registration) => {
         switch (header.id) {
 
-            case 1: return <td key={header.id}>
-                <span
-                    className='link'
-                    onClick={() => props.getRegistration(registration.id)}
-                >
-                    {registration.label}
-                </span>
-            </td>
-            case 3: return (
-                <td key={header.id}>
-                   <div>{showName(registration.employee)}</div>
-                    <div className="orderDate">{showDate(registration.custom_created_at)}</div>
-                </td>
-            )
-            case 5: return <td key={header.id}>{registration.client.name}</td>
-            case 6: return <td key={header.id}>{registration.warehouse.title}</td>
-            case 7: return <td key={header.id}>{registration.price.toFixed(2) || 0}</td>
+            case 1:
+                return (
+                    <Label
+                        key={header.id}
+                        func={() => props.getRegistration(registration.id)}
+                        label={registration.label}
+                    />
+                )
+            case 3:
+                return (
+                    <CreateAt
+                        key={header.id}
+                        creator={registration.employee.name}
+                        date={registration.custom_created_at}
+                    />
+                )
+            case 5:
+                return (
+                    <Client
+                        key={header.id}
+                        client={registration.client}
+                    />
+                )
+            case 6:
+                return (
+                    <IconTitle
+                        key={header.id}
+                        title={registration.warehouse.title}
+                        icon={ICON[registration.warehouse.branch.icon]}
+                        color={registration.warehouse.branch.color}
+                    />
+                )
+            case 7:
+                return <Balance key={header.id} balance={registration.price}/>
 
-            default: return <td key={header.id}>{registration[header.field]}</td>
+            default:
+                return <Data key={header.id} data={registration[header.field]}/>
         }
     }
 
@@ -43,26 +69,26 @@ const TableRegistration = (props) => {
         <div className='tableOrdersBox mt15'>
             <table id="tableWarehouse">
                 <thead className="tableThead">
-                    <tr>
-                        {table_headers.map(header => (
-                            <TableHeader
-                                key={header.id}
-                                header={header}
-                                changeState={props.changeRegistrationState}
-                                headers={props.registration.table_headers}
-                            />
-                        ))}
-                    </tr>
+                <tr>
+                    {table_headers.map(header => (
+                        <TableHeader
+                            key={header.id}
+                            header={header}
+                            changeState={props.changeRegistrationState}
+                            headers={props.registration.table_headers}
+                        />
+                    ))}
+                </tr>
                 </thead>
                 <tbody>
-                    {props.registration.registrations.map(registration => (
-                        <tr
-                            key={registration.id}
-                            onDoubleClick={() => props.getRegistration(registration.id)}
-                        >
-                            {table_headers.map(header => chooseCell(header, registration))}
-                        </tr>
-                    ))}
+                {props.registration.registrations.map(registration => (
+                    <tr
+                        key={registration.id}
+                        onDoubleClick={() => props.getRegistration(registration.id)}
+                    >
+                        {table_headers.map(header => chooseCell(header, registration))}
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </div>

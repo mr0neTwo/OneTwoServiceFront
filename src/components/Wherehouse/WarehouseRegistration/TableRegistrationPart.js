@@ -35,9 +35,8 @@ const TableRegistrationPart = (props) => {
         props.changeRegistrationState({parts})
     }
 
-    if (!props.registration.parts.length) {
-        return <div className='temp-page h90'>Выбере запчасть</div>
-    }
+    if (!props.registration.parts.length) return <div className='empty_table'>Выбере запчасть</div>
+
 
     return (
         <table id='registrationTableParts' className='mt15'>

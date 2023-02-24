@@ -26,7 +26,7 @@ const PartEditor = props => {
     }
 
     const clickHandel = event => {
-        if ( !event.composedPath().map((el) => el.id).some(element_id => element_id?.includes('Editor'))) {
+        if (!event.composedPath().map((el) => el.id).some(element_id => element_id?.includes('Editor'))) {
             handleClose()
         }
     }

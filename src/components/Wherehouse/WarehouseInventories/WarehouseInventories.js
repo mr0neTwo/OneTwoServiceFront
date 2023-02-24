@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import {addInventory, changeInventoryState, selectedInventory} from '../../../Redux/actions/actionInventory'
 import {Table} from '../../../data/tableHeaders'
@@ -10,7 +10,6 @@ import TableFields from '../../general/TableFields'
 import Paginate from '../../general/Paginate'
 import InventoryTable from './InventoryTable'
 import {changeVisibleState} from '../../../Redux/actions'
-
 
 
 const WarehouseInventories = props => {
@@ -25,46 +24,40 @@ const WarehouseInventories = props => {
     }
 
     return (
-        <>
-            <div className='row jc-sb mt15'>
-                <div className='row'>
+        <div className='box'>
+            <div className='page-buttons'>
+                <div className='two-buttons'>
                     <Button
-                        id='addInventory'
-                        title='+ Инвентаризация'
-                        className='greenButton h31'
+                        id='InventoryEditor'
+                        size='med'
+                        type='create'
+                        title='Инвентаризация'
                         onClick={handleNewInventory}
                         invisible={!props.permissions.includes('create_inventory')}
                     />
                     <ChooseDate
-                        className='ml10 h27'
-                        width='250px'
-                        range={true}
+                        title='Диапазон дат'
                         func={date => props.changeInventoryState({filter_created_at: date.map(date => parseInt(date / 1000))})}
                         current_date={props.inventory.filter_created_at}
+                        range={true}
                     />
                 </div>
                 <TableFields
-                    id='inventoryFields'
-                    height='185px'
-                    classNameMenu='listOption'
-                    list={Table.Fields.Inventory}
-                    checked_list={props.inventory.table_headers}
-                    func={props.selectedInventory}
+                    id='inventory'
+                    list={props.inventory.table_headers}
+                    func={table_headers => props.changeInventoryState({table_headers})}
                 />
             </div>
             <InventoryTable/>
-            <div className='row'>
-                <Paginate
-                    allItems={props.inventory.count}
-                    onPage={50}
-                    count={2}
-                    count_start_end={2}
-                    navigation={true}
-                    func={page => props.changeInventoryState({page})}
-                />
-                <div className='ml10'>Всего - {props.inventory.count}</div>
-            </div>
-        </>
+            <Paginate
+                allItems={props.inventory.count}
+                onPage={50}
+                count={2}
+                count_start_end={2}
+                navigation={true}
+                func={page => props.changeInventoryState({page})}
+            />
+        </div>
     )
 }
 

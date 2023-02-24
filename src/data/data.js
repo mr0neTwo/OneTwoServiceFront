@@ -57,13 +57,15 @@ export const Payment = {
     ]
 }
 
-export const Modal = {
+export const Modal =  Object.freeze({
     Type: {
         ORDER: 0,
         PAYMENT: 1,
         PART: 2,
         RESIDUE_RULE: 3,
-        REQUEST_SPARE_PART: 4
+        REQUEST_SPARE_PART: 4,
+        REGISTRATION: 5,
+        REGISTRATION_PART: 6
     }
-}
+})
 

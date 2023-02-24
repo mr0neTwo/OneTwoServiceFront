@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {connect} from 'react-redux'
 
 import Icon from '../../general/Icon'
@@ -8,28 +8,28 @@ import {ICON} from '../../../data/icons'
 import {changeRegistrationState} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 import Button from '../../general/Button'
+import {Modal} from "../../../data/data";
+import {checkObject} from "../../general/utils";
 
 
+const componentId = 'AddParts'
 
 const AddParts = (props) => {
-
 
     useEffect(() => {
         props.addParts()
     }, [props.part.filter_name])
 
-    const [showList, setShowList] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
         if (
-            !event.composedPath().map(el => el.id).includes('listWarehousePart') &&
-            !event.composedPath().map(el => el.id).includes('warehousePart') &&
-            !event.composedPath().map(el => el.id).includes('registrationPartEditor')
+            !event.composedPath().map(el => el.id).includes(componentId)
         ) {
-            setShowList(false)
+            setListVisible(false)
         }
     }
-    
+
     useEffect(() => {
         window.addEventListener('click', clickHandel)
         return () => {
@@ -38,67 +38,86 @@ const AddParts = (props) => {
     })
 
     const handleSet = (part) => {
-        setShowList(false)
-        let cell = ''
-        if (Object.values(props.registration.warehouse).length) {
+        if (checkObject(props.registration.warehouse)) {
+            setListVisible(false)
+            let cell = ''
             const rule = part.residue_rules.find(rule => rule.warehouse.id === props.registration.warehouse.id)
             cell = rule ? rule.cell : ''
+
+            props.changeRegistrationState({part, cell, prices: part.prices})
+            props.changeVisibleState({
+                isCentralModalOpen: true,
+                modalCentralType: Modal.Type.REGISTRATION_PART,
+                inputRegistrationPartChecked: true
+            })
+        } else {
+            props.changeVisibleState({inputRegistrationWarehouseChecked: false})
         }
-        props.changeRegistrationState({part, cell, prices: part.prices})
-        props.changeVisibleState({
-            statusRegistrationPartEditor: true,
-            inputRegistrationPartChecked: true
-        })
     }
 
     const handleNewPart = () => {
-        props.changeVisibleState({statusPartEditor: true})
+        props.changeVisibleState({isRightModalOpen: true, modalType: Modal.Type.PART })
         props.changePartState({warehouse_category: props.warehouse.warehouse_categories})
     }
 
     const parts = props.part.parts.filter(part => !props.registration.parts.map(part => part.part.id).includes(part.id))
 
+    const mainClassName = useMemo(() => {
+        let className = 'select'
+        if (props.className) className += ` ${props.className}`
+        if (listVisible) className += ' select_active'
+        if (props.checkedFlag && !props.view[props.checkedFlag]) className += ' select_error'
+        return className
+    }, [props.className, listVisible, props.checkedFlag, props.view[props.checkedFlag]])
+
     if (props.invisible) return <div/>
 
     return (
-        <div className='w400 h52'>
+        <div
+            id={componentId}
+            className={mainClassName}
+        >
 
-            <div className='lableImput mt15'>Наименование товара</div>
+            <div className='label select__label'>Наименование товара</div>
 
             <div className='blockInput'>
                 <div
-                    id='warehousePart'
-                    className='orderInputBox'
-                    style={{borderColor: props.view.inputRegistrationPartChecked  ?  null : 'red'}}
-                    onClick={props.registration.edit ? null : () => setShowList(true)}
+                    className='input select__input'
+                    onClick={props.registration.edit ? null : () => setListVisible(true)}
                 >
-                    <input
-                        className='optionFilterInput'
-                        onChange={event => props.changePartState({filter_name: event.target.value})}
-                    />
-                    <Icon
-                        className='icon-s4'
-                        icon={showList ? ICON.LEFT : ICON.DOWN}
-                    />
+                    <div className='select__input-container-in'>
+                        <Icon
+                            className='icon select__icon-search'
+                            icon={ICON.SEARCH}
+                        />
+                        <input
+                            onChange={event => props.changePartState({filter_name: event.target.value})}
+                        />
+                    </div>
+                    <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
                 </div>
-                {showList ?
-                    <div className='listFilter' id='listWarehousePart'>
-                        {parts.map(part => (
-                            <div
-                                className='rowGropList'
-                                key={part.id}
-                                onClick={() => handleSet(part)}
-                            >
-                                <div>{(part.marking !== part.title) && !!part.marking ? `${part.title } (${part.marking})`: part.title}</div>
-                                <div className='orderDate ml30 noWr'>
-                                    {part.description}
+                {listVisible ?
+                    <div className='select__drop-list'>
+                        <div className='select__drop-list-body'>
+                            {parts.map(part => (
+                                <div
+                                    className='select__item select__item_option select__item_client'
+                                    key={part.id}
+                                    onClick={() => handleSet(part)}
+                                >
+                                    <div className='nowrap'>{(part.marking !== part.title) && !!part.marking ? `${part.title} (${part.marking})` : part.title}</div>
+                                    <div className='cs nowrap'>
+                                        {part.description}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                        <div className='btmst'>
+                            ))}
+                        </div>
+                        <div className='select__buttons'>
                             <Button
-                                title='+ Запчасть'
-                                className='whiteButton'
+                                id='PartEditor'
+                                size='med'
+                                type='tertiary'
+                                title='Запчасть'
                                 onClick={handleNewPart}
                             />
                         </div>

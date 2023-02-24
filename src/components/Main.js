@@ -23,13 +23,11 @@ import UserSetting from './sidebar/userSettings/UserSetting'
 import Alerts from './Alerts/Alerts'
 import Warehouse from './Wherehouse/Wherehouse'
 import WriteOfEditor from './Wherehouse/WarehouseWriteOf/WriteOfEditor'
-import RegistrationEditor from './Wherehouse/WarehouseRegistration/RegistrationEditor'
 import ClientEditor from './Clients/ClientEditor/ClientEditor'
 import WarehouseMovementEditor from './Wherehouse/WarehouseMovement/WarehouseMovementEditor'
 import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor'
 import InventoryEditorPreview from './Wherehouse/WarehouseInventories/InventoryEditorPreview'
 import InventoryEditor from './Wherehouse/WarehouseInventories/InventoryEditor'
-import RequestSparePartEditor from './Wherehouse/RequestSpareParts/RequestSparePartEditor'
 import PaymentsEditor from './Payments/PaymentsEditor'
 import CashboxEditor from './Payments/cashboxes/CashboxEditor'
 import PaypolleEditor from './Payments/salaries/PaypolleEditor'
@@ -77,14 +75,12 @@ function Main(props) {
             <CentralModal/>
             {/*// todo: сделать эту лапшу через react portal*/}
             {props.view.statusWriteOfEditor ? <WriteOfEditor/> : null}
-            {props.view.statusRegistrationEditor ? <RegistrationEditor/> : null}
             {props.view.statusClientEditor ? <ClientEditor/> : null}
             {props.view.statusOrderEditor ? <OrderEditor/> : null}
             {props.view.statusMovementEditor ? <WarehouseMovementEditor/> : null}
             {props.view.statusBackEditor ? <WarehouseBackEditor/> : null}
             {props.view.statusInventoryEditor ? <InventoryEditor/> : null}
             {props.view.statusInventoryEditorPreview ? <InventoryEditorPreview/> : null}
-            {props.view.statusReqSparePartEditor ? <RequestSparePartEditor/> : null}
             {props.view.statusPaymentsEditor ? <PaymentsEditor/> : null}
             {props.view.statusCashboxEditor ? <CashboxEditor/> : null}
             {props.view.statusPayrollEditor ? <PaypolleEditor/> : null}

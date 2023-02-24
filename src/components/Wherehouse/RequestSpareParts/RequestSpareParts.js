@@ -38,7 +38,7 @@ const RequestSpareParts = props => {
 
     return (
         <div className='box'>
-            <div className='row jc-sb'>
+            <div className='page-buttons'>
                 <div className='two-buttons'>
                     <Button
                         id='RequestSparePartEditor'

@@ -6,6 +6,7 @@ import {ICON} from '../../../data/icons'
 import LableInput from '../../general/LableInput'
 import Icon from '../../general/Icon'
 import {changeRegistrationState} from '../../../Redux/actions/registrationAction'
+import {COLORS} from "../../../data/colors";
 
 const TablePartPrices = (props) => {
 
@@ -68,9 +69,9 @@ const TablePartPrices = (props) => {
                             onClick={() => handleChange(margin.id, margin.margin * props.registration.buy_cost / 100)}
                         >
                             <Icon
-                                className='icon-s2'
+                                className='icon'
                                 icon={ICON.ARROW_BOTTOM}
-                                color='#282e32'
+                                color={COLORS.NAME.ACTION_ACCENT}
                             />
                         </td>
                         <td className=''>

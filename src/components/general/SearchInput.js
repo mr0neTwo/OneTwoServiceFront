@@ -10,7 +10,7 @@ const SearchInput = (props) => {
 
    return (
      
-      <div className={`searchBox ${props.className}`}>
+      <div className={`searchBox ${props.className || ''}`}>
          <input 
             className={`searchInput ${props.disabled ? 'ds' : null}`}
             style={{

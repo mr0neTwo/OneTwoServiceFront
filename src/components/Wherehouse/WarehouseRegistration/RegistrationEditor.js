@@ -20,6 +20,7 @@ import SelectFromList from '../../general/SelectFromList'
 import WarningChangeWarehouse from './WarningChangeWarehouse'
 import {changeRemainState} from '../../../Redux/actions/remainAction'
 
+const componentId = 'RegistrationEditor'
 
 const RegistrationEditor = (props) => {
 
@@ -28,7 +29,8 @@ const RegistrationEditor = (props) => {
 
     const handleClose = () => {
         props.changeVisibleState({
-            statusRegistrationEditor: false,
+            isRightModalOpen: false,
+            modalType: '',
             inputRegistrationLabelChecked: true,
             inputRegistrationClientChecked: true,
             inputRegistrationWarehouseChecked: true,
@@ -44,13 +46,7 @@ const RegistrationEditor = (props) => {
     }, [])
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map((el) => el.id).includes('registrationEditor') &&
-            !event.composedPath().map((el) => el.id).includes('wpartEditorWindow') &&
-            !event.composedPath().map((el) => el.id).includes('newRegistration') &&
-            !event.composedPath().map((el) => el.id).includes('statusBackEditor') &&
-            !event.composedPath().map((el) => el.id).includes('changeWarehouseMessage')
-        ) {
+        if (!event.composedPath().map((el) => el.id).some(element_id => element_id?.includes('Editor'))) {
             handleClose()
         }
     }
@@ -134,53 +130,46 @@ const RegistrationEditor = (props) => {
     const canDoBack = props.registration.inventory_id || !props.registration.edit || !props.permissions.includes('create_refund_to_supplier')
 
     return (
-        <div className={`rightBlock ${props.registration.edit || props.view.statusInventoryEditor ? 'z9999' : 'z99'}`}>
-            <div className='rightBlockWindow' id='registrationEditor'>
-                <div className='createNewTitle'>
+        <div className='modal__box-right' id={componentId}>
+                <h4>
                     {props.registration.edit ? `Оприходование ${props.registration.label}` : ' Новое оприходование'}
-                </div>
-                <div className='contentEditor'>
+                </h4>
+                <div className='modal__body-right'>
                     <SetClient
                         id='regClient'
                         title='Имя поставщика'
                         setClient={client => props.changeRegistrationState({client})}
                         client={props.registration.client}
                         checkedFlag='inputRegistrationClientChecked'
-                        checked={props.view.inputRegistrationClientChecked}
                         redStar={true}
                         disabled={!!props.registration.edit}
                         invisible={props.registration.inventory_id}
                     />
-                    <div className='row al-itm-fe'>
+                    <div className='two-buttons'>
                         <LableInput
-                            className='w250 mt15'
+                            className='w220'
                             title='Накладная №'
                             onChange={event => props.changeRegistrationState({number: event.target.value})}
                             value={props.registration.number}
                             checkedFlag='inputRegistrationLabelChecked'
-                            checked={props.view.inputRegistrationLabelChecked}
                             redStar={true}
                         />
-                        <div className='m5 jc-c'>от</div>
+                        <div>от</div>
                         <ChooseDate
-                            className='h29'
-                            width='250px'
-                            time={false}
+                            title='Дата'
                             func={date => props.changeRegistrationState({custom_created_at: parseInt(date / 1000)})}
                             current_date={props.registration.custom_created_at * 1000}
                             disabled={!!props.registration.edit}
+                            time={false}
                         />
                     </div>
                     <SelectFromList
-                        id='WarehousesWR'
-                        className='mt15 h52'
+                        className='w220'
                         title='Склад'
                         list={props.warehouses}
                         setElement={warehouse => handleChange( warehouse)}
                         current_object={props.registration.warehouse}
-                        width={'250px'}
                         checkedFlag='inputRegistrationWarehouseChecked'
-                        checked={props.view.inputRegistrationWarehouseChecked}
                         noChoosed='Выберете склад'
                         disabled={!!props.registration.edit || !!props.registration.inventory_id}
                     />
@@ -189,13 +178,10 @@ const RegistrationEditor = (props) => {
                     <TableRegistrationPart/>
                     <LableArea
                         title='Комментарий'
-                        className='mt15'
                         onChange={event => props.changeRegistrationState({description: event.target.value})}
                         value={props.registration.description}
                     />
                 </div>
-
-                {props.view.statusRegistrationPartEditor ? <RegistrationPartEditor/> : null}
 
                 <BottomButtons
                     edit={props.registration.edit}
@@ -205,13 +191,13 @@ const RegistrationEditor = (props) => {
                     extraButton={canDoBack ? null : handleBack}
                     extraTitle='Сделать возврат'
                 />
+                {messageWarning ?
+                    <WarningChangeWarehouse
+                        setMessageWarning={setMessageWarning}
+                        warehouse={warehouse}
+                    /> : null
+                }
             </div>
-            {messageWarning ?
-                <WarningChangeWarehouse
-                    setMessageWarning={setMessageWarning}
-                    warehouse={warehouse}
-                /> : null}
-        </div>
     )
 }
 

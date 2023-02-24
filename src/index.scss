@@ -1326,6 +1326,13 @@ h5 {
   box-sizing: border-box;
 }
 
+.page-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+}
+
 .alert {
   position: absolute;
   max-width: 1440px;
