@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {Modal} from "../../data/data";
 
 export function changeRegistrationState( data ) {
     return {
@@ -99,7 +100,7 @@ export function getRegistration(registration_id) {
                         })
                         dispatch({
                             type: 'CHANGE_VISIBLE_STATE',
-                            data: {statusRegistrationEditor: true}
+                            data: {isRightModalOpen: true, modalType: Modal.Type.REGISTRATION}
                         })
                     } else {
                         console.warn(data.message)
@@ -179,7 +180,7 @@ export function createRegistration() {
                     }
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRegistrationEditor: false},
+                        data: {isRightModalOpen: false, modalType: ''},
                     })
                     dispatch({
                         type: 'RESET_REGISTRATION'
@@ -220,7 +221,7 @@ export function saveRegistration() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRegistrationEditor: false},
+                        data: {isRightModalOpen: false, modalType: ''},
                     })
                     dispatch({
                         type: 'RESET_REGISTRATION'
@@ -258,7 +259,7 @@ export function deleteRegistration(flag) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusRegistrationEditor: false},
+                        data: {isRightModalOpen: false, modalType: ''},
                     })
                     dispatch({
                         type: 'RESET_REGISTRATION'

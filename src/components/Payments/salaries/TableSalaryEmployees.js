@@ -31,7 +31,7 @@ const TableSalaryEmployees = (props) => {
                 {props.employees.map(employee => (
                     <tr
                         key={employee.id}
-                        className={`tr ${employee.id === props.payroll.setted_employee ? 'tr_selected' : ''}`}
+                        className={`tr ${employee.id === props.payroll.setted_employee.id ? 'tr_selected' : ''}`}
                         onClick={() => props.changePayrollState({setted_employee: employee})}
                     >
                         <td className='td'>{employee.name}</td>

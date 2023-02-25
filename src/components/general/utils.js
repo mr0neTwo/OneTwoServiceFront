@@ -46,12 +46,12 @@ export function showName (employee) {
 
 export function showDate (date, showTime=true) {
    const options = showTime ? optionsShowDateTime : optionsShowDate
-   return new Date(date * 1000).toLocaleString('ru', options).replace('г.,', '')
+   return new Date(date * 1000).toLocaleString('ru', options).replace(' г. в', '')
 }
 
 export function showRangeDate (range_date) {
-   const first = new Date(range_date[0] * 1000).toLocaleString('ru', optionsShowRangeDate).replace('г.,', '')
-   const second = new Date(range_date[1] * 1000).toLocaleString('ru', optionsShowRangeDate).replace('г.,', '')
+   const first = new Date(range_date[0] * 1000).toLocaleString('ru', optionsShowRangeDate).replace(' г. в', '')
+   const second = new Date(range_date[1] * 1000).toLocaleString('ru', optionsShowRangeDate).replace(' г. в', '')
    return `${first} - ${second}`
 }
 
@@ -74,11 +74,7 @@ export function includesObject(obj, list) {
 
 export function checkObject (object) {
    if (!object) return false
-   if (Object.values(object).length) {
-      return true
-   } else {
-      return false
-   }
+   return Boolean(Object.values(object).length);
 }
 
 export function valueOfPhoneInput(number) {

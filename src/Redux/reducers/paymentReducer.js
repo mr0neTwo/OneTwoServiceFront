@@ -1,4 +1,5 @@
 const now = new Date()
+const key = 'payment_'
 
 const initialState = {
 
@@ -50,6 +51,10 @@ export const paymentReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case 'CHANGE_PAYMENT_STATE': {
+            const local_save = ['']
+            Object.keys(action.data).forEach(field => {
+                if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
+            })
             return {...Object.assign(state, action.data)}
         }
 

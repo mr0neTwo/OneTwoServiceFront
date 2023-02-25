@@ -1,11 +1,12 @@
 import {permission_cahsbox} from "../../data/permissions";
 
+const key = 'cashbox_'
 
 const initialState = {
 
    cashboxes: [],
 
-   tabs: 0,
+   tabs: JSON.parse(localStorage.getItem(key + 'tabs')) || 0,
    edit: 0,
    tabs_editor: 0,
 
@@ -36,9 +37,9 @@ export const cashboxReducer = (state = initialState, action) => {
       }
 
       case 'CHANGE_CASHBOX_STATE': {
-         const local_save = []
+         const local_save = ['tabs']
          Object.keys(action.data).forEach(field => {
-            if (local_save.includes(field)) localStorage.setItem(field, JSON.stringify(action.data[field]))
+            if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
          })
          return {...Object.assign(state, action.data)}
       }

@@ -135,9 +135,8 @@ const RegistrationPartEditor = (props) => {
                     />
                     : null
                 }
-                <h5>Цены</h5>
-                <TablePartPrices/>
 
+                <TablePartPrices/>
 
                 <BottomButtons
                     edit={props.registration.edit_part}

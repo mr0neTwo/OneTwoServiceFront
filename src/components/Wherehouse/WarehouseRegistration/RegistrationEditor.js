@@ -14,7 +14,6 @@ import BottomButtons from '../../general/BottomButtons'
 import LableArea from '../../general/LableArea'
 import SetClient from '../../general/SetClient'
 import AddParts from './AddParts'
-import RegistrationPartEditor from './RegistrationPartEditor'
 import TableRegistrationPart from './TableRegistrationPart'
 import SelectFromList from '../../general/SelectFromList'
 import WarningChangeWarehouse from './WarningChangeWarehouse'
@@ -154,7 +153,7 @@ const RegistrationEditor = (props) => {
                             checkedFlag='inputRegistrationLabelChecked'
                             redStar={true}
                         />
-                        <div>от</div>
+                        <div className='mb5'>от</div>
                         <ChooseDate
                             title='Дата'
                             func={date => props.changeRegistrationState({custom_created_at: parseInt(date / 1000)})}

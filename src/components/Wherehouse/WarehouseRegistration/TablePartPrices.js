@@ -40,32 +40,34 @@ const TablePartPrices = (props) => {
     const prices = props.registration.prices
 
     return (
-        <div className='mt15 bcbl8'>
             <table>
                 <thead>
                     <tr>
-                        <th className='w150'>Цены</th>
-                        <th className='w30'>Расчет</th>
+                        <th className='th'>Цены</th>
+                        <th className='th th_w50'>Расчет</th>
                         <th
-                            className='w30 ibot'
+                            className='th th_w32 cur-p'
                             onClick={setAllCosts}
                         >
                             <Icon
-                                className='icon-s2'
+                                className='icon'
                                 icon={ICON.ARROW_BOTTOM}
-                                color='#282e32'
+                                color={COLORS.NAME.ACTION_ACCENT}
                             />
                         </th>
-                        <th className='w30'>Пользовательская цена</th>
+                        <th className='th th_w70'>Задать</th>
                     </tr>
                 </thead>
                 <tbody>
                 {props.discount_margin.map(margin => (
-                    <tr key={margin.id}>
-                        <td className=''>{margin.title}</td>
-                        <td className='tac'>{margin.margin * props.registration.buy_cost / 100}</td>
+                    <tr
+                        key={margin.id}
+                        className='tr'
+                    >
+                        <td className='td'>{margin.title}</td>
+                        <td className='td'>{margin.margin * props.registration.buy_cost / 100}</td>
                         <td
-                            className='ibot'
+                            className='td cur-p'
                             onClick={() => handleChange(margin.id, margin.margin * props.registration.buy_cost / 100)}
                         >
                             <Icon
@@ -74,7 +76,7 @@ const TablePartPrices = (props) => {
                                 color={COLORS.NAME.ACTION_ACCENT}
                             />
                         </td>
-                        <td className=''>
+                        <td className='td_input'>
                             <LableInput
                                 onChange={event => handleChange(margin.id, event.target.value.replace(/[^0-9.]/g, ''))}
                                 value={prices.find(mr => mr.margin.id === margin.id) ? prices.find(mr => mr.margin.id === margin.id).cost : 0}
@@ -84,7 +86,6 @@ const TablePartPrices = (props) => {
                 ))}
                 </tbody>
             </table>
-        </div>
     )
 }
 

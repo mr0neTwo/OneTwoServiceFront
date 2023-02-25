@@ -1,4 +1,5 @@
 const now = new Date()
+const key = 'payroll_'
 
 const initialState = {
 
@@ -19,7 +20,7 @@ const initialState = {
    employee: {},                 // Сотрудник
    order_id: null,               // Заказ
 
-   setted_employee: {},          // Выбранный сотрудник
+   setted_employee: {},  // Выбранный сотрудник
    showDeleted: false,           // Показать удаленные
 
    filter_created_at: [
@@ -37,6 +38,10 @@ export const payrollReducer = (state = initialState, action) => {
    switch (action.type){
 
       case 'CHANGE_PAYROLL_STATE': {
+         const local_save = ['']
+         Object.keys(action.data).forEach(field => {
+            if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
+         })
          return {...Object.assign(state, action.data)}
       }
  

@@ -4,16 +4,17 @@ import { connect } from 'react-redux'
 import { addPayrolls, changePayrollState } from '../../../Redux/actions/payrollActions'
 import EmployeeSalary from './EmployeeSalary'
 import TableSalaryEmployees from './TableSalaryEmployees'
+import {checkObject} from "../../general/utils";
 
 
 const Salaries = (props) => {
 
    useEffect(() => {
-      props.addPayrolls()
+      if(checkObject(props.payroll.setted_employee)) props.addPayrolls()
    }, [props.payroll.setted_employee])
 
    useEffect(() => {
-      props.changePayrollState({setted_employee: props.user_id})
+      props.changePayrollState({setted_employee: props.user})
    }, [])
 
    return (
@@ -32,7 +33,7 @@ const Salaries = (props) => {
 
 const mapStateToProps = state => ({
    payroll: state.payroll,
-   user_id: state.data.user.id
+   user: state.data.user
 })
 
 const mapDispatchToProps = {
