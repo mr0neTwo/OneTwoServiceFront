@@ -11,6 +11,7 @@ import Button from '../../../general/Button'
 import {changeWriteOfState} from '../../../../Redux/actions/writeOfAction'
 import {checkObject} from '../../../general/utils'
 import {changeOrderPartState} from '../../../../Redux/actions/orderPartAction'
+import {Modal} from "../../../../data/data";
 
 
 const SetWorkMaterials = (props) => {
@@ -51,7 +52,7 @@ const SetWorkMaterials = (props) => {
                 discount_margin: props.discount_margin.find(margin => margin.id === 2),
                 write_of_type: {new_write_of: true, order_id: props.order.edit, type: 'ORDER'}
             })
-            props.changeVisibleState({statusWriteOfEditor: true})
+            props.changeVisibleState({isCentralModalOpen: true, modalCentralType: Modal.Type.WRITE_OFF})
         }
     }
 

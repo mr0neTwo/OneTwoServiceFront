@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {Modal} from '../../data/data'
 import ResidueRuleEditor from "../Wherehouse/WarehouseParts/PartEditor/ResidueRuleEditor";
 import RegistrationPartEditor from "../Wherehouse/WarehouseRegistration/RegistrationPartEditor";
+import WriteOfEditor from "../Wherehouse/WarehouseWriteOf/WriteOfEditor";
 
 
 const CentralModal = (props) => {
@@ -16,14 +17,17 @@ const CentralModal = (props) => {
 
             case Modal.Type.REGISTRATION_PART:
                 return <RegistrationPartEditor/>
+
+            case Modal.Type.WRITE_OFF:
+                return <WriteOfEditor/>
         }
     }
 
     if (!props.view.isCentralModalOpen) return null
 
     return (
-        <div className="modal">
-            <div className='modal__box z9999'>
+        <div className="modal z9999">
+            <div className='modal__box'>
                 <div>{getModal()}</div>
             </div>
 

@@ -22,7 +22,6 @@ import OrderEditor from './orders/newOrder/OrderEditor'
 import UserSetting from './sidebar/userSettings/UserSetting'
 import Alerts from './Alerts/Alerts'
 import Warehouse from './Wherehouse/Wherehouse'
-import WriteOfEditor from './Wherehouse/WarehouseWriteOf/WriteOfEditor'
 import ClientEditor from './Clients/ClientEditor/ClientEditor'
 import WarehouseMovementEditor from './Wherehouse/WarehouseMovement/WarehouseMovementEditor'
 import WarehouseBackEditor from './Wherehouse/WarehouseBacks/WarehouseBackEditor'
@@ -74,7 +73,6 @@ function Main(props) {
             <RightModal/>
             <CentralModal/>
             {/*// todo: сделать эту лапшу через react portal*/}
-            {props.view.statusWriteOfEditor ? <WriteOfEditor/> : null}
             {props.view.statusClientEditor ? <ClientEditor/> : null}
             {props.view.statusOrderEditor ? <OrderEditor/> : null}
             {props.view.statusMovementEditor ? <WarehouseMovementEditor/> : null}

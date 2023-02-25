@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {Modal} from "../../data/data";
 
 export function changeWriteOfState( data ) {
     return {
@@ -58,7 +59,7 @@ export function getWriteOf(write_of_id) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusWriteOfEditor: true}
+                        data: {isCentralModalOpen: true, modalCentralType: Modal.Type.WRITE_OFF}
                     })
                 } else {
                     console.warn(data.message)
@@ -144,7 +145,7 @@ export function createWriteOf() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusWriteOfEditor: false}
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                 } else {
                     console.warn(data.message)
@@ -184,7 +185,7 @@ export function saveWriteOf() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusWriteOfEditor: false}
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                 } else {
                     console.warn(data.message)

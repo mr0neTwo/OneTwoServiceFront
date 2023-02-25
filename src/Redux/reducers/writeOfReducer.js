@@ -16,6 +16,7 @@ const initialState = {
 
     engineer: {},
     discount_margin: {},
+    warehouse: {},
     write_of_type: {},
     inventory_id: 0,
 
@@ -83,6 +84,7 @@ export const writeOfReducer = (state = initialState, action) => {
                 created_by: {},
                 parts: [],
                 inventory_id: 0,
+                warehouse: {}
             }
         }
 

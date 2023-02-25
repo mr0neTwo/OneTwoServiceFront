@@ -8,7 +8,7 @@
 
 
 %shadow-3 {
-  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.32);
 }
 
 // Анимации
@@ -1414,6 +1414,10 @@ $mls: (5, 10, 15, 16, 20);
   .ml#{$ml} {
     margin-left: #{$ml}px;
   }
+}
+
+.z9999 {
+  z-index: 9999;
 }
 
 .mb5 {margin-bottom: 5px}

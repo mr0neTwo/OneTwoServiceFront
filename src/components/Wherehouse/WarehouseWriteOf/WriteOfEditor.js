@@ -19,7 +19,7 @@ const WriteOfEditor = (props) => {
 
     const [showMessage, setShowMessage] = useState(false)
 
-    const id = 'WriteOfEditor'
+    const componentId = 'WriteOfEditor'
     const check_parts = !!props.writeof.parts.length
 
     useEffect(() => {
@@ -31,14 +31,14 @@ const WriteOfEditor = (props) => {
 
     const handleClose = () => {
         props.resetWriteOf()
-        props.changeVisibleState({statusWriteOfEditor: false})
+        props.changeVisibleState({isCentralModalOpen: false, modalCentralType: ''})
     }
 
     const clickHandel = event => {
         if (
             !event.composedPath().map((el) => el.id).includes('addWriteOf') &&
             !event.composedPath().map((el) => el.id).includes('newOrderPart') &&
-            !event.composedPath().map((el) => el.id).includes(id)
+            !event.composedPath().map((el) => el.id).includes(componentId)
         ) {
             handleClose()
         }
@@ -65,8 +65,7 @@ const WriteOfEditor = (props) => {
     }
 
     return (
-        <div className='modal modal_z20'>
-            <div className='modal__box modal__box_editor' id={id}>
+            <div className='modal__box modal__box_editor' id={componentId}>
                 <h4>{props.writeof.edit ? `Списание ${props.writeof.label}` : 'Новое списание'}</h4>
 
                 <div className='modal__body modal__body-editor'>
@@ -131,7 +130,6 @@ const WriteOfEditor = (props) => {
                     close={handleClose}
                 />
             </div>
-        </div>
     )
 }
 

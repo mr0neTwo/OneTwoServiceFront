@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import {addWriteOf, changeWriteOfState, selectedWriteOf} from '../../../Redux/actions/writeOfAction'
-import {Table} from '../../../data/tableHeaders'
+import {Modal} from "../../../data/data"
 import {changeVisibleState} from '../../../Redux/actions'
 
 import TableFields from '../../general/TableFields'
@@ -20,54 +20,44 @@ const WarehouseWriteOf = props => {
 
     const handleNewWriteOf = () => {
         props.changeWriteOfState({write_of_type: {new_write_of: true, type: 'WAREHOUSE'}})
-        props.changeVisibleState({statusWriteOfEditor: true})
+        props.changeVisibleState({isCentralModalOpen: true, modalCentralType: Modal.Type.WRITE_OFF})
     }
 
     return (
-        <>
-            <div className='row jc-sb mt15'>
-                <div className='row'>
+        <div className='box'>
+            <div className='page-buttons'>
+                <div className='two-buttons'>
                     <Button
-                        id='addWriteOf'
-                        title='+ Списание'
-                        className='greenButton h31'
+                        id='WriteOfEditor'
+                        size='med'
+                        type='create'
+                        title='Списание'
                         onClick={handleNewWriteOf}
                     />
                     <ChooseDate
-                        className='ml10 h27'
-                        width='250px'
+                        title='Диапазон'
                         range={true}
                         func={date => props.changeWriteOfState({filter_created_at: date.map(date => parseInt(date / 1000))})}
                         current_date={props.writeof.filter_created_at}
                     />
-                    <Button
-                        title='Применить'
-                        className='blueButton'
-                        onClick={() => props.addWriteOf()}
-                    />
                 </div>
                 <TableFields
-                    id='writeFields'
-                    height='185px'
-                    classNameMenu='listOption'
-                    list={Table.Fields.WriteOf}
+                    id='writeOf'
+                    list={props.writeof.table_headers}
                     checked_list={props.writeof.table_headers}
-                    func={props.selectedWriteOf}
+                    func={table_headers => props.changeWriteOfState({table_headers})}
                 />
             </div>
             <WriteOfTable/>
-            <div className='row'>
-                <Paginate
-                    allItems={props.writeof.count}
-                    onPage={50}
-                    count={2}
-                    count_start_end={2}
-                    navigation={true}
-                    func={page => props.changeWriteOfState({page})}
-                />
-                <div className='ml10'>Всего - {props.writeof.count}</div>
-            </div>
-        </>
+            <Paginate
+                allItems={props.writeof.count}
+                onPage={50}
+                count={2}
+                count_start_end={2}
+                navigation={true}
+                func={page => props.changeWriteOfState({page})}
+            />
+        </div>
     )
 }
 

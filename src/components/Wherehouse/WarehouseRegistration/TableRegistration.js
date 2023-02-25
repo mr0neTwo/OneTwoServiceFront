@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {showDate, showName} from '../../general/utils'
 import {changeRegistrationState, getRegistration} from '../../../Redux/actions/registrationAction'
 import {changeVisibleState} from '../../../Redux/actions'
 
@@ -10,8 +9,6 @@ import Label from "../../general/cell/Label";
 import CreateAt from "../../general/cell/CreateAt";
 import Client from "../../general/cell/Client";
 import IconTitle from "../../general/cell/IconTitle";
-import {ICON} from "../../../data/icons";
-import {COLORS} from "../../../data/colors";
 import Balance from "../../general/cell/Balance";
 import Data from "../../general/cell/Data";
 
@@ -49,7 +46,7 @@ const TableRegistration = (props) => {
                     <IconTitle
                         key={header.id}
                         title={registration.warehouse.title}
-                        icon={ICON[registration.warehouse.branch.icon]}
+                        icon={registration.warehouse.branch.icon}
                         color={registration.warehouse.branch.color}
                     />
                 )
@@ -66,8 +63,7 @@ const TableRegistration = (props) => {
     const table_headers = props.registration.table_headers.filter(header => props.permissions.includes('see_buy_cost') || header.id !== 7)
 
     return (
-        <div className='tableOrdersBox mt15'>
-            <table id="tableWarehouse">
+            <table>
                 <thead className="tableThead">
                 <tr>
                     {table_headers.map(header => (
@@ -91,7 +87,6 @@ const TableRegistration = (props) => {
                 ))}
                 </tbody>
             </table>
-        </div>
     )
 }
 

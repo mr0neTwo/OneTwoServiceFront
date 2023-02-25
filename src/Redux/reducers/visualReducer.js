@@ -45,7 +45,6 @@ const initialState = {
    statusRegistrationPartEditor: false,
    statusRemainEditor: false,
    statusOrderNotFound: false,
-   statusWriteOfEditor: false,
    statusPartEditor: false,
    statusMovementEditor: false,
    statusBackEditor: false,
