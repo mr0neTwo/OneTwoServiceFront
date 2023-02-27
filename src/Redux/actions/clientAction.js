@@ -162,7 +162,7 @@ export function addClientToTempFilter(id) {
                     if (data.count) {
                         dispatch({
                             type: 'CHANGE_FILTER_STATE',
-                            data: {temp_client: data.data[0]}
+                            data: {temp_client: data.clients[0]}
                         })
                     }
                 } else {
@@ -208,9 +208,9 @@ export function createClient() {
         discount_services: state.client.discount_services,
 
         ad_campaign_id: state.client.ad_campaign.id,
-        discount_goods_margin_id: state.client.discount_goods_margin_id,
-        discount_materials_margin_id: state.client.discount_materials_margin_id,
-        discount_service_margin_id: state.client.discount_service_margin_id,
+        discount_goods_margin_id: state.client.discount_goods_margin.id || 0,
+        discount_materials_margin_id: state.client.discount_materials_margin.id || 0,
+        discount_service_margin_id: state.client.discount_service_margin.id || 0,
         discount_service_type: state.client.discount_service_type,
 
         tags: state.client.tags,
