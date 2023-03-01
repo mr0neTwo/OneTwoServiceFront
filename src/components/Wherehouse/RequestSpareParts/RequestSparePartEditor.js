@@ -87,7 +87,10 @@ const RequestSparePartEditor = (props) => {
         [props.status_group]) // группы статусов запросов запчастей
 
     return (
-        <div className='modal__box-right modal__box-right_history' id={componentId}>
+        <div
+            id={componentId}
+            className={`modal__box-right ${props.reqsp.edit ? 'modal__box-right_history' : ''}`}
+        >
             <div className='modal__body-right modal__body-right_history'>
 
                 <div className='two-buttons'>

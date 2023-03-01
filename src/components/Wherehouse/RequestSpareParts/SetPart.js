@@ -9,6 +9,7 @@ import {changeVisibleState} from '../../../Redux/actions'
 import Icon from '../../general/Icon'
 import Button from '../../general/Button'
 import {checkObject} from '../../general/utils'
+import {Modal} from "../../../data/data";
 
 
 const SetPart = (props) => {
@@ -35,8 +36,11 @@ const SetPart = (props) => {
     })
 
     const handleNewPart = () => {
-        props.changeVisibleState({statusPartEditor: true})
-        props.changePartState({warehouse_category: props.warehouse.warehouse_categories})
+        props.changeVisibleState({isRightModalOpen: true, modalType: Modal.Type.PART})
+        props.changePartState({
+            warehouse_category: props.warehouse.warehouse_categories,
+            createForRequestSparePart: true
+        })
     }
 
     const mainClassName = useMemo(() => {
@@ -98,7 +102,7 @@ const SetPart = (props) => {
             className={mainClassName}
         >
 
-            <div className='lableImput'>Наименование товара</div>
+            <div className='label select__label'>Наименование товара</div>
 
             <div
                 className='input select__input'

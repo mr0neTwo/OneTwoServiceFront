@@ -1,6 +1,6 @@
 import {Table} from '../../data/tableHeaders'
 import {includesObject} from '../../components/general/utils'
-
+const key = 'part_'
 const initialState = {
 
     parts: [],
@@ -44,7 +44,10 @@ const initialState = {
     filter_name: '',
     filter_warehouse_category: {},
 
-    choosed_headers: JSON.parse(localStorage.getItem('part_choosed_headers')) || Table.Fields.Part
+    createForRequestSparePart: false,
+    createForRegistration: false,
+
+    choosed_headers: JSON.parse(localStorage.getItem(key + 'choosed_headers')) || Table.Fields.Part
 }
 
 export const partReducer = (state = initialState, action) => {
@@ -53,7 +56,7 @@ export const partReducer = (state = initialState, action) => {
         case 'CHANGE_PART_STATE': {
             const local_save = ['choosed_headers']
             Object.keys(action.data).forEach(field => {
-                if (local_save.includes(field)) localStorage.setItem(`part_${field}`, JSON.stringify(action.data[field]))
+                if (local_save.includes(field)) localStorage.setItem(key + field, JSON.stringify(action.data[field]))
             })
             return {...Object.assign(state, action.data)}
         }
@@ -109,6 +112,9 @@ export const partReducer = (state = initialState, action) => {
                 part_movements: [],
                 warehouse_remains: [],
                 warranty_value: 30*24*60*60,
+
+                createForRequestSparePart: false,
+                createForRegistration: false,
             }
         }
 
@@ -124,7 +130,7 @@ export const partReducer = (state = initialState, action) => {
                 new_data = state[action.field].concat(action.value.filter(val => !includesObject(val, state[action.field])))
             }
             // Если флаг saveToApp установлен сохраним данные на локальном хранилище
-            if (action.saveToApp) localStorage.setItem('part_' + action.field, JSON.stringify(new_data))
+            if (action.saveToApp) localStorage.setItem(key + action.field, JSON.stringify(new_data))
             // Вернем изменненый стейт
             return {
                 ...state,

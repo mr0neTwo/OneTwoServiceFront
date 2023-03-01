@@ -13,20 +13,18 @@ import React from 'react'
  */
 const Imag = (props) => {
 
-    if (props.image_url) {
-        return (
-            <td>
-                <img
-                    className='h40'
-                    src={`${process.env.PUBLIC_URL}/${props.image_url}`}
-                    alt={`Изображение ${props.title}`}
-                />
-            </td>
-        )
-    } else {
-        return <td/>
-    }
+    if (!props.image_url) return <td/>
 
+    return (
+        <td>
+            <div className='cell'>
+                <img
+                    src={`${process.env.PUBLIC_URL}/${props.image_url}`}
+                    alt={`Изображение ${props.title || ''}`}
+                />
+            </div>
+        </td>
+    )
 }
 
 export default Imag

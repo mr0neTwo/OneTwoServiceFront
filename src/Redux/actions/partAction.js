@@ -180,35 +180,36 @@ export function createPart() {
                         type: 'CHANGE_PART_STATE',
                         data: {parts: data.parts, count_parts: data.count}
                     })
-                    dispatch({
-                        type: 'RESET_PART'
-                    })
-                    dispatch({
-                        type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusPartEditor: false}
-                    })
                     // Если создаем запчать при оприходовании
-                    if(state.view.statusRegistrationEditor) {
+                    if(state.part.createForRegistration) {
                         dispatch({
                             type: 'CHANGE_REGISTRATION_STATE',
                             data: {part: data.new_part, prices: data.new_part.prices}
                         })
                         dispatch({
                             type: 'CHANGE_VISIBLE_STATE',
-                            data: {statusRegistrationPartEditor: true, inputRegistrationPartChecked: true}
+                            data: {
+                                isRightModalOpen: true,
+                                modalType: Modal.Type.REGISTRATION,
+                                isCentralModalOpen: true,
+                                modalCentralType: Modal.Type.REGISTRATION_PART
+                            }
                         })
                     }
                     // Если создаем запчать при запросе запчастей
-                    if(state.view.statusReqSparePartEditor) {
+                    if(state.part.createForRequestSparePart) {
                         dispatch({
                             type: 'CHANGE_REQUEST_SPARE_PARTS_STATE',
                             data: {part: data.new_part}
                         })
                         dispatch({
                             type: 'CHANGE_VISIBLE_STATE',
-                            data: {statusRegistrationPartEditor: true, inputRegistrationPartChecked: true}
+                            data: {isRightModalOpen: true, modalType: Modal.Type.REQUEST_SPARE_PART}
                         })
                     }
+                    dispatch({
+                        type: 'RESET_PART'
+                    })
                 } else {
                     console.warn(data.message)
                 }

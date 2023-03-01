@@ -56,8 +56,15 @@ const AddParts = (props) => {
     }
 
     const handleNewPart = () => {
-        props.changeVisibleState({isRightModalOpen: true, modalType: Modal.Type.PART })
-        props.changePartState({warehouse_category: props.warehouse.warehouse_categories})
+        if (checkObject(props.registration.warehouse)) {
+            props.changeVisibleState({isRightModalOpen: true, modalType: Modal.Type.PART})
+            props.changePartState({
+                warehouse_category: props.warehouse.warehouse_categories,
+                createForRegistration: true
+            })
+        } else {
+            props.changeVisibleState({inputRegistrationWarehouseChecked: false})
+        }
     }
 
     const parts = props.part.parts.filter(part => !props.registration.parts.map(part => part.part.id).includes(part.id))
