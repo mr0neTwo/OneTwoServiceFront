@@ -23,7 +23,6 @@ const initialState = {
    statusCashboxEditor: false,
    statusCashboxEmployeeEditor: false,
    statusPaymentsEditor: false,
-   statusPaymentsCard: false,
    statusStatusList: false,
    statusSalaryEditor: false,
    statusPriceEditor: false,

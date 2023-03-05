@@ -100,7 +100,7 @@ export const paymentReducer = (state = initialState, action) => {
                 sum: 0,
                 title: '',
 
-                cashflow_category: {},
+                cashflow_category: '',
                 description: '',
 
                 deposit: 0,

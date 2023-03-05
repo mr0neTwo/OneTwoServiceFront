@@ -1,23 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {showDate} from '../../../general/utils'
-import {ICON} from '../../../../data/icons'
-import Icon from '../../../general/Icon'
-
-import {setPayment, setVisibleFlag} from '../../../../Redux/actions'
+import {setPayment, changeVisibleState} from '../../../../Redux/actions'
 import PaymentCard from '../../../Payments/PaymentCard'
 import CreatedAt from '../../../general/cell/CreateAt'
 import Money from '../../../general/cell/Money'
 import Balance from '../../../general/cell/Balance'
+import {Modal} from '../../../../data/data'
 
 const TableOrderPayments = (props) => {
-
-    const getColor = (amount) => {
-        if (amount > 0) return 'td_green'
-        else if (amount < 0) return 'td_red'
-        else return 'td_number'
-    }
 
     if (!props.order.payments.length) {
         return (
@@ -42,7 +33,7 @@ const TableOrderPayments = (props) => {
                         className={payment.deleted ? 'rowDeleted redBorder' : 'tr'}
                         onDoubleClick={() => {
                             props.setPayment(payment)
-                            props.setVisibleFlag('statusPaymentsCard', true)
+                            props.changeVisibleState({isCentralModalOpen: true, modalCentralType: Modal.Type.PAYMENT_CARD})
                         }}
                     >
                         <CreatedAt
@@ -98,7 +89,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     setPayment,
-    setVisibleFlag
+    changeVisibleState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableOrderPayments)

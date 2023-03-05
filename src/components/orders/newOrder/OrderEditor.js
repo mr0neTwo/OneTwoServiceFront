@@ -57,7 +57,8 @@ const OrderEditor = (props) => {
             !event.composedPath().map((el) => el.id).includes('newOrder') &&
             !event.composedPath().map((el) => el.id).includes('PaymentsEditor') &&
             !event.composedPath().map((el) => el.id).includes('WriteOfEditor') &&
-            !event.composedPath().map((el) => el.id).includes('statusReturnPart')
+            !event.composedPath().map((el) => el.id).includes('WriteOfEditor') &&
+            !event.composedPath().map((el) => el.id).includes('PaymentCard')
         ) {
             handleClose()
         }

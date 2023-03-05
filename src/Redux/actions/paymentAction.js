@@ -193,8 +193,8 @@ export function deletePayment(flag) {
     let request_body = {
         id: state.payment.edit,
         relation_type: state.payment.relation_type,
-        relation_id: state.payment.relation_id ? state.payment.relation_id : null,
-        order_id: state.payment.order.id,
+        relation_id: state.payment.relation_id || null,
+        order_id: state.payment.order_id || null,
         deleted: flag
     }
     if (state.order.edit) {
@@ -235,6 +235,9 @@ export function deletePayment(flag) {
                             type: 'CHANGE_ORDER_STATE',
                             data: {ordersShow: data.orders, events: data.events}
                         })
+                        dispatch({
+                            type: 'RESET_PAYMENTS'
+                        })
                     } else {
                         dispatch({
                             type: 'CHANGE_PAYMENT_STATE',
@@ -250,7 +253,7 @@ export function deletePayment(flag) {
                     }
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusPaymentsCard: false}
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                 }
                 const text = flag ? 'Платеж успешно удален' : 'Платеж упешно восстановлен'
@@ -258,11 +261,8 @@ export function deletePayment(flag) {
             })
             .catch(error => bad_request(dispatch, error, 'Запрос удаление платежа не выполнен'))
 
-        await dispatch({
-            type: 'RESET_PAYMENTS'
-        })
 
-        await  dispatch({
+        await dispatch({
             type: 'CHANGE_PAYMENT_STATE',
             data: {showLoader: false}
         })
