@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 
-import {setVisibleFlag, setPayment} from '../../Redux/actions'
+import {changeVisibleState, setPayment} from '../../Redux/actions'
 import CreatedAt from '../general/cell/CreateAt'
 import PaymentDescription from '../general/cell/PaymentDescription'
 import Money from '../general/cell/Money'
 import Balance from '../general/cell/Balance'
 import Loader from '../Loader/Loader'
+import {Modal} from '../../data/data'
 
 const TablePayments = (props) => {
 
@@ -64,7 +65,7 @@ const TablePayments = (props) => {
                         className={payment.deleted ? 'rowDeleted redBorder' : 'tr'}
                         onDoubleClick={() => {
                             props.setPayment(payment)
-                            props.setVisibleFlag('statusPaymentsCard', true)
+                            props.changeVisibleState({isCentralModalOpen: true, modalCentralType: Modal.Type.PAYMENT_CARD})
                         }}
                     >
                         <CreatedAt
@@ -115,7 +116,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    setVisibleFlag,
+    changeVisibleState,
     setPayment
 }
 

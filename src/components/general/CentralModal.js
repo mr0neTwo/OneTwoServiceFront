@@ -5,6 +5,7 @@ import {Modal} from '../../data/data'
 import ResidueRuleEditor from "../Wherehouse/WarehouseParts/PartEditor/ResidueRuleEditor";
 import RegistrationPartEditor from "../Wherehouse/WarehouseRegistration/RegistrationPartEditor";
 import WriteOfEditor from "../Wherehouse/WarehouseWriteOf/WriteOfEditor";
+import PaymentCard from '../Payments/PaymentCard'
 
 
 const CentralModal = (props) => {
@@ -20,6 +21,9 @@ const CentralModal = (props) => {
 
             case Modal.Type.WRITE_OFF:
                 return <WriteOfEditor/>
+
+            case Modal.Type.PAYMENT_CARD:
+                return <PaymentCard/>
         }
     }
 
