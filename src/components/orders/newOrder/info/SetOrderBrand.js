@@ -83,8 +83,8 @@ const SetOrderBrand = (props) => {
             <div className='label select__label'>Бренд</div>
             <button
                 className='input select__input'
-                onClick={() => setListVisible(true)}
-                disabled={disabled || selected}
+                onClick={() => setListVisible(!selected)}
+                disabled={disabled}
             >
                 <input
                     className='w100p'
@@ -125,7 +125,7 @@ const SetOrderBrand = (props) => {
                                 className="select__add-input"
                                 autoFocus
                                 onChange={event => props.changeBookState({filter_brand: event.target.value})}
-                                onKeyPress={createNewBrand}
+                                onKeyDown={createNewBrand}
                                 onBlur={() => setButtonVisible(false)}
                                 value={props.book.filter_brand}
                             />

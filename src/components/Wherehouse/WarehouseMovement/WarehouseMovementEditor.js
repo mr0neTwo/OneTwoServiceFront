@@ -21,21 +21,23 @@ import {checkObject} from '../../general/utils'
 
 const WarehouseMovementEditor = (props) => {
 
+    const componentId = 'WarehouseMovementEditor'
+
     const [showMessage, setShowMessage] = useState(false)
 
     const check_parts = !!props.movement.parts.length
 
     const handleClose = () => {
         props.resetMovement()
-        props.changeVisibleState({statusMovementEditor: false, inputTargetWarehouseMovement: true})
+        props.changeVisibleState({
+            isCentralModalOpen: false,
+            modalCentralType: '',
+            inputTargetWarehouseMovement: true
+        })
     }
 
     const clickHandel = event => {
-        if (
-            !event.composedPath().map((el) => el.id).includes('addMovement') &&
-            !event.composedPath().map((el) => el.id).includes('newOrderPart') &&
-            !event.composedPath().map((el) => el.id).includes('movementEditor')
-        ) {
+        if (!event.composedPath().map((el) => el.id).includes(componentId)) {
             handleClose()
         }
     }
@@ -65,17 +67,17 @@ const WarehouseMovementEditor = (props) => {
     }
 
     return (
-        <div className='rightBlock'>
-            <div className='rightBlockWindow' id='movementEditor'>
-                <div className='createNewTitle'>{props.movement.edit ? `Списание ${props.movement.label}` : 'Новое перемещение'}</div>
+            <div className='modal__box modal__box_editor' id={componentId}>
+                <h4>{props.movement.edit ? `Списание ${props.movement.label}` : 'Новое перемещение'}</h4>
 
-                <div className='contentEditor'>
+                <div className='modal__body modal__body-editor'>
 
-                    <div className='row mt15'>
+                    <div className='two-buttons'>
                         {showMessage ?
                             <div className='tipWriteOfMessage'>
                                 Чтобы изменить склад, нужно удалить добавленные товары или запчасти
-                            </div> : null}
+                            </div> : null
+                        }
                         <div onClick={check_parts ? () => showTip() : null}>
                             <SelectFromList
                                 id='idSelectMovementWarehouse'
@@ -83,19 +85,16 @@ const WarehouseMovementEditor = (props) => {
                                 list={props.warehouses}
                                 setElement={warehouse => props.changeRemainState({filter_warehouse: warehouse})}
                                 current_object={props.movement.edit ? props.movement.warehouse : props.filter_warehouse}
-                                width={'210px'}
                                 noChoosed='Выберете склад'
                                 disabled={check_parts || !!props.movement.edit}
                             />
                         </div>
                         <SelectFromList
                             id='idSelectMovementTargetWarehouse'
-                            className='ml15'
                             title='Склад зачисления'
                             list={props.warehouses.filter(warehouse => warehouse.id !== props.filter_warehouse.id)}
                             setElement={warehouse => props.changeMovementState({target_warehouse: warehouse})}
                             current_object={props.movement.target_warehouse}
-                            width={'210px'}
                             checkedFlag='inputTargetWarehouseMovement'
                             noChoosed='Выберете склад'
                             disabled={!!props.movement.edit}
@@ -104,7 +103,6 @@ const WarehouseMovementEditor = (props) => {
                     <AddMovements/>
                     <MovementPartTable/>
                     <LableArea
-                        className='mt15'
                         title='Комментарий'
                         onChange={event => props.changeMovementState({description: event.target.value})}
                         value={props.movement.description}
@@ -119,7 +117,6 @@ const WarehouseMovementEditor = (props) => {
                     close={handleClose}
                 />
             </div>
-        </div>
     )
 }
 

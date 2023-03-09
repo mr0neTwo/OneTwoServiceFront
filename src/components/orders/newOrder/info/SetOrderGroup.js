@@ -39,6 +39,7 @@ const SetOrderGroup = (props) => {
     })
 
     const reset = () => {
+        console.log('reset')
         props.changeOrderState({
             kindof_good: {},
             brand: {},
@@ -86,8 +87,8 @@ const SetOrderGroup = (props) => {
             <div className='label select__label'>Тип устройства</div>
             <button
                 className='input select__input'
-                onClick={() => setListVisible(true)}
-                disabled={selected}
+                onClick={() => setListVisible(!selected)}
+                // disabled={selected}
             >
                 <input
                     className='w100p'
@@ -128,7 +129,7 @@ const SetOrderGroup = (props) => {
                                 className='select__add-input'
                                 autoFocus
                                 onChange={event => props.changeBookState({filter_type: event.target.value})}
-                                onKeyPress={createNewType}
+                                onKeyDown={createNewType}
                                 onBlur={() => setVisibleButton(false)}
                                 value={props.book.filter_type}
                             />

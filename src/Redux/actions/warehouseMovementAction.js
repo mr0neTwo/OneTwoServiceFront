@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {Modal} from "../../data/data";
 
 export function changeMovementState( data ) {
     return {
@@ -56,7 +57,7 @@ export function getMovement(movement_id) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusMovementEditor: true}
+                        data: {isCentralModalOpen: true, modalCentralType: Modal.Type.WAREHOUSE_MOVEMENT}
                     })
                 } else {
                     console.warn(data.message)
@@ -117,7 +118,7 @@ export function createMovements() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusMovementEditor: false},
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                     dispatch({
                         type: 'RESET_MOVEMENT'
@@ -156,7 +157,7 @@ export function saveMovements() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusMovementEditor: false},
+                        data: {isCentralModalOpen: false, modalCentralType: ''}
                     })
                     dispatch({
                         type: 'RESET_MOVEMENT'

@@ -12,6 +12,8 @@ const WriteOfTable = (props) => {
 
     const chooseCell = (header, write_of) => {
 
+        if (!header.visible) return null
+
         switch (header.id) {
             case 1:
                 return (

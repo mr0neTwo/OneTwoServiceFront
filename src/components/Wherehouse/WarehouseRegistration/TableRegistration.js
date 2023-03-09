@@ -16,8 +16,10 @@ const TableRegistration = (props) => {
 
 
     const chooseCell = (header, registration) => {
-        switch (header.id) {
 
+        if (!header.visible) return null
+
+        switch (header.id) {
             case 1:
                 return (
                     <Label
@@ -64,7 +66,7 @@ const TableRegistration = (props) => {
 
     return (
             <table>
-                <thead className="tableThead">
+                <thead>
                 <tr>
                     {table_headers.map(header => (
                         <TableHeader

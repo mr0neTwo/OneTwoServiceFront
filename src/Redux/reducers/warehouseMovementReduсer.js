@@ -25,7 +25,7 @@ const initialState = {
     ],
     page: 0,
 
-    table_headers: JSON.parse(localStorage.getItem(current_key + 'table_headers')) || Table.Fields.Movement,
+    table_headers: JSON.parse(localStorage.getItem(current_key + 'table_headers')) || Table.Fields.Movement
 
 }
 

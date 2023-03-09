@@ -82,8 +82,8 @@ const SetOrderSubtype = (props) => {
             <div className='label select__label'>Модуль / Серия</div>
             <button
                 className='input select__input'
-                onClick={() => setListVisible(true)}
-                disabled={disabled || selected}
+                onClick={() => setListVisible(!selected)}
+                disabled={disabled}
             >
                 <input
                     className='w100p'
@@ -123,7 +123,7 @@ const SetOrderSubtype = (props) => {
                                     className="select__add-input"
                                     autoFocus
                                     onChange={event => props.changeBookState({filter_subtype: event.target.value})}
-                                    onKeyPress={createNewSubtype}
+                                    onKeyDown={createNewSubtype}
                                     onBlur={() => setButtonVisible(false)}
                                     value={props.book.filter_subtype}
                                 />
@@ -158,7 +158,11 @@ const Subtype = (props) => {
             <div>{props.subtype.title}</div>
             {showPictute && props.subtype.url ?
                 <div className='select__item_img-box'>
-                    <img className='select__item_img' src={`${process.env.PUBLIC_URL}/${props.subtype.url}`}/>
+                    <img
+                        className='select__item_img'
+                        src={`${process.env.PUBLIC_URL}/${props.subtype.url}`}
+                        alt='photo'
+                    />
                 </div>
                 : null
             }

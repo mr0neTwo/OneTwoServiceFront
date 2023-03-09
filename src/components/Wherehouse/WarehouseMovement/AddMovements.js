@@ -13,6 +13,8 @@ import Icon from '../../general/Icon'
 
 const AddMovements = (props) => {
 
+    const componentId = 'AddMovements'
+
     useEffect(() => {
         props.addRemain()
     }, [props.remain.filter_title, props.remain.filter_type, props.remain.filter_warehouse])
@@ -22,10 +24,7 @@ const AddMovements = (props) => {
     const disabled = !checkObject(props.remain.filter_warehouse)
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map(el => el.id).includes('listRemainMovement') &&
-            !event.composedPath().map(el => el.id).includes('remainMovement')
-        ) {
+        if (!event.composedPath().map(el => el.id).includes(componentId)) {
             setShowList(false)
         }
     }
@@ -48,56 +47,67 @@ const AddMovements = (props) => {
     if (props.movement.edit) return <div/>
 
     return (
-        <div className='w100 h52'>
+        <div
+            id={componentId}
+            className={`select ${showList ? 'select_active' : ''}`}
+        >
 
-            <div className='lableImput mt15'>Наименование товара</div>
+            <div className='label select__label'>Наименование товара</div>
 
-            <div className='blockInput'>
-                <div
-                    id='remainMovement'
-                    className='orderInputBox'
-                    onClick={disabled ? null : () => setShowList(true) }
-                >
+            <div
+                className='input select__input'
+                onClick={disabled ? null : () => setShowList(true)}
+            >
+                <div className='select__input-container-in'>
+                    <Icon
+                        className='icon select__icon-search'
+                        icon={ICON.SEARCH}
+                    />
                     <input
                         className='optionFilterInput'
                         onChange={event => props.changeRemainState({filter_title: event.target.value})}
                         value={props.remain.filter_title}
                         disabled={disabled}
                     />
-                    <Icon
-                        className='icon-s4'
-                        icon={showList ? ICON.LEFT : ICON.DOWN}
-                    />
                 </div>
-                {!disabled && showList ?
-                    <div className='listFilter'>
-                        <table id='listRemainMovement'>
-                            <thead>
-                            <tr>
-                                <th>Наименование</th>
-                                <th className='w70'>Адрес</th>
-                                <th className='w70 tac'>Количество</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {remains.map((remain, idx) => (
-                                <tr
-                                    key={idx}
-                                    onClick={() => handleSet(remain)}
-                                >
-                                    <td>
-                                        <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
-                                        <div className='orderDate noWr'>{remain.description}</div>
-                                    </td>
-                                    <td className='tac'>{remain.cell}</td>
-                                    <td className='tac'>{remain.count}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>: null}
-
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${showList ? 'icon_rotate-90' : ''}`}/>
             </div>
+            {!disabled && showList ?
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                        <div className='select__set-items'>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th className='th'>Наименование</th>
+                                    <th className='th th_w70'>Адрес</th>
+                                    <th className='th th_w70'>Количество</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {remains.map((remain, idx) => (
+                                    <tr
+                                        key={idx}
+                                        className='tr'
+                                        onClick={() => handleSet(remain)}
+                                    >
+                                        <td className='td'>
+                                            <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title} (${remain.marking})` : remain.title}</div>
+                                            <div className='cell_date-payment'>{remain.description}</div>
+                                        </td>
+                                        <td className='td td_number'>{remain.cell}</td>
+                                        <td className='td td_number'>{remain.count}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                : null
+            }
+
+
         </div>
     )
 }

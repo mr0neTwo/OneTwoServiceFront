@@ -75,8 +75,8 @@ const SetOrderModel = (props) => {
             <div className='label select__label'>Модель</div>
             <button
                 className='input select__input'
-                onClick={() => setListVisible(true)}
-                disabled={disabled || selected}
+                onClick={() => setListVisible(!selected)}
+                disabled={disabled}
             >
                 <input
                     className='w100p'
@@ -117,7 +117,7 @@ const SetOrderModel = (props) => {
                                     className="select__add-input"
                                     autoFocus
                                     onChange={event => props.changeBookState({filter_model: event.target.value})}
-                                    onKeyPress={createNewModel}
+                                    onKeyDown={createNewModel}
                                     onBlur={() => setButtonVisible(false)}
                                     value={props.book.filter_model}
                                 />
