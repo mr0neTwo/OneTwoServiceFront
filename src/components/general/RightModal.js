@@ -6,6 +6,7 @@ import {Modal} from '../../data/data'
 import PartEditor from '../Wherehouse/WarehouseParts/PartEditor/PartEditor'
 import RequestSparePartEditor from "../Wherehouse/RequestSpareParts/RequestSparePartEditor";
 import RegistrationEditor from "../Wherehouse/WarehouseRegistration/RegistrationEditor";
+import InventoryEditor from "../Wherehouse/WarehouseInventories/InventoryEditor";
 
 
 const RightModal = (props) => {
@@ -21,6 +22,9 @@ const RightModal = (props) => {
 
             case Modal.Type.REGISTRATION:
                 return <RegistrationEditor/>
+
+            case Modal.Type.INVENTORY:
+                return <InventoryEditor/>
         }
     }
 

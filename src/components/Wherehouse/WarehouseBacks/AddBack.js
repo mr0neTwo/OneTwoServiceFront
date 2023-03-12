@@ -67,7 +67,7 @@ const AddBack = (props) => {
                                 <td>
                                     <div className='row'>
                                         <input
-                                            className='w30'
+                                            className='w30 bcsb'
                                             onChange={event => handleChange(event.target.value, idx)}
                                             value={part.target_count}
                                             disabled={props.back.edit}
@@ -77,7 +77,7 @@ const AddBack = (props) => {
                                 </td>
                                 <td>
                                     <input
-                                        className='w30'
+                                        className='w30 bcsb'
                                         onChange={event => handleChangePrice(event.target.value, idx)}
                                         value={part.buy_cost}
                                         disabled={props.back.edit}

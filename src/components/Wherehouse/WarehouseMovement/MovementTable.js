@@ -22,7 +22,7 @@ const MovementTable = (props) => {
                     <Label
                         key={header.id}
                         label={movement.label}
-                        getMovement={() => props.getMovement(movement.id)}
+                        func={() => props.getMovement(movement.id)}
                     />
                 )
             case 2:
@@ -30,7 +30,7 @@ const MovementTable = (props) => {
                     <CreatedAt
                         key={header.id}
                         creator={movement.created_by.name}
-                        date={movement.created_at}
+
                     />
                 )
             case 3:

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {connect} from 'react-redux'
 
 import {changeVisibleState} from '../../../Redux/actions'
@@ -8,6 +8,8 @@ import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
 
+const componentId = 'AddInventoryPart'
+
 const AddInventoryPart = (props) => {
 
     useEffect(() => {
@@ -15,14 +17,11 @@ const AddInventoryPart = (props) => {
         props.addRemain()
     }, [props.remain.filter_warehouse])
 
-    const [showList, setShowList] = useState(false)
+    const [listVisible, setListVisible] = useState(false)
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map(el => el.id).includes('remainInventory') &&
-            !event.composedPath().map(el => el.id).includes('listRemainInventory')
-        ) {
-            setShowList(false)
+        if (!event.composedPath().map(el => el.id).includes(componentId)) {
+            setListVisible(false)
         }
     }
 
@@ -34,65 +33,80 @@ const AddInventoryPart = (props) => {
     })
 
     const handleSet = (remain) => {
-        setShowList(false)
+        setListVisible(false)
         remain.actual_count = remain.count
         props.changeInventoryState({parts: props.inventory.parts.concat([remain])})
     }
 
     const remains = props.remain.warehouse_remains.filter(remain => !(props.inventory.parts.map(rem => rem.title).includes(remain.title)))
 
+    const mainClassName = useMemo(() => {
+        let className = 'select'
+        if (props.className) className += ` ${props.className}`
+        if (listVisible) className += ' select_active'
+        return className
+    }, [props.className, listVisible])
+
+
     if (props.inventory.edit) return <div/>
 
     return (
-        <div className='w100 h52'>
+        <div className={mainClassName}>
 
-            <div className='lableImput mt15'>Наименование товара</div>
+            <div className='label select__label'>Наименование товара</div>
 
-            <div className='blockInput'>
-                <div
-                    id='remainInventory'
-                    className='orderInputBox'
-                    onClick={() => setShowList(true) }
-                >
+
+            <div
+                id={componentId}
+                className='input select__input'
+                onClick={() => setListVisible(true)}
+            >
+                <div className='select__input-container-in'>
+                    <Icon
+                        className='icon select__icon-search'
+                        icon={ICON.SEARCH}
+                    />
                     <input
-                        className='optionFilterInput'
                         onChange={event => props.changeRemainState({filter_title: event.target.value})}
                         value={props.remain.filter_title}
                     />
-                    <Icon
-                        className='icon-s4'
-                        icon={showList ? ICON.LEFT : ICON.DOWN}
-                    />
                 </div>
-                {showList ?
-                    <div className='listFilter'>
-                        <table id='listRemainInventory'>
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
+            </div>
+            {listVisible ?
+                <div className='select__drop-list' id={componentId}>
+                    <div className='select__drop-list-body'>
+                        <div className='select__set-items'>
+                        <table>
                             <thead>
                             <tr>
-                                <th>Наименование</th>
-                                <th className='w70'>Адрес</th>
-                                <th className='w70 tac'>Количество</th>
+                                <th className='th'>Наименование</th>
+                                <th className='th th_w70'>Адрес</th>
+                                <th className='th th_w70'>Количество</th>
                             </tr>
                             </thead>
                             <tbody>
                             {remains.map((remain, idx) => (
                                 <tr
                                     key={idx}
+                                    className='tr'
                                     onClick={() => handleSet(remain)}
                                 >
-                                    <td>
-                                        <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
-                                        <div className='orderDate noWr'>{remain.description}</div>
+                                    <td className='td'>
+                                        <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title} (${remain.marking})` : remain.title}</div>
+                                        <div className='cell_date-payment'>{remain.description}</div>
                                     </td>
-                                    <td className='tac'>{remain.cell}</td>
-                                    <td className='tac'>{remain.count}</td>
+                                    <td className='td td_number'>{remain.cell}</td>
+                                    <td className='td td_number'>{remain.count}</td>
                                 </tr>
                             ))}
                             </tbody>
                         </table>
-                    </div>: null}
+                        </div>
+                    </div>
+                </div> : null}
 
-            </div>
+
         </div>
     )
 }

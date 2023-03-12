@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 
 import {addInventory, changeInventoryState, selectedInventory} from '../../../Redux/actions/actionInventory'
-import {Table} from '../../../data/tableHeaders'
 
 import Button from '../../general/Button'
 import ChooseDate from '../../general/calandar/ChooseDate'
@@ -10,6 +9,7 @@ import TableFields from '../../general/TableFields'
 import Paginate from '../../general/Paginate'
 import InventoryTable from './InventoryTable'
 import {changeVisibleState} from '../../../Redux/actions'
+import {Modal} from "../../../data/data";
 
 
 const WarehouseInventories = props => {
@@ -20,7 +20,7 @@ const WarehouseInventories = props => {
 
 
     const handleNewInventory = () => {
-        props.changeVisibleState({statusInventoryEditorPreview: true})
+        props.changeVisibleState({isCentralModalOpen: true, modalCentralType: Modal.Type.INVENTORY_PREVIEW})
     }
 
     return (
@@ -28,7 +28,7 @@ const WarehouseInventories = props => {
             <div className='page-buttons'>
                 <div className='two-buttons'>
                     <Button
-                        id='InventoryEditor'
+                        id='InventoryEditorPreview'
                         size='med'
                         type='create'
                         title='Инвентаризация'

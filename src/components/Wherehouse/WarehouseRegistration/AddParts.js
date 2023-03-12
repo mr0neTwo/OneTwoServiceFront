@@ -40,9 +40,8 @@ const AddParts = (props) => {
     const handleSet = (part) => {
         if (checkObject(props.registration.warehouse)) {
             setListVisible(false)
-            let cell = ''
             const rule = part.residue_rules.find(rule => rule.warehouse.id === props.registration.warehouse.id)
-            cell = rule ? rule.cell : ''
+             const cell = rule ? rule.cell : ''
 
             props.changeRegistrationState({part, cell, prices: part.prices})
             props.changeVisibleState({
@@ -87,49 +86,50 @@ const AddParts = (props) => {
 
             <div className='label select__label'>Наименование товара</div>
 
-            <div className='blockInput'>
-                <div
-                    className='input select__input'
-                    onClick={props.registration.edit ? null : () => setListVisible(true)}
-                >
-                    <div className='select__input-container-in'>
-                        <Icon
-                            className='icon select__icon-search'
-                            icon={ICON.SEARCH}
-                        />
-                        <input
-                            onChange={event => props.changePartState({filter_name: event.target.value})}
+
+            <div
+                className='input select__input'
+                onClick={props.registration.edit ? null : () => setListVisible(true)}
+            >
+                <div className='select__input-container-in'>
+                    <Icon
+                        className='icon select__icon-search'
+                        icon={ICON.SEARCH}
+                    />
+                    <input
+                        onChange={event => props.changePartState({filter_name: event.target.value})}
+                        value={props.part.filter_name}
+                    />
+                </div>
+                <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
+            </div>
+            {listVisible ?
+                <div className='select__drop-list'>
+                    <div className='select__drop-list-body'>
+                        {parts.map(part => (
+                            <div
+                                className='select__item select__item_option select__item_client'
+                                key={part.id}
+                                onClick={() => handleSet(part)}
+                            >
+                                <div
+                                    className='nowrap'>{(part.marking !== part.title) && !!part.marking ? `${part.title} (${part.marking})` : part.title}</div>
+                                <div className='cs nowrap'>
+                                    {part.description}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className='select__buttons'>
+                        <Button
+                            id='PartEditor'
+                            size='med'
+                            type='tertiary'
+                            title='Запчасть'
+                            onClick={handleNewPart}
                         />
                     </div>
-                    <Icon icon={ICON.DOWN} className={`icon icon_24 ${listVisible ? 'icon_rotate-90' : ''}`}/>
-                </div>
-                {listVisible ?
-                    <div className='select__drop-list'>
-                        <div className='select__drop-list-body'>
-                            {parts.map(part => (
-                                <div
-                                    className='select__item select__item_option select__item_client'
-                                    key={part.id}
-                                    onClick={() => handleSet(part)}
-                                >
-                                    <div className='nowrap'>{(part.marking !== part.title) && !!part.marking ? `${part.title} (${part.marking})` : part.title}</div>
-                                    <div className='cs nowrap'>
-                                        {part.description}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className='select__buttons'>
-                            <Button
-                                id='PartEditor'
-                                size='med'
-                                type='tertiary'
-                                title='Запчасть'
-                                onClick={handleNewPart}
-                            />
-                        </div>
-                    </div> : null}
-            </div>
+                </div> : null}
         </div>
     )
 }

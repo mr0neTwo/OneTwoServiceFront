@@ -57,7 +57,7 @@ const MovementPartTable = (props) => {
                         <td className='td'>
                             <div className='input td_input'>
                                 <input
-                                    className='w30'
+                                    className='w30 bcsb'
                                     onChange={event => handleChange(event.target.value, idx)}
                                     value={props.movement.parts[idx].target_count}
                                     disabled={props.movement.edit}

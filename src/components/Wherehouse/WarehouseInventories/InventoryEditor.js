@@ -12,21 +12,22 @@ import Checkbox from '../../general/Checkbox'
 import Button from '../../general/Button'
 import {changeWriteOfState, getWriteOf} from '../../../Redux/actions/writeOfAction'
 import {changeRegistrationState, getRegistration} from '../../../Redux/actions/registrationAction'
+import {Modal} from "../../../data/data";
+
+const componentId = 'InventoryEditor'
 
 const InventoryEditor = (props) => {
 
-
     const handleClose = () => {
         props.resetInventory()
-        props.changeVisibleState({statusInventoryEditor: false})
+        props.changeVisibleState({isRightModalOpen: false, modalType: ''})
     }
 
     const clickHandel = event => {
         if (
-            !event.composedPath().map((el) => el.id).includes('addInventory') &&
-            !event.composedPath().map((el) => el.id).includes('writeOfEditor') &&
-            !event.composedPath().map((el) => el.id).includes('registrationEditor') &&
-            !event.composedPath().map((el) => el.id).includes('inventoryEditor')
+            !event.composedPath().map((el) => el.id).includes(componentId) &&
+            !event.composedPath().map((el) => el.id).includes('WriteOfEditor') &&
+            !event.composedPath().map((el) => el.id).includes('RegistrationEditor')
         ) {
             handleClose()
         }
@@ -54,7 +55,7 @@ const InventoryEditor = (props) => {
             part.checked = true
             return part
         })
-        props.changeVisibleState({statusWriteOfEditor: true})
+        props.changeVisibleState({isCentralModalOpen: true, modalCentralType: Modal.Type.WRITE_OFF})
         props.changeWriteOfState({
             parts,
             inventory_id: props.inventory.edit,
@@ -73,7 +74,7 @@ const InventoryEditor = (props) => {
                 part: {id: part.part_id, title: part.title}
             })
         )
-        props.changeVisibleState({statusRegistrationEditor: true})
+        props.changeVisibleState({isRightModalOpen: true, modalType: Modal.Type.REGISTRATION})
         props.changeRegistrationState({
             parts,
             inventory_id: props.inventory.edit,
@@ -92,48 +93,47 @@ const InventoryEditor = (props) => {
     }
 
     return (
-        <div className='rightBlock'>
-            <div className='rightBlockWindow wmn900' id='inventoryEditor'>
-                <div className='createNewTitle'>{props.inventory.edit ? `Инвентаризация ${props.inventory.label}` : 'Новая инвентаризация'}</div>
-                <div className='contentEditor'>
-                    <div className='row mt15'>
-                        <span className='txtb'>Склад: </span>
-                        <span className='ml5'>{props.remain.filter_warehouse.title}</span>
-                    </div>
-                    <div className='row mt15'>
-                        <span className='txtb'>Склад: </span>
-                        <span className='ml5'>{props.remain.filter_category.title}</span>
-                    </div>
+            <div className='modal__box-right modal__box-right_w800' id={componentId}>
+                <h4>{props.inventory.edit ? `Инвентаризация ${props.inventory.label}` : 'Новая инвентаризация'}</h4>
+                <div className='modal__body-right'>
+                    <Clause
+                        title='Склад:'
+                        text={props.remain.filter_warehouse.title}
+                    />
+                    <Clause
+                        title='Категория:'
+                        text={props.remain.filter_category.title}
+                    />
                     {props.inventory.edit ?
                         <div>
-                            <div className='row mt15'>
-                                <span className='txtb'>Инвентаризованно: </span>
-                                <span className='ml5'>{`${props.inventory.parts.length} шт.`}</span>
-                            </div>
-                            <div className='row mt15'>
-                                <span className='txtb'>Соответствует учету: </span>
-                                <span className='ml5'>{`${props.inventory.parts.filter(part => part.count === part.actual_count).length} шт.`}</span>
-                            </div>
-                            <div className='row mt15'>
-                                <span className='txtb'>Недостача: </span>
-                                <span className='ml5'>{`${shortage.length} шт.`}</span>
-                            </div>
-                            <div className='row mt15'>
-                                <span className='txtb'>Излишек: </span>
-                                <span className='ml5'>{`${surplus.length} шт.`}</span>
-                            </div>
-                            <div className='row mt15'>
-                                <span className='txtb'>Не решенных позиций: </span>
-                                <span className='ml5'>{`${props.inventory.parts.filter(part => part.is_fixed === false).length} шт.`}</span>
-                            </div>
+                            <Clause
+                                title='Инвентаризованно:'
+                                text={`${props.inventory.parts.length} шт.`}
+                            />
+                            <Clause
+                                title='Соответствует учету:'
+                                text={`${props.inventory.parts.filter(part => part.count === part.actual_count).length} шт.`}
+                            />
+                            <Clause
+                                title='Недостача:'
+                                text={`${shortage.length} шт.`}
+                            />
+                            <Clause
+                                title='Излишек:'
+                                text={`${surplus.length} шт.`}
+                            />
+                            <Clause
+                                title='Не решенных позиций:'
+                                text={`${props.inventory.parts.filter(part => part.is_fixed === false).length} шт.`}
+                            />
                             {props.inventory.related_docs ?
-                                <div className='row mt15'>
-                                    <span className='txtb'>Связанные докуметы: </span>
+                                <div className='row g6'>
+                                    <span>Связанные докуметы: </span>
                                     {props.inventory.related_docs.map((doc, idx) => (
                                         <span key={doc.label}>
-                                            <span className='ml5'>{doc.type}</span>
+                                            <span>{doc.type}</span>
                                             <span
-                                                className='ml5 orderLink curP'
+                                                className='cell_label'
                                                 onClick={() => handleOpenDoc(doc)}
                                             >
                                                 {doc.label}
@@ -143,9 +143,10 @@ const InventoryEditor = (props) => {
                                     ))}
                                 </div>
                             : null}
-                        </div> : null}
+                        </div>
+                        : null
+                    }
                     <ChooseButton
-                        className='mt15'
                         title= 'Фактическое количество невнесенных товаров равно'
                         name={['Нулю', 'Учету']}
                         func1 = {() => props.changeInventoryState({isZero: true})}
@@ -154,7 +155,6 @@ const InventoryEditor = (props) => {
                         invisible={props.inventory.edit}
                     />
                     <MultyButton
-                        className='mt15'
                         name={['Все', 'Недосдача', 'Излишек']}
                         func1 = {() => props.changeInventoryState({filterOption: 0})}
                         func2 = {() => props.changeInventoryState({filterOption: 1})}
@@ -162,24 +162,28 @@ const InventoryEditor = (props) => {
                         checked = { 0 }
                         invisible={!props.inventory.edit}
                     />
-                    <div className='row jc-sb mt15'>
+                    <div className='page-buttons'>
                         <Checkbox
+                            id='id'
+                            type='slide-three'
                             label='Скрыть позиции, которые сошлись'
                             onChange={event => props.changeInventoryState({hideGood: event.target.checked})}
                             checked={props.inventory.hideGood}
                             invisible={!props.inventory.edit}
                         />
-                        <div className='row'>
+                        <div className='row g6'>
                             <Button
-                                id='addWriteOf'
-                                className='greenButton h31'
+                                id='WriteOfEditor'
+                                size='med'
+                                type='destructive'
                                 title='Списать недосдачу'
                                 onClick={handleWriteOf}
                                 invisible={!props.inventory.edit || !shortage.filter(part => !part.is_fixed).length}
                             />
                             <Button
-                                id='newRegistration'
-                                className='greenButton ml5 h31'
+                                id='RegistrationEditor'
+                                size='med'
+                                type='create'
                                 title='Оприходовать излишек'
                                 onClick={handleRegistration}
                                 invisible={!props.inventory.edit || !surplus.filter(part => !part.is_fixed).length}
@@ -189,7 +193,6 @@ const InventoryEditor = (props) => {
                     <AddInventoryPart/>
                     <InventoryPartTable/>
                     <LableArea
-                        className='mt15'
                         title='Комментарий'
                         onChange={event => props.changeInventoryState({description: event.target.value})}
                         value={props.inventory.description}
@@ -202,6 +205,14 @@ const InventoryEditor = (props) => {
                     close={handleClose}
                 />
             </div>
+    )
+}
+
+const Clause = (props) => {
+    return (
+        <div className='row g6'>
+            <span>{props.title}</span>
+            <span>{props.text}</span>
         </div>
     )
 }

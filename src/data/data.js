@@ -68,7 +68,9 @@ export const Modal =  Object.freeze({
         REGISTRATION_PART: 6,
         WRITE_OFF: 7,
         PAYMENT_CARD: 8,
-        WAREHOUSE_MOVEMENT: 9
+        WAREHOUSE_MOVEMENT: 9,
+        INVENTORY: 10,
+        INVENTORY_PREVIEW: 11
     }
 })
 

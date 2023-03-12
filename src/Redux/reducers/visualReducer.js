@@ -47,8 +47,6 @@ const initialState = {
    statusPartEditor: false,
    statusBackEditor: false,
    statusReturnPart: false,
-   statusInventoryEditor: false,
-   statusInventoryEditorPreview: false,
 
    checkedOrderClient: true,
    inputClientNameChecked: true,

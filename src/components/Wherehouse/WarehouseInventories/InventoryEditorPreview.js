@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import {changeRemainState} from '../../../Redux/actions/remainAction'
 import {checkObject} from '../../general/utils'
@@ -8,22 +8,28 @@ import {changeVisibleState} from '../../../Redux/actions'
 import SelectFromList from '../../general/SelectFromList'
 import ChooseCategory from '../WarehouseParts/ChooseCategory'
 import Button from '../../general/Button'
+import {addWarehouseCategories} from "../../../Redux/actions/warehouseAction";
+import {Modal} from "../../../data/data";
 
 
 const InventoryEditorPreview = (props) => {
 
+    const componentId = 'InventoryEditorPreview'
+
+    useEffect(() => {
+        props.addWarehouseCategories()
+    }, [])
+
     const handleClose = () => {
         props.changeVisibleState({
-            statusInventoryEditorPreview: false,
+            isCentralModalOpen: false,
+            modalCentralType: '',
             inputWarehouseInventory: true
         })
     }
 
     const clickHandel = (event) => {
-        if (
-            !event.composedPath().map((el) => el.id).includes('inventoryEditorPreview') &&
-            !event.composedPath().map((el) => el.id).includes('addInventory')
-        ) {
+        if (!event.composedPath().map((el) => el.id).includes(componentId)) {
             handleClose()
         }
     }
@@ -39,8 +45,10 @@ const InventoryEditorPreview = (props) => {
     const handleStartInventory = () => {
         if (checkObject(props.remain.filter_warehouse)) {
             props.changeVisibleState({
-                statusInventoryEditor: true,
-                statusInventoryEditorPreview: false
+                isRightModalOpen: true,
+                modalType: Modal.Type.INVENTORY,
+                isCentralModalOpen: false,
+                modalCentralType: '',
             })
         } else {
             if (!checkObject(props.remain.filter_warehouse)) {
@@ -50,51 +58,52 @@ const InventoryEditorPreview = (props) => {
     }
 
     return (
-        <div className='centerBlockFix'>
-            <div className='blockWindowFix wmn500' id='inventoryEditorPreview'>
-                <div className='createNewTitle'>Новая инвентаризация</div>
-                <div className='row mt15'>
+
+        <div className='modal__box modal__box_editor' id={componentId}>
+            <h4>Новая инвентаризация</h4>
+            <div className='modal__body modal__body-editor'>
+                <div className='two-buttons'>
                     <SelectFromList
-                        id='selWarInent'
                         title='Склад'
                         list={props.warehouses}
                         setElement={warehouse => props.changeRemainState({filter_warehouse: warehouse})}
                         current_object={props.remain.filter_warehouse}
                         checkedFlag='inputWarehouseInventory'
                         noChoosed='Выберете склад'
-                        width={'210px'}
                     />
                     <ChooseCategory
-                        className='ml10'
-                        width={'210px'}
                         setCategory={category => props.changeRemainState({filter_category: category})}
                         current_category={props.remain.filter_category}
                         disabled={false}
                     />
                 </div>
+
                 <img
                     src={`${process.env.REACT_APP_LOCAL_SOURCE}/data/pictures/inventory.png`}
-                    className='h300 mt5'
+                    className='h300'
                     alt='inventory'
                 />
-                <div className='row mt15'>
-                    <Button
-                        id='addInventory'
-                        className='blueButton'
-                        title='Начать'
-                        onClick={handleStartInventory}
-                        disabled={false}
-                    />
-                    <Button
-                        id='addInventory'
-                        className='whiteBlueBotton ml15'
-                        title='Закрыть'
-                        onClick={handleClose}
-                    />
+            </div>
+            <div className='two-buttons'>
+                <Button
+                    id='InventoryEditor'
+                    size='med'
+                    type='primary'
+                    title='Начать'
+                    onClick={handleStartInventory}
+                    disabled={false}
+                />
+                <Button
+                    id='InventoryEditor'
+                    size='med'
+                    type='tertiary'
+                    title='Закрыть'
+                    onClick={handleClose}
+                />
 
-                </div>
             </div>
         </div>
+
     )
 }
 
@@ -105,7 +114,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     changeRemainState,
-    changeVisibleState
+    changeVisibleState,
+    addWarehouseCategories
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InventoryEditorPreview)

@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import {changeInventoryState, getInventory} from '../../../Redux/actions/actionInventory'
 
 import TableHeader from '../../general/TableHeader'
-import Label from './cell/Label'
-import CreatedAt from './cell/CreatedAt'
-import Warehouse from './cell/Warehouse'
-import Category from './cell/Category'
+import Label from "../../general/cell/Label";
+import IconTitle from "../../general/cell/IconTitle";
+import CreatedAt from "../../general/cell/CreateAt";
+import Data from "../../general/cell/Data";
 
 
 
@@ -15,12 +15,38 @@ const InventoryTable = props => {
 
     const chooseCell = (header, inventory) => {
 
+        if (!header.visible) return null
+
         switch (header.id) {
-            case 1: return <Label key={header.id} inventory={inventory} getInventory={props.getInventory}/>
-            case 2: return <CreatedAt key={header.id} inventory={inventory}/>
-            case 3: return <Warehouse key={header.id} inventory={inventory}/>
-            case 4: return <Category key={header.id} inventory={inventory}/>
-            default: return <td key={header.id}>{inventory[header.field]}</td>
+            case 1: return (
+                <Label
+                    key={header.id}
+                    label={inventory.label}
+                    func={() => props.getInventory(inventory.id)}
+                />
+            )
+            case 2: return (
+                <CreatedAt
+                    key={header.id}
+                    creator={inventory.created_by.name}
+                    date={inventory.created_at}
+                />
+            )
+            case 3: return (
+                <IconTitle
+                    key={header.id}
+                    title={inventory.warehouse.title}
+                    icon={inventory.warehouse.branch.icon}
+                    color={inventory.warehouse.branch.color}
+                />
+            )
+            case 4: return (
+                <Data
+                    key={header.id}
+                    data={inventory.warehouse_category.title}
+                />
+            )
+            default: return <Data key={header.id} data={inventory[header.field]}/>
         }
     }
 
@@ -30,8 +56,7 @@ const InventoryTable = props => {
 
 
     return (
-        <div className='tableOrdersBox mt15'>
-            <table className='tableWarehouse'>
+            <table>
                 <thead>
                 <tr>
                     {props.inventory.table_headers.map(header => (
@@ -57,7 +82,6 @@ const InventoryTable = props => {
                 ))}
                 </tbody>
             </table>
-        </div>
     )
 }
 

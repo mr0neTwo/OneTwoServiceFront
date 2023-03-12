@@ -7,6 +7,7 @@ import RegistrationPartEditor from "../Wherehouse/WarehouseRegistration/Registra
 import WriteOfEditor from "../Wherehouse/WarehouseWriteOf/WriteOfEditor";
 import PaymentCard from '../Payments/PaymentCard'
 import WarehouseMovementEditor from "../Wherehouse/WarehouseMovement/WarehouseMovementEditor";
+import InventoryEditorPreview from "../Wherehouse/WarehouseInventories/InventoryEditorPreview";
 
 
 const CentralModal = (props) => {
@@ -28,6 +29,9 @@ const CentralModal = (props) => {
 
             case Modal.Type.WAREHOUSE_MOVEMENT:
                 return <WarehouseMovementEditor/>
+
+            case Modal.Type.INVENTORY_PREVIEW:
+                return <InventoryEditorPreview/>
         }
     }
 

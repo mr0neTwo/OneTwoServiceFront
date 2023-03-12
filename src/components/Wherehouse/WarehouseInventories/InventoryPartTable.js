@@ -1,10 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import {changeInventoryState} from '../../../Redux/actions/actionInventory'
 import {ICON} from '../../../data/icons'
 
 import Icon from '../../general/Icon'
+import {COLORS} from "../../../data/colors";
+import Data from "../../general/cell/Data";
 
 const InventoryPartTable = (props) => {
 
@@ -13,7 +15,7 @@ const InventoryPartTable = (props) => {
         value = parseInt(value.replace(/[^0-9]/g, ''))
         const parts = props.inventory.parts
         if (0 < value) {
-            parts[idx].actual_count  = value
+            parts[idx].actual_count = value
         } else {
             parts[idx].actual_count = 0
         }
@@ -30,7 +32,7 @@ const InventoryPartTable = (props) => {
         return <div className='temp-page h90'>Выбере запчасть</div>
     }
 
-    const edit = props.inventory.edit
+    const edit = Boolean(props.inventory.edit)
 
     const parts = props.inventory.parts.filter(part => {
         // Если не режим редактирования пропускаем все
@@ -48,77 +50,80 @@ const InventoryPartTable = (props) => {
     const getIcon = (value) => {
         let icon, color
         if (value === null) {
-            color = '#aaa'
+            color = COLORS.NAME.SECONDARY
             icon = ICON.MINUS
         }
         if (value === true) {
-            color = '#5cb85c'
+            color = COLORS.NAME.SUCCESS
             icon = ICON.CHECKMARK
         }
         if (value === false) {
-            color = '#f74e4d'
+            color = COLORS.NAME.ERROR
             icon = ICON.CROSS
         }
-            return (
-                <Icon
-                    classNane='icon-s2'
-                    icon={icon}
-                    color={color}
-                />
-            )
+        return (
+            <Icon
+                className='icon'
+                icon={icon}
+                color={color}
+            />
+        )
 
     }
 
+    if (!parts.length) {
+        return <div className='empty_table'>Выбере запчасть</div>
+    }
+
     return (
-        <table className='mt15'>
+        <table className='table'>
             <thead>
             <tr>
-                <th>Наименование</th>
-                <th className='w70'>Адрес</th>
-                <th className='w70'>Числится</th>
-                <th className='w70'>Фактически</th>
-                {edit ? <th className='w70'>Недостдача</th> : null}
-                {edit ? <th className='w70'>Излишек</th> : null}
-                {edit ? <th className='w70'>Исправлено</th> : null}
-                {edit ? null : <th/>}
+                <th className='th'>Наименование</th>
+                <th className='th th_w80'>Адрес</th>
+                <th className='th th_w80'>Числится</th>
+                <th className='th th_w80'>Фактически</th>
+                {edit ? <th className='th th_w80'>Недостдача</th> : null}
+                {edit ? <th className='th th_w80'>Излишек</th> : null}
+                {edit ? <th className='th th_w80'>Исправлено</th> : null}
+                {edit ? null : <th className='th th_w20'/>}
             </tr>
             </thead>
             <tbody>
             {parts.map((remain, idx) => (
                 <tr
                     key={idx}
-                    className='fillcol'
+                    className={`tr ${edit ? '' : 'tr_tools'}`}
                 >
-                    <td>
-                        <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title } (${remain.marking})`: remain.title}</div>
-                        <div className='orderDate noWr'>{remain.description}</div>
+                    <td className='td'>
+                        <div>{(remain.marking !== remain.title) && !!remain.marking ? `${remain.title} (${remain.marking})` : remain.title}</div>
+                        <div className='cs cell_text'>{remain.description}</div>
                     </td>
-                    <td>{remain.cell}</td>
-                    <td className='tac'>
-                        <div className='ml5'>{remain.count}</div>
-                    </td>
+                    <Data data={remain.cell}/>
+                    <Data data={remain.count}/>
                     {edit ?
-                        <td className='tac'>{remain.actual_count}</td>
+                        <Data data={remain.actual_count}/>
                         :
                         <td>
-                        <div className='jc-c'>
-                            <input
-                                className='w30'
-                                onChange={event => handleChange(event.target.value, idx)}
-                                value={remain.actual_count}
-                                disabled={props.inventory.edit}
-                            />
-                        </div>
-                    </td>}
-                    {edit ? <td className='tac'>{Math.abs(remain.shortage) || null}</td> : null}
-                    {edit ? <td className='tac'>{remain.surplus || null}</td> : null}
-                    {edit ? <td className='tac'>{getIcon(remain.is_fixed) }</td> : null}
+                            <div className='input td_input'>
+                                <input
+                                    className='w30 bcsb'
+                                    onChange={event => handleChange(event.target.value, idx)}
+                                    value={remain.actual_count}
+                                    disabled={props.inventory.edit}
+                                />
+                            </div>
+                        </td>}
+                    <Data data={Math.abs(remain.shortage) || null} invisibel={!edit}/>
+                    <Data data={remain.surplus || null} invisibel={!edit}/>
+                    <Data data={getIcon(remain.is_fixed)} invisibel={!edit}/>
                     {edit ? null :
-                        <td>
-                            <div className='row'>
-                                <div onClick={() => handleDelete(idx)}>
-                                    <Icon className='icon-s2 curP ml5' icon={ICON.TRASH}/>
-                                </div>
+                        <td className='td'>
+                            <div
+                                className='tr_set-button-delete'
+                                onClick={() => handleDelete(idx)}
+                            >
+                                <Icon className='icon' icon={ICON.TRASH}/>
                             </div>
                         </td>}
                 </tr>

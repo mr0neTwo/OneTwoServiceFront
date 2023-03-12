@@ -1,5 +1,6 @@
 import store from '../store'
 import { getRequestConfig, bad_request } from './actionUtils'
+import {Modal} from "../../data/data";
 
 export function changeInventoryState( data ) {
     return {
@@ -57,7 +58,7 @@ export function getInventory(inventory_id) {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusInventoryEditor: true}
+                        data: {isRightModalOpen: true, modalType: Modal.Type.INVENTORY}
                     })
                 } else {
                     console.warn(data.message)
@@ -165,7 +166,7 @@ export function saveInventory() {
                     })
                     dispatch({
                         type: 'CHANGE_VISIBLE_STATE',
-                        data: {statusInventoryEditor: false},
+                        data: {isRightModalOpen: false, modalType: ''},
                     })
                     dispatch({
                         type: 'RESET_INVENTORY'

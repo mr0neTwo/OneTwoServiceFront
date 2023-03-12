@@ -1712,6 +1712,9 @@ input[type=range]:hover::-moz-range-track {
   box-sizing: border-box;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);
 }
+.modal__box-right_w800 {
+  width: 800px;
+}
 .modal__box-right_history {
   flex-direction: row;
   width: 840px;
@@ -4063,20 +4066,20 @@ h5 {
   height: hpx;
 }
 
+.hh {
+  height: hpx;
+}
+
 .w100p {
   width: 100%;
 }
 
-.h30 {
-  height: 30px;
-}
-
-.h92 {
-  height: 92px;
-}
-
 .h100p {
   height: 100%;
+}
+
+.bcsb {
+  background-color: var(--second-bacground);
 }
 
 .cm {

@@ -1437,7 +1437,7 @@ $mls: (5, 10, 15, 16, 20);
   }
 }
 
-$heights: (30, 40, 50, 92);
+$heights: (30, 40, 50, 92, 300);
 @each $h in $heights {
   .h#{h} {
     height: #{h}px;
@@ -1445,11 +1445,9 @@ $heights: (30, 40, 50, 92);
 }
 
 .w100p { width: 100% }
-
-.h30 { height: 30px }
-.h92 { height: 92px }
-
 .h100p { height: 100% }
+
+.bcsb {background-color: var(--second-bacground)}
 
 .cm { color: var(--main) }
 .cs { color: var(--secondary) }

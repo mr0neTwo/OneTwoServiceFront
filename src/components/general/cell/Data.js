@@ -10,6 +10,9 @@ import React from 'react'
  * data - данные
  */
 const Data = props => {
+
+    if (props.invisibel) return null
+
     return (
         <td>
             <div className="cell">
